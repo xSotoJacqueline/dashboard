@@ -1,4 +1,3 @@
-import "./App.css";
 import Retiros from "@/pages/Retiros";
 
 function App() {

@@ -1,6 +1,5 @@
-"use client"
 
-import { useState } from "react"
+// import { useState } from "react"
 import { Sidebar } from "@/components/Retiros/Sidebar"
 import { MetricsCards } from "@/components/Retiros/MetricsCards"
 import { ChartSection } from "@/components/Retiros/ChartSection"
@@ -8,26 +7,26 @@ import { PlayersSection } from "@/components/Retiros/PlayersSection"
 import { PeakHoursSection } from "@/components/Retiros/PeakHoursSection"
 
 export default function Retiros() {
-  const [currentMonth, setCurrentMonth] = useState(6) // July (0-indexed)
-  const [currentYear, setCurrentYear] = useState(2025)
+  // const [currentMonth, setCurrentMonth] = useState(6) // July (0-indexed)
+  // const [currentYear, setCurrentYear] = useState(2025)
 
-  const navigateMonth = (direction: "prev" | "next") => {
-    if (direction === "prev") {
-      if (currentMonth === 0) {
-        setCurrentMonth(11)
-        setCurrentYear(currentYear - 1)
-      } else {
-        setCurrentMonth(currentMonth - 1)
-      }
-    } else {
-      if (currentMonth === 11) {
-        setCurrentMonth(0)
-        setCurrentYear(currentYear + 1)
-      } else {
-        setCurrentMonth(currentMonth + 1)
-      }
-    }
-  }
+  // const navigateMonth = (direction: "prev" | "next") => {
+  //   if (direction === "prev") {
+  //     if (currentMonth === 0) {
+  //       setCurrentMonth(11)
+  //       setCurrentYear(currentYear - 1)
+  //     } else {
+  //       setCurrentMonth(currentMonth - 1)
+  //     }
+  //   } else {
+  //     if (currentMonth === 11) {
+  //       setCurrentMonth(0)
+  //       setCurrentYear(currentYear + 1)
+  //     } else {
+  //       setCurrentMonth(currentMonth + 1)
+  //     }
+  //   }
+  // }
 
   return (
     <div >

@@ -1,4 +1,3 @@
-"use client"
 
 import { useState } from "react"
 import { BarChart3, Users, Gift, CreditCard, BookOpen, TrendingUp, Target, CalendarIcon } from "lucide-react"
