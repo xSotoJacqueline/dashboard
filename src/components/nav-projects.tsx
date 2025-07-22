@@ -8,6 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useLocation } from 'react-router';
 
 export function NavProjects({
   projects,
@@ -18,18 +19,29 @@ export function NavProjects({
     icon: LucideIcon
   }[]
 }) {
+  const { pathname } = useLocation();
 
   return (
-    <SidebarGroup >
-      <SidebarMenu className="group-data-[collapsible=icon]:pl-0 pl-4">
+    <SidebarGroup className="pl-0" >
+      <SidebarMenu className="group-data-[collapsible=icon]:pl-0 flex flex-col gap-3 !pl-0">
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </a>
-            </SidebarMenuButton>
+            <div className="flex relative items-center justify-start gap-6 h-fit w-full pl-6 ">
+                {pathname?.startsWith(`/${item.name.toLocaleLowerCase()}`) && 
+                  <div className="absolute left-0 w-2 h-8 bg-primary-folatti rounded-r-full" />
+                }            
+                <SidebarMenuButton asChild>
+                  <a href={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start ${
+                    pathname?.startsWith(`/${item.name.toLocaleLowerCase()}`)
+                      ? 'text-primary-folatti font-bold'
+                      : ''
+                  }`}>
+
+                  <item.icon strokeWidth={2.5} className="" />
+                  <span>{item.name}</span>
+                </a>
+              </SidebarMenuButton>
+            </div>
           </SidebarMenuItem>
         ))}
       </SidebarMenu>

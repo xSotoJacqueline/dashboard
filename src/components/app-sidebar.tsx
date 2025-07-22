@@ -15,6 +15,7 @@ import {
   CreditCardIcon,
   ChartLineIcon,
   SpeechIcon,
+  ChartNoAxesCombinedIcon,
   UserIcon,
   GiftIcon,
   HandCoinsIcon,
@@ -71,11 +72,7 @@ const data = {
     {
       name: "Benchmark",
       url: "#",
-      icon: ChartLineIcon,
-    },{
-      name: "Calendario",
-      url: "#",
-      icon: CreditCardIcon,
+      icon: ChartNoAxesCombinedIcon,
     }
 
   ],
@@ -83,15 +80,14 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar className="ml-10 my-auto max-h-[95vh] rounded-2xl border-2 bg-sidebar" collapsible="icon" {...props}>
-      <SidebarHeader className="rounded-t-3xl mt-5">
+    <Sidebar className="ml-10 my-auto max-h-[95vh] rounded-2xl border-2 bg-sidebar pl-0" collapsible="icon" {...props}>
+      <SidebarHeader className="rounded-t-3xl mt-5 px-6">
         <SidebarGroupLabel className="text-lg font-bold text-black">Menú</SidebarGroupLabel>
       </SidebarHeader>
       <SidebarContent className="overflow-hidden">       
- 
         <NavProjects projects={data.projects} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="px-7">
         <NavCalendar />
         <NavUser/>
       </SidebarFooter>
