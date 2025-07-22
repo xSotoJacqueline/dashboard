@@ -50,7 +50,7 @@ export function NavUser() {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent px-0 h-fit data-[state=open]:text-sidebar-accent-foreground"
+                className="data-[state=open]:bg-sidebar-accent px-0  data-[state=open]:text-sidebar-accent-foreground"
               >
                 <Avatar className="size-8 rounded-full">
                   <AvatarImage src={clerkUser?.imageUrl} alt={clerkUser?.username || clerkUser?.primaryEmailAddress?.emailAddress} />
@@ -67,9 +67,9 @@ export function NavUser() {
            ) : (
                 <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className="data-[state=open]:bg-sidebar-accent px-0 h-fit data-[state=open]:text-sidebar-accent-foreground"
               >
-                <Avatar className="h-8 w-8 rounded-full">
+                <Avatar className="size-8 rounded-full">
                   <AvatarFallback className="rounded-full">{''}</AvatarFallback>
                 </Avatar>
               

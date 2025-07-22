@@ -7,119 +7,101 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
-const daysData = [
-  { day: "Lunes", percentage: "14.2%", fill: "#8B5CF6" },
-  { day: "Martes", percentage: "14.2%", fill: "#A78BFA" },
-  { day: "Miércoles", percentage: "14.2%", fill: "#C4B5FD" },
-  { day: "Jueves", percentage: "14.2%", fill: "#DDD6FE" },
-  { day: "Viernes", percentage: "14.2%", fill: "#EDE9FE" },
-  { day: "Sábado", percentage: "14.2%", fill: "#F3F4F6" },
-  { day: "Domingo", percentage: "14.2%", fill: "#E5E7EB" },
-]
-
-// const chartConfig = {
-//   days: {
-//     label: "days",
-//   },
-//   lunes: {
-//     label: "Lunes",
-//     color: "#8B5CF6",
-//   },
-//   martes: {
-//     label: "Martes",
-//     color: "#A78BFA",
-//   },
-//   miercoles: {
-//     label: "Miércoles",
-//     color: "#C4B5FD",
-//   },
-//   jueves: {
-//     label: "Jueves",
-//     color: "#DDD6FE",
-//   },
-//   viernes: {
-//     label: "Viernes",
-//     color: "#EDE9FE",
-//   },
-//   sabado: {
-//     label: "Sábado",
-//     color: "#F3F4F6",
-//   },
-//   domingo: {
-//     label: "Domingo",
-//     color: "#E5E7EB",
-//   }
-// } satisfies ChartConfig
+import { useIsMobile } from "@/hooks/use-mobile"
 
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+  { day: "lunes", visitors: 14.5, fill: "var(--lunes)" },
+  { day: "martes", visitors: 14.5, fill: "var(--martes)" },
+  { day: "miércoles", visitors: 14.5, fill: "var(--miercoles)" },
+  { day: "jueves", visitors: 14.5, fill: "var(--jueves)" },
+  { day: "viernes", visitors: 14.5, fill: "var(--viernes)" },
+  { day: "sábado", visitors: 14.5, fill: "var(--sabado)" },
+  { day: "domingo", visitors: 14.5, fill: "var(--domingo)" },
 ]
 const chartConfig = {
   visitors: {
     label: "Visitors",
   },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
+  lunes: {
+    label: "lunes",
+    color: "var(--lunes)",
   },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
+  martes: {
+    label: "martes",
+    color: "var(--martes)",
   },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
+  miercoles: {
+    label: "miércoles",
+    color: "var(--miercoles)",
   },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
+  jueves: {
+    label: "jueves",
+    color: "var(--jueves)",
   },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
+  viernes: {
+    label: "viernes",
+    color: "var(--viernes)",
+  },
+  sabado: {
+    label: "sábado",
+    color: "var(--sabado)",
+  },
+  domingo: {
+    label: "domingo",
+    color: "var(--domingo)",
   },
 } satisfies ChartConfig
 
 
 export function ChartSection() {
+  const isMobile = useIsMobile()
+  
+  console.log('isMobile', isMobile)
+
   return (
-    <Card className="bg-gray-50 b border-0 h-full">
-      <CardContent className="p-6 w-full">
+    <Card className="bg-gray-50 h-full border-0">
+      <CardContent className=" w-full">
         <div className="flex items-center gap-2 mb-6">
-          <Calendar className="w-5 h-5 text-purple-600" />
+          <Calendar className="w-5 h-5 text-primary-folatti" />
           <h3 className="font-semibold text-lg">Días en los que más retiros se realizan</h3>
         </div>
 
-        <div className="flex justify-between w-full">
+        <div className="flex lg:flex-row relative flex-col justify-between w-full min-h-80 h-fit">
           {/* Legend */}
-          <div className="space-y-4 w-fit">
-            <div className="flex items-center gap-16 text-sm font-medium">
-              <span>Día</span>
-              <span>%</span>
-            </div>
-            {daysData.map((item, index) => (
-              <div key={index} className="flex items-center gap-4">
-                <div className="flex items-center gap-3 w-24">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.fill }} />
-                  <span className="text-sm">{item.day}</span>
-                </div>
-                <span className="text-sm font-medium ml-8">{item.percentage}</span>
-              </div>
-            ))}
+          <div className="w-full h-full max-w-xs">
+            <table className="w-full h-full">
+              <thead>
+              <tr className="text-left text-lg font-bold text-primary-folatti">
+                <th className="flex justify-center">Día</th>
+                <th className="pr-2 text-right">%</th>
+              </tr>
+              </thead>
+              <tbody>
+              {chartData.map((item, index) => (
+                <tr key={index} className="h-9">
+                  <td className="align-middle">
+                    <div className="flex relative items-center gap-3 justify-center">
+                      <div className="w-3 absolute left-1 h-3 rounded-full" style={{ backgroundColor: item.fill }} />
+                      <span className="text-base font-semibold">{item.day}</span>
+                    </div>
+                  </td>
+                  <td className="text-sm font-medium text-right">{item.visitors}</td>
+                </tr>
+              ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex-1 min-h-56 min-w-96 right-0 flex overflow-visible  justify-end w-fit">
           </div>
 
           {/* Donut Chart */}
-          <div className="flex justify-center">
+            <div className="flex-1 absolute h-56 w-56 md:min-h-96 sm:min-w-96 left-1/2 -translate-x-1/2 sm:top-1/2 sm:-translate-y-1/2 lg:left-auto lg:translate-x-0 bottom-0 lg:right-0 flex overflow-visible justify-end">
             <ChartContainer
               config={chartConfig}
-              className="mx-auto w-full h-full"
+              className=" max-h-[500px] overflow-visible w-full max-w-96"
             >
-              <PieChart className="w-full">
+              <PieChart className=" !w-fit ">
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent hideLabel />}
@@ -127,9 +109,9 @@ export function ChartSection() {
                 <Pie
                   data={chartData}
                   dataKey="visitors"
-                  nameKey="browser"
-                  outerRadius={100}
-                  innerRadius={20}
+                  nameKey="day"
+                  innerRadius={!isMobile ? 80 : 40}
+                  outerRadius={!isMobile ? 180 : 100}
                 />
               </PieChart>
             </ChartContainer>
