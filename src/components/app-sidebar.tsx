@@ -93,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <NavCalendar />
-        <NavUser user={data.user} />
+        <NavUser/>
       </SidebarFooter>
       <SidebarRail className="rounded-3xl max-h-[90cqh] my-auto"/>
     </Sidebar>

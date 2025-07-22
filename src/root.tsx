@@ -15,8 +15,8 @@ import "./App.css"
 import type { Route } from './+types/root';
 import { rootAuthLoader } from '@clerk/react-router/ssr.server'
 import { ClerkProvider } from '@clerk/react-router'
-import { getAuth } from '@clerk/react-router/ssr.server'
-import { redirect } from 'react-router'
+// import { getAuth } from '@clerk/react-router/ssr.server'
+// import { redirect } from 'react-router'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -27,20 +27,20 @@ if (!PUBLISHABLE_KEY) {
 
 export async function loader(args: Route.LoaderArgs) {
 
-  const CLERK_SIGN_IN_FORCE_REDIRECT_URL = process.env.CLERK_SIGN_IN_FORCE_REDIRECT_URL
-  const CLERK_SIGN_IN_URL = process.env.CLERK_SIGN_IN_URL
+  // const CLERK_SIGN_IN_FORCE_REDIRECT_URL = process.env.CLERK_SIGN_IN_FORCE_REDIRECT_URL
+  // const CLERK_SIGN_IN_URL = process.env.CLERK_SIGN_IN_URL
 
-  if (!CLERK_SIGN_IN_FORCE_REDIRECT_URL) {
-    throw new Error('Add your Clerk Sign In Force Redirect URL to the .env file')
-  }else if (!CLERK_SIGN_IN_URL) {
-    throw new Error('Add your Clerk Sign In URL to the .env file')
-  }
+  // if (!CLERK_SIGN_IN_FORCE_REDIRECT_URL) {
+  //   throw new Error('Add your Clerk Sign In Force Redirect URL to the .env file')
+  // }else if (!CLERK_SIGN_IN_URL) {
+  //   throw new Error('Add your Clerk Sign In URL to the .env file')
+  // }
 
-  const { userId } = await getAuth(args)
-    if (!userId) {
-    console.log('User not authenticated, redirecting to sign-in')
-    return redirect(`${CLERK_SIGN_IN_URL}/sign-in?redirect_url=${CLERK_SIGN_IN_FORCE_REDIRECT_URL}`)
-  }
+  // const { userId } = await getAuth(args)
+  //   if (!userId) {
+  //   console.log('User not authenticated, redirecting to sign-in')
+  //   return redirect(`${CLERK_SIGN_IN_URL}/sign-in?redirect_url=${CLERK_SIGN_IN_FORCE_REDIRECT_URL}`)
+  // }
 
   return rootAuthLoader(args)
 }

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet, redirect } from 'react-router';
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   SidebarInset,
@@ -6,16 +6,31 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Scroller } from "@/components/ui/scroller";
-import { useUser } from '@clerk/react-router';
+import type { Route } from './+types/_layout';
+import { getAuth } from '@clerk/react-router/ssr.server';
 
+
+
+export async function loader(args: Route.LoaderArgs) {
+
+  const CLERK_SIGN_IN_FORCE_REDIRECT_URL = process.env.CLERK_SIGN_IN_FORCE_REDIRECT_URL
+  const CLERK_SIGN_IN_URL = process.env.CLERK_SIGN_IN_URL
+
+  if (!CLERK_SIGN_IN_FORCE_REDIRECT_URL) {
+    throw new Error('Add your Clerk Sign In Force Redirect URL to the .env file')
+  }else if (!CLERK_SIGN_IN_URL) {
+    throw new Error('Add your Clerk Sign In URL to the .env file')
+  }
+
+  const { userId } = await getAuth(args)
+    if (!userId) {
+    console.log('User not authenticated, redirecting to sign-in')
+    return redirect(`${CLERK_SIGN_IN_URL}/sign-in?redirect_url=${CLERK_SIGN_IN_FORCE_REDIRECT_URL}/retiros`)
+  }
+}
 
 export default function Layout() {
-  const { isSignedIn, user, isLoaded } = useUser()
-  console.log('isSignedIn', isSignedIn)
-  console.log('user', user)
-  console.log('isLoaded', isLoaded)
   return (
-
     <div className="h-screen w-screen bg-[#ece9e9]">
         <SidebarProvider>
             <AppSidebar />
