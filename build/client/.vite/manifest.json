@@ -1,74 +1,105 @@
 {
-  "_avatar-Ci4kxKml.js": {
-    "file": "assets/avatar-Ci4kxKml.js",
+  "_PeakHoursSection-Cgu2rcvW.js": {
+    "file": "assets/PeakHoursSection-Cgu2rcvW.js",
+    "name": "PeakHoursSection",
+    "imports": [
+      "_index-CZ2ZSlAQ.js",
+      "_index-NNwMiJIm.js"
+    ]
+  },
+  "_avatar-BI0cKSGF.js": {
+    "file": "assets/avatar-BI0cKSGF.js",
     "name": "avatar",
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js",
-      "_index-BLIsXpTD.js"
+      "_index-CZ2ZSlAQ.js",
+      "_index-NNwMiJIm.js",
+      "_index-C4TRHDiZ.js"
     ]
   },
-  "_chunk-EF7DTUVF-DfHdNVbo.js": {
-    "file": "assets/chunk-EF7DTUVF-DfHdNVbo.js",
-    "name": "chunk-EF7DTUVF"
-  },
-  "_index-BLIsXpTD.js": {
-    "file": "assets/index-BLIsXpTD.js",
+  "_index-Bs75EKYc.js": {
+    "file": "assets/index-Bs75EKYc.js",
     "name": "index",
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js"
+      "_index-NNwMiJIm.js",
+      "_index-C4TRHDiZ.js"
     ]
   },
+  "_index-C4TRHDiZ.js": {
+    "file": "assets/index-C4TRHDiZ.js",
+    "name": "index",
+    "imports": [
+      "_index-NNwMiJIm.js"
+    ]
+  },
+  "_index-CZ2ZSlAQ.js": {
+    "file": "assets/index-CZ2ZSlAQ.js",
+    "name": "index",
+    "imports": [
+      "_index-NNwMiJIm.js"
+    ]
+  },
+  "_index-NNwMiJIm.js": {
+    "file": "assets/index-NNwMiJIm.js",
+    "name": "index"
+  },
   "node_modules/@react-router/dev/dist/config/defaults/entry.client.tsx": {
-    "file": "assets/entry.client-YdYYEyA-.js",
+    "file": "assets/entry.client-KH0Ihq6J.js",
     "name": "entry.client",
     "src": "node_modules/@react-router/dev/dist/config/defaults/entry.client.tsx",
     "isEntry": true,
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js",
-      "_index-BLIsXpTD.js"
+      "_index-NNwMiJIm.js"
     ]
   },
   "src/root.tsx?__react-router-build-client-route": {
-    "file": "assets/root-BKaVEqFx.js",
+    "file": "assets/root-tfA3kb6a.js",
     "name": "root",
     "src": "src/root.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js"
+      "_index-NNwMiJIm.js",
+      "_index-Bs75EKYc.js",
+      "_index-C4TRHDiZ.js"
     ],
     "css": [
-      "assets/root-BcyUIxrP.css"
+      "assets/root-DV-tQkfS.css"
     ]
   },
   "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route": {
-    "file": "assets/_layout-NBi6hz3S.js",
+    "file": "assets/_layout-BEFbb04A.js",
     "name": "_layout",
     "src": "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js",
-      "_avatar-Ci4kxKml.js",
-      "_index-BLIsXpTD.js"
+      "_index-NNwMiJIm.js",
+      "_index-CZ2ZSlAQ.js",
+      "_avatar-BI0cKSGF.js",
+      "_index-Bs75EKYc.js",
+      "_index-C4TRHDiZ.js"
     ]
   },
-  "src/routes/_dashboard=/a.tsx?__react-router-build-client-route": {
-    "file": "assets/a-ChUm-O2F.js",
-    "name": "a",
-    "src": "src/routes/_dashboard=/a.tsx?__react-router-build-client-route",
+  "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route": {
+    "file": "assets/retiros-Bfi7A5nw.js",
+    "name": "retiros",
+    "src": "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js"
+      "_index-NNwMiJIm.js",
+      "_PeakHoursSection-Cgu2rcvW.js",
+      "_index-CZ2ZSlAQ.js"
     ]
   },
   "src/routes/_index.tsx?__react-router-build-client-route": {
-    "file": "assets/_index-CPMwpplP.js",
+    "file": "assets/_index-BmB8_Vk2.js",
     "name": "_index",
     "src": "src/routes/_index.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
-      "_chunk-EF7DTUVF-DfHdNVbo.js",
-      "_avatar-Ci4kxKml.js",
-      "_index-BLIsXpTD.js"
+      "_index-NNwMiJIm.js",
+      "_avatar-BI0cKSGF.js",
+      "_PeakHoursSection-Cgu2rcvW.js",
+      "_index-CZ2ZSlAQ.js",
+      "_index-C4TRHDiZ.js"
     ]
   }
 }

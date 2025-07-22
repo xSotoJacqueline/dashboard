@@ -24,7 +24,7 @@ export function PlayersSection() {
   const [expandedPlayer, setExpandedPlayer] = useState<number | null>(null)
 
   return (
-    <Card className="bg-gray-50 border-0">
+    <Card className="bg-gray-50 border-0 h-full">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-4">
           <User className="w-5 h-5" />

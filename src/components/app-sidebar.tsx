@@ -1,28 +1,25 @@
 import * as React from "react"
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarGroupLabel,
 } from "@/components/ui/sidebar"
+import { NavCalendar } from "./nav-calendar"
+import {
+  CreditCardIcon,
+  ChartLineIcon,
+  SpeechIcon,
+  UserIcon,
+  GiftIcon,
+  HandCoinsIcon,
+  BookIcon,
+} from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -31,143 +28,74 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Retiros",
       url: "#",
-      icon: Frame,
+      icon: CreditCardIcon,
     },
     {
-      name: "Sales & Marketing",
+      name: "Métricas",
       url: "#",
-      icon: PieChart,
+      icon: ChartLineIcon,
     },
     {
-      name: "Travel",
+      name: "Marketing",
       url: "#",
-      icon: Map,
+      icon: SpeechIcon,
     },
+    {
+      name: "Jugadores",
+      url: "#",
+      icon: UserIcon,
+    },    {
+      name: "Bonos",
+      url: "#",
+      icon: GiftIcon,
+    },
+    {
+      name: "Depósitos",
+      url: "#",
+      icon: HandCoinsIcon,
+    },
+        {
+      name: "Sportsbook",
+      url: "#",
+      icon: BookIcon,
+    },
+    {
+      name: "Alcances",
+      url: "#",
+      icon: ChartLineIcon,
+    },
+    {
+      name: "Benchmark",
+      url: "#",
+      icon: ChartLineIcon,
+    },{
+      name: "Calendario",
+      url: "#",
+      icon: CreditCardIcon,
+    }
+
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+    <Sidebar className="ml-10 my-auto max-h-[95vh] rounded-2xl border-2 bg-sidebar" collapsible="icon" {...props}>
+      <SidebarHeader className="rounded-t-3xl mt-5">
+        <SidebarGroupLabel className="text-lg font-bold text-black">Menú</SidebarGroupLabel>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
+      <SidebarContent className="overflow-hidden">       
+ 
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
+        <NavCalendar />
         <NavUser user={data.user} />
       </SidebarFooter>
-      <SidebarRail />
+      <SidebarRail className="rounded-3xl max-h-[90cqh] my-auto"/>
     </Sidebar>
   )
 }

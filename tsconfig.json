@@ -3,6 +3,7 @@
     "src/**/*",
     ".react-router/types/**/*.ts"
   ],
+
   "compilerOptions": {
     "baseUrl": ".",
         "jsx": "react-jsx",
@@ -16,7 +17,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
+
     "verbatimModuleSyntax": true,
     "noEmit": true,
     "moduleDetection": "force",
@@ -24,7 +27,12 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "strict": true,
-    "declaration": true
+    "declaration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
 
   },
   
