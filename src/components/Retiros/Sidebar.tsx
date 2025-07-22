@@ -3,8 +3,11 @@
 import { useState } from "react"
 import { BarChart3, Users, Gift, CreditCard, BookOpen, TrendingUp, Target, CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+// import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import { Calendar } from "./Calendar"
+import { useEffect } from "react";
 
 const menuItems = [
   { icon: BarChart3, label: "Retiros", active: true },
@@ -16,10 +19,31 @@ const menuItems = [
   { icon: BookOpen, label: "Sportsbook" },
   { icon: TrendingUp, label: "Alcances" },
   { icon: BarChart3, label: "Benchmark" },
+
 ]
 
 export function Sidebar() {
   const [showCalendar, setShowCalendar] = useState(false)
+  const { isSignedIn } = useAuth();
+  const { user } = useUser();
+
+   useEffect(() => {
+    if (isSignedIn && user) {
+      // Enviar los datos del usuario al backend
+      fetch("/api/create-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: user.id,
+          email: user.primaryEmailAddress?.emailAddress,
+          name: user.fullName,
+        }),
+      });
+    }
+  }, [isSignedIn, user]);
+
 
   return (
     <div className="w-72 bg-gray-50 p-6">
@@ -57,13 +81,15 @@ export function Sidebar() {
 
       {/* User Profile */}
       <div className="flex items-center gap-3">
-        <Avatar className="w-12 h-12">
-          <AvatarFallback className="bg-gray-300">JM</AvatarFallback>
-        </Avatar>
-        <div>
-          <div className="font-medium">Jacqueline Moreno</div>
-          <div className="text-sm text-gray-500">Administrador</div>
-        </div>
+        <SignedOut>
+          <Button variant="default" asChild className="w-full bg">
+            <SignInButton />
+          </Button>
+              </SignedOut>
+              <SignedIn>
+          <UserButton />
+      </SignedIn>
+
       </div>
     </div>
   )
