@@ -87,7 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="overflow-hidden">       
         <NavProjects projects={data.projects} />
       </SidebarContent>
-      <SidebarFooter className="px-7">
+      <SidebarFooter className="px-7 group-data-[collapsible=icon]:px-2">
         <NavCalendar />
         <NavUser/>
       </SidebarFooter>

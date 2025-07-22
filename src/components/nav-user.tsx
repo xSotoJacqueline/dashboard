@@ -52,7 +52,7 @@ export function NavUser() {
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent px-0 h-fit data-[state=open]:text-sidebar-accent-foreground"
               >
-                <Avatar className="h-10 w-10 rounded-full">
+                <Avatar className="size-8 rounded-full">
                   <AvatarImage src={clerkUser?.imageUrl} alt={clerkUser?.username || clerkUser?.primaryEmailAddress?.emailAddress} />
                   <AvatarFallback className="rounded-full">{clerkUser?.username?.[0] || clerkUser?.firstName?.[0] || 'U'}</AvatarFallback>
                 </Avatar>

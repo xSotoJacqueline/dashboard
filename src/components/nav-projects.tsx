@@ -26,9 +26,9 @@ export function NavProjects({
       <SidebarMenu className="group-data-[collapsible=icon]:pl-0 flex flex-col gap-3 !pl-0">
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <div className="flex relative items-center justify-start gap-6 h-fit w-full pl-6 ">
+            <div className="flex relative items-center justify-start gap-6 h-fit w-full pl-6 group-data-[collapsible=icon]:pl-2 ">
                 {pathname?.startsWith(`/${item.name.toLocaleLowerCase()}`) && 
-                  <div className="absolute left-0 w-2 h-8 bg-primary-folatti rounded-r-full" />
+                  <div className="absolute group-data-[collapsible=icon]:hidden left-0 w-2 h-8 bg-primary-folatti rounded-r-full" />
                 }            
                 <SidebarMenuButton asChild>
                   <a href={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start ${
