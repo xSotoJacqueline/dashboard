@@ -9,6 +9,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import TrafficTab from "@/components/marketing/traffic-tab"
+import type { TrafficSource } from "@/components/marketing/traffic-sources"
 
 export default function Metricas() {
   const fetchData = () => {
@@ -21,12 +23,31 @@ export default function Metricas() {
     return random
   }
 
+  const fetchRandomVisits = () => {
+    return Math.floor(Math.random() * 1500) + 100; // Entre 100 y 1600 visitas
+  }
+
+  const fetchRandomPercentage = () => {
+    const random = (Math.floor(Math.random() * 100.55))
+    return (random - 40)/1000
+  }
+
   const values = [
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Bonus Rate ", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", Icon: BarChart3, label: "Últimos 28 días" },
   ]
+
+
+
+  const trafficSources: TrafficSource[] = [
+    { source: "Directo", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
+    { source: "Orgánico", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
+    { source: "Referido", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
+    { source: "Social", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
+    { source: "Email", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
+  ];
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
@@ -43,35 +64,28 @@ export default function Metricas() {
           />
         ))}
       </div>
-      <div className="w-full h-full max-h-full flex gap-6">
       <Tabs defaultValue="traffic" className="w-full h-full">
           <TabsList className="w-full">
             <TabsTrigger value="traffic">Tráfico</TabsTrigger>
             <TabsTrigger value="campaigns">Campañas</TabsTrigger>
             <TabsTrigger value="players">Jugadores</TabsTrigger>
           </TabsList>
-          <TabsContents>
+          <TabsContents className="w-full h-full pt-4">
+            <TabsContent className="w-full !h-full" value="traffic">
+              <TrafficTab trafficSources={trafficSources} />
+            </TabsContent>
+            <TabsContent className="w-full h-full" value="campaigns">
+              <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+              </div>
+            </TabsContent>
+            <TabsContent className="w-full h-full" value="players">
+              <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <TabsContent className="w-full h-full" value="traffic">
-              <div className="h-fit w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-             
-              </div>
-              
-            </TabsContent>
-            <TabsContent className="w-full h-full"  value="campaigns">
-              <div className="h-fit w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-             
               </div>
             </TabsContent>
-            <TabsContent className="w-full h-full"  value="players">
-              <div className="h-fit w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-       
-              </div>
-            </TabsContent>
-        </TabsContents>
+          </TabsContents>
       </Tabs>
-
-      </div>
     </div>
   )
 }

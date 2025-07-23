@@ -18,22 +18,26 @@ type Props = {
   Icon: LucideIcon
   valueFormat: ValueFormat
   label?: string
+  className?: string
+  mainNumberClassName?: string
 }
 
 
 
 export function MetricsCardsVariant({ value, Icon, title, description, label, percentageValue, valueFormat }: Props) {
-  	const canAnimate = useCanAnimate()
+  const canAnimate = useCanAnimate()
   return (
     <Card className="border-0 h-full col-span-1">
-      <CardContent className="">
-        <div className="flex justify-between items-center gap-2">
-          <h2 className="text-xl font-semibold">{title}</h2>
-          <Icon size={20} strokeWidth={2} className="text-primary-folatti"/>
-        </div>
-        <div className="">
-          <span className="text-xs text-gray-600">{description}</span>
-        </div>
+      <CardContent className={`flex flex-col ${description ? '' : 'gap-3'}`}>
+        <section>
+          <div className="flex justify-between items-center gap-2">
+            <h2 className="text-xl font-semibold">{title}</h2>
+            <Icon size={20} strokeWidth={2} className="text-primary-folatti"/>
+          </div>
+          <div className="">
+            <span className="text-xs text-gray-600">{description}</span>
+          </div>
+        </section>
 
         <NumberFlow
           value={valueFormat === "percent" ? value / 100 : value}

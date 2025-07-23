@@ -229,7 +229,7 @@ function TabsContents({
       {...props}
     >
       <motion.div
-        className="flex -mx-2"
+        className="flex -mx-2 h-full"
         animate={{ x: activeIndex * -100 + '%' }}
         transition={transition}
       >
