@@ -25,10 +25,10 @@ type Props = {
 export function MetricsCardsVariant({ value, Icon, title, description, label, percentageValue, valueFormat }: Props) {
   	const canAnimate = useCanAnimate()
   return (
-    <Card className="bg-gray-50 border-0 h-full col-span-1">
+    <Card className="border-0 h-full col-span-1">
       <CardContent className="">
         <div className="flex justify-between items-center gap-2">
-          <h2 className="text-2xl font-bold">{title}</h2>
+          <h2 className="text-xl font-semibold">{title}</h2>
           <Icon size={20} strokeWidth={2} className="text-primary-folatti"/>
         </div>
         <div className="">

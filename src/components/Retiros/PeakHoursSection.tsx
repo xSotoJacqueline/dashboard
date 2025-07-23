@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export function PeakHoursSection() {
   return (
-    <Card className="bg-gray-50 border-0">
+    <Card className="border-0">
       <CardContent className="p-4 h-full">
         <div className="flex items-center gap-2 mb-4">
           <Clock className="w-5 h-5" />

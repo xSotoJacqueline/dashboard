@@ -42,9 +42,9 @@ type ChartLineLabelProps = {
 
 export function ChartLineLabelBottom({ className, title }: ChartLineLabelProps) {
   return (
-    <Card className={`w-full h-full pb-0 bg-gray-50 border-0 col-span-1 ${className}`}>
+    <Card className={`w-full h-full pb-0 border-0 col-span-1 ${className}`}>
         <CardHeader>
-            <CardTitle className="text-xl font-bold">{title}</CardTitle>
+            <CardTitle className="text-xl font-semibold">{title}</CardTitle>
         </CardHeader>
         <CardContent className="relative sm:pt-0 h-[calc(100%-theme(spacing.24))]">
           

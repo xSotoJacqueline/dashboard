@@ -57,7 +57,7 @@ export function ChartSection() {
   const isMobile = useIsMobile({MOBILE_BREAKPOINT:900})
   
   return (
-    <Card className="bg-gray-50 h-full flex border-0 min-h-fit">
+    <Card className="h-full flex border-0 min-h-fit">
         <CardHeader className="flex gap-2 items-center">
           <Calendar className="w-5 h-5 text-purple-600" />
           <CardTitle className="font-semibold text-lg">Días en los que más retiros se realizan</CardTitle>

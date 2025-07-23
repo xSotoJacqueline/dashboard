@@ -22,10 +22,10 @@ export default function Metricas() {
   }
 
   const values = [
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", description: "Customer Lifetime Value", Icon: BarChart3, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Bonus Rate ", description: "Ingreso Promedio por Usuario", Icon: BarChart3, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", description: "Tasa de deserción", Icon: BarChart3, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", description: "Usuarios adquiridos", Icon: BarChart3, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", Icon: BarChart3, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Bonus Rate ", Icon: BarChart3, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", Icon: BarChart3, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", Icon: BarChart3, label: "Últimos 28 días" },
   ]
 
   return (
@@ -36,7 +36,6 @@ export default function Metricas() {
             key={index}
             value={metric.value}
             title={metric.title}
-            description={metric.description}
             Icon={metric.Icon}
             label={metric.label}
             percentageValue={metric.percentageValue}

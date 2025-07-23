@@ -40,9 +40,9 @@ type ChartLineLabelProps = {
 }
 export function ChartLineLabel({ title }: ChartLineLabelProps) {
   return (
-    <Card className="w-full h-full bg-gray-50 border-0 pb-0 col-span-1">
+    <Card className="w-full h-ful border-0 pb-0 col-span-1">
         <CardHeader>
-            <CardTitle className="text-xl font-bold">{title}</CardTitle>
+            <CardTitle className="text-xl font-semibold">{title}</CardTitle>
         </CardHeader>
         <CardContent className=" h-[calc(100%-theme(spacing.24))]">
             <ChartContainer config={chartConfig} className="h-[150px] !aspect-auto">
