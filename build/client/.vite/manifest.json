@@ -43,21 +43,21 @@
       "_chunk-EF7DTUVF-mit8K6YH.js"
     ]
   },
-  "_index-DhEefNXM.js": {
-    "file": "assets/index-DhEefNXM.js",
-    "name": "index",
-    "imports": [
-      "_chunk-EF7DTUVF-mit8K6YH.js"
-    ]
-  },
-  "_index-XlA3NY-t.js": {
-    "file": "assets/index-XlA3NY-t.js",
+  "_index-DSHXvVOD.js": {
+    "file": "assets/index-DSHXvVOD.js",
     "name": "index",
     "imports": [
       "_createLucideIcon-9PaDAJ6E.js",
       "_chunk-EF7DTUVF-mit8K6YH.js",
       "_index-DNtmnsHv.js",
       "_index-DhEefNXM.js"
+    ]
+  },
+  "_index-DhEefNXM.js": {
+    "file": "assets/index-DhEefNXM.js",
+    "name": "index",
+    "imports": [
+      "_chunk-EF7DTUVF-mit8K6YH.js"
     ]
   },
   "_utils-CBfrqCZ4.js": {
@@ -75,7 +75,7 @@
     ]
   },
   "src/root.tsx?__react-router-build-client-route": {
-    "file": "assets/root-CSk7BTcN.js",
+    "file": "assets/root-Cw4sa5Pu.js",
     "name": "root",
     "src": "src/root.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -85,11 +85,11 @@
       "_index-DNtmnsHv.js"
     ],
     "css": [
-      "assets/root-B8zH7kav.css"
+      "assets/root-ButcmgRC.css"
     ]
   },
   "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route": {
-    "file": "assets/_layout-g2_tTLXX.js",
+    "file": "assets/_layout-CAPWYOkE.js",
     "name": "_layout",
     "src": "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -97,7 +97,7 @@
       "_chunk-EF7DTUVF-mit8K6YH.js",
       "_index-DhEefNXM.js",
       "_button-fO78HJw_.js",
-      "_index-XlA3NY-t.js",
+      "_index-DSHXvVOD.js",
       "_utils-CBfrqCZ4.js",
       "_index-DNtmnsHv.js",
       "_createLucideIcon-9PaDAJ6E.js",
@@ -117,14 +117,14 @@
     ]
   },
   "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route": {
-    "file": "assets/retiros-CGVfkuaf.js",
+    "file": "assets/retiros-B8Oajyem.js",
     "name": "retiros",
     "src": "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
       "_chunk-EF7DTUVF-mit8K6YH.js",
       "_chart-BCEPcgL9.js",
-      "_index-XlA3NY-t.js",
+      "_index-DSHXvVOD.js",
       "_utils-CBfrqCZ4.js",
       "_index-DhEefNXM.js",
       "_createLucideIcon-9PaDAJ6E.js",

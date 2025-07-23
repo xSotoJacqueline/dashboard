@@ -1,8 +1,8 @@
 import * as React from "react"
 
-const MOBILE_BREAKPOINT = 768
+const breakpoint = 768
 
-export function useIsMobile() {
+export function useIsMobile({ MOBILE_BREAKPOINT = breakpoint }: { MOBILE_BREAKPOINT?: number } = {}) {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
 
   React.useEffect(() => {
