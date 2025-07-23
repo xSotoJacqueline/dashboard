@@ -1,14 +1,4 @@
 {
-  "_YAxis-UaEIJgp6.js": {
-    "file": "assets/YAxis-UaEIJgp6.js",
-    "name": "YAxis",
-    "imports": [
-      "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_chart-CnWQZvg5.js",
-      "_utils-CBfrqCZ4.js",
-      "_createLucideIcon-9PaDAJ6E.js"
-    ]
-  },
   "_button-fO78HJw_.js": {
     "file": "assets/button-fO78HJw_.js",
     "name": "button",
@@ -18,13 +8,21 @@
       "_utils-CBfrqCZ4.js"
     ]
   },
-  "_chart-CnWQZvg5.js": {
-    "file": "assets/chart-CnWQZvg5.js",
-    "name": "chart",
+  "_card-general-CzfnJsoY.js": {
+    "file": "assets/card-general-CzfnJsoY.js",
+    "name": "card-general",
     "imports": [
-      "_createLucideIcon-9PaDAJ6E.js",
       "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_utils-CBfrqCZ4.js"
+      "_index-DkI1aSKz.js",
+      "_utils-CBfrqCZ4.js",
+      "_createLucideIcon-9PaDAJ6E.js"
+    ]
+  },
+  "_chart-line-Bt6N3BFU.js": {
+    "file": "assets/chart-line-Bt6N3BFU.js",
+    "name": "chart-line",
+    "imports": [
+      "_createLucideIcon-9PaDAJ6E.js"
     ]
   },
   "_chunk-EF7DTUVF-mit8K6YH.js": {
@@ -78,6 +76,15 @@
       "_chunk-EF7DTUVF-mit8K6YH.js"
     ]
   },
+  "_index-DkI1aSKz.js": {
+    "file": "assets/index-DkI1aSKz.js",
+    "name": "index",
+    "imports": [
+      "_createLucideIcon-9PaDAJ6E.js",
+      "_chunk-EF7DTUVF-mit8K6YH.js",
+      "_utils-CBfrqCZ4.js"
+    ]
+  },
   "_utils-CBfrqCZ4.js": {
     "file": "assets/utils-CBfrqCZ4.js",
     "name": "utils"
@@ -93,7 +100,7 @@
     ]
   },
   "src/root.tsx?__react-router-build-client-route": {
-    "file": "assets/root-BasYsxfX.js",
+    "file": "assets/root-CH09jM2h.js",
     "name": "root",
     "src": "src/root.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -103,11 +110,11 @@
       "_index-DNtmnsHv.js"
     ],
     "css": [
-      "assets/root-C3qSFiQm.css"
+      "assets/root-DLyJPmRZ.css"
     ]
   },
   "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route": {
-    "file": "assets/_layout-DBcjnMpH.js",
+    "file": "assets/_layout-CuHmtrot.js",
     "name": "_layout",
     "src": "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -120,46 +127,48 @@
       "_index-CsqSoCfb.js",
       "_index-DNtmnsHv.js",
       "_createLucideIcon-9PaDAJ6E.js",
-      "_index-D1MqboFF.js"
+      "_index-D1MqboFF.js",
+      "_chart-line-Bt6N3BFU.js"
     ]
   },
   "src/routes/_dashboard=/marketing.tsx?__react-router-build-client-route": {
-    "file": "assets/marketing-C02Fleye.js",
+    "file": "assets/marketing-BCUsRDtI.js",
     "name": "marketing",
     "src": "src/routes/_dashboard=/marketing.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
       "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_YAxis-UaEIJgp6.js",
       "_utils-CBfrqCZ4.js",
-      "_chart-CnWQZvg5.js",
+      "_index-DkI1aSKz.js",
+      "_card-general-CzfnJsoY.js",
       "_index-CsqSoCfb.js",
+      "_chart-line-Bt6N3BFU.js",
       "_createLucideIcon-9PaDAJ6E.js",
       "_index-DNtmnsHv.js",
       "_index-DhEefNXM.js"
     ]
   },
   "src/routes/_dashboard=/metricas.tsx?__react-router-build-client-route": {
-    "file": "assets/metricas-DEdQGVMd.js",
+    "file": "assets/metricas-WyxHNlTe.js",
     "name": "metricas",
     "src": "src/routes/_dashboard=/metricas.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
       "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_YAxis-UaEIJgp6.js",
-      "_chart-CnWQZvg5.js",
+      "_index-DkI1aSKz.js",
       "_utils-CBfrqCZ4.js",
+      "_card-general-CzfnJsoY.js",
       "_createLucideIcon-9PaDAJ6E.js"
     ]
   },
   "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route": {
-    "file": "assets/retiros-B4yYz3BX.js",
+    "file": "assets/retiros-BtcBsbhh.js",
     "name": "retiros",
     "src": "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
       "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_chart-CnWQZvg5.js",
+      "_index-DkI1aSKz.js",
       "_index-D4zDCmWu.js",
       "_utils-CBfrqCZ4.js",
       "_index-CsqSoCfb.js",

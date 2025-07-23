@@ -25,7 +25,7 @@ export function TrafficSources({ className, trafficSources }: ChartLineLabelProp
     console.log("Total de visitas:", totalAllVisits);
 
   return (
-    <Card className={cn(`w-full h-full pb-0 border-0 col-span-1`, className)}>
+    <Card className={cn(`w-full h-fit md:h-full md:pb-0 border-0 col-span-1`, className)}>
         <CardHeader>
             <CardTitle className="text-xl font-semibold">Fuentes de Tráfico</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">

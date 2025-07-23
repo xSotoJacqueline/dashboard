@@ -66,7 +66,7 @@ type ChartLineLabelProps = {
 
 export function BarChartMarketing({ className }: ChartLineLabelProps) {
   return (
-    <Card className={`w-full h-full pb-0 border-0 col-span-1 ${className}`}>
+    <Card className={`w-full h-full min-h-96 pb-0 border-0 col-span-1 ${className}`}>
         <CardHeader>
             <CardTitle className="text-xl font-semibold">Tráfico por día</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
@@ -80,8 +80,7 @@ export function BarChartMarketing({ className }: ChartLineLabelProps) {
                       accessibilityLayer
                       data={chartData}
                       margin={{
-                        left: 12,
-                        right: 12,
+                        left: -30
                       }}
                     >
                       <CartesianGrid vertical={false} />

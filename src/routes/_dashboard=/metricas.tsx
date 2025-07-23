@@ -1,9 +1,8 @@
 
-import { MetricsCardsVariant } from "@/components/metricas/MetricsCardsVariant"
 import { BarChart3 } from "lucide-react"
-import type { ValueFormat } from "@/components/metricas/MetricsCardsVariant"
 import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { ChartLineLabelBottom } from "@/components/metricas/lineChart-bottom"
+import { GeneralCard, type ValueFormat } from "@/components/card-general"
 
 export default function Metricas() {
   const fetchData = () => {
@@ -28,7 +27,7 @@ export default function Metricas() {
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {values.map((metric, index) => (
-          <MetricsCardsVariant
+          <GeneralCard
             key={index}
             value={metric.value}
             title={metric.title}

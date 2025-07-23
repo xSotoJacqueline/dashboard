@@ -10,7 +10,7 @@ import {
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
 export type ValueFormat = 'currency' | 'percent' | 'decimal'
-type Props = {
+export type GeneralCardProps = {
 	value: number
   title: string
   percentageValue: number
@@ -22,13 +22,11 @@ type Props = {
   mainNumberClassName?: string
 }
 
-
-
-export function MetricsCardsVariant({ value, Icon, title, description, label, percentageValue, valueFormat }: Props) {
+export function GeneralCard({ value, Icon, title, description, label, percentageValue, valueFormat, className }: GeneralCardProps) {
   const canAnimate = useCanAnimate()
   return (
     <Card className="border-0 h-full col-span-1">
-      <CardContent className={`flex flex-col ${description ? '' : 'gap-3'}`}>
+      <CardContent className={cn(`flex flex-col ${description ? '' : 'gap-3'}`, className)}>
         <section>
           <div className="flex justify-between items-center gap-2">
             <h2 className="text-xl font-semibold">{title}</h2>

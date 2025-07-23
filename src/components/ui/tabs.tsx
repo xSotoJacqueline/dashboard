@@ -225,11 +225,11 @@ function TabsContents({
   return (
     <div
       data-slot="tabs-contents"
-      className={cn('overflow-hidden', className)}
+      className={cn('', className)}
       {...props}
     >
       <motion.div
-        className="flex -mx-2 h-full"
+        className="flex -mx-2 md:h-full"
         animate={{ x: activeIndex * -100 + '%' }}
         transition={transition}
       >

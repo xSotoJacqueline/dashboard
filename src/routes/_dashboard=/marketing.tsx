@@ -1,7 +1,4 @@
-
-import { MetricsCardsVariant } from "@/components/metricas/MetricsCardsVariant"
-import { BarChart3 } from "lucide-react"
-import type { ValueFormat } from "@/components/metricas/MetricsCardsVariant"
+import { BarChart3, Circle, ChartLine, UserRoundPlus, Users } from "lucide-react"
 import {
   Tabs,
   TabsContent,
@@ -11,6 +8,8 @@ import {
 } from "@/components/ui/tabs"
 import TrafficTab from "@/components/marketing/traffic-tab"
 import type { TrafficSource } from "@/components/marketing/traffic-sources"
+import CampaignTab from "@/components/marketing/campaign-tab"
+import { GeneralCard, type ValueFormat, type GeneralCardProps } from "@/components/card-general"
 
 export default function Metricas() {
   const fetchData = () => {
@@ -32,14 +31,18 @@ export default function Metricas() {
     return (random - 40)/1000
   }
 
-  const values = [
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", Icon: BarChart3, label: "Últimos 28 días" },
+  const values: GeneralCardProps[] = [
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", Icon: ChartLine, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Bonus Rate ", Icon: BarChart3, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", Icon: BarChart3, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", Icon: BarChart3, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", Icon: Users, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", Icon: UserRoundPlus, label: "Últimos 28 días" },
   ]
 
-
+  const campaignValues: GeneralCardProps[] = [
+    { value: fetchData(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "CTR Promedio", Icon: Circle, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Alcance Total", Icon: ChartLine, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Conversiones", Icon: UserRoundPlus, label: "Últimos 28 días" },
+  ]
 
   const trafficSources: TrafficSource[] = [
     { source: "Directo", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
@@ -53,7 +56,7 @@ export default function Metricas() {
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {values.map((metric, index) => (
-          <MetricsCardsVariant
+          <GeneralCard
             key={index}
             value={metric.value}
             title={metric.title}
@@ -71,13 +74,11 @@ export default function Metricas() {
             <TabsTrigger value="players">Jugadores</TabsTrigger>
           </TabsList>
           <TabsContents className="w-full h-full pt-4">
-            <TabsContent className="w-full !h-full" value="traffic">
+            <TabsContent className="w-full h-full" value="traffic">
               <TrafficTab trafficSources={trafficSources} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="campaigns">
-              <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-              </div>
+              <CampaignTab campaignValues={campaignValues} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="players">
               <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
