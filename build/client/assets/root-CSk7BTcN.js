@@ -1,4 +1,4 @@
-import{R as s,q as F,t as O,w as T,v as Y,p as t,M as B,L as N,S as D,x as $,O as J,i as q}from"./chunk-EF7DTUVF-Bm_7-lIy.js";import{C as h}from"./index-DaQYaT3z.js";import"./index-Tx2uMN6g.js";var i=e=>`🔒 Clerk: ${e.trim()}
+import{R as s,q as F,t as O,w as T,v as Y,p as t,M as B,L as N,S as D,x as $,O as J,i as q}from"./chunk-EF7DTUVF-mit8K6YH.js";import{C as h}from"./index-D1MqboFF.js";import"./index-DNtmnsHv.js";var i=e=>`🔒 Clerk: ${e.trim()}
 
 For more info, check out the docs: https://clerk.com/docs,
 or come say hi in our discord server: https://clerk.com/discord

@@ -27,12 +27,12 @@ export function NavProjects({
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <div className="flex relative items-center justify-start gap-6 h-fit w-full pl-6 group-data-[collapsible=icon]:pl-2 ">
-                {pathname?.startsWith(`/${item.name.toLocaleLowerCase()}`) && 
+                {pathname?.startsWith(`${item.url.toLocaleLowerCase()}`) && 
                   <div className="absolute group-data-[collapsible=icon]:hidden left-0 w-2 h-8 bg-primary-folatti rounded-r-full" />
                 }            
                 <SidebarMenuButton asChild>
                   <a href={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start ${
-                    pathname?.startsWith(`/${item.name.toLocaleLowerCase()}`)
+                    pathname?.startsWith(`${item.url.toLocaleLowerCase()}`)
                       ? 'text-primary-folatti font-bold'
                       : ''
                   }`}>

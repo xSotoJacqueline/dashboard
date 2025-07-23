@@ -32,12 +32,12 @@ const data = {
   projects: [
     {
       name: "Retiros",
-      url: "#",
+      url: "/retiros",
       icon: CreditCardIcon,
     },
     {
       name: "Métricas",
-      url: "#",
+      url: "/metricas",
       icon: ChartLineIcon,
     },
     {
@@ -84,10 +84,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader className="rounded-t-3xl mt-5 px-6">
         <SidebarGroupLabel className="text-lg font-bold text-black">Menú</SidebarGroupLabel>
       </SidebarHeader>
-      <SidebarContent className="overflow-hidden">       
+      <SidebarContent className="overflow-hidden ">       
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter className="px-7 group-data-[collapsible=icon]:px-2">
+        <SidebarGroupLabel className="text-base px-0 font-bold text-black">Filtrar período</SidebarGroupLabel>
         <NavCalendar />
         <NavUser/>
       </SidebarFooter>
