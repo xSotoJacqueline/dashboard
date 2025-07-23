@@ -40,11 +40,11 @@ type ChartLineLabelProps = {
 }
 export function ChartLineLabel({ title }: ChartLineLabelProps) {
   return (
-    <Card className="w-full h-full bg-gray-50 border-0 col-span-1">
+    <Card className="w-full h-full bg-gray-50 border-0 pb-0 col-span-1">
         <CardHeader>
             <CardTitle className="text-xl font-bold">{title}</CardTitle>
         </CardHeader>
-        <CardContent className="p-0 sm:p-6 sm:pt-0 h-[calc(100%-theme(spacing.24))]">
+        <CardContent className=" h-[calc(100%-theme(spacing.24))]">
             <ChartContainer config={chartConfig} className="h-[150px] !aspect-auto">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
@@ -66,7 +66,7 @@ export function ChartLineLabel({ title }: ChartLineLabelProps) {
                     stroke="var(--color-lunes)"
                     strokeWidth={2}
                     dot={{
-                        fill: "var(--color-desktop)",
+                        stroke: "var(--color-green-folatti)",
                     }}
                     activeDot={{
                         r: 6,

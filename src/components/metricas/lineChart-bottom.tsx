@@ -42,11 +42,11 @@ type ChartLineLabelProps = {
 
 export function ChartLineLabelBottom({ className, title }: ChartLineLabelProps) {
   return (
-    <Card className={`w-full h-full bg-gray-50 border-0 col-span-1 ${className}`}>
+    <Card className={`w-full h-full pb-0 bg-gray-50 border-0 col-span-1 ${className}`}>
         <CardHeader>
             <CardTitle className="text-xl font-bold">{title}</CardTitle>
         </CardHeader>
-        <CardContent className="p-0 sm:p-6 relative sm:pt-0 h-[calc(100%-theme(spacing.24))]">
+        <CardContent className="relative sm:pt-0 h-[calc(100%-theme(spacing.24))]">
           
             <ChartContainer config={chartConfig} className="h-[25cqh] !aspect-auto">
                 <ResponsiveContainer width="100%" height="100%">

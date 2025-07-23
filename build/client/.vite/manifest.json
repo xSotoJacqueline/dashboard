@@ -75,7 +75,7 @@
     ]
   },
   "src/root.tsx?__react-router-build-client-route": {
-    "file": "assets/root-Cw4sa5Pu.js",
+    "file": "assets/root-Djs0BxTi.js",
     "name": "root",
     "src": "src/root.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -85,11 +85,11 @@
       "_index-DNtmnsHv.js"
     ],
     "css": [
-      "assets/root-ButcmgRC.css"
+      "assets/root-Bg6BWXcD.css"
     ]
   },
   "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route": {
-    "file": "assets/_layout-CAPWYOkE.js",
+    "file": "assets/_layout-B83WS4VO.js",
     "name": "_layout",
     "src": "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -105,7 +105,7 @@
     ]
   },
   "src/routes/_dashboard=/metricas.tsx?__react-router-build-client-route": {
-    "file": "assets/metricas-C5ZFysgA.js",
+    "file": "assets/metricas-CgrSog5z.js",
     "name": "metricas",
     "src": "src/routes/_dashboard=/metricas.tsx?__react-router-build-client-route",
     "isEntry": true,

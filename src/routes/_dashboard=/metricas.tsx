@@ -40,12 +40,12 @@ export default function Metricas() {
           />
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
         <ChartLineLabel title="Tasa de Adquisición" />
         <ChartLineLabel title="Tasa de Desereción" />
       </div>
       
-      <div className="w-full h-full flex gap-6">
+      <div className="w-full h-full max-h-full flex gap-6">
         <ChartLineLabelBottom title="Customer Lifetime Value" />
       </div>
     </div>

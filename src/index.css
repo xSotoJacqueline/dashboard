@@ -40,6 +40,8 @@
   --viernes: #C8BAD9;
   --sabado: #AB9FB9;
   --domingo: #C5C5C5;
+  --green-folatti: #0AA64D;
+  --color-green-folatti: var(--green-folatti);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -69,7 +71,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #3c1072;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);

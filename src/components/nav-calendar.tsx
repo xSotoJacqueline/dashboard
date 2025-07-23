@@ -1,4 +1,3 @@
-
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -13,7 +12,6 @@ import { useState } from "react";
 import { es } from 'date-fns/locale';
 import { format } from 'date-fns';
 import { cn } from "@/lib/utils";
-
 
 export function NavCalendar({}) {
     const [dateSelected, setDateSelected] = useState<{ from: Date; to?: Date } | undefined>(undefined);
@@ -35,6 +33,7 @@ export function NavCalendar({}) {
                 <Calendar
                 mode="range"
                 numberOfMonths={2}
+                captionLayout="dropdown"
                 selected={dateSelected}
                 onSelect={(date) => date?.from ? setDateSelected(date as { from: Date; to?: Date }) : setDateSelected(undefined)} 
                 disabled={(date) => date < new Date('1900-01-01')}
