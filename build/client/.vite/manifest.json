@@ -1,4 +1,14 @@
 {
+  "_MetricsCardsVariant-CdNTPXoZ.js": {
+    "file": "assets/MetricsCardsVariant-CdNTPXoZ.js",
+    "name": "MetricsCardsVariant",
+    "imports": [
+      "_chunk-EF7DTUVF-mit8K6YH.js",
+      "_index-DwG5qoIS.js",
+      "_utils-CBfrqCZ4.js",
+      "_createLucideIcon-9PaDAJ6E.js"
+    ]
+  },
   "_button-fO78HJw_.js": {
     "file": "assets/button-fO78HJw_.js",
     "name": "button",
@@ -8,11 +18,10 @@
       "_utils-CBfrqCZ4.js"
     ]
   },
-  "_chart-BCEPcgL9.js": {
-    "file": "assets/chart-BCEPcgL9.js",
+  "_chart-inJ5tzLZ.js": {
+    "file": "assets/chart-inJ5tzLZ.js",
     "name": "chart",
     "imports": [
-      "_createLucideIcon-9PaDAJ6E.js",
       "_chunk-EF7DTUVF-mit8K6YH.js",
       "_utils-CBfrqCZ4.js"
     ]
@@ -60,6 +69,15 @@
       "_chunk-EF7DTUVF-mit8K6YH.js"
     ]
   },
+  "_index-DwG5qoIS.js": {
+    "file": "assets/index-DwG5qoIS.js",
+    "name": "index",
+    "imports": [
+      "_createLucideIcon-9PaDAJ6E.js",
+      "_chunk-EF7DTUVF-mit8K6YH.js",
+      "_utils-CBfrqCZ4.js"
+    ]
+  },
   "_utils-CBfrqCZ4.js": {
     "file": "assets/utils-CBfrqCZ4.js",
     "name": "utils"
@@ -75,7 +93,7 @@
     ]
   },
   "src/root.tsx?__react-router-build-client-route": {
-    "file": "assets/root-Djs0BxTi.js",
+    "file": "assets/root-MnJM_AKo.js",
     "name": "root",
     "src": "src/root.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -85,11 +103,11 @@
       "_index-DNtmnsHv.js"
     ],
     "css": [
-      "assets/root-Bg6BWXcD.css"
+      "assets/root-DXLyAigX.css"
     ]
   },
   "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route": {
-    "file": "assets/_layout-B83WS4VO.js",
+    "file": "assets/_layout-fzoJ2MPK.js",
     "name": "_layout",
     "src": "src/routes/_dashboard=/_layout.tsx?__react-router-build-client-route",
     "isEntry": true,
@@ -104,26 +122,42 @@
       "_index-D1MqboFF.js"
     ]
   },
+  "src/routes/_dashboard=/marketing.tsx?__react-router-build-client-route": {
+    "file": "assets/marketing-BsUecU2A.js",
+    "name": "marketing",
+    "src": "src/routes/_dashboard=/marketing.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-EF7DTUVF-mit8K6YH.js",
+      "_MetricsCardsVariant-CdNTPXoZ.js",
+      "_utils-CBfrqCZ4.js",
+      "_index-DwG5qoIS.js",
+      "_createLucideIcon-9PaDAJ6E.js"
+    ]
+  },
   "src/routes/_dashboard=/metricas.tsx?__react-router-build-client-route": {
-    "file": "assets/metricas-CgrSog5z.js",
+    "file": "assets/metricas-DZZUhqNP.js",
     "name": "metricas",
     "src": "src/routes/_dashboard=/metricas.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
       "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_chart-BCEPcgL9.js",
+      "_MetricsCardsVariant-CdNTPXoZ.js",
+      "_index-DwG5qoIS.js",
+      "_chart-inJ5tzLZ.js",
       "_utils-CBfrqCZ4.js",
       "_createLucideIcon-9PaDAJ6E.js"
     ]
   },
   "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route": {
-    "file": "assets/retiros-B8Oajyem.js",
+    "file": "assets/retiros-w7eQ2V6p.js",
     "name": "retiros",
     "src": "src/routes/_dashboard=/retiros.tsx?__react-router-build-client-route",
     "isEntry": true,
     "imports": [
       "_chunk-EF7DTUVF-mit8K6YH.js",
-      "_chart-BCEPcgL9.js",
+      "_index-DwG5qoIS.js",
+      "_chart-inJ5tzLZ.js",
       "_index-DSHXvVOD.js",
       "_utils-CBfrqCZ4.js",
       "_index-DhEefNXM.js",

@@ -42,7 +42,7 @@ const data = {
     },
     {
       name: "Marketing",
-      url: "#",
+      url: "/marketing",
       icon: SpeechIcon,
     },
     {

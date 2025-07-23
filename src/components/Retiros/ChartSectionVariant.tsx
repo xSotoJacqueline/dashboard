@@ -56,8 +56,6 @@ const chartConfig = {
 export function ChartSection() {
   const isMobile = useIsMobile({MOBILE_BREAKPOINT:900})
   
-  console.log('isMobile', isMobile)
-
   return (
     <Card className="bg-gray-50 h-full flex border-0 min-h-fit">
         <CardHeader className="flex gap-2 items-center">

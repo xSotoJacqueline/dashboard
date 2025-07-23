@@ -30,11 +30,11 @@ export async function loader(args: Route.LoaderArgs) {
 export default function Layout() {
 
   return (
-    <div className="h-screen w-scree bg-[#ece9e9] mx-auto flex justify-center items-center">
+    <div className="h-screen w-scree bg-[#F7F7F7] mx-auto flex justify-center items-center">
       <div className='w-full relative'>
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset className='md:ml-15 w-full  mx-5 sm:mx-10  my-auto max-h-[95vh] overflow-hidden bg-[#ece9e9]'>
+            <SidebarInset className='md:ml-15 w-full  mx-5 sm:mx-10  my-auto max-h-[95vh] overflow-hidden bg-[#F7F7F7]'>
                 <header className=" md:hidden md:fix flex h-fit shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <SidebarTrigger className="-ml-1" />
                 </header>

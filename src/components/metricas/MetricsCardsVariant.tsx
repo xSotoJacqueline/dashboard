@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowUp } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 import { motion, MotionConfig } from 'framer-motion'
 import NumberFlow, { useCanAnimate } from '@number-flow/react'
 import { cn } from "@/lib/utils"
@@ -8,7 +8,7 @@ import {
 } from "lucide-react"
 
 const MotionNumberFlow = motion.create(NumberFlow)
-const MotionArrowUp = motion.create(ArrowUp)
+const MotionArrowUp = motion.create(TrendingUp)
 export type ValueFormat = 'currency' | 'percent' | 'decimal'
 type Props = {
 	value: number
@@ -25,10 +25,10 @@ type Props = {
 export function MetricsCardsVariant({ value, Icon, title, description, label, percentageValue, valueFormat }: Props) {
   	const canAnimate = useCanAnimate()
   return (
-    <Card className="bg-gray-50 border-0 w-full h-full col-span-1">
+    <Card className="bg-gray-50 border-0 h-full col-span-1">
       <CardContent className="">
         <div className="flex justify-between items-center gap-2">
-          <h2 className="text-xl font-bold">{title}</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <Icon size={20} strokeWidth={2} className="text-primary-folatti"/>
         </div>
         <div className="">
@@ -54,13 +54,13 @@ export function MetricsCardsVariant({ value, Icon, title, description, label, pe
               <motion.span
                 className={cn(
                   percentageValue > 0 ? 'bg-emerald-400' : 'bg-red-500',
-                  'inline-flex items-center px-[0.3em] text-lg text-white transition-colors duration-300'
+                  'inline-flex gap-1 items-center px-[0.3em] text-lg text-white transition-colors duration-300'
                 )}
                 layout
                 style={{ borderRadius: 999 }}
               >
                 <MotionArrowUp
-                  className="mr-0.5 size-[0.75em]"
+                  className="mr-0.5 size-[0.70em]"
                   absoluteStrokeWidth
                   strokeWidth={3}
                   layout // undo parent
@@ -72,8 +72,8 @@ export function MetricsCardsVariant({ value, Icon, title, description, label, pe
                 />
                 <MotionNumberFlow
                   value={percentageValue}
-                  className="font-semibold text-sm"
-                  format={{ style: 'percent', compactDisplay: 'short' }}
+                  className="font-medium text-sm"
+					        format={{ style: 'percent', maximumFractionDigits: 2, signDisplay: 'always' }}
                   style={{ ['--number-flow-char-height' as string]: '0.85em', ['--number-flow-mask-height' as string]: '0.3em' }}
                   layout
                   layoutRoot
