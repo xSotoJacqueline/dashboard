@@ -11,6 +11,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/animated-tabs";
+import PlayersTab from "@/components/marketing/players-tab"
 
 export default function Metricas() {
   const fetchData = () => {
@@ -92,9 +93,7 @@ export default function Metricas() {
               <CampaignTab campaignPerformanceValues={campaignPerformanceValues} campaignValues={campaignValues} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="players">
-              <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-
-              </div>
+              <PlayersTab />
             </TabsContent>
           
         </Tabs>

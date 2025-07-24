@@ -62,15 +62,16 @@ const chartConfig = {
 type ChartLineLabelProps = {
   className?: string;
   title: string;
+  description?: string;
 }
 
-export function BarChartMarketing({ className }: ChartLineLabelProps) {
+export function BarChartMarketing({ className, title, description }: ChartLineLabelProps) {
   return (
-    <Card className={`w-full h-full min-h-96 pb-0 border-0 col-span-1 ${className}`}>
+    <Card className={`w-full h-full pb-0 border-0 col-span-1 min-h-96 md:min-h-0 ${className}`}>
         <CardHeader>
-            <CardTitle className="text-xl font-semibold">Tráfico por día</CardTitle>
+            <CardTitle className="text-xl font-semibold">{title}</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
-              Visitantes únicos en los últimos 28 días
+              {description ?? "Visitantes únicos en los últimos 28 días"}
             </CardDescription>
         </CardHeader>
         <CardContent className="relative sm:pt-0 h-[calc(100%-theme(spacing.24))]">
