@@ -31,3 +31,4 @@ dist-ssr
 *.sw?
 .react-router/
 
+.vercel
