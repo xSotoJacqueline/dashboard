@@ -1,15 +1,16 @@
 import { BarChart3, Circle, ChartLine, UserRoundPlus, Users } from "lucide-react"
+
+import TrafficTab from "@/components/marketing/traffic-tab"
+import type { TrafficSource } from "@/components/marketing/traffic-sources"
+import CampaignTab, { type CampaignPerformanceProps } from "@/components/marketing/campaign-tab"
+import { GeneralCard, type ValueFormat, type GeneralCardProps } from "@/components/card-general"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
   TabsContent,
-  TabsContents,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs"
-import TrafficTab from "@/components/marketing/traffic-tab"
-import type { TrafficSource } from "@/components/marketing/traffic-sources"
-import CampaignTab from "@/components/marketing/campaign-tab"
-import { GeneralCard, type ValueFormat, type GeneralCardProps } from "@/components/card-general"
+} from "@/components/ui/animated-tabs";
 
 export default function Metricas() {
   const fetchData = () => {
@@ -23,7 +24,7 @@ export default function Metricas() {
   }
 
   const fetchRandomVisits = () => {
-    return Math.floor(Math.random() * 1500) + 100; // Entre 100 y 1600 visitas
+    return Math.floor(Math.random() * 1500) + 100;
   }
 
   const fetchRandomPercentage = () => {
@@ -42,6 +43,12 @@ export default function Metricas() {
     { value: fetchData(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "CTR Promedio", Icon: Circle, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Alcance Total", Icon: ChartLine, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Conversiones", Icon: UserRoundPlus, label: "Últimos 28 días" },
+  ]
+
+  const campaignPerformanceValues: CampaignPerformanceProps[] = [
+    { title: "CTR Promedio", status: "active", alcance: fetchData(), ctr: fetchData(), conversiones: fetchData() },
+    { title: "Alcance Total", status: "active", alcance: fetchDataValue(), ctr: fetchData(), conversiones: fetchData() },
+    { title: "Conversiones", status: "inactive", alcance: fetchDataValue(), ctr: fetchData(), conversiones: fetchData() },
   ]
 
   const trafficSources: TrafficSource[] = [
@@ -67,26 +74,30 @@ export default function Metricas() {
           />
         ))}
       </div>
-      <Tabs defaultValue="traffic" className="w-full h-full">
-          <TabsList className="w-full">
-            <TabsTrigger value="traffic">Tráfico</TabsTrigger>
-            <TabsTrigger value="campaigns">Campañas</TabsTrigger>
-            <TabsTrigger value="players">Jugadores</TabsTrigger>
-          </TabsList>
-          <TabsContents className="w-full h-full pt-4">
-            <TabsContent className="w-full h-full" value="traffic">
+
+       <Tabs defaultValue="traffic" className="w-full h-full">
+          <ScrollArea className="whitespace-nowrap">
+            <TabsList className="w-full">
+                <TabsTrigger value="traffic">Tráfico</TabsTrigger>
+                <TabsTrigger value="campaigns">Campañas</TabsTrigger>
+                <TabsTrigger value="players">Jugadores</TabsTrigger>
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+
+           <TabsContent  className="w-full h-full" value="traffic">
               <TrafficTab trafficSources={trafficSources} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="campaigns">
-              <CampaignTab campaignValues={campaignValues} />
+              <CampaignTab campaignPerformanceValues={campaignPerformanceValues} campaignValues={campaignValues} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="players">
               <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
 
               </div>
             </TabsContent>
-          </TabsContents>
-      </Tabs>
+          
+        </Tabs>
     </div>
   )
 }

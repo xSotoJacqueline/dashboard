@@ -133,7 +133,7 @@ function TabsList({
   return (
     <MotionHighlight
       controlledItems
-      className={cn('border-b-2 border-foreground w-10 h-11 bg-white absolute left-1/2 -translate-x-1/2', activeClassName)}
+      className={cn('border-b-2 border-foreground w-10 left-1/2 -translate-x-1/2 h-11 bg-white absolute ', activeClassName)}
       value={activeValue}
       transition={transition}
     >
@@ -183,7 +183,7 @@ function TabsTrigger({
         onClick={() => handleValueChange(value)}
         data-state={activeValue === value ? 'active' : 'inactive'}
         className={cn(
-          'inline-flex cursor-pointer items-center size-full justify-center whitespace-nowrap rounded-sm px-2 py-1 text-lg font-normal ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:font-bold z-[1]',
+          'inline-flex cursor-pointer items-center size-full justify-center whitespace-nowrap rounded-sm px-2 py-1 text-base sm:text-lg font-normal ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:font-bold z-[1]',
           className,
         )}
         {...props}

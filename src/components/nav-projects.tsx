@@ -8,6 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+
 import { useLocation } from 'react-router';
 
 export function NavProjects({
@@ -30,17 +31,17 @@ export function NavProjects({
                 {pathname?.startsWith(`${item.url.toLocaleLowerCase()}`) && 
                   <div className="absolute group-data-[collapsible=icon]:hidden left-0 w-2 h-8 bg-primary-folatti rounded-r-full transition-all duration-300 ease-in-out animate-in slide-in-from-left-2" />
                 }            
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start transition-all duration-300 ease-in-out ${
-                    pathname?.startsWith(`${item.url.toLocaleLowerCase()}`)
-                      ? 'text-primary-folatti font-bold transform scale-105'
-                      : 'hover:text-primary-folatti/70'
-                  }`}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start transition-all duration-300 ease-in-out ${
+                      pathname?.startsWith(`${item.url.toLocaleLowerCase()}`)
+                        ? 'text-primary-folatti font-bold transform scale-105'
+                        : 'hover:text-primary-folatti/70'
+                    }`}>
 
-                  <item.icon strokeWidth={2.5} className="transition-transform duration-300 ease-in-out" />
-                  <span className="transition-all duration-300 ease-in-out">{item.name}</span>
-                </a>
-              </SidebarMenuButton>
+                    <item.icon strokeWidth={2.5} className="transition-transform duration-300 ease-in-out" />
+                    <span className="transition-all duration-300 ease-in-out">{item.name}</span>
+                  </a>
+                </SidebarMenuButton>
             </div>
           </SidebarMenuItem>
         ))}

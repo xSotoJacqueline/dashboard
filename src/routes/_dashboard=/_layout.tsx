@@ -21,10 +21,8 @@ export async function loader(args: Route.LoaderArgs) {
   }
   const { userId } = await getAuth(args)
     if (!userId) {
-    console.log('User not authenticated, redirecting to sign-in')
     return redirect(`${CLERK_SIGN_IN_URL}/sign-in?redirect_url=${CLERK_SIGN_IN_FORCE_REDIRECT_URL}/retiros`)
-  }
-  
+  }  
 }
 
 export default function Layout() {

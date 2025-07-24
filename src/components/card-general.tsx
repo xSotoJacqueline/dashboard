@@ -26,14 +26,14 @@ export function GeneralCard({ value, Icon, title, description, label, percentage
   const canAnimate = useCanAnimate()
   return (
     <Card className="border-0 h-full col-span-1">
-      <CardContent className={cn(`flex flex-col ${description ? '' : 'gap-3'}`, className)}>
+      <CardContent className={cn(`flex px-4 flex-col ${description ? '' : 'gap-3'}`, className)}>
         <section>
           <div className="flex justify-between items-center gap-2">
-            <h2 className="text-xl font-semibold">{title}</h2>
+            <h2 className="text-xl font-semibold line-clamp-1">{title}</h2>
             <Icon size={20} strokeWidth={2} className="text-primary-folatti"/>
           </div>
           <div className="">
-            <span className="text-xs text-gray-600">{description}</span>
+            <span className="text-xs text-gray-600 line-clamp-1">{description}</span>
           </div>
         </section>
 
@@ -44,7 +44,7 @@ export function GeneralCard({ value, Icon, title, description, label, percentage
           className="text-4xl font-bold"
         />
         {/* <div className="text-5xl font-bold mb-2">{value}</div> */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex xl:flex-row  lg:items-start lg:flex-col items-center justify-between w-full">
           <span className="text-sm text-gray-600">{label}</span>
             <MotionConfig
               // Disable layout animations if NumberFlow can't animate.

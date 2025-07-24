@@ -22,7 +22,6 @@ type ChartLineLabelProps = {
 
 export function TrafficSources({ className, trafficSources }: ChartLineLabelProps) {
     const totalAllVisits = trafficSources.reduce((sum, src) => sum + src.totalVisits, 0);
-    console.log("Total de visitas:", totalAllVisits);
 
   return (
     <Card className={cn(`w-full h-fit md:h-full md:pb-0 border-0 col-span-1`, className)}>
@@ -35,9 +34,7 @@ export function TrafficSources({ className, trafficSources }: ChartLineLabelProp
         <CardContent className="relative sm:pt-0 h-full">
           <div className="flex flex-col justify-betweenh-full">
             {trafficSources.map((source) => {
-                const impactPercentage = (source.totalVisits / totalAllVisits) * 100;
-                console.log(`Impacto de ${source.source}: ${impactPercentage.toFixed(2)}%`);
-
+              const impactPercentage = (source.totalVisits / totalAllVisits) * 100;
               return (
                 <div key={source.source} className="flex flex-col">
                     <span className="text-base font-medium">{source.source}</span>
