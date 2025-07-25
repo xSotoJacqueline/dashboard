@@ -2,7 +2,7 @@ import { motion, MotionConfig } from 'framer-motion'
 import NumberFlow, { useCanAnimate } from '@number-flow/react'
 import { cn } from "@/lib/utils"
 import { TrendingUp } from 'lucide-react'
-import { BarChartMarketing } from "./barChart";
+import { BarChartMarketing } from "../marketing/barChart";
 import {
   Card,
   CardTitle,

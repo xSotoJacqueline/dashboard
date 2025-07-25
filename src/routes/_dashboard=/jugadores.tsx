@@ -7,10 +7,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/animated-tabs";
-import TopUsersTab from "@/components/marketing/top-users-tab"
-import SpecificGamesTab from "@/components/marketing/specific-games-tab";
-import HybridUsersTab from "@/components/marketing/hybrid-users-tab";
-import CategoriesTab from "@/components/marketing/categories-tab";
+import TopUsersTab from "@/components/tabs/top-users-tab"
+import SpecificGamesTab from "@/components/tabs/specific-games-tab";
+import HybridUsersTab from "@/components/tabs/hybrid-users-tab";
+import CategoriesTab from "@/components/tabs/categories-tab";
 
 export default function Metricas() {
   const fetchData = () => {

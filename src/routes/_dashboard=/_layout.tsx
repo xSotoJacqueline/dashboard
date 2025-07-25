@@ -8,7 +8,7 @@ import {
 import { Scroller } from "@/components/ui/scroller";
 import type { Route } from './+types/_layout';
 import { getAuth } from '@clerk/react-router/ssr.server';
-
+import { Toaster } from 'sonner';
 
 
 export async function loader(args: Route.LoaderArgs) {
@@ -38,6 +38,7 @@ export default function Layout() {
                 </header>
                 <Scroller hideScrollbar className='h-[95vh] overflow-x-hidden '>
                     <Outlet />
+                    <Toaster richColors position='bottom-right' className='' />
                 </Scroller>
             </SidebarInset>
         </SidebarProvider>

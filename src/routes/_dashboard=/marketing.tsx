@@ -1,7 +1,7 @@
 import { BarChart3, Circle, ChartLine, UserRoundPlus, Users } from "lucide-react"
 
-import TrafficTab from "@/components/marketing/traffic-tab"
-import type { TrafficSource } from "@/components/marketing/traffic-sources"
+import TrafficTab from "@/components/tabs/traffic-tab"
+import type { TrafficSource } from "@/components/tabs/traffic-sources"
 import CampaignTab, { type CampaignPerformanceProps } from "@/components/marketing/campaign-tab"
 import { GeneralCard, type ValueFormat, type GeneralCardProps } from "@/components/card-general"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
@@ -11,7 +11,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/animated-tabs";
-import PlayersTab from "@/components/marketing/players-tab"
+import PlayersTab from "@/components/tabs/players-tab"
 
 export default function Metricas() {
   const fetchData = () => {

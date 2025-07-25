@@ -1,4 +1,4 @@
-import { BarChartMarketing } from "./barChart";
+import { BarChartMarketing } from "../marketing/barChart";
 import { TrafficSources, type TrafficSource } from "./traffic-sources";
 
 export default function TrafficTab({ trafficSources }: { trafficSources: TrafficSource[] }) {

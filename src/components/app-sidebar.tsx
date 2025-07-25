@@ -71,7 +71,7 @@ const data = {
     },
     {
       name: "Benchmark",
-      url: "#",
+      url: "/benchmark",
       icon: ChartNoAxesCombinedIcon,
     }
 
