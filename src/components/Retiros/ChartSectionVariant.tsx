@@ -66,7 +66,7 @@ export function ChartSection() {
            <div className="w-full sm:w-fit h-full max-w-xs">
             <table className="w-full h-full">
               <thead>
-              <tr className="text-left text-lg font-bold text-primary-folatti">
+              <tr className="text-left text-lg font-bold text-primary-foliatti">
                 <th className="flex pl-8 justify-center">Día</th>
                 <th className="pr-2 text-right">%</th>
               </tr>

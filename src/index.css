@@ -40,8 +40,8 @@
   --viernes: #C8BAD9;
   --sabado: #AB9FB9;
   --domingo: #C5C5C5;
-  --green-folatti: #0AA64D;
-  --color-green-folatti: var(--green-folatti);
+  --green-foliatti: #0AA64D;
+  --color-green-foliatti: var(--green-foliatti);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -58,7 +58,7 @@
     --color-midnight: #121063;
   --color-tahiti: #3ab7bf;
   --color-bermuda: #78dcca;
-  --color-primary-folatti:#3c1072;
+  --color-primary-foliatti:#3c1072;
 }
 
 
@@ -107,7 +107,7 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
-  --primary-folatti:#3c1072;
+  --primary-foliatti:#3c1072;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);

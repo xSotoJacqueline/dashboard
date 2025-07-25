@@ -30,7 +30,7 @@ export function GeneralCard({ value, Icon, title, description, label, percentage
         <section>
           <div className="flex justify-between items-center gap-2">
             <h2 className="text-xl font-semibold line-clamp-1">{title}</h2>
-            <Icon size={20} strokeWidth={2} className="text-primary-folatti"/>
+            <Icon size={20} strokeWidth={2} className="text-primary-foliatti"/>
           </div>
           <div className="">
             <span className="text-xs text-gray-600 line-clamp-1">{description}</span>
@@ -55,7 +55,7 @@ export function GeneralCard({ value, Icon, title, description, label, percentage
             >
               <motion.span
                 className={cn(
-                  percentageValue > 0 ? 'bg-emerald-400' : 'bg-red-500',
+                  percentageValue > 0 ? 'bg-green-foliatti' : 'bg-red-500',
                   'inline-flex gap-1 items-center px-[0.3em] text-lg text-white transition-colors duration-300'
                 )}
                 layout

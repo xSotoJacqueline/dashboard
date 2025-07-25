@@ -38,7 +38,7 @@ export function MetricsCardsVariant({ value, className }: Props) {
               >
                 <motion.span
                   className={cn(
-                    value > 0 ? 'bg-emerald-400' : 'bg-red-500',
+                    value > 0 ? 'bg-green-foliatti' : 'bg-red-500',
                     'inline-flex items-center px-[0.3em] text-lg text-white transition-colors duration-300'
                   )}
                   layout

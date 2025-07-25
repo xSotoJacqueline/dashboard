@@ -66,7 +66,7 @@ export function ChartLineLabel({ title }: ChartLineLabelProps) {
                     stroke="var(--color-lunes)"
                     strokeWidth={2}
                     dot={{
-                        stroke: "var(--color-green-folatti)",
+                        stroke: "var(--color-green-foliatti)",
                     }}
                     activeDot={{
                         r: 6,

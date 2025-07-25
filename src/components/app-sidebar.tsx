@@ -47,7 +47,7 @@ const data = {
     },
     {
       name: "Jugadores",
-      url: "#",
+      url: "/jugadores",
       icon: UserIcon,
     },    {
       name: "Bonos",
