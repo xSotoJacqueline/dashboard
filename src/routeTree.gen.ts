@@ -13,10 +13,11 @@ import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRetirosRouteImport } from './routes/dashboard/retiros'
-import { Route as DashboardPepeRouteImport } from './routes/dashboard/pepe'
 import { Route as DashboardMetricasRouteImport } from './routes/dashboard/metricas'
 import { Route as DashboardMarketingRouteImport } from './routes/dashboard/marketing'
 import { Route as DashboardJugadoresRouteImport } from './routes/dashboard/jugadores'
+import { Route as DashboardDepositosRouteImport } from './routes/dashboard/depositos'
+import { Route as DashboardBonosRouteImport } from './routes/dashboard/bonos'
 import { Route as DashboardBenchmarkRouteImport } from './routes/dashboard/benchmark'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
@@ -39,11 +40,6 @@ const DashboardRetirosRoute = DashboardRetirosRouteImport.update({
   path: '/retiros',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const DashboardPepeRoute = DashboardPepeRouteImport.update({
-  id: '/pepe',
-  path: '/pepe',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
 const DashboardMetricasRoute = DashboardMetricasRouteImport.update({
   id: '/metricas',
   path: '/metricas',
@@ -57,6 +53,16 @@ const DashboardMarketingRoute = DashboardMarketingRouteImport.update({
 const DashboardJugadoresRoute = DashboardJugadoresRouteImport.update({
   id: '/jugadores',
   path: '/jugadores',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDepositosRoute = DashboardDepositosRouteImport.update({
+  id: '/depositos',
+  path: '/depositos',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBonosRoute = DashboardBonosRouteImport.update({
+  id: '/bonos',
+  path: '/bonos',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardBenchmarkRoute = DashboardBenchmarkRouteImport.update({
@@ -75,10 +81,11 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof authLoginRoute
   '/dashboard/benchmark': typeof DashboardBenchmarkRoute
+  '/dashboard/bonos': typeof DashboardBonosRoute
+  '/dashboard/depositos': typeof DashboardDepositosRoute
   '/dashboard/jugadores': typeof DashboardJugadoresRoute
   '/dashboard/marketing': typeof DashboardMarketingRoute
   '/dashboard/metricas': typeof DashboardMetricasRoute
-  '/dashboard/pepe': typeof DashboardPepeRoute
   '/dashboard/retiros': typeof DashboardRetirosRoute
 }
 export interface FileRoutesByTo {
@@ -86,10 +93,11 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof authLoginRoute
   '/dashboard/benchmark': typeof DashboardBenchmarkRoute
+  '/dashboard/bonos': typeof DashboardBonosRoute
+  '/dashboard/depositos': typeof DashboardDepositosRoute
   '/dashboard/jugadores': typeof DashboardJugadoresRoute
   '/dashboard/marketing': typeof DashboardMarketingRoute
   '/dashboard/metricas': typeof DashboardMetricasRoute
-  '/dashboard/pepe': typeof DashboardPepeRoute
   '/dashboard/retiros': typeof DashboardRetirosRoute
 }
 export interface FileRoutesById {
@@ -99,10 +107,11 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
   '/dashboard/benchmark': typeof DashboardBenchmarkRoute
+  '/dashboard/bonos': typeof DashboardBonosRoute
+  '/dashboard/depositos': typeof DashboardDepositosRoute
   '/dashboard/jugadores': typeof DashboardJugadoresRoute
   '/dashboard/marketing': typeof DashboardMarketingRoute
   '/dashboard/metricas': typeof DashboardMetricasRoute
-  '/dashboard/pepe': typeof DashboardPepeRoute
   '/dashboard/retiros': typeof DashboardRetirosRoute
 }
 export interface FileRouteTypes {
@@ -112,10 +121,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/dashboard/benchmark'
+    | '/dashboard/bonos'
+    | '/dashboard/depositos'
     | '/dashboard/jugadores'
     | '/dashboard/marketing'
     | '/dashboard/metricas'
-    | '/dashboard/pepe'
     | '/dashboard/retiros'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -123,10 +133,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/dashboard/benchmark'
+    | '/dashboard/bonos'
+    | '/dashboard/depositos'
     | '/dashboard/jugadores'
     | '/dashboard/marketing'
     | '/dashboard/metricas'
-    | '/dashboard/pepe'
     | '/dashboard/retiros'
   id:
     | '__root__'
@@ -135,10 +146,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/(auth)/login'
     | '/dashboard/benchmark'
+    | '/dashboard/bonos'
+    | '/dashboard/depositos'
     | '/dashboard/jugadores'
     | '/dashboard/marketing'
     | '/dashboard/metricas'
-    | '/dashboard/pepe'
     | '/dashboard/retiros'
   fileRoutesById: FileRoutesById
 }
@@ -178,13 +190,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRetirosRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/pepe': {
-      id: '/dashboard/pepe'
-      path: '/pepe'
-      fullPath: '/dashboard/pepe'
-      preLoaderRoute: typeof DashboardPepeRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
     '/dashboard/metricas': {
       id: '/dashboard/metricas'
       path: '/metricas'
@@ -204,6 +209,20 @@ declare module '@tanstack/react-router' {
       path: '/jugadores'
       fullPath: '/dashboard/jugadores'
       preLoaderRoute: typeof DashboardJugadoresRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/depositos': {
+      id: '/dashboard/depositos'
+      path: '/depositos'
+      fullPath: '/dashboard/depositos'
+      preLoaderRoute: typeof DashboardDepositosRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/bonos': {
+      id: '/dashboard/bonos'
+      path: '/bonos'
+      fullPath: '/dashboard/bonos'
+      preLoaderRoute: typeof DashboardBonosRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/benchmark': {
@@ -237,19 +256,21 @@ const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
 
 interface DashboardRouteRouteChildren {
   DashboardBenchmarkRoute: typeof DashboardBenchmarkRoute
+  DashboardBonosRoute: typeof DashboardBonosRoute
+  DashboardDepositosRoute: typeof DashboardDepositosRoute
   DashboardJugadoresRoute: typeof DashboardJugadoresRoute
   DashboardMarketingRoute: typeof DashboardMarketingRoute
   DashboardMetricasRoute: typeof DashboardMetricasRoute
-  DashboardPepeRoute: typeof DashboardPepeRoute
   DashboardRetirosRoute: typeof DashboardRetirosRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardBenchmarkRoute: DashboardBenchmarkRoute,
+  DashboardBonosRoute: DashboardBonosRoute,
+  DashboardDepositosRoute: DashboardDepositosRoute,
   DashboardJugadoresRoute: DashboardJugadoresRoute,
   DashboardMarketingRoute: DashboardMarketingRoute,
   DashboardMetricasRoute: DashboardMetricasRoute,
-  DashboardPepeRoute: DashboardPepeRoute,
   DashboardRetirosRoute: DashboardRetirosRoute,
 }
 

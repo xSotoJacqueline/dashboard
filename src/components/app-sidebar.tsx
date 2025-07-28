@@ -52,22 +52,22 @@ const data = {
     },
     {
       name: "Bonos",
-      url: "#",
+      url: "/dashboard/bonos",
       icon: GiftIcon,
     },
     {
       name: "Depósitos",
-      url: "#",
+      url: "/dashboard/depositos",
       icon: HandCoinsIcon,
     },
         {
       name: "Sportsbook",
-      url: "#",
+      url: "/dashboard/sportsbook",
       icon: BookIcon,
     },
     {
       name: "Alcances",
-      url: "#",
+      url: "/dashboard/alcances",
       icon: ChartLineIcon,
     },
     {
