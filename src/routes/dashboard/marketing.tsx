@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/animated-tabs";
 import PlayersTab from "@/components/tabs/players-tab"
 
-export const Route = createFileRoute('/_authenticated/marketing')({
+export const Route = createFileRoute('/dashboard/marketing')({
   component: RouteComponent,
 })
 

@@ -9,7 +9,7 @@ import { Scroller } from "@/components/ui/scroller";
 import { Toaster } from 'sonner';
 import { useIsActiveStore } from '@/lib/active-full-container'
 
-export const Route = createFileRoute('/_authenticated')({
+export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
   errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
   async beforeLoad(ctx) {

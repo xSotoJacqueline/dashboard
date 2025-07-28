@@ -4,7 +4,7 @@ import { PlayersSection } from "@/components/Retiros/PlayersSection"
 import { PeakHoursSection } from "@/components/Retiros/PeakHoursSection"
 import { MetricsCardsVariant } from "@/components/Retiros/MetricsCardsVariant"
 
-export const Route = createFileRoute('/_authenticated/retiros')({
+export const Route = createFileRoute('/dashboard/retiros')({
   component: RouteComponent,
     errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
 

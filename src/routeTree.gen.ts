@@ -9,18 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRetirosRouteImport } from './routes/_authenticated/retiros'
-import { Route as AuthenticatedMetricasRouteImport } from './routes/_authenticated/metricas'
-import { Route as AuthenticatedMarketingRouteImport } from './routes/_authenticated/marketing'
-import { Route as AuthenticatedJugadoresRouteImport } from './routes/_authenticated/jugadores'
-import { Route as AuthenticatedBenchmarkRouteImport } from './routes/_authenticated/benchmark'
+import { Route as DashboardRetirosRouteImport } from './routes/dashboard/retiros'
+import { Route as DashboardPepeRouteImport } from './routes/dashboard/pepe'
+import { Route as DashboardMetricasRouteImport } from './routes/dashboard/metricas'
+import { Route as DashboardMarketingRouteImport } from './routes/dashboard/marketing'
+import { Route as DashboardJugadoresRouteImport } from './routes/dashboard/jugadores'
+import { Route as DashboardBenchmarkRouteImport } from './routes/dashboard/benchmark'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const DashboardRouteRoute = DashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authRouteRoute = authRouteRouteImport.update({
@@ -32,30 +34,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRetirosRoute = AuthenticatedRetirosRouteImport.update({
+const DashboardRetirosRoute = DashboardRetirosRouteImport.update({
   id: '/retiros',
   path: '/retiros',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AuthenticatedMetricasRoute = AuthenticatedMetricasRouteImport.update({
+const DashboardPepeRoute = DashboardPepeRouteImport.update({
+  id: '/pepe',
+  path: '/pepe',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardMetricasRoute = DashboardMetricasRouteImport.update({
   id: '/metricas',
   path: '/metricas',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AuthenticatedMarketingRoute = AuthenticatedMarketingRouteImport.update({
+const DashboardMarketingRoute = DashboardMarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AuthenticatedJugadoresRoute = AuthenticatedJugadoresRouteImport.update({
+const DashboardJugadoresRoute = DashboardJugadoresRouteImport.update({
   id: '/jugadores',
   path: '/jugadores',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AuthenticatedBenchmarkRoute = AuthenticatedBenchmarkRouteImport.update({
+const DashboardBenchmarkRoute = DashboardBenchmarkRouteImport.update({
   id: '/benchmark',
   path: '/benchmark',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const authLoginRoute = authLoginRouteImport.update({
   id: '/login',
@@ -65,79 +72,89 @@ const authLoginRoute = authLoginRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof authRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof authLoginRoute
-  '/benchmark': typeof AuthenticatedBenchmarkRoute
-  '/jugadores': typeof AuthenticatedJugadoresRoute
-  '/marketing': typeof AuthenticatedMarketingRoute
-  '/metricas': typeof AuthenticatedMetricasRoute
-  '/retiros': typeof AuthenticatedRetirosRoute
+  '/dashboard/benchmark': typeof DashboardBenchmarkRoute
+  '/dashboard/jugadores': typeof DashboardJugadoresRoute
+  '/dashboard/marketing': typeof DashboardMarketingRoute
+  '/dashboard/metricas': typeof DashboardMetricasRoute
+  '/dashboard/pepe': typeof DashboardPepeRoute
+  '/dashboard/retiros': typeof DashboardRetirosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof authRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof authLoginRoute
-  '/benchmark': typeof AuthenticatedBenchmarkRoute
-  '/jugadores': typeof AuthenticatedJugadoresRoute
-  '/marketing': typeof AuthenticatedMarketingRoute
-  '/metricas': typeof AuthenticatedMetricasRoute
-  '/retiros': typeof AuthenticatedRetirosRoute
+  '/dashboard/benchmark': typeof DashboardBenchmarkRoute
+  '/dashboard/jugadores': typeof DashboardJugadoresRoute
+  '/dashboard/marketing': typeof DashboardMarketingRoute
+  '/dashboard/metricas': typeof DashboardMetricasRoute
+  '/dashboard/pepe': typeof DashboardPepeRoute
+  '/dashboard/retiros': typeof DashboardRetirosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(auth)': typeof authRouteRouteWithChildren
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
-  '/_authenticated/benchmark': typeof AuthenticatedBenchmarkRoute
-  '/_authenticated/jugadores': typeof AuthenticatedJugadoresRoute
-  '/_authenticated/marketing': typeof AuthenticatedMarketingRoute
-  '/_authenticated/metricas': typeof AuthenticatedMetricasRoute
-  '/_authenticated/retiros': typeof AuthenticatedRetirosRoute
+  '/dashboard/benchmark': typeof DashboardBenchmarkRoute
+  '/dashboard/jugadores': typeof DashboardJugadoresRoute
+  '/dashboard/marketing': typeof DashboardMarketingRoute
+  '/dashboard/metricas': typeof DashboardMetricasRoute
+  '/dashboard/pepe': typeof DashboardPepeRoute
+  '/dashboard/retiros': typeof DashboardRetirosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/login'
-    | '/benchmark'
-    | '/jugadores'
-    | '/marketing'
-    | '/metricas'
-    | '/retiros'
+    | '/dashboard/benchmark'
+    | '/dashboard/jugadores'
+    | '/dashboard/marketing'
+    | '/dashboard/metricas'
+    | '/dashboard/pepe'
+    | '/dashboard/retiros'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
     | '/login'
-    | '/benchmark'
-    | '/jugadores'
-    | '/marketing'
-    | '/metricas'
-    | '/retiros'
+    | '/dashboard/benchmark'
+    | '/dashboard/jugadores'
+    | '/dashboard/marketing'
+    | '/dashboard/metricas'
+    | '/dashboard/pepe'
+    | '/dashboard/retiros'
   id:
     | '__root__'
     | '/'
     | '/(auth)'
-    | '/_authenticated'
+    | '/dashboard'
     | '/(auth)/login'
-    | '/_authenticated/benchmark'
-    | '/_authenticated/jugadores'
-    | '/_authenticated/marketing'
-    | '/_authenticated/metricas'
-    | '/_authenticated/retiros'
+    | '/dashboard/benchmark'
+    | '/dashboard/jugadores'
+    | '/dashboard/marketing'
+    | '/dashboard/metricas'
+    | '/dashboard/pepe'
+    | '/dashboard/retiros'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   authRouteRoute: typeof authRouteRouteWithChildren
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)': {
@@ -154,40 +171,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/retiros': {
-      id: '/_authenticated/retiros'
+    '/dashboard/retiros': {
+      id: '/dashboard/retiros'
       path: '/retiros'
-      fullPath: '/retiros'
-      preLoaderRoute: typeof AuthenticatedRetirosRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      fullPath: '/dashboard/retiros'
+      preLoaderRoute: typeof DashboardRetirosRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/_authenticated/metricas': {
-      id: '/_authenticated/metricas'
+    '/dashboard/pepe': {
+      id: '/dashboard/pepe'
+      path: '/pepe'
+      fullPath: '/dashboard/pepe'
+      preLoaderRoute: typeof DashboardPepeRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/metricas': {
+      id: '/dashboard/metricas'
       path: '/metricas'
-      fullPath: '/metricas'
-      preLoaderRoute: typeof AuthenticatedMetricasRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      fullPath: '/dashboard/metricas'
+      preLoaderRoute: typeof DashboardMetricasRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/_authenticated/marketing': {
-      id: '/_authenticated/marketing'
+    '/dashboard/marketing': {
+      id: '/dashboard/marketing'
       path: '/marketing'
-      fullPath: '/marketing'
-      preLoaderRoute: typeof AuthenticatedMarketingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      fullPath: '/dashboard/marketing'
+      preLoaderRoute: typeof DashboardMarketingRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/_authenticated/jugadores': {
-      id: '/_authenticated/jugadores'
+    '/dashboard/jugadores': {
+      id: '/dashboard/jugadores'
       path: '/jugadores'
-      fullPath: '/jugadores'
-      preLoaderRoute: typeof AuthenticatedJugadoresRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      fullPath: '/dashboard/jugadores'
+      preLoaderRoute: typeof DashboardJugadoresRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/_authenticated/benchmark': {
-      id: '/_authenticated/benchmark'
+    '/dashboard/benchmark': {
+      id: '/dashboard/benchmark'
       path: '/benchmark'
-      fullPath: '/benchmark'
-      preLoaderRoute: typeof AuthenticatedBenchmarkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      fullPath: '/dashboard/benchmark'
+      preLoaderRoute: typeof DashboardBenchmarkRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/(auth)/login': {
       id: '/(auth)/login'
@@ -211,29 +235,32 @@ const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
   authRouteRouteChildren,
 )
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedBenchmarkRoute: typeof AuthenticatedBenchmarkRoute
-  AuthenticatedJugadoresRoute: typeof AuthenticatedJugadoresRoute
-  AuthenticatedMarketingRoute: typeof AuthenticatedMarketingRoute
-  AuthenticatedMetricasRoute: typeof AuthenticatedMetricasRoute
-  AuthenticatedRetirosRoute: typeof AuthenticatedRetirosRoute
+interface DashboardRouteRouteChildren {
+  DashboardBenchmarkRoute: typeof DashboardBenchmarkRoute
+  DashboardJugadoresRoute: typeof DashboardJugadoresRoute
+  DashboardMarketingRoute: typeof DashboardMarketingRoute
+  DashboardMetricasRoute: typeof DashboardMetricasRoute
+  DashboardPepeRoute: typeof DashboardPepeRoute
+  DashboardRetirosRoute: typeof DashboardRetirosRoute
 }
 
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedBenchmarkRoute: AuthenticatedBenchmarkRoute,
-  AuthenticatedJugadoresRoute: AuthenticatedJugadoresRoute,
-  AuthenticatedMarketingRoute: AuthenticatedMarketingRoute,
-  AuthenticatedMetricasRoute: AuthenticatedMetricasRoute,
-  AuthenticatedRetirosRoute: AuthenticatedRetirosRoute,
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardBenchmarkRoute: DashboardBenchmarkRoute,
+  DashboardJugadoresRoute: DashboardJugadoresRoute,
+  DashboardMarketingRoute: DashboardMarketingRoute,
+  DashboardMetricasRoute: DashboardMetricasRoute,
+  DashboardPepeRoute: DashboardPepeRoute,
+  DashboardRetirosRoute: DashboardRetirosRoute,
 }
 
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   authRouteRoute: authRouteRouteWithChildren,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

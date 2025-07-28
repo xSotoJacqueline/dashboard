@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { FileIcon } from "lucide-react";
 import { useCsvFilesStore } from "@/lib/store-csv";
 
-export const Route = createFileRoute('/_authenticated/benchmark')({
+export const Route = createFileRoute('/dashboard/benchmark')({
   component: RouteComponent,
 })
 
@@ -24,7 +24,7 @@ function RouteComponent() {
         success: () => {
             clearCsvFiles();
             setIsSubmitting(false);
-            return `${files.length} ${files.length === 1 ? 'archivo añadido' : 'archivos añadidos'}`;
+            return `${files.length} ${files.length === 1 ? `archivo añadido` : `archivos añadidos`}`;
         },
         error: () =>{
             setIsSubmitting(false);

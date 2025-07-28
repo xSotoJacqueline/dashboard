@@ -32,24 +32,25 @@ const data = {
   projects: [
     {
       name: "Retiros",
-      url: "/retiros",
+      url: "/dashboard/retiros",
       icon: CreditCardIcon,
     },
     {
       name: "Métricas",
-      url: "/metricas",
+      url: "/dashboard/metricas",
       icon: ChartLineIcon,
     },
     {
       name: "Marketing",
-      url: "/marketing",
+      url: "/dashboard/marketing",
       icon: SpeechIcon,
     },
     {
       name: "Jugadores",
-      url: "/jugadores",
+      url: "/dashboard/jugadores",
       icon: UserIcon,
-    },    {
+    },
+    {
       name: "Bonos",
       url: "#",
       icon: GiftIcon,
@@ -71,7 +72,7 @@ const data = {
     },
     {
       name: "Benchmark",
-      url: "/benchmark",
+      url: "/dashboard/benchmark",
       icon: ChartNoAxesCombinedIcon,
     }
 

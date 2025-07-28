@@ -13,7 +13,7 @@ import SpecificGamesTab from "@/components/tabs/specific-games-tab";
 import HybridUsersTab from "@/components/tabs/hybrid-users-tab";
 import CategoriesTab from "@/components/tabs/categories-tab";
 
-export const Route = createFileRoute('/_authenticated/jugadores')({
+export const Route = createFileRoute('/dashboard/jugadores')({
   component: RouteComponent,
 })
 

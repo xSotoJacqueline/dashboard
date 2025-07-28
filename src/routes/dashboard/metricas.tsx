@@ -4,7 +4,7 @@ import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { ChartLineLabelBottom } from "@/components/metricas/lineChart-bottom"
 import { GeneralCard, type ValueFormat } from "@/components/card-general"
 
-export const Route = createFileRoute('/_authenticated/metricas')({
+export const Route = createFileRoute('/dashboard/metricas')({
   component: RouteComponent,
 })
 
