@@ -115,7 +115,7 @@ export const DocumentDropZoneWrapper = ({ children, className, isSubmitting }: D
       <input disabled={isSubmitting} {...getInputProps()} />
       <FileIcon className="text-primary-foliatti" size={24}/>
       <div className='flex flex-col items-center justify-center w-full h-fit'>
-        <h2 className='text-xl font-bold'>Arrastra archivos de Excel aquí</h2>
+        <h2 className='text-base text-center sm:text-xl font-bold'>Arrastra archivos de Excel aquí</h2>
         <span className='text-sm text-muted-foreground'>Formatos soportados: .xlsx, .xls, .csv</span>
       </div>
      

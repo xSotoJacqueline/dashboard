@@ -7,9 +7,11 @@ import {
 } from "@/components/ui/sidebar"
 import { Scroller } from "@/components/ui/scroller";
 import { Toaster } from 'sonner';
+import { useIsActiveStore } from '@/lib/active-full-container'
 
 export const Route = createFileRoute('/_authenticated')({
   component: RouteComponent,
+  errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
   async beforeLoad(ctx) {
     const token = await ctx.context.auth?.getToken();
     if (!token)
@@ -20,6 +22,8 @@ export const Route = createFileRoute('/_authenticated')({
 });
 
 function RouteComponent() {
+    const { activeGame } = useIsActiveStore();
+
   return (
     <div className="bg-[#ededed] w-full h-full flex justify-center items-center">
       <div className='w-full relative'>
@@ -29,7 +33,7 @@ function RouteComponent() {
                 <header className=" md:hidden md:fix flex h-fit shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <SidebarTrigger className="-ml-1" />
                 </header>
-                <Scroller hideScrollbar className='h-[95vh] overflow-x-hidden '>
+                <Scroller hideScrollbar size={activeGame ? 0 : 40} style={{containerType: "size"}} className={`h-[95vh] overflow-x-hidden relative ${activeGame ? "overflow-hidden" : ""}`}>
                     <Outlet />
                     <Toaster richColors position='bottom-right' className='' />
                 </Scroller>

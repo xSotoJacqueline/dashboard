@@ -38,7 +38,7 @@ export function HybridUsersDetailsTable() {
            <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">
-                  <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-lg" : "text-xs lg:text-lg"}`}>
+                  <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-lg" : "text-xs lg:text-lg"}`}>
                     <TableHead className="text-left h-fit px-0">Usuario</TableHead>
                     <TableHead className="text-center h-fit px-0">Categoría</TableHead>
                     <TableHead className="text-center h-fit px-0">Total apostado</TableHead>

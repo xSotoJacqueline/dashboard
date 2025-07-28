@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-import { useLocation } from "@tanstack/react-router"
+import { Link, useLocation } from "@tanstack/react-router"
 
 export function NavProjects({
   projects,
@@ -20,7 +20,7 @@ export function NavProjects({
     icon: LucideIcon
   }[]
 }) {
-  
+
   const { pathname } = useLocation();
 
   return (
@@ -33,7 +33,7 @@ export function NavProjects({
                   <div className="absolute group-data-[collapsible=icon]:hidden left-0 w-2 h-8 bg-primary-foliatti rounded-r-full transition-all duration-300 ease-in-out animate-in slide-in-from-left-2" />
                 }            
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start transition-all duration-300 ease-in-out ${
+                    <Link to={item.url} className={`flex gap-3 h-fit items-center !text-base justify-start transition-all duration-300 ease-in-out ${
                       pathname?.startsWith(`${item.url.toLocaleLowerCase()}`)
                         ? 'text-primary-foliatti font-bold transform scale-105'
                         : 'hover:text-primary-foliatti/70'
@@ -41,7 +41,7 @@ export function NavProjects({
 
                     <item.icon strokeWidth={2.5} className="transition-transform duration-300 ease-in-out" />
                     <span className="transition-all duration-300 ease-in-out">{item.name}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
             </div>
           </SidebarMenuItem>

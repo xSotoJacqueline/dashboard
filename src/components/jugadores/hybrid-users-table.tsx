@@ -32,7 +32,7 @@ export function HybridUsersTable() {
            <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">
-                  <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-lg" : "text-xs lg:text-lg"}`}>
+                  <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-lg" : "text-xs lg:text-lg"}`}>
                     <TableHead className="text-start h-fit px-0">Cantidad de usuarios híbridos</TableHead>
                     <TableHead className="text-center h-fit px-0">2 vérticales</TableHead>
                     <TableHead className="text-center h-fit px-0">3 vérticales</TableHead>

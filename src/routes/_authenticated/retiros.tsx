@@ -6,6 +6,9 @@ import { MetricsCardsVariant } from "@/components/Retiros/MetricsCardsVariant"
 
 export const Route = createFileRoute('/_authenticated/retiros')({
   component: RouteComponent,
+    errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
+
+  pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading retiros...</div>,
 })
 
 function RouteComponent() {

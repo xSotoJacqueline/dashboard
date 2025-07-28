@@ -20,7 +20,7 @@ function RouteComponent() {
           <SignedIn>
             <div className='w-full flex items-center justify-between gap-4'>
               <Link className={buttonVariants({ variant: "link" })} to="/retiros">Retiros</Link>
-              <UserButton />
+              <UserButton  appearance = {{elements:{menuItem__emailAddresses:{display:"none"}, profileSection__emailAddresses: {display:"none"} } }} />
             </div>
           </SignedIn>
         </div>
