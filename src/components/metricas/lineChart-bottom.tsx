@@ -82,14 +82,14 @@ export function ChartLineLabelBottom({ className, title }: ChartLineLabelProps) 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="overlay"
+            className="overlay "
           />
         ) : null}
       </AnimatePresence>
 
       <AnimatePresence>
         {activeGame ? (
-          <div className="active-game fixed">
+          <div className="active-game fixed md:absolute">
             <motion.div
               layoutId={`card-${title}`}
               className="inner"

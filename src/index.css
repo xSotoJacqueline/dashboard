@@ -122,10 +122,21 @@
   color: #007aff;
 }
 
+.overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #ededed;
+  place-items: end center;
+
+}
+
 .active-game {
-  position: absolute;
   inset: 0;
   display: grid;
+  place-items: end center;
+  bottom: 0;
   z-index: 20;
   height: 100%;
 }
@@ -161,14 +172,6 @@
 .long-description {
   font-size: 14px;
   color: #63635d;
-}
-
-.overlay {
-  pointer-events: none;
-  position: absolute;
-  z-index: 10;
-  inset: 2;
-  background: #F7F7F7;
 }
 
 

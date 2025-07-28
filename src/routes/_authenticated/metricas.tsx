@@ -3,7 +3,6 @@ import { BarChart3 } from "lucide-react"
 import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { ChartLineLabelBottom } from "@/components/metricas/lineChart-bottom"
 import { GeneralCard, type ValueFormat } from "@/components/card-general"
-import { useIsActiveStore } from '@/lib/active-full-container'
 
 export const Route = createFileRoute('/_authenticated/metricas')({
   component: RouteComponent,
@@ -29,9 +28,8 @@ function RouteComponent() {
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Retención", description: "Tasa de retención", Icon: BarChart3, label: "Últimos 28 días" },
   ]
 
-  const { activeGame } = useIsActiveStore();
   return (
-    <div className={`w-full ${activeGame ? "overflow-clip" : ""} flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
+    <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {values.map((metric, index) => (
           <GeneralCard
