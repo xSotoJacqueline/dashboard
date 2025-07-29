@@ -75,7 +75,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
 			        ref={ref}
             >
               <Card className="w-full h-ful border-0 pb-0 pt-2 px-2 col-span-1">
-                <CardHeader className="flex flex-col items-start px-2">
+                <CardHeader className="flex flex-col items-start px-2 gap-0">
                     <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                         <motion.h2
                           layoutId={`title-${identifier}`}
@@ -83,7 +83,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                         >
                           {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
 
-                          <CardTitle className=" text-base md:text-xl font-semibold">{title}</CardTitle>
+                          <CardTitle className=" text-base md:text-xl font-bold">{title}</CardTitle>
                         </motion.h2>
 
                       <Button onClick={() => setActiveGame(null)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
@@ -92,7 +92,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                     </motion.div>
 
                     <motion.div layoutId={`description-${title}`}>
-                      <CardDescription >
+                      <CardDescription className="text-base text-foreground">
                         {description}
                       </CardDescription>
                     </motion.div>
@@ -110,7 +110,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
 
       <motion.div  layoutId={`card-${identifier || title}`} className="w-full h-full">
         <Card className={cn("w-full h-full border-0 pb-0 ", className)}>
-            <CardHeader className="flex flex-col items-start">
+            <CardHeader className="flex flex-col items-start gap-0">
                 <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                     <motion.h2
                       layoutId={`title-${title}`}
@@ -118,7 +118,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                     >
                       {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
 
-                      <CardTitle className="text-xl font-semibold">{title}</CardTitle>
+                      <CardTitle className="text-xl font-bold">{title}</CardTitle>
                     </motion.h2>
                   {fullScreenButton && (
                     <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
@@ -129,7 +129,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                 </motion.div>
 
                 <motion.div layoutId={`description-${title}`}>
-                  <CardDescription >
+                  <CardDescription className="text-base text-foreground">
                     {description}
                   </CardDescription>
                 </motion.div>

@@ -28,7 +28,7 @@ export function GeneralCard({ title, description, Icon, children, identifier, cl
   return (
     <motion.div  layoutId={`card-${identifier || title}`} className={cn("w-full h-full overflow-hidden", classNameContainer)}>
       <Card className={cn("w-full h-full border-0", className)}>
-          <CardHeader className="flex flex-col items-start">
+          <CardHeader className="flex flex-col items-start gap-0">
               <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                   <motion.h2
                     layoutId={`title-${title}`}
@@ -36,12 +36,12 @@ export function GeneralCard({ title, description, Icon, children, identifier, cl
                   >
                     {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
 
-                    <CardTitle className="text-xl font-semibold">{title}</CardTitle>
+                    <CardTitle className="text-xl font-bold">{title}</CardTitle>
                   </motion.h2>  
               </motion.div>
 
               <motion.div layoutId={`description-${title}`}>
-                <CardDescription >
+                <CardDescription className="text-base text-foreground">
                   {description}
                 </CardDescription>
               </motion.div>

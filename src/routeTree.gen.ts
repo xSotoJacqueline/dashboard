@@ -20,6 +20,7 @@ import { Route as DashboardJugadoresRouteImport } from './routes/dashboard/jugad
 import { Route as DashboardDepositosRouteImport } from './routes/dashboard/depositos'
 import { Route as DashboardBonosRouteImport } from './routes/dashboard/bonos'
 import { Route as DashboardBenchmarkRouteImport } from './routes/dashboard/benchmark'
+import { Route as DashboardAlcancesRouteImport } from './routes/dashboard/alcances'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -76,6 +77,11 @@ const DashboardBenchmarkRoute = DashboardBenchmarkRouteImport.update({
   path: '/benchmark',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardAlcancesRoute = DashboardAlcancesRouteImport.update({
+  id: '/alcances',
+  path: '/alcances',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const authLoginRoute = authLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/': typeof authRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof authLoginRoute
+  '/dashboard/alcances': typeof DashboardAlcancesRoute
   '/dashboard/benchmark': typeof DashboardBenchmarkRoute
   '/dashboard/bonos': typeof DashboardBonosRoute
   '/dashboard/depositos': typeof DashboardDepositosRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/': typeof authRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof authLoginRoute
+  '/dashboard/alcances': typeof DashboardAlcancesRoute
   '/dashboard/benchmark': typeof DashboardBenchmarkRoute
   '/dashboard/bonos': typeof DashboardBonosRoute
   '/dashboard/depositos': typeof DashboardDepositosRoute
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/(auth)': typeof authRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
+  '/dashboard/alcances': typeof DashboardAlcancesRoute
   '/dashboard/benchmark': typeof DashboardBenchmarkRoute
   '/dashboard/bonos': typeof DashboardBonosRoute
   '/dashboard/depositos': typeof DashboardDepositosRoute
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
+    | '/dashboard/alcances'
     | '/dashboard/benchmark'
     | '/dashboard/bonos'
     | '/dashboard/depositos'
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
+    | '/dashboard/alcances'
     | '/dashboard/benchmark'
     | '/dashboard/bonos'
     | '/dashboard/depositos'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
     | '/(auth)'
     | '/dashboard'
     | '/(auth)/login'
+    | '/dashboard/alcances'
     | '/dashboard/benchmark'
     | '/dashboard/bonos'
     | '/dashboard/depositos'
@@ -251,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBenchmarkRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/alcances': {
+      id: '/dashboard/alcances'
+      path: '/alcances'
+      fullPath: '/dashboard/alcances'
+      preLoaderRoute: typeof DashboardAlcancesRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/(auth)/login': {
       id: '/(auth)/login'
       path: '/login'
@@ -274,6 +293,7 @@ const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
 )
 
 interface DashboardRouteRouteChildren {
+  DashboardAlcancesRoute: typeof DashboardAlcancesRoute
   DashboardBenchmarkRoute: typeof DashboardBenchmarkRoute
   DashboardBonosRoute: typeof DashboardBonosRoute
   DashboardDepositosRoute: typeof DashboardDepositosRoute
@@ -285,6 +305,7 @@ interface DashboardRouteRouteChildren {
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardAlcancesRoute: DashboardAlcancesRoute,
   DashboardBenchmarkRoute: DashboardBenchmarkRoute,
   DashboardBonosRoute: DashboardBonosRoute,
   DashboardDepositosRoute: DashboardDepositosRoute,
