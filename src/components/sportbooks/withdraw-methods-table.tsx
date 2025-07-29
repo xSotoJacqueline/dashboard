@@ -31,11 +31,11 @@ const depositMethodsData: DepositMethodsTableItem[] = [
 ]
 
 
-export function DepositMethodsTable() {
+export function WithDrawMethodsTable() {
   const { state } = useSidebar();
 
   return (
-    <GeneralCard identifier="chart1" title="Métodos de depósito" description="Distribución de métodos de pago" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard identifier="chart2" title="Métodos de retiro" description="Jugadores con mayores perdidas" Icon={ChartColumnDecreasingIcon}>
        <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">

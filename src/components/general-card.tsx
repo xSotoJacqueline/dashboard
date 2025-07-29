@@ -25,7 +25,7 @@ type ChartLineLabelProps = {
 export function GeneralCard({ title, description, Icon, children, identifier, className, cardContentClassName }: ChartLineLabelProps) {
 
   return (
-    <motion.div  layoutId={`card-${identifier || title}`} className="w-full h-full">
+    <motion.div  layoutId={`card-${identifier || title}`} className={cn("w-full h-full overflow-hidden", className)}>
       <Card className={cn("w-full h-full border-0 pb-0  px-2", className)}>
           <CardHeader className="flex flex-col items-start px-2">
               <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">

@@ -1,14 +1,8 @@
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-  CardDescription,
-} from "@/components/ui/card"
+
 import { cn } from "@/lib/utils";
 import NumberFlow, { NumberFlowGroup } from '@number-flow/react'
 import { Progress } from "../ui/progress";
-
+import { GeneralCard } from "../general-card";
 export const description = "A line chart with a label"
 export type TrafficSource = {
   source: string;
@@ -24,15 +18,9 @@ export function TrafficSources({ className, trafficSources }: ChartLineLabelProp
     const totalAllVisits = trafficSources.reduce((sum, src) => sum + src.totalVisits, 0);
 
   return (
-    <Card className={cn(`w-full h-fit md:h-full md:pb-0 border-0 col-span-1`, className)}>
-        <CardHeader>
-            <CardTitle className="text-xl font-semibold">Fuentes de Tráfico</CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">
-              De dónde vienen tus visitantes
-            </CardDescription>
-        </CardHeader>
-        <CardContent className="relative sm:pt-0 h-full">
-          <div className="flex flex-col justify-betweenh-full">
+
+    <GeneralCard identifier="chart2" title="Fuentes de Tráfico" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+        <div className="flex flex-col justify-betweenh-full">
             {trafficSources.map((source) => {
               const impactPercentage = (source.totalVisits / totalAllVisits) * 100;
               return (
@@ -72,8 +60,57 @@ export function TrafficSources({ className, trafficSources }: ChartLineLabelProp
                 </div>)
           })}
           </div>
-        </CardContent>
+    </GeneralCard>
+    // <Card className={cn(`w-full h-fit md:h-full md:pb-0 border-0 col-span-1`, className)}>
+    //     <CardHeader>
+    //         <CardTitle className="text-xl font-semibold">Fuentes de Tráfico</CardTitle>
+    //         <CardDescription className="text-sm text-muted-foreground">
+    //           De dónde vienen tus visitantes
+    //         </CardDescription>
+    //     </CardHeader>
+    //     <CardContent className="relative sm:pt-0 h-full">
+    //       <div className="flex flex-col justify-betweenh-full">
+    //         {trafficSources.map((source) => {
+    //           const impactPercentage = (source.totalVisits / totalAllVisits) * 100;
+    //           return (
+    //             <div key={source.source} className="flex flex-col">
+    //                 <span className="text-base font-medium">{source.source}</span>
 
-    </Card>
+    //                 <div className="w-full flex items-start gap-2">
+    //                   <Progress
+    //                     className="h-3"
+    //                     value={impactPercentage}
+    //                   />
+
+    //                   <NumberFlowGroup>
+    //                     <div
+    //                       style={{ ['--number-flow-char-height' as string]: '0.85em'}}
+    //                       className="flex flex-col items-center font-semibold -mt-1"
+    //                     >
+    //                       <NumberFlow
+    //                         value={source.totalVisits}
+    //                         locales="en-US"
+    //                         format={{ style: 'decimal' }}
+    //                         className="text-sm text- font-bold"
+    //                       />
+    //                       <NumberFlow
+    //                         value={source.referenceVisits}
+    //                         locales="en-US"
+    //                         format={{ style: 'percent', maximumFractionDigits: 2, signDisplay: 'always' }}
+    //                         className={cn(
+    //                           'text-xs transition-colors duration-300',
+    //                           source.referenceVisits < 0 ? 'text-red-500' : 'text-emerald-500'
+    //                         )}
+    //                       />
+    //                     </div>
+    //                   </NumberFlowGroup>
+    //                 </div>
+
+    //             </div>)
+    //       })}
+    //       </div>
+    //     </CardContent>
+
+    // </Card>
   )
 }

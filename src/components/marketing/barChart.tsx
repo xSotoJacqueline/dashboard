@@ -1,18 +1,11 @@
 import { CartesianGrid, Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-  CardDescription,
-} from "@/components/ui/card"
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { GeneralCard } from "../general-card"
 
 export const description = "A line chart with a label"
 
@@ -59,72 +52,64 @@ const chartConfig = {
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig
+
 type ChartLineLabelProps = {
   className?: string;
   title: string;
   description?: string;
 }
 
-export function BarChartMarketing({ className, title, description }: ChartLineLabelProps) {
+export function BarChartMarketing({ title, className }: ChartLineLabelProps) {
   return (
-    <Card className={`w-full h-full pb-0 border-0 col-span-1 min-h-96 md:min-h-0 ${className}`}>
-        <CardHeader>
-            <CardTitle className="text-xl font-semibold">{title}</CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">
-              {description ?? "Visitantes únicos en los últimos 28 días"}
-            </CardDescription>
-        </CardHeader>
-        <CardContent className="relative sm:pt-0 h-[calc(100%-theme(spacing.24))]">
-            <ChartContainer config={chartConfig} className="h-full !aspect-auto ">
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      accessibilityLayer
-                      data={chartData}
-                      margin={{
-                        left: -30
+    <GeneralCard className={className} identifier="chart1" title={title} description="Visitantes únicos en los últimos 28 días">
+      <ChartContainer config={chartConfig} className="h-full !aspect-auto ">
+              <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    accessibilityLayer
+                    data={chartData}
+                    margin={{
+                      left: -30
+                    }}
+                  >
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                      dataKey="date"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      minTickGap={32}
+                      tickFormatter={(value) => {
+                        const date = new Date(value)
+                        return date.toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })
                       }}
-                    >
-                      <CartesianGrid vertical={false} />
-                      <XAxis
-                        dataKey="date"
-                        tickLine={false}
-                        axisLine={false}
-                        tickMargin={8}
-                        minTickGap={32}
-                        tickFormatter={(value) => {
-                          const date = new Date(value)
-                          return date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })
-                        }}
-                      />
-                      <YAxis
-                        type="number"
-                        domain={[0, "dataMax"]}
-                        tickFormatter={(value) => `${value}`}
-                      />
-                      <ChartTooltip
-                        content={
-                          <ChartTooltipContent
-                            className="w-[150px]"
-                            nameKey="views"
-                            labelFormatter={(value) => {
-                              return new Date(value).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
-                            }}
-                          />
-                        }
-                      />
-                      <Bar dataKey="desktop" fill="var(--color-lunes)" radius={8} />
-                    </BarChart>
-                </ResponsiveContainer>
-            </ChartContainer>
-        </CardContent>
-
-    </Card>
+                    />
+                    <YAxis
+                      type="number"
+                      domain={[0, "dataMax"]}
+                      tickFormatter={(value) => `${value}`}
+                    />
+                    <ChartTooltip
+                      content={
+                        <ChartTooltipContent
+                          className="w-[150px]"
+                          nameKey="views"
+                          labelFormatter={(value) => {
+                            return new Date(value).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
+                          }}
+                        />
+                      }
+                    />
+                    <Bar dataKey="desktop" fill="var(--color-lunes)" radius={8} />
+                  </BarChart>
+              </ResponsiveContainer>
+      </ChartContainer>
+    </GeneralCard>
   )
 }

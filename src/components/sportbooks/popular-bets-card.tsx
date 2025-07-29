@@ -37,7 +37,7 @@ export function PopularBetsCard({ title, description, Icon}: Props) {
     const impactPercentage = (trafficSources.totalVisits / totalAllVisits) * 100;
 
   return (
-    <GeneralCard className='py-4 gap-1 h-full ' Icon={Icon} title={title} description={description}>
+    <GeneralCard className=' gap-1 h-full ' Icon={Icon} title={title} description={description}>
       <div  className="flex flex-col gap-2 w-full">
             <span className="text-base font-medium">{trafficSources.source}</span>
 

@@ -60,7 +60,6 @@ function RouteComponent() {
                 <TabsTrigger value="peak-hours">Horarios pico</TabsTrigger>
                 <TabsTrigger value="bet-distribution">Distribución de apuestas</TabsTrigger>
                 <TabsTrigger value="online-players">Jugadores online</TabsTrigger>
-
             </TabsList>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>

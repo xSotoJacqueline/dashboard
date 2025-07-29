@@ -45,8 +45,8 @@ function RouteComponent() {
         ))}
       </div>
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
-        <ChartLineLabel  title="Tasa de Adquisición" />
-        <ChartLineLabel  title="Tasa de Desereción" />
+        <ChartLineLabel identifier='chart1'  title="Tasa de Adquisición" />
+        <ChartLineLabel identifier='chart2'  title="Tasa de Deserción" />
       </div>
       
       <div className="w-full h-full max-h-full flex gap-6">

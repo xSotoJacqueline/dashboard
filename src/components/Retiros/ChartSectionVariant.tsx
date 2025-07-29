@@ -1,5 +1,4 @@
 import { Calendar } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Pie, PieChart, ResponsiveContainer } from "recharts"
 import {
   type ChartConfig,
@@ -8,6 +7,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { GeneralCard } from "../general-card"
 
 const chartData = [
   { day: "lunes", visitors: 14.5, fill: "var(--lunes)" },
@@ -57,53 +57,48 @@ export function ChartSection() {
   const isMobile = useIsMobile({MOBILE_BREAKPOINT:900})
   
   return (
-    <Card className="h-full flex border-0 min-h-fit">
-        <CardHeader className="flex gap-2 items-center">
-          <Calendar className="w-5 h-5 text-purple-600" />
-          <CardTitle className="font-semibold text-lg">Días en los que más retiros se realizan</CardTitle>
-        </CardHeader>
-        <CardContent className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
-           <div className="w-full sm:w-fit h-full max-w-xs">
-            <table className="w-full h-full">
-              <thead>
-              <tr className="text-left text-lg font-bold text-primary-foliatti">
-                <th className="flex pl-8 justify-center">Día</th>
-                <th className="pr-2 text-right">%</th>
+    <GeneralCard identifier="chart1" title="Días en los que más retiros se realizan" Icon={Calendar}>
+      <section className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
+          <div className="w-full sm:w-fit h-full max-w-xs">
+          <table className="w-full h-full">
+            <thead>
+            <tr className="text-left text-lg font-bold text-primary-foliatti">
+              <th className="flex pl-8 justify-center">Día</th>
+              <th className="pr-2 text-right">%</th>
+            </tr>
+            </thead>
+            <tbody>
+            {chartData.map((item, index) => (
+              <tr key={index} className="h-9">
+                <td className="align-middle">
+                  <div className="flex relative items-center gap-3 justify-center">
+                    <div className="w-3 absolute left-1 h-3 rounded-full" style={{ backgroundColor: item.fill }} />
+                    <span className="pl-8 text-base font-semibold">{item.day}</span>
+                  </div>
+                </td>
+                <td className="text-sm pl-4 font-medium text-right">{item.visitors}</td>
               </tr>
-              </thead>
-              <tbody>
-              {chartData.map((item, index) => (
-                <tr key={index} className="h-9">
-                  <td className="align-middle">
-                    <div className="flex relative items-center gap-3 justify-center">
-                      <div className="w-3 absolute left-1 h-3 rounded-full" style={{ backgroundColor: item.fill }} />
-                      <span className="pl-8 text-base font-semibold">{item.day}</span>
-                    </div>
-                  </td>
-                  <td className="text-sm pl-4 font-medium text-right">{item.visitors}</td>
-                </tr>
-              ))}
-              </tbody>
-            </table>
-          </div>
-          <ChartContainer config={chartConfig} className="h-[320px] w-[320px] !aspect-auto">
-              <ResponsiveContainer width="100%" height="100%">                
-                <PieChart>
-                  <ChartTooltip
-                    content={<ChartTooltipContent hideLabel />}
-                  />
-                  <Pie
-                    data={chartData}
-                    dataKey="visitors"
-                    nameKey="day"
-                    innerRadius={!isMobile ? 60 : 40}
-                    outerRadius={!isMobile ? 160 : 100}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-          </ChartContainer>
-        </CardContent>
-
-    </Card>
+            ))}
+            </tbody>
+          </table>
+        </div>
+        <ChartContainer config={chartConfig} className="h-[320px] w-[320px] !aspect-auto">
+            <ResponsiveContainer width="100%" height="100%">                
+              <PieChart>
+                <ChartTooltip
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={chartData}
+                  dataKey="visitors"
+                  nameKey="day"
+                  innerRadius={!isMobile ? 60 : 40}
+                  outerRadius={!isMobile ? 160 : 100}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+        </ChartContainer>
+      </section>
+    </GeneralCard>
   )
 }
