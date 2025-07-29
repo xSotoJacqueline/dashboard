@@ -19,7 +19,7 @@ import { ExpandIcon } from "lucide-react"
 import { Button } from "../ui/button"
 import { useIsActiveStore } from "@/lib/active-full-container";
 
-export const description = "A line chart with a label"
+
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },

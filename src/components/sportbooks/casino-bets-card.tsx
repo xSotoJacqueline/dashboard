@@ -4,7 +4,7 @@ import { Progress } from "../ui/progress";
 import { FullSizeCard } from "../fullSize-Card";
 import { type LucideIcon } from "lucide-react";
 
-export const description = "A line chart with a label"
+
 export type TrafficSource = {
   source: string;
   totalVisits: number;
@@ -38,7 +38,7 @@ export function CasinoBetsCard({ title, description, Icon}: Props) {
   const totalAllVisits = trafficSources.reduce((sum, src) => sum + src.totalVisits, 0);
 
   return (
-    <FullSizeCard className='py-4 h-full ' Icon={Icon} fullScreenButton={false} title={title} description={description}>
+    <FullSizeCard className='h-full ' Icon={Icon} fullScreenButton={false} title={title} description={description}>
       <div className="flex gap-4 justify-center items-center w-full h-full">
             {trafficSources.map((source) => {
               const impactPercentage = (source.totalVisits / totalAllVisits) * 100;

@@ -59,9 +59,9 @@ type ChartLineLabelProps = {
   description?: string;
 }
 
-export function BarChartMarketing({ title, className }: ChartLineLabelProps) {
+export function BarChartPerDayMarketing({ title, className }: ChartLineLabelProps) {
   return (
-    <GeneralCard className={className} classNameContainer="col-span-1 md:col-span-4" identifier="chart1" title={title} description="Visitantes únicos en los últimos 28 días">
+    <GeneralCard className={className} classNameContainer="col-span-1 w-full h-full" title={title} description="Visitantes únicos en los últimos 28 días">
       <ChartContainer config={chartConfig} className="h-full !aspect-auto ">
               <ResponsiveContainer width="100%" height="100%">
                   <BarChart

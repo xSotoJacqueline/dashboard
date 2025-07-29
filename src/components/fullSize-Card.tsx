@@ -109,8 +109,8 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
       </AnimatePresence>
 
       <motion.div  layoutId={`card-${identifier || title}`} className="w-full h-full">
-        <Card className={cn("w-full h-full border-0 pb-0  px-2", className)}>
-            <CardHeader className="flex flex-col items-start px-2">
+        <Card className={cn("w-full h-full border-0 pb-0 ", className)}>
+            <CardHeader className="flex flex-col items-start">
                 <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                     <motion.h2
                       layoutId={`title-${title}`}
@@ -134,7 +134,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                   </CardDescription>
                 </motion.div>
             </CardHeader>
-              <CardContent className={cn("h-[calc(100%-theme(spacing.24))] px-2", cardContentClassName)}>
+              <CardContent className={cn("h-[calc(100%-theme(spacing.24))]", cardContentClassName)}>
                 <motion.div  layoutId={`content-${title}`} className="h-full">
                   {children}
                 </motion.div>

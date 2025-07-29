@@ -3,11 +3,11 @@ import { ChartSection } from "@/components/Retiros/ChartSectionVariant"
 import { PlayersSection } from "@/components/Retiros/PlayersSection"
 import { PeakHoursSection } from "@/components/Retiros/PeakHoursSection"
 import { MetricsCardsVariant } from "@/components/Retiros/MetricsCardsVariant"
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const Route = createFileRoute('/dashboard/retiros')({
   component: RouteComponent,
-    errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
-
+  errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
   pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading retiros...</div>,
 })
 
@@ -26,10 +26,13 @@ function RouteComponent() {
           </div>
           
           {/* Right Sidebar */}
-          <div className="w-full xl:w-80  h-full flex flex-col gap-6  justify-between">
-            <PlayersSection />
-            <PeakHoursSection />
-          </div>
+          <ScrollArea className="w-full xl:w-80 h-fit xl:h-[100cqh]">
+            <div className='w-full h-fit xl:h-[100cqh] flex flex-col gap-6 '>
+              <PlayersSection />
+              <PeakHoursSection />
+            </div>
+
+          </ScrollArea>
         </div>
     </div>
   )}

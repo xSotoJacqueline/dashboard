@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import NumberFlow, { NumberFlowGroup } from '@number-flow/react'
 import { Progress } from "../ui/progress";
 import { GeneralCard } from "../general-card";
-export const description = "A line chart with a label"
+
 export type TrafficSource = {
   source: string;
   totalVisits: number;
@@ -19,7 +19,7 @@ export function TrafficSources({ className, trafficSources }: ChartLineLabelProp
 
   return (
 
-    <GeneralCard identifier="chart2" title="Fuentes de Tráfico" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+    <GeneralCard identifier="chart2" title="Fuentes de Tráfico" classNameContainer="col-span-1 md:col-span-2" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
         <div className="flex flex-col justify-betweenh-full">
             {trafficSources.map((source) => {
               const impactPercentage = (source.totalVisits / totalAllVisits) * 100;

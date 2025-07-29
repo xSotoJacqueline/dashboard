@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 
 type ChartLineLabelProps = {
   className?: string;
+  classNameContainer?: string;
   title: string;
   description?: string;
   Icon?: LucideIcon;
@@ -22,12 +23,12 @@ type ChartLineLabelProps = {
   cardContentClassName?: string;
 }
 
-export function GeneralCard({ title, description, Icon, children, identifier, className, cardContentClassName }: ChartLineLabelProps) {
+export function GeneralCard({ title, description, Icon, children, identifier, className, cardContentClassName, classNameContainer }: ChartLineLabelProps) {
 
   return (
-    <motion.div  layoutId={`card-${identifier || title}`} className={cn("w-full h-full overflow-hidden", className)}>
-      <Card className={cn("w-full h-full border-0 pb-0  px-2", className)}>
-          <CardHeader className="flex flex-col items-start px-2">
+    <motion.div  layoutId={`card-${identifier || title}`} className={cn("w-full h-full overflow-hidden", classNameContainer)}>
+      <Card className={cn("w-full h-full border-0", className)}>
+          <CardHeader className="flex flex-col items-start">
               <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                   <motion.h2
                     layoutId={`title-${title}`}
@@ -45,7 +46,7 @@ export function GeneralCard({ title, description, Icon, children, identifier, cl
                 </CardDescription>
               </motion.div>
           </CardHeader>
-            <CardContent className={cn("h-[calc(100%-theme(spacing.24))] px-2", cardContentClassName)}>
+            <CardContent className={cn("h-[calc(100%-theme(spacing.24))]", cardContentClassName)}>
               <motion.div  layoutId={`content-${title}`} className="h-full">
                 {children}
               </motion.div>
