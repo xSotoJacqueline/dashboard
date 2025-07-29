@@ -10,7 +10,7 @@ import {
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
 export type ValueFormat = 'currency' | 'percent' | 'decimal'
-export type GeneralCardProps = {
+export type GeneralCardTopCardProps = {
 	value: number
   title: string
   percentageValue: number
@@ -22,7 +22,7 @@ export type GeneralCardProps = {
   mainNumberClassName?: string
 }
 
-export function GeneralCard({ value, Icon, title, description, label, percentageValue, valueFormat, className }: GeneralCardProps) {
+export function GeneralCardTopCard({ value, Icon, title, description, label, percentageValue, valueFormat, className }: GeneralCardTopCardProps) {
   const canAnimate = useCanAnimate()
   return (
     <Card className="border-0 h-full col-span-1">

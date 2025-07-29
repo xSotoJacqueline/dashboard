@@ -15,6 +15,7 @@ import { ExpandIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { useIsActiveStore } from "@/lib/active-full-container";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 type ChartLineLabelProps = {
   className?: string;
@@ -22,9 +23,12 @@ type ChartLineLabelProps = {
   description?: string;
   Icon?: LucideIcon;
   children: React.ReactNode;
+  identifier?: string;
+  fullScreenButton?: boolean;
+  cardContentClassName?: string;
 }
 
-export function FullSizeCard({ title, description, Icon, children }: ChartLineLabelProps) {
+export function FullSizeCard({ title, description, Icon, children, identifier, className, cardContentClassName, fullScreenButton = true }: ChartLineLabelProps) {
   const [activeGame, setActiveGame] = useState<string | null>(null);
   const { setIsActive } = useIsActiveStore();
 
@@ -65,7 +69,7 @@ export function FullSizeCard({ title, description, Icon, children }: ChartLineLa
         {activeGame ? (
           <div className="active-game fixed md:absolute">
             <motion.div
-              layoutId={`card-${title}`}
+              layoutId={`card-${identifier || title}`}
               className="inner"
               style={{ borderRadius: 12 }}
 			        ref={ref}
@@ -74,7 +78,7 @@ export function FullSizeCard({ title, description, Icon, children }: ChartLineLa
                 <CardHeader className="flex flex-col items-start px-2">
                     <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                         <motion.h2
-                          layoutId={`title-${title}`}
+                          layoutId={`title-${identifier}`}
                           className="game-title flex items-center gap-2"
                         >
                           {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
@@ -104,8 +108,8 @@ export function FullSizeCard({ title, description, Icon, children }: ChartLineLa
         ) : null}
       </AnimatePresence>
 
-      <motion.div  layoutId={`card-${title}`} className="w-full">
-        <Card className="w-full h-full border-0 pb-0  px-2 col-span-1">
+      <motion.div  layoutId={`card-${identifier || title}`} className="w-full h-full">
+        <Card className={cn("w-full h-full border-0 pb-0  px-2", className)}>
             <CardHeader className="flex flex-col items-start px-2">
                 <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                     <motion.h2
@@ -116,10 +120,12 @@ export function FullSizeCard({ title, description, Icon, children }: ChartLineLa
 
                       <CardTitle className="text-xl font-semibold">{title}</CardTitle>
                     </motion.h2>
-
-                  <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
-                    <ExpandIcon size={16} />
-                  </Button>
+                  {fullScreenButton && (
+                    <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
+                      <ExpandIcon size={16} />
+                    </Button>
+                  )}
+                  
                 </motion.div>
 
                 <motion.div layoutId={`description-${title}`}>
@@ -128,7 +134,7 @@ export function FullSizeCard({ title, description, Icon, children }: ChartLineLa
                   </CardDescription>
                 </motion.div>
             </CardHeader>
-              <CardContent className=" h-[calc(100%-theme(spacing.24))] px-2">
+              <CardContent className={cn("h-[calc(100%-theme(spacing.24))] px-2", cardContentClassName)}>
                 <motion.div  layoutId={`content-${title}`} className="h-full">
                   {children}
                 </motion.div>

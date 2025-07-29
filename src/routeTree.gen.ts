@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardSportsbookRouteImport } from './routes/dashboard/sportsbook'
 import { Route as DashboardRetirosRouteImport } from './routes/dashboard/retiros'
 import { Route as DashboardMetricasRouteImport } from './routes/dashboard/metricas'
 import { Route as DashboardMarketingRouteImport } from './routes/dashboard/marketing'
@@ -34,6 +35,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSportsbookRoute = DashboardSportsbookRouteImport.update({
+  id: '/sportsbook',
+  path: '/sportsbook',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardRetirosRoute = DashboardRetirosRouteImport.update({
   id: '/retiros',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/marketing': typeof DashboardMarketingRoute
   '/dashboard/metricas': typeof DashboardMetricasRoute
   '/dashboard/retiros': typeof DashboardRetirosRoute
+  '/dashboard/sportsbook': typeof DashboardSportsbookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof authRouteRouteWithChildren
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/dashboard/marketing': typeof DashboardMarketingRoute
   '/dashboard/metricas': typeof DashboardMetricasRoute
   '/dashboard/retiros': typeof DashboardRetirosRoute
+  '/dashboard/sportsbook': typeof DashboardSportsbookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/dashboard/marketing': typeof DashboardMarketingRoute
   '/dashboard/metricas': typeof DashboardMetricasRoute
   '/dashboard/retiros': typeof DashboardRetirosRoute
+  '/dashboard/sportsbook': typeof DashboardSportsbookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/dashboard/marketing'
     | '/dashboard/metricas'
     | '/dashboard/retiros'
+    | '/dashboard/sportsbook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/dashboard/marketing'
     | '/dashboard/metricas'
     | '/dashboard/retiros'
+    | '/dashboard/sportsbook'
   id:
     | '__root__'
     | '/'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/dashboard/marketing'
     | '/dashboard/metricas'
     | '/dashboard/retiros'
+    | '/dashboard/sportsbook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -182,6 +194,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/sportsbook': {
+      id: '/dashboard/sportsbook'
+      path: '/sportsbook'
+      fullPath: '/dashboard/sportsbook'
+      preLoaderRoute: typeof DashboardSportsbookRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/retiros': {
       id: '/dashboard/retiros'
@@ -262,6 +281,7 @@ interface DashboardRouteRouteChildren {
   DashboardMarketingRoute: typeof DashboardMarketingRoute
   DashboardMetricasRoute: typeof DashboardMetricasRoute
   DashboardRetirosRoute: typeof DashboardRetirosRoute
+  DashboardSportsbookRoute: typeof DashboardSportsbookRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -272,6 +292,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardMarketingRoute: DashboardMarketingRoute,
   DashboardMetricasRoute: DashboardMetricasRoute,
   DashboardRetirosRoute: DashboardRetirosRoute,
+  DashboardSportsbookRoute: DashboardSportsbookRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

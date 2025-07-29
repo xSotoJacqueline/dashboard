@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Gamepad2, ChartLineIcon, Users } from "lucide-react"
-import { GeneralCard, type ValueFormat, type GeneralCardProps } from "@/components/card-general"
+import { GeneralCardTopCard, type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
@@ -28,7 +28,7 @@ function RouteComponent() {
     return random
   }
 
-  const values: GeneralCardProps[] = [
+  const values: GeneralCardTopCardProps[] = [
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Total de Usuarios", Icon: Users, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Usuarios híbridos", Icon: Users, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Ingresos Totales", Icon: ChartLineIcon, label: "Últimos 28 días" },
@@ -39,7 +39,7 @@ function RouteComponent() {
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {values.map((metric, index) => (
-          <GeneralCard
+          <GeneralCardTopCard
             key={index}
             value={metric.value}
             title={metric.title}

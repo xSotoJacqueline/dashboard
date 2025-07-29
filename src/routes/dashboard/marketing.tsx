@@ -4,7 +4,7 @@ import { BarChart3, Circle, ChartLine, UserRoundPlus, Users } from "lucide-react
 import TrafficTab from "@/components/tabs/traffic-tab"
 import type { TrafficSource } from "@/components/tabs/traffic-sources"
 import CampaignTab, { type CampaignPerformanceProps } from "@/components/marketing/campaign-tab"
-import { GeneralCard, type ValueFormat, type GeneralCardProps } from "@/components/card-general"
+import { GeneralCardTopCard, type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
@@ -38,14 +38,14 @@ function RouteComponent() {
     return (random - 40)/1000
   }
 
-  const values: GeneralCardProps[] = [
+  const values: GeneralCardTopCardProps[] = [
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", Icon: ChartLine, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Bonus Rate ", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", Icon: Users, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", Icon: UserRoundPlus, label: "Últimos 28 días" },
   ]
 
-  const campaignValues: GeneralCardProps[] = [
+  const campaignValues: GeneralCardTopCardProps[] = [
     { value: fetchData(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "CTR Promedio", Icon: Circle, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Alcance Total", Icon: ChartLine, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Conversiones", Icon: UserRoundPlus, label: "Últimos 28 días" },
@@ -69,7 +69,7 @@ function RouteComponent() {
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {values.map((metric, index) => (
-          <GeneralCard
+          <GeneralCardTopCard
             key={index}
             value={metric.value}
             title={metric.title}

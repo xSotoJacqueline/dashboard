@@ -1,4 +1,4 @@
-import { GeneralCard, type GeneralCardProps } from "@/components/card-general"
+import { GeneralCardTopCard, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import {
   Card,
   CardTitle,
@@ -17,7 +17,7 @@ export type CampaignPerformanceProps = {
     conversiones: number;
   }
 
-export default function CampaignTab({campaignValues, campaignPerformanceValues}: {campaignValues: GeneralCardProps[], campaignPerformanceValues: CampaignPerformanceProps[]}) {
+export default function CampaignTab({campaignValues, campaignPerformanceValues}: {campaignValues: GeneralCardTopCardProps[], campaignPerformanceValues: CampaignPerformanceProps[]}) {
 
 
 
@@ -25,7 +25,7 @@ export default function CampaignTab({campaignValues, campaignPerformanceValues}:
     <div className="w-full h-full flex flex-col  gap-6">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {campaignValues.map((metric, index) => (
-          <GeneralCard
+          <GeneralCardTopCard
             key={index}
             value={metric.value}
             title={metric.title}

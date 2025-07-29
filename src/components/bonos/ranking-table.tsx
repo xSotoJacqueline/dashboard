@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
   TableBody,
@@ -9,6 +8,7 @@ import {
 } from "@/components/ui/table"
 import { useSidebar } from "../ui/sidebar";
 import { MedalIcon } from "lucide-react";
+import { GeneralCard } from '../general-card';
 
 type RankingBonos = {
   bono: string;
@@ -25,15 +25,8 @@ const rankingBonosData: RankingBonos[] = [
 export function RankingBonosTable() {
   const { state } = useSidebar();
   return (
-    <Card className="h-full w-full flex border-0 gap-2">
-        <CardHeader className="">
-            <div className="flex items-center gap-2">
-              <MedalIcon className="w-5 h-5 text-primary-foliatti" />
-              <CardTitle className="font-semibold text-lg">Ranking de redenciones por bono</CardTitle>
-            </div>
-            <CardDescription>Número de redenciones por bono en los últimos 28 días</CardDescription>
-        </CardHeader>
-        <CardContent className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
+
+    <GeneralCard identifier="chart1" title="Ranking de redenciones por bono" description="Número de redenciones por bono en los últimos 28 días" Icon={MedalIcon}>
            <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">
@@ -54,8 +47,7 @@ export function RankingBonosTable() {
                 </TableBody>
               </Table>
           </div>
-        </CardContent>
+    </GeneralCard>
 
-    </Card>
   )
 }

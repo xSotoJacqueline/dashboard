@@ -26,7 +26,7 @@ export function FirstFTDChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard identifier="chart1" title="FTD’s diarios" description="(Primeros depósitos)">
             <ChartContainer config={chartConfig} className={`${activeGame ? "h-[80cqh]" : "h-[150px]"}  !aspect-auto`}>
                 <BarChart
                     accessibilityLayer

@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { BarChart3 } from "lucide-react"
 import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { ChartLineLabelBottom } from "@/components/metricas/lineChart-bottom"
-import { GeneralCard, type ValueFormat } from "@/components/card-general"
+import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 
 export const Route = createFileRoute('/dashboard/metricas')({
   component: RouteComponent,
@@ -32,7 +32,7 @@ function RouteComponent() {
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {values.map((metric, index) => (
-          <GeneralCard
+          <GeneralCardTopCard
             key={index}
             value={metric.value}
             title={metric.title}
