@@ -13,11 +13,12 @@ import CasinoBetsTab from '@/components/tabs/casino-bets-tab'
 import SoldTicketsTab from '@/components/tabs/sold-tickets-tab'
 import PeakHoursTab from '@/components/tabs/peak-hours-tab';
 import BetDistributionTab from '@/components/tabs/bet-distribution-tab';
+import OnlinePlayersTab from '@/components/tabs/online-players-tab';
 
 export const Route = createFileRoute('/dashboard/sportsbook')({
   component: RouteComponent,
   errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
-
+  pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading sportsbook...</div>,
 })
 
 function RouteComponent() {
@@ -82,6 +83,9 @@ function RouteComponent() {
             </TabsContent>
             <TabsContent className="w-full h-full" value="bet-distribution">
               <BetDistributionTab />
+            </TabsContent>
+            <TabsContent className="w-full h-full" value="online-players">
+              <OnlinePlayersTab />
             </TabsContent>
           
         </Tabs>
