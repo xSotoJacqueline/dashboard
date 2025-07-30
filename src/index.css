@@ -61,6 +61,12 @@
   --color-primary-foliatti:#3c1072;
 }
 
+html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
+
+
+.app {
+    height: 100%;
+}
 
 .list {
   position: relative;
@@ -153,6 +159,8 @@
   overflow: hidden;
   background: white;
   padding: 16px;
+
+
 }
 
 .header {

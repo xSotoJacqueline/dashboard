@@ -67,14 +67,14 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
       </AnimatePresence>
       <AnimatePresence>
         {activeGame ? (
-          <div className="active-game fixed md:absolute">
+          <div className="active-game fixed md:absolute ">
             <motion.div
               layoutId={`card-${identifier || title}`}
-              className="inner"
+              className="inner sm:my-0 my-16 "
               style={{ borderRadius: 12 }}
 			        ref={ref}
             >
-              <Card className="w-full h-ful border-0 pb-0 pt-2 px-2 col-span-1">
+              <Card className="w-full h-full border-0 pb-0 pt-2 px-2 col-span-1">
                 <CardHeader className="flex flex-col items-start px-2 gap-0">
                     <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
                         <motion.h2

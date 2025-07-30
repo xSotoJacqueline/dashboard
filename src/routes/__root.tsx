@@ -28,7 +28,7 @@ export const Route = createRootRouteWithContext<RootRouteContext>()({
   ),
    notFoundComponent: () => {
     return (
-    <main className="w-full h-screen mx-auto flex justify-center items-center bg-[#ededed]">
+    <main className="w-full h-full mx-auto flex justify-center items-center bg-[#ededed]">
         <p className="text-3xl font-bold">Página no encontrada!</p>
     </main>)
   },
