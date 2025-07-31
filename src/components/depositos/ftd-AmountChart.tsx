@@ -27,7 +27,7 @@ export function FTDAmountChart() {
 
     return (
         <FullSizeCard identifier="chart2" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[80cqh]" : "h-[150px]"}  !aspect-auto`}>
+            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
                 <BarChart
                     accessibilityLayer
                     data={chartData}

@@ -25,11 +25,11 @@ function RouteComponent() {
   const { activeGame } = useIsActiveStore();
 
   return (
-    <div  style={{containerType: "size"}} className="bg-[#ededed] fixed w-full h-full flex justify-center items-center">
+    <div  style={{containerType: "size"}} className="bg-[#F7F7F7] dark:bg-[#1f1e1e] fixed w-full h-full flex justify-center items-center">
       <div className='w-full h-full relative'>
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset  className='md:ml-15 w-full sm:mx-10  my-auto overflow-visible bg-[#ededed]'>
+            <SidebarInset  className='md:ml-15 w-full md:mr-10  my-auto overflow-visible bg-[#1f1e1e]'>
                 <header className=" md:hidden md:fix fixed z-50 flex h-fit shrink-0 items-center gap-2 transition-[width,height] px-5 ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <SidebarTrigger className="-ml-1" />
                 </header>

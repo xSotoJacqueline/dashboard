@@ -4,13 +4,19 @@ import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-c
 import { EarningsClientBonosChart } from '@/components/bonos/earningsClientBonosChart'
 import { FTDAmountChart } from '@/components/depositos/ftd-AmountChart'
 import { FirstFTDChart } from '@/components/depositos/first-FTDChart'
+import { useSuspenseQueries } from '@tanstack/react-query'
+import { totalFTDQueryOptions, totalTransactionsByTypeQueryOptions } from '@/queryOptions/queryOptions'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  
+
+  const [{data: firstTimeDepositAverage}, {data: totalTransactionsByType}] = useSuspenseQueries({
+    queries: [totalFTDQueryOptions(), totalTransactionsByTypeQueryOptions()],
+  });
+
   const fetchData = () => {
     const random = (Math.floor(Math.random() * 100.55))
     return (random - 40)/1000
@@ -24,8 +30,8 @@ function RouteComponent() {
   const values = [
     { value: fetchDataValue(), valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Monto total de depósitos", Icon: MedalIcon, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Número de depósitos", Icon: GiftIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "FTD’s", Icon: UsersRoundIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Monto FTD’s", Icon: UserRoundPlus, label: "Últimos 28 días" },
+    { value: firstTimeDepositAverage, valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "FTD’s", Icon: UsersRoundIcon, label: "Últimos 28 días" },
+    { value: totalTransactionsByType.Deposit, valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Monto FTD’s", Icon: UserRoundPlus, label: "Últimos 28 días" },
   ]
 
   return (

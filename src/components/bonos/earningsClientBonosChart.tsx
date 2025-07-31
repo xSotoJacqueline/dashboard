@@ -29,7 +29,7 @@ export function EarningsClientBonosChart() {
 
     return (
         <FullSizeCard identifier="chart3" title="Ganancias generadas por cliente con bonos" description="Número total de clientes que han ganado utilizando bonos" Icon={DollarSignIcon}>
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[80cqh]" : "h-[150px]"}  !aspect-auto`}>
+            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
                 {/* <ResponsiveContainer width="100%" height="100%"> */}
                     <LineChart data={chartData} margin={{ top: 22, right: 30, bottom: 0, left: -30 }}>
                     <CartesianGrid vertical={false} />

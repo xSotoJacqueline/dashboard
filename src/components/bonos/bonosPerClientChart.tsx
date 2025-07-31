@@ -28,7 +28,7 @@ export function BonosPerClientChart() {
 
     return (
         <FullSizeCard identifier="chart2" title="Bonos por Cliente" description="Número total de bonos utilizados por cliente" Icon={GiftIcon}>
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[80cqh]" : "h-[150px]"}  !aspect-auto`}>
+            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
                 {/* <ResponsiveContainer width="100%" height="100%"> */}
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
                     <CartesianGrid vertical={false} />

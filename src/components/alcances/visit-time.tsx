@@ -34,14 +34,14 @@ export function VisitTimeCard({ title, description, values }: Props) {
                   locales="en-US"
                   format={{ style: 'decimal' }}
                   suffix='m '
-                  className="text-6xl font-bold w-fit text-primary-foliatti"
+                  className="text-6xl font-bold w-fit text-primary"
                 />
                 <NumberFlow
                   value={32}
                   locales="en-US"
                   format={{ style: 'decimal' }}
                   suffix='s'
-                  className="text-6xl font-bold w-fit text-primary-foliatti"
+                  className="text-6xl font-bold w-fit text-primary"
                 />
             </div>
             <span className='text- w-fit'>Promedio general</span>
@@ -53,14 +53,14 @@ export function VisitTimeCard({ title, description, values }: Props) {
                   locales="en-US"
                   format={{ style: 'decimal' }}
                   suffix='m '
-                  className="text-6xl font-bold w-fit text-primary-foliatti"
+                  className="text-6xl font-bold w-fit text-primary"
                 />
                 <NumberFlow
                   value={32}
                   locales="en-US"
                   format={{ style: 'decimal' }}
                   suffix='s'
-                  className="text-6xl font-bold w-fit text-primary-foliatti"
+                  className="text-6xl font-bold w-fit text-primary"
                 />
             </div>
             <span className='text- w-fit'>Promedio general</span>

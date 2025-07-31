@@ -36,10 +36,10 @@ export function RankingBonosTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary-foliatti h-2" />
+                  <TableRow className="border-0 text-primary h-2" />
 
                   {rankingBonosData.map((users, index) => (
-                    <TableRow className="border-0 text-primary-foliatti" key={index}>
+                    <TableRow className="border-0 text-primary" key={index}>
                       <TableCell className="text-start px-0">{users.bono}</TableCell>
                       <TableCell className="text-end px-0">{users.redenciones}</TableCell>
                     </TableRow>

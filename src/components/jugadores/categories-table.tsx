@@ -55,10 +55,10 @@ export function CategoriesTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary-foliatti h-2" />
+                  <TableRow className="border-0 text-primary h-2" />
 
                   {specificGamesData.map((games) => (
-                    <TableRow className="border-0 text-primary-foliatti" key={games.game}>
+                    <TableRow className="border-0 text-primary" key={games.game}>
                       <TableCell className="text-start px-0">{games.game}</TableCell>
                       <TableCell className="text-center px-0">{games.category}</TableCell>
                       <TableCell className="text-center px-0">{games.players}</TableCell>

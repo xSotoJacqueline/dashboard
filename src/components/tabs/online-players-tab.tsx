@@ -66,10 +66,10 @@ export default function OnlinePlayersTab() {
             </TableRow>
           </TableHeader>
           <TableBody className="border-0">
-            <TableRow className="border-0 text-primary-foliatti h-2" />
+            <TableRow className="border-0 text-primary h-2" />
 
             {playersData.map((player) => (
-              <TableRow className="border-0 text-primary-foliatti" key={player.username}>
+              <TableRow className="border-0 text-primary" key={player.username}>
                 <TableCell className="text-start px-0">{player.username}</TableCell>
                 <TableCell className="text-center px-0">{getTimeAgo(player.lastBet)}</TableCell>
                 <TableCell className="text-center px-0">{player.betsToday}</TableCell>

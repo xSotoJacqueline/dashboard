@@ -40,10 +40,10 @@ export function HybridUsersTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary-foliatti h-2" />
+                  <TableRow className="border-0 text-primary h-2" />
 
                   {hybridUsersData.map((users, index) => (
-                    <TableRow className="border-0 text-primary-foliatti" key={index}>
+                    <TableRow className="border-0 text-primary" key={index}>
                       <TableCell className="text-start px-0">{users.cuantity}</TableCell>
                       <TableCell className="text-center px-0">{users.twoVerticals}</TableCell>
                       <TableCell className="text-center px-0">{users.threeVerticals}</TableCell>

@@ -34,7 +34,7 @@ export function GeneralCard({ title, description, Icon, children, identifier, cl
                     layoutId={`title-${title}`}
                     className="game-title flex items-center gap-2"
                   >
-                    {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
+                    {Icon && <Icon className="w-5 h-5 text-primary" />}
 
                     <CardTitle className="text-xl font-bold">{title}</CardTitle>
                   </motion.h2>  

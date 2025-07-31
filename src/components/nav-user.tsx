@@ -39,6 +39,8 @@ import {
 } from "@/components/ui/dialog"
 import { buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils"
+import { ThemeSwitcher } from "./theme-switcher"
+
 export function NavUser() {
   const { isSignedIn, user: clerkUser, isLoaded } = useUser()
 
@@ -122,6 +124,9 @@ export function NavUser() {
               </Dialog>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
+            <DropdownMenuItem asChild >
+              <ThemeSwitcher />
+            </DropdownMenuItem>
             <SignOutButton>
               <DropdownMenuItem>
                 <LogOut />

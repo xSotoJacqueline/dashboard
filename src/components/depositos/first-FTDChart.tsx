@@ -6,12 +6,12 @@ import { useIsActiveStore } from "@/lib/active-full-container";
 export function FirstFTDChart() {
     const { activeGame } = useIsActiveStore();
     const chartData = [
-        { month: "January", desktop: 186, mobile: 80 },
-        { month: "February", desktop: 305, mobile: 200 },
-        { month: "March", desktop: 237, mobile: 120 },
-        { month: "April", desktop: 73, mobile: 190 },
-        { month: "May", desktop: 209, mobile: 130 },
-        { month: "June", desktop: 214, mobile: 140 },
+        { date: "07/01/2025 00:51", desktop: 186, mobile: 80 },
+        { date: "07/02/2025 00:51", desktop: 305, mobile: 200 },
+        { date: "07/03/2025 00:51", desktop: 237, mobile: 120 },
+        { date: "07/04/2025 00:51", desktop: 73, mobile: 190 },
+        { date: "07/05/2025 00:51", desktop: 209, mobile: 130 },
+        { date: "07/06/2025 00:51", desktop: 214, mobile: 140 },
     ]
 
     const chartConfig = {
@@ -27,7 +27,7 @@ export function FirstFTDChart() {
 
     return (
         <FullSizeCard identifier="chart1" title="FTD’s diarios" description="(Primeros depósitos)">
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[80cqh]" : "h-[150px]"}  !aspect-auto`}>
+            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
                 <BarChart
                     accessibilityLayer
                     data={chartData}
@@ -43,6 +43,7 @@ export function FirstFTDChart() {
                     tickMargin={8}
                     minTickGap={32}
                     tickFormatter={(value) => {
+                        console.log('value', value)
                         const date = new Date(value)
                         return date.toLocaleDateString("en-US", {
                         month: "short",

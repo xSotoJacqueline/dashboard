@@ -67,7 +67,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
       </AnimatePresence>
       <AnimatePresence>
         {activeGame ? (
-          <div className="active-game top-0 absolute flex items-center justify-center">
+          <div className="active-game absolute flex items-center justify-center">
             <motion.div
               layoutId={`card-${identifier || title}`}
               className="inner mb-5"
@@ -81,7 +81,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                           layoutId={`title-${identifier}`}
                           className="game-title flex items-center gap-2"
                         >
-                          {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
+                          {/* {Icon && <Icon className="w-5 h-5 text-primary" />} */}
 
                           <CardTitle className=" text-base md:text-xl font-bold">{title}</CardTitle>
                         </motion.h2>
@@ -97,7 +97,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                       </CardDescription>
                     </motion.div>
                 </CardHeader>
-                <CardContent className=" h-[calc(100%-theme(spacing.24))] px-2">
+                <CardContent style={{containerType: "size"}} className=" h-[calc(100%-theme(spacing.24))] px-2">
                   <motion.div layoutId={`content-${title}`} className="h-full">
                     {children}
                   </motion.div>
@@ -116,9 +116,9 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                       layoutId={`title-${title}`}
                       className="game-title flex items-center gap-2"
                     >
-                      {Icon && <Icon className="w-5 h-5 text-primary-foliatti" />}
+                      {Icon && <Icon className="w-5 h-5 text-primary" />}
 
-                      <CardTitle className="text-xl font-bold">{title}</CardTitle>
+                      <CardTitle className="text-base md:text-xl font-bold">{title}</CardTitle>
                     </motion.h2>
                   {fullScreenButton && (
                     <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">

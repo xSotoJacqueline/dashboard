@@ -46,10 +46,10 @@ export function HybridUsersDetailsTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary-foliatti h-2" />
+                  <TableRow className="border-0 text-primary h-2" />
 
                   {hybridUsersData.map((users) => (
-                    <TableRow className="border-0 text-primary-foliatti" key={users.username}>
+                    <TableRow className="border-0 text-primary" key={users.username}>
                       <TableCell className="text-start px-0">{users.username}</TableCell>
                       <TableCell className="text-center px-0 flex items-center justify-center w-full">
                         <div className="min-w-[200px] flex items-center justify-start gap-1">

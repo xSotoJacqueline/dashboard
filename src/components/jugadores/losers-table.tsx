@@ -36,7 +36,7 @@ export function LosersTable() {
     <Card className="h-full w-full flex border-0 gap-2">
         <CardHeader className="">
           <div className="flex items-center gap-2">
-            <ChartColumnDecreasingIcon className="w-5 h-5 text-primary-foliatti" />
+            <ChartColumnDecreasingIcon className="w-5 h-5 text-primary" />
             <CardTitle className="font-semibold text-lg">Días en los que más retiros se realizan</CardTitle>
           </div>
 
@@ -54,10 +54,10 @@ export function LosersTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary-foliatti h-2" />
+                  <TableRow className="border-0 text-primary h-2" />
 
                   {losersData.map((loser) => (
-                    <TableRow className="border-0 text-primary-foliatti" key={loser.username}>
+                    <TableRow className="border-0 text-primary" key={loser.username}>
                       <TableCell className="text-start px-0">{loser.username}</TableCell>
                       <TableCell className="text-center px-0">{loser.earnings}</TableCell>
                       <TableCell className="text-center px-0">{loser.gamesPlayed}</TableCell>

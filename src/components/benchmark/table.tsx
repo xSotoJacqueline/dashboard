@@ -1,17 +1,8 @@
-import * as React from "react"
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-  type VisibilityState,
 } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -35,6 +26,8 @@ import { bytesToMegabytes } from "@/lib/unit-convertions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { TableActionBar } from "../table-action-bar"
+import NumberFlow from "@number-flow/react"
+import { useDataTable } from "@/lib/use-data-table"
 
 export type DataColumns = {
   id: number
@@ -45,11 +38,7 @@ export type DataColumns = {
   updatedAt: string
 }
 
-export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+export function BenchMarksTable({ data, loading }: { data: BenchmarkKey[]; loading: boolean }) {
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
@@ -64,7 +53,7 @@ export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
       return res.json();
     },
     onSuccess: () => {
-      toast.success('Benchmark key deleted successfully');
+      toast.success('Archivo Eliminado',{ className: "mb-2" });
       queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
     },
   });
@@ -163,24 +152,42 @@ export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
   },
 ]
 
-  const table = useReactTable({
-    data,
+  const { table } = useDataTable({
+    data: data || [],
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
+    pageCount: 5,
+    enableAdvancedFilter: true,
+    initialState: {
+      sorting: [{ id: 'id', desc: true }],
+      columnPinning: { right: ['actions'] },
     },
-  })
+    defaultColumn: {
+      columns,
+      enableColumnFilter: false,
+    },
+    getRowId: (originalRow) => originalRow.id.toString(),
+    shallow: false,
+    clearOnDefault: true,
+  });
+
+  // const table = useReactTable({
+  //   data,
+  //   columns,
+  //   onSortingChange: setSorting,
+  //   onColumnFiltersChange: setColumnFilters,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   getSortedRowModel: getSortedRowModel(),
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   onColumnVisibilityChange: setColumnVisibility,
+  //   onRowSelectionChange: setRowSelection,
+  //   state: {
+  //     sorting,
+  //     columnFilters,
+  //     columnVisibility,
+  //     rowSelection,
+  //   },
+  // })
 
   return (
     <>
@@ -237,7 +244,7 @@ export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-full text-center"
                 >
                   Sin Archivos
                 </TableCell>
@@ -246,7 +253,61 @@ export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 pt-4">
+
+        <div className="mx-auto flex w-full shrink-0 items-center justify-between gap-1 sm:w-fit sm:justify-center">
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            aria-label="Go to first page"
+            onClick={() => table.setPageIndex(0)}
+            disabled={loading || !table.getCanPreviousPage()}
+          >
+            <ChevronsLeft size={16} />
+          </Button>
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            disabled={loading || table.getState().pagination.pageIndex + 1 === 1}
+            onClick={() => table.previousPage()}
+          >
+            <ChevronLeft size={16} />
+          </Button>
+          <div className="mx-2 flex items-center space-x-1 text-sm tabular-nums">
+            <span className="text-muted-foreground flex min-w-5 items-center">
+              <NumberFlow value={table.getState().pagination.pageIndex + 1} />
+            </span>
+            <span className="text-muted-foreground flex items-center gap-1">
+              /{' '}
+              {loading ? (
+                <div className="h-4 w-5 animate-pulse rounded-sm bg-slate-200/50" />
+              ) : (
+                table.getPageCount()
+              )}
+            </span>
+          </div>
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            disabled={loading || table.getState().pagination.pageIndex + 1 === table.getPageCount()}
+            onClick={() => table.nextPage()}
+          >
+            <ChevronRight size={16} />
+          </Button>
+          <Button
+            size={'icon'}
+            variant={'secondary'}
+            className="h-fit w-fit p-2"
+            aria-label="Go to first page"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={loading || !table.getCanNextPage()}
+          >
+            <ChevronsRight size={16} />
+          </Button>
+        </div>
+      {/* <div className="flex items-center justify-end space-x-2 pt-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -269,7 +330,7 @@ export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
             Next
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
 
     <TableActionBar table={table} loading={false} />

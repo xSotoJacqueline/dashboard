@@ -25,12 +25,12 @@ export type GeneralCardTopCardProps = {
 export function GeneralCardTopCard({ value, Icon, title, description, label, percentageValue, valueFormat, className }: GeneralCardTopCardProps) {
   const canAnimate = useCanAnimate()
   return (
-    <Card className="border-0 h-full col-span-1">
+    <Card className="border-0 h-full col-span-1 overflow-hidden">
       <CardContent className={cn(`flex px-4 flex-col ${description ? '' : 'gap-3'}`, className)}>
         <section>
           <div className="flex justify-between items-center gap-2">
             <h2 className="text-xl font-bold line-clamp-1">{title}</h2>
-            <Icon size={20} strokeWidth={2} className="text-primary-foliatti"/>
+            <Icon size={20} strokeWidth={2} className="text-primary"/>
           </div>
           <div className="">
             <span className="text-xs text-gray-600 line-clamp-1">{description}</span>
@@ -41,7 +41,7 @@ export function GeneralCardTopCard({ value, Icon, title, description, label, per
           value={valueFormat === "percent" ? value / 100 : value}
           locales="en-US"
           format={{ style: valueFormat, currency: 'USD' }}
-          className="text-5xl font-bold"
+          className="text-5xl md:text-4xl font-bold"
         />
         {/* <div className="text-5xl font-bold mb-2">{value}</div> */}
         <div className="flex xl:flex-row  lg:items-start lg:flex-col items-center justify-between w-full">

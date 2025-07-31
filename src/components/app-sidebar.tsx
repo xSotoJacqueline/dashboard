@@ -81,19 +81,19 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar className="ml-10 my-auto max-h-[95cqh] rounded-2xl bg-white pl-0" collapsible="icon" {...props}>
+    <Sidebar className="ml-10 my-auto max-h-[95cqh] rounded-2xl pl-0" collapsible="icon" {...props}>
       <SidebarHeader className="rounded-t-3xl mt-5 px-6">
-        <SidebarGroupLabel className="text-lg font-bold text-black">Menú</SidebarGroupLabel>
+        <SidebarGroupLabel className="text-lg font-bold text-foreground">Menú</SidebarGroupLabel>
       </SidebarHeader>
       <SidebarContent className="overflow-hidden ">       
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter className="px-7 group-data-[collapsible=icon]:px-2">
-        <SidebarGroupLabel className="text-base px-0 font-bold text-black">Filtrar período</SidebarGroupLabel>
+        <SidebarGroupLabel className="text-base px-0 font-bold text-foreground">Filtrar período</SidebarGroupLabel>
         <NavCalendar />
         <NavUser/>
       </SidebarFooter>
-      <SidebarRail className="rounded-3xl max-h-[90cqh] my-auto"/>
+      <SidebarRail className="rounded-3xl max-h-[90cqh] my-auto bg-transparent"/>
     </Sidebar>
   )
 }

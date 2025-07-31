@@ -46,10 +46,10 @@ export function TicketsTable({title, description, Icon, identifier}: {title: str
                   </TableRow>
                 </TableHeader>
                 <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary-foliatti h-2" />
+                  <TableRow className="border-0 text-primary h-2" />
 
                   {ticketsData.map((deposit) => (
-                    <TableRow className="border-0 text-primary-foliatti" key={deposit.event}>
+                    <TableRow className="border-0 text-primary" key={deposit.event}>
                       <TableCell className="text-start px-0">{deposit.event}</TableCell>
                       <TableCell className="text-center px-0">{deposit.tickets}</TableCell>
                       <TableCell className="text-right px-0">{deposit.earnings}</TableCell>
