@@ -41,7 +41,7 @@ export function GeneralCardTopCard({ value, Icon, title, description, label, per
           value={valueFormat === "percent" ? value / 100 : value}
           locales="en-US"
           format={{ style: valueFormat, currency: 'USD' }}
-          className="text-5xl md:text-4xl font-bold"
+          className="text-5xl md:text-3xl font-bold"
         />
         {/* <div className="text-5xl font-bold mb-2">{value}</div> */}
         <div className="flex xl:flex-row  lg:items-start lg:flex-col items-center justify-between w-full">

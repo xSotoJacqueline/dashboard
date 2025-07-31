@@ -1,59 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { UsersRoundIcon, UserRoundPlus, MedalIcon, GiftIcon } from "lucide-react"
-import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 import { EarningsClientBonosChart } from '@/components/bonos/earningsClientBonosChart'
 import { FTDAmountChart } from '@/components/depositos/ftd-AmountChart'
 import { FirstFTDChart } from '@/components/depositos/first-FTDChart'
-import { useSuspenseQueries } from '@tanstack/react-query'
-import { totalFTDQueryOptions, totalTransactionsByTypeQueryOptions } from '@/queryOptions/queryOptions'
 import ErrorPage from '@/components/errorPage'
+import DespistosTopCards from '@/components/depositos/despistos-top-cards'
+import { Suspense } from 'react'
+import CardLoading from '@/components/loading-card'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   component: RouteComponent,
-  pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading retiros...</div>,
   errorComponent: ({error}) => <ErrorPage error={error.message} />,
-
 })
 
 function RouteComponent() {
 
-  const [{data: firstTimeDepositAverage}, {data: totalTransactionsByType}] = useSuspenseQueries({
-    queries: [totalFTDQueryOptions(), totalTransactionsByTypeQueryOptions()],
-  });
-
-  const fetchData = () => {
-    const random = (Math.floor(Math.random() * 100.55))
-    return (random - 40)/1000
-  }
-
-  const fetchDataValue = () => {
-    const random = (Math.floor(Math.random() * 100))
-    return random
-  }
-
-  const values = [
-    { value: fetchDataValue(), valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Monto total de depósitos", Icon: MedalIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Número de depósitos", Icon: GiftIcon, label: "Últimos 28 días" },
-    { value: firstTimeDepositAverage, valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "FTD’s", Icon: UsersRoundIcon, label: "Últimos 28 días" },
-    { value: totalTransactionsByType.Deposit, valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Monto FTD’s", Icon: UserRoundPlus, label: "Últimos 28 días" },
-  ]
-
   return (
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
-      <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {values.map((metric, index) => (
-          <GeneralCardTopCard
-            key={index}
-            value={metric.value}
-            title={metric.title}
-            Icon={metric.Icon}
-            label={metric.label}
-            percentageValue={metric.percentageValue}
-            valueFormat={metric.valueFormat}
-          />
-        ))}
-      </div>
-            
+        <Suspense
+          fallback={
+            <CardLoading className="w-full min-h-[841.2px] max-h-[841.2px] md:min-h-[354.6px] lg:min-h-[185.3px] xl:min-h-[165.3px] md:max-h-[354.6px] lg:max-h-[185.3px] xl:max-h-[165.3px] animate-pulse" children={<p></p>} />
+          }
+        >
+          <DespistosTopCards />
+        </Suspense>
+
       <div className="w-full h-full max-h-full flex gap-6">
         <EarningsClientBonosChart />
       </div>

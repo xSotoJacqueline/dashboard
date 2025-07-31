@@ -6,13 +6,14 @@ type CardLoadingProps = {
     icon?: boolean;
     description?: boolean
     title?: boolean;
+    children?: React.ReactNode;
 
 };
 
-export default function CardLoading({ className, icon, description, title }: CardLoadingProps) {
+export default function CardLoading({ className, icon, description, title, children }: CardLoadingProps) {
 
   return (
-    <Card className={cn("w-full h-full min-h-fit", className)}>
+    <Card className={cn("w-full h-full min-h-fit bg-foreground/10", className)}>
         <CardHeader className="">
             <CardTitle className="text-xl font-bold flex gap-2 items-center">
                 {icon && <div className="animate-pulse bg-foreground/10 size-6 rounded-sm"/>}
@@ -21,7 +22,7 @@ export default function CardLoading({ className, icon, description, title }: Car
             <CardDescription>{description && <div className="animate-pulse bg-foreground/10 h-4 w-96 rounded-full"/>}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 h-full">
-         <div className="animate-pulse bg-foreground/10 h-full w-full rounded-md"/>
+            {children ? children : <div className="animate-pulse bg-foreground/10 h-full w-full rounded-md"/>}
         </CardContent>
     </Card>
   )
