@@ -8,10 +8,21 @@ import { useCsvFilesStore } from "@/lib/store-csv";
 import CardFiles from '@/components/benchmark/card-files';
 import CardLoading from '@/components/loading-card';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import ErrorPage from '@/components/errorPage';
+
+type ProductSearch = {
+  page?: number
+}
 
 export const Route = createFileRoute('/dashboard/benchmark')({
+    validateSearch: (search: Record<string, unknown>): ProductSearch => {
+    // validate and parse the search params into a typed state
+    return {
+      page: Number(search?.page ?? 1),
+    }
+  },
   component: RouteComponent,
-  errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
 })
 
 function RouteComponent() {

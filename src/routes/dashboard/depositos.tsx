@@ -6,9 +6,13 @@ import { FTDAmountChart } from '@/components/depositos/ftd-AmountChart'
 import { FirstFTDChart } from '@/components/depositos/first-FTDChart'
 import { useSuspenseQueries } from '@tanstack/react-query'
 import { totalFTDQueryOptions, totalTransactionsByTypeQueryOptions } from '@/queryOptions/queryOptions'
+import ErrorPage from '@/components/errorPage'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   component: RouteComponent,
+  pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading retiros...</div>,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
+
 })
 
 function RouteComponent() {

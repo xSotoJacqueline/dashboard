@@ -21,24 +21,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import type { BenchmarkKey } from "./card-files"
 import { bytesToMegabytes } from "@/lib/unit-convertions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { TableActionBar } from "../table-action-bar"
 import NumberFlow from "@number-flow/react"
 import { useDataTable } from "@/lib/use-data-table"
+import { type BenchmarkKey } from "@/queryOptions/queryOptions"
+import { benchmarkKeysQueryOptions } from "@/queryOptions/queryOptions";
 
-export type DataColumns = {
-  id: number
-  key: string
-  name: string
-  size: string
-  createdAt: string
-  updatedAt: string
+
+interface DataColumns {
+  id: number;
+  key: string;
+  name: string;
+  size: string;
+  url: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export function BenchMarksTable({ data, loading }: { data: BenchmarkKey[]; loading: boolean }) {
+export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading: boolean }) {
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
@@ -54,11 +57,11 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey[]; loadi
     },
     onSuccess: () => {
       toast.success('Archivo Eliminado',{ className: "mb-2" });
-      queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
+      queryClient.invalidateQueries({ queryKey: benchmarkKeysQueryOptions().queryKey });
     },
   });
 
-  const columns: ColumnDef<BenchmarkKey>[] = [
+  const columns: ColumnDef<DataColumns>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -153,9 +156,9 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey[]; loadi
 ]
 
   const { table } = useDataTable({
-    data: data || [],
+    data: data.data || [],
     columns,
-    pageCount: 5,
+    pageCount: data.totalPages,
     enableAdvancedFilter: true,
     initialState: {
       sorting: [{ id: 'id', desc: true }],
@@ -254,7 +257,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey[]; loadi
         </Table>
       </div>
 
-        <div className="mx-auto flex w-full shrink-0 items-center justify-between gap-1 sm:w-fit sm:justify-center">
+        <div className="flex w-full items-center justify-end gap-1 sm:justify-end">
           <Button
             size={'icon'}
             className="h-fit w-fit p-2"

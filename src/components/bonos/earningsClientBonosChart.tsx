@@ -6,7 +6,6 @@ import { DollarSignIcon } from "lucide-react";
 
 export function EarningsClientBonosChart() {
     const { activeGame } = useIsActiveStore();
-    console.log("activeGame", activeGame);
     const chartData = [
         { month: "January", desktop: 186, mobile: 80 },
         { month: "February", desktop: 305, mobile: 200 },

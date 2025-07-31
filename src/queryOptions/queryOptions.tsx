@@ -6,13 +6,19 @@ export type totalTransactionsByType ={
 }
 
 export interface BenchmarkKey {
-  id: number;
-  key: string;
-  name: string;
-  size: string;
-  url: string;
-  createdAt: Date;
-  updatedAt: Date;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    total: number;
+    data: {  
+        id: number;
+        key: string;
+        name: string;
+        size: string;
+        url: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]
 }
 
 export function totalFTDQueryOptions() {
@@ -47,20 +53,16 @@ export function totalTransactionsByTypeQueryOptions() {
   });
 }
 
-// export function benchmarkKeysInfinityQueryOptions() {
-//   return infiniteQueryOptions({
-//         queryKey: ['benchmarkKeysInfinity'],
-//     queryFn: async () : Promise<BenchmarkKey[]> => {
-//       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-//       const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls`);
-//       if (!res.ok) {
-//         throw new Error('Failed to fetch benchmark keys');
-//       }
-//       return res.json();
-//     },
-//     initialPageParam: 1,
-//     getNextPageParam: (lastPage) => {
-//         return lastPage.Pagination.CurrentPage
-//     }
-//   });
-// }
+export function benchmarkKeysQueryOptions({pageParam}: {pageParam?: number} = {}) {
+    return queryOptions({
+    queryKey: ['benchmarkKeys', pageParam],
+    queryFn: async () : Promise<BenchmarkKey> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls?page=${pageParam || 1}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch benchmark keys');
+      }
+      return res.json();
+    },
+  });
+}

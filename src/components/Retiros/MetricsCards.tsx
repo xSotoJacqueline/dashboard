@@ -14,7 +14,7 @@ export function MetricsCards() {
             <span className="text-sm text-gray-600">Total de retiros</span>
           </div>
           <div className="text-5xl font-bold mb-2">420</div>
-          <div className="text-sm text-gray-600 mb-3">Transacciones gay x2</div>
+          <div className="text-sm text-gray-600 mb-3">Transacciones</div>
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Últimos 28 días</span>
             <Badge className="bg-green-500 hover:bg-green-500 text-white text-xs px-2 py-1">+2.5</Badge>

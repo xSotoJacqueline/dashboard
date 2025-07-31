@@ -11,10 +11,11 @@ import {
 import CasinoBetsTab from '@/components/tabs/casino-bets-tab'
 import PeakHoursTab from '@/components/tabs/peak-hours-tab';
 import OverviewTab from '@/components/tabs/overview-tab';
+import ErrorPage from '@/components/errorPage';
 
 export const Route = createFileRoute('/dashboard/alcances')({
   component: RouteComponent,
-  errorComponent: ({error}) => <div className="w-full h-full flex items-center justify-center">Error loading authenticated routes: {error.message}</div>,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
   pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading sportsbook...</div>,
 })
 

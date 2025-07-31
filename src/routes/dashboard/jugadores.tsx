@@ -12,9 +12,12 @@ import TopUsersTab from "@/components/tabs/top-users-tab"
 import SpecificGamesTab from "@/components/tabs/specific-games-tab";
 import HybridUsersTab from "@/components/tabs/hybrid-users-tab";
 import CategoriesTab from "@/components/tabs/categories-tab";
+import ErrorPage from '@/components/errorPage';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
   component: RouteComponent,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
+  
 })
 
 function RouteComponent() {

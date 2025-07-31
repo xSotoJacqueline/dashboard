@@ -85,7 +85,6 @@ export const DocumentDropZoneWrapper = ({ children, className, isSubmitting }: D
     });
   };
   const onFileDropRejected = () => {
-    console.log('File drop rejected');
     toast.error("Error al procesar el archivo. Asegúrate de que sea un archivo válido.");
   };
 

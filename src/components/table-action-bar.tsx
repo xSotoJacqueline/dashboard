@@ -169,7 +169,6 @@ export function TableActionBar<TData extends { id: number }>({
     try {
       const ids = rows.map((row) => row.original.id);
       mutate(ids);
-      console.log('Deleting IDs:', ids);
     } catch (error) {
       toast.error((`Error deleting records`));
       console.error('Error deleting record:', error);

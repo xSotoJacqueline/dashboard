@@ -235,8 +235,8 @@ html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foliatti:#57209a;
+  --primary: #6f30ba;
+  --primary-foliatti:#6f30ba;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);

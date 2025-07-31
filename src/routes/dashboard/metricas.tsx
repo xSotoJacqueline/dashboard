@@ -2,9 +2,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { BarChart3 } from "lucide-react"
 import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
+import ErrorPage from '@/components/errorPage'
 
 export const Route = createFileRoute('/dashboard/metricas')({
   component: RouteComponent,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
+  
 })
 
 function RouteComponent() {

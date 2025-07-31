@@ -13,9 +13,12 @@ import {
   TabsTrigger,
 } from "@/components/ui/animated-tabs";
 import PlayersTab from "@/components/tabs/players-tab"
+import ErrorPage from '@/components/errorPage'
 
 export const Route = createFileRoute('/dashboard/marketing')({
   component: RouteComponent,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
+  
 })
 
 function RouteComponent() {

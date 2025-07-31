@@ -6,7 +6,7 @@ export const ThemeSwitcher = () => {
   const { isDarkMode, toggle } = useTheme();
 
   return (
-    <div className="bg-muted flex items-center justify-center gap-x-1 rounded-full p-1">
+    <div className="bg-muted flex items-center justify-center gap-x-1 rounded-sm p-1">
       <button
         className="text-muted-foreground relative z-10 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:text-foreground"
         onClick={() => toggle()}

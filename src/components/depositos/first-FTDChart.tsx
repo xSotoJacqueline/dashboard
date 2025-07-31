@@ -43,7 +43,6 @@ export function FirstFTDChart() {
                     tickMargin={8}
                     minTickGap={32}
                     tickFormatter={(value) => {
-                        console.log('value', value)
                         const date = new Date(value)
                         return date.toLocaleDateString("en-US", {
                         month: "short",

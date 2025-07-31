@@ -2,32 +2,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { FileIcon } from "lucide-react";
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { BenchMarksTable } from "./table";
+import { benchmarkKeysQueryOptions } from "@/queryOptions/queryOptions";
+import { useSearch } from '@tanstack/react-router';
 
-export interface BenchmarkKey {
-  id: number;
-  key: string;
-  name: string;
-  size: string;
-  url: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 export default function CardFiles() {
 
-  const {data, isPending} = useSuspenseQuery({
-    queryKey: ['benchmarkKeys'],
-    queryFn: async () : Promise<BenchmarkKey[]> => {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls`);
-      if (!res.ok) {
-        throw new Error('Failed to fetch benchmark keys');
-      }
-      return res.json();
-    },
-    refetchOnWindowFocus: false,
-  });
-
+  const search = useSearch({ from: '/dashboard/benchmark' });
+  const page = search.page || 1;
+  console.log("search", search.page);
+  const {data, isPending} = useSuspenseQuery(benchmarkKeysQueryOptions({pageParam: page}));
+  
   return (
     <Card className="w-full h-full min-h-fit">
         <CardHeader className="gap-0 space-y-0">

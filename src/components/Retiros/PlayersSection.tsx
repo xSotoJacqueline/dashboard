@@ -1,5 +1,5 @@
 
-import { ChevronDown, User } from "lucide-react"
+import { User } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Accordion,
@@ -12,35 +12,35 @@ import { buttonVariants } from "../ui/button"
 const playersData = [
   {
     id: 1,
-    name: "xsotojacqueline",
+    name: "Jugador 1",
     details: {
       montoPromedio: "$100",
       numeroRetiros: "5",
       periodo: "Últimos 28 días",
     },
   },
-  { id: 2, name: "rodrigoespino",
+  { id: 2, name: "Jugador 2",
     details: {
       montoPromedio: "$100",
       numeroRetiros: "5",
       periodo: "Últimos 28 días",
     },
    },
-  { id: 3, name: "gyroo",
+  { id: 3, name: "Jugador 3",
     details: {
       montoPromedio: "$100",
       numeroRetiros: "5",
       periodo: "Últimos 28 días",
     },
    },
-  { id: 4, name: "jahz32",
+  { id: 4, name: "Jugador 4",
     details: {
       montoPromedio: "$100",
       numeroRetiros: "5",
       periodo: "Últimos 28 días",
     },
    },
-  { id: 5, name: "oscar20_play",
+  { id: 5, name: "Jugador 5",
     details: {
       montoPromedio: "$100",
       numeroRetiros: "5",
@@ -77,16 +77,15 @@ export function PlayersSection() {
                 {player.details && (
                   <AccordionContent className="px-9 py-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Monto promedio de retiro:</span>
+                      <span className="text-gray-600">Retiro promedio:</span>
                       <span className="font-medium">{player.details.montoPromedio}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Número de retiros en el mes:</span>
+                      <span className="text-gray-600">Retiros/Mes:</span>
                       <span className="font-medium">{player.details.numeroRetiros}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-gray-600">{player.details.periodo}</span>
-                      <ChevronDown className="w-4 h-4" />
                     </div>
                   </AccordionContent>
                 )}

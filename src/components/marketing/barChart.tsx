@@ -1,4 +1,4 @@
-import { CartesianGrid, Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Bar, BarChart, XAxis, YAxis } from "recharts"
 import {
   type ChartConfig,
   ChartContainer,
@@ -63,7 +63,7 @@ export function BarChartMarketing({ title, className }: ChartLineLabelProps) {
   return (
     <GeneralCard className={className} classNameContainer="col-span-1 md:col-span-4" identifier="chart1" title={title} description="Visitantes únicos en los últimos 28 días">
       <ChartContainer config={chartConfig} className="h-full !aspect-auto ">
-              <ResponsiveContainer width="100%" height="100%">
+              {/* <ResponsiveContainer width="100%" height="100%"> */}
                   <BarChart
                     accessibilityLayer
                     data={chartData}
@@ -108,7 +108,7 @@ export function BarChartMarketing({ title, className }: ChartLineLabelProps) {
                     />
                     <Bar dataKey="desktop" fill="var(--color-lunes)" radius={8} />
                   </BarChart>
-              </ResponsiveContainer>
+              {/* </ResponsiveContainer> */}
       </ChartContainer>
     </GeneralCard>
   )

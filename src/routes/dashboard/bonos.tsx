@@ -4,9 +4,12 @@ import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-c
 import { RankingBonosTable } from '@/components/bonos/ranking-table'
 import { BonosPerClientChart } from '@/components/bonos/bonosPerClientChart'
 import { EarningsClientBonosChart } from '@/components/bonos/earningsClientBonosChart'
+import ErrorPage from '@/components/errorPage'
 
 export const Route = createFileRoute('/dashboard/bonos')({
   component: RouteComponent,
+  errorComponent: ({error}) => <ErrorPage error={error.message} />,
+  
 })
 
 function RouteComponent() {

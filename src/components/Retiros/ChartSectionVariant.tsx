@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react"
-import { Pie, PieChart, ResponsiveContainer } from "recharts"
+import { Pie, PieChart } from "recharts"
 import {
   type ChartConfig,
   ChartContainer,
@@ -83,7 +83,7 @@ export function ChartSection() {
           </table>
         </div>
         <ChartContainer config={chartConfig} className="h-[320px] w-[320px] !aspect-auto">
-            <ResponsiveContainer width="100%" height="100%">                
+            {/* <ResponsiveContainer width="100%" height="100%">                 */}
               <PieChart>
                 <ChartTooltip
                   content={<ChartTooltipContent hideLabel />}
@@ -96,7 +96,7 @@ export function ChartSection() {
                   outerRadius={!isMobile ? 160 : 100}
                 />
               </PieChart>
-            </ResponsiveContainer>
+            {/* </ResponsiveContainer> */}
         </ChartContainer>
       </section>
     </GeneralCard>
