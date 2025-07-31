@@ -1,12 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import CsvUploadInput from "@/components/benchmark/csv-input"
 import { DocumentDropZoneWrapper } from "@/components/benchmark/dropzone";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from 'sonner';
 import { useCsvFilesStore } from "@/lib/store-csv";
 import CardFiles from '@/components/benchmark/card-files';
 import CardLoading from '@/components/loading-card';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/dashboard/benchmark')({
   component: RouteComponent,
@@ -16,24 +17,39 @@ export const Route = createFileRoute('/dashboard/benchmark')({
 function RouteComponent() {
 
   const { clearCsvFiles } = useCsvFilesStore();
+  const queryClient = useQueryClient()
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate, isPending  } = useMutation({
+      mutationKey: ['uploadCsvFiles'],
+      mutationFn: async (files: File[]) => {
+        const formdata = new FormData();
+        files.forEach((file) => {
+          formdata.append('files', file);
+        });
+  
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+        const res = await fetch(`${API_BASE_URL}/benchmark/many`, {
+          method: 'POST',
+          body: formdata,
+        });
+        if (!res.ok) {
+          throw new Error('Failed to delete benchmark key');
+        }
+        return res.json();
+      },
+      onSuccess: () => {
+        toast.success('Archivos subidos correctamente');
+        queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
+        clearCsvFiles();
+      },
+      onError: (error) => {
+        toast.error(`Error al subir archivos: ${error.message}`);
+      },
+  
+  });
 
   const handleCsvUpload = (files: File[]) => {
-    const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
-    setIsSubmitting(true);
-    toast.promise(promise, {
-        loading: 'Cargando...',
-        success: () => {
-            clearCsvFiles();
-            setIsSubmitting(false);
-            return `${files.length} ${files.length === 1 ? `archivo añadido` : `archivos añadidos`}`;
-        },
-        error: () =>{
-            setIsSubmitting(false);
-            return 'Error al añadir archivos';
-        }
-    });
+    mutate(files);
   };
 
   return (
@@ -44,8 +60,8 @@ function RouteComponent() {
           <CardDescription className="text-foreground text-base">Arrastra o selecciona archivos de Excel o haz clic para seleccionar</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col h-full py-0">
-            <DocumentDropZoneWrapper isSubmitting={isSubmitting}>
-                <CsvUploadInput multiple={true} isSubmitting={isSubmitting} onMultipleUpload={handleCsvUpload} />
+            <DocumentDropZoneWrapper isSubmitting={isPending}>
+                <CsvUploadInput multiple={true} onMultipleUpload={handleCsvUpload} isSubmitting={isPending} />
             </DocumentDropZoneWrapper>
         </CardContent>
       </Card>

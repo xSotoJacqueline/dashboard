@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { BarChart3 } from "lucide-react"
 import { ChartLineLabel } from "@/components/metricas/lineChart"
-import { ChartLineLabelBottom } from "@/components/metricas/lineChart-bottom"
 import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 
 export const Route = createFileRoute('/dashboard/metricas')({
@@ -50,7 +49,7 @@ function RouteComponent() {
       </div>
       
       <div className="w-full h-full max-h-full flex gap-6">
-        <ChartLineLabelBottom title="Customer Lifetime Value" />
+        <ChartLineLabel identifier='chart3'  title="Customer Lifetime Value" />
       </div>
     </div>
   )}

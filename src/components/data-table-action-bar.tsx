@@ -4,8 +4,6 @@ import NumberFlow from '@number-flow/react';
 import type { Table } from '@tanstack/react-table';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Loader, X } from 'lucide-react';
-import * as ReactDOM from 'react-dom';
-
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
@@ -25,11 +23,6 @@ function DataTableActionBar<TData>({
   className,
   ...props
 }: DataTableActionBarProps<TData>) {
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -42,24 +35,20 @@ function DataTableActionBar<TData>({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [table]);
 
-  const container = containerProp ?? (mounted ? globalThis.document?.body : null);
 
-  if (!container) return null;
 
   const visible = visibleProp ?? table.getFilteredSelectedRowModel().rows.length > 0;
 
-  return ReactDOM.createPortal(
+  return (
     <AnimatePresence>
       {visible && (
       <motion.div
-        role="toolbar"
-        aria-orientation="horizontal"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.2, ease: 'easeInOut' }}
         className={cn(
-          'dark:bg-foreground text-foreground absolute inset-x-0 bottom-6 z-50 mx-auto flex w-fit flex-wrap items-center justify-center gap-2 rounded-md border bg-background p-2 shadow-sm',
+          'dark:bg-foreground text-foreground z-20 fixed sm:absolute inset-x-0 bottom-8 sm:bottom-2  mx-auto flex w-fit flex-wrap items-center justify-center gap-2 rounded-md border bg-background p-2 shadow-sm',
           className,
         )}
         {...props}
@@ -67,8 +56,7 @@ function DataTableActionBar<TData>({
         {children}
       </motion.div>
       )}
-    </AnimatePresence>,
-    container,
+    </AnimatePresence>
   );
 }
 

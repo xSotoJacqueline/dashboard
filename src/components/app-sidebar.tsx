@@ -81,7 +81,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar className="ml-10 my-auto max-h-[90vh] sm:max-h-[95vh] rounded-2xl bg-white pl-0" collapsible="icon" {...props}>
+    <Sidebar className="ml-10 my-auto max-h-[95cqh] rounded-2xl bg-white pl-0" collapsible="icon" {...props}>
       <SidebarHeader className="rounded-t-3xl mt-5 px-6">
         <SidebarGroupLabel className="text-lg font-bold text-black">Menú</SidebarGroupLabel>
       </SidebarHeader>

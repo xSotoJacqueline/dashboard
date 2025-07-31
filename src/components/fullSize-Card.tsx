@@ -67,10 +67,10 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
       </AnimatePresence>
       <AnimatePresence>
         {activeGame ? (
-          <div className="active-game fixed md:absolute ">
+          <div className="active-game top-0 absolute flex items-center justify-center">
             <motion.div
               layoutId={`card-${identifier || title}`}
-              className="inner sm:my-0 my-16 "
+              className="inner mb-5"
               style={{ borderRadius: 12 }}
 			        ref={ref}
             >

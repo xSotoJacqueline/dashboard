@@ -45,7 +45,7 @@ export type DataColumns = {
   updatedAt: string
 }
 
-export function DataTableDemo({ data }: { data: BenchmarkKey[] }) {
+export function BenchMarksTable({ data }: { data: BenchmarkKey[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -150,6 +150,7 @@ export function DataTableDemo({ data }: { data: BenchmarkKey[] }) {
                         label: 'Eliminar',
                         onClick: () => mutate(payment.id),
                     },
+                    className: "mb-2 mr-8"
                     });
                 }}
             >
@@ -183,7 +184,7 @@ export function DataTableDemo({ data }: { data: BenchmarkKey[] }) {
 
   return (
     <>
-        <div className="w-full">
+    <div className="w-full h-full flex flex-col justify-between">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter names..."
@@ -238,14 +239,14 @@ export function DataTableDemo({ data }: { data: BenchmarkKey[] }) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sin Archivos
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 pt-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.

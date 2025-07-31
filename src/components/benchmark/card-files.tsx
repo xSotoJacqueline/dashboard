@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileIcon } from "lucide-react";
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { DataTableDemo } from "./table";
+import { BenchMarksTable } from "./table";
 
 export interface BenchmarkKey {
   id: number;
@@ -25,6 +25,7 @@ export default function CardFiles() {
       }
       return res.json();
     },
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -37,25 +38,7 @@ export default function CardFiles() {
             <CardDescription className="text-foreground text-base">Gestiona tus archivos de benchmark</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 h-full">
-
-            <DataTableDemo data={data} />
-
-            {/* 
-            {error ? (
-                <div className="text-center h-full w-full flex flex-col gap-2 justify-center items-center">
-                    <span className="text-xl">Error al cargar los documentos</span>
-                    <Button onClick={() => { refetch(); }}>Reintentar</Button>
-                </div>
-            ) : data.length > 0 ? (
-                data.map((key) => (
-                    <div key={key.id} className="flex items-center justify-between p-3 bg-gray-100 rounded-lg">
-                        <span>{key.key}</span>
-                        <span className="text-sm text-gray-500">{new Date(key.createdAt).toLocaleDateString()}</span>
-                    </div>
-                ))
-            ) : (
-                <p className="text-center text-gray-500">No hay documentos subidos</p>
-            )} */}
+            <BenchMarksTable data={data} />
         </CardContent>
     </Card>
   )

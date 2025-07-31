@@ -17,7 +17,7 @@ interface RootRouteContext {
 export const Route = createRootRouteWithContext<RootRouteContext>()({
   component: () => (
   <QueryClientProvider client={queryClient}>
-    <main className="w-full h-screen mx-auto flex justify-center bg-[#ededed]">
+    <main className="w-full h-full fixed overflow-hidden mx-auto flex justify-center bg-[#ededed]">
         <Outlet />
       
       <TanStackRouterDevtools />

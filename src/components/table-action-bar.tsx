@@ -6,17 +6,18 @@ import { AnimatePresence, type Transition, type Variants, motion } from 'framer-
 import {
   Download,
   Trash2,
+  CheckIcon,
+  XIcon,
 } from 'lucide-react';
 
-import { toast as sonnertoast, useSonner } from 'sonner';
-import { toast } from 'sonner';
-
+import { toast, useSonner } from 'sonner';
 import { exportTableToCSV } from '@/lib/export';
 import {
   DataTableActionBar,
   DataTableActionBarSelection,
 } from './data-table-action-bar';
 import { Separator } from '@radix-ui/react-separator';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface DataTablePaginationProps<TData extends { id: number }>
   extends React.ComponentProps<'div'> {
@@ -27,42 +28,122 @@ interface DataTablePaginationProps<TData extends { id: number }>
   onMultipleDelete?: (ids: number[]) => Promise<void>;
 }
 
-export function TableActionBar<TData extends { id: number }>({
-  table,
-  download,
-  onMultipleDelete,
-}: DataTablePaginationProps<TData>) {
-  const { toasts } = useSonner();
+const CONTAINER_VARIANTS: Variants = {
+  hidden: {
+    opacity: 0,
+    width: 0,
+    scale: 0.8,
+  },
+  visible: {
+    opacity: 1,
+    width: 'auto',
+    scale: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+      width: {
+        duration: 0.3,
+      },
+      scale: {
+        duration: 0.2,
+      },
+    },
+  },
+  exit: {
+    opacity: 0,
+    width: 0,
+    scale: 0.8,
+    transition: {
+      duration: 0.2,
+      staggerChildren: 0.03,
+      staggerDirection: -1,
+    },
+  },
+};
 
-  function removeAllToasts() {
-    toasts.forEach((t) => toast.dismiss(t.id));
-  }
-
-  const rows = table.getFilteredSelectedRowModel().rows;
-
-  const [isPending, startTransition] = React.useTransition();
-  const [isDownloading, setIsDownloading] = React.useState(false);
-
-  const isOperationPending = React.useMemo(() => {
-    return isDownloading || isPending;
-  }, [isDownloading, isPending]);
-
+const ITEM_VARIANTS: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -20,
+    scale: 0.9,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.1,
+      ease: 'easeOut',
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: -20,
+    scale: 0.9,
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
 
   const BUTTON_MOTION_CONFIG = {
     initial: 'rest',
     whileHover: 'hover',
     whileTap: 'tap',
     variants: {
-      rest: { maxWidth: '32px' },
+      rest: { maxWidth: 32 },
       hover: {
-        maxWidth: '140px',
+        maxWidth: 140,
         transition: { type: 'spring', stiffness: 200, damping: 35, delay: 0.15 },
       },
-      disabled: { maxWidth: '32px' },
+      disabled: { maxWidth: 32 },
       tap: { scale: 0.95 },
     },
     transition: { type: 'spring', stiffness: 250, damping: 25 },
   } as const;
+
+
+export function TableActionBar<TData extends { id: number }>({
+  table,
+  download,
+}: DataTablePaginationProps<TData>) {
+  const { toasts } = useSonner();
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
+
+  function removeAllToasts() {
+    toasts.forEach((t) => toast.dismiss(t.id));
+  }
+  const queryClient = useQueryClient()
+    const rows = table.getFilteredSelectedRowModel().rows;
+
+  const { mutate, isPending  } = useMutation({
+    mutationFn: async (ids: number[]) => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/benchmark/delete-many/`, {
+        method: 'DELETE',
+        body: JSON.stringify({ ids }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!res.ok) {
+        throw new Error('Failed to delete benchmark key');
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success('Archivos eliminados correctamente');
+      queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
+      table.resetRowSelection();
+    },
+    onError: (error) => {
+      toast.error(`Error al eliminar archivos: ${error.message}`);
+    },
+    onSettled: () => {
+      setShowConfirmation(false);
+    }
+
+  });
 
   const LABEL_VARIANTS: Variants = {
     rest: { opacity: 0, x: 4 },
@@ -87,23 +168,8 @@ export function TableActionBar<TData extends { id: number }>({
   const handleMultipleDelete = () => {
     try {
       const ids = rows.map((row) => row.original.id);
+      mutate(ids);
       console.log('Deleting IDs:', ids);
-      if (onMultipleDelete) {
-        setIsDownloading(true);
-        toast.promise(onMultipleDelete(ids), {
-          loading: (`Deleting records...`),
-          success: () => {
-            setIsDownloading(false);
-            return (`Records deleted successfully`);
-          },
-          error: () => {
-            setIsDownloading(false);
-            return (`Error deleting records`);
-          },
-          position: 'bottom-center',
-          className: 'mb-16',
-        });
-      }
     } catch (error) {
       toast.error((`Error deleting records`));
       console.error('Error deleting record:', error);
@@ -111,18 +177,16 @@ export function TableActionBar<TData extends { id: number }>({
   };
 
   const onTaskExport = React.useCallback(() => {
-    startTransition(() => {
       exportTableToCSV(table, {
         excludeColumns: ['select', 'actions'],
         onlySelected: true,
       });
-    });
   }, [table]);
 
 
   return (
-    <DataTableActionBar className="z-[10] min-h-[57px]" table={table} visible={rows.length > 0}>
-      <div className="flex flex-col items-center gap-1.5 sm:flex-row">
+    <DataTableActionBar className="min-h-[57px]" table={table} visible={rows.length > 0}>
+      <div className="flex flex-row items-center gap-1.5">
         <AnimatePresence mode="wait">
           {rows.length > 0 && (
             <motion.div
@@ -131,76 +195,30 @@ export function TableActionBar<TData extends { id: number }>({
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="mx-auto flex flex-wrap items-center space-x-2 overflow-hidden sm:flex-nowrap"
+              className="mx-auto flex items-center space-x-2 overflow-hidden flex-nowrap"
               style={{ originX: 0 }}
             >
-              <motion.div layout  className="flex-shrink-0">
-                <Separator
-                  orientation="vertical"
-                  className="hidden data-[orientation=vertical]:h-5 sm:block"
-                />
-              </motion.div>
+
               <motion.div layout className="flex-shrink-0">
                 <DataTableActionBarSelection table={table} />
               </motion.div>
-             {onMultipleDelete && (
-                  <motion.div layout className="flex-shrink-0">
-                    <Separator
-                      orientation="vertical"
-                      className="hidden data-[orientation=vertical]:h-5 sm:block"
-                    />
-                  </motion.div>
-                )}
 
+                {/* boton para exportar */}
                 <motion.div layout className="flex-shrink-0">
                   <motion.button
                     {...BUTTON_MOTION_CONFIG}
-                    className={`flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-destructive p-2 ${isOperationPending ? 'cursor-not-allowed text-red-500 opacity-50 dark:!text-red-200' : 'text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60'}`}
+                    className={`bg-secondary/90 ${isPending ? '!text-foreground cursor-not-allowed' : ''} hover:bg-secondary text-foreground flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
                     aria-label="Reject"
-                    disabled={isOperationPending}
-                    onClick={() => {
-                      removeAllToasts();
-                      sonnertoast.warning('Esta acción sera permanente', {
-                        description: 'Estas seguro que quieres eliminar estos registros?',
-                        action: {
-                          label: 'Eliminar',
-                          onClick: () => handleMultipleDelete(),
-                        },
-                        className: 'mb-16',
-                        position: 'bottom-center',
-                        closeButton: true,
-                      });
-                    }}
-                  >
-                    <Trash2 size={16} className="shrink-0" />
-                    <motion.span
-                      variants={LABEL_VARIANTS}
-                      transition={LABEL_TRANSITION}
-                      className="invisible text-sm"
-                    >
-                      Eliminar
-                    </motion.span>
-                  </motion.button>
-                </motion.div>
-
-                <motion.div layout className="flex-shrink-0">
-                  <motion.button
-                    {...BUTTON_MOTION_CONFIG}
-                    className={`bg-secondary/90 ${isOperationPending ? '!text-foreground cursor-not-allowed' : ''} hover:bg-secondary text-foreground flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
-                    aria-label="Reject"
-                    disabled={isOperationPending}
+                    disabled={isPending}
                     onClick={
                       download
                         ? () => {
-                            setIsDownloading(true);
                             toast.promise(handleDownload(), {
                               loading: (`Downloading files...`),
                               success: () => {
-                                setIsDownloading(false);
                                 return (`Files downloaded successfully`);
                               },
                               error: () => {
-                                setIsDownloading(false);
                                 return (`Error downloading files`);
                               },
                               position: 'bottom-center',
@@ -220,6 +238,86 @@ export function TableActionBar<TData extends { id: number }>({
                     </motion.span>
                   </motion.button>
                 </motion.div>
+
+                {/* boton para eliminar */}
+                <motion.div layout className="flex-shrink-0">
+                  <motion.button
+                    className={`flex h-8 w-auto cursor-pointer items-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-destructive p-2 ${isPending || showConfirmation ? 'cursor-not-allowed text-red-500 opacity-50 dark:!text-red-200' : 'text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60'}`}
+                    aria-label="Reject"
+                    disabled={isPending || showConfirmation}
+                    onClick={() => {
+                      setShowConfirmation(!showConfirmation);
+                    }}
+                  >
+                    <Trash2 size={16} className="shrink-0" />
+                  </motion.button>
+                </motion.div>
+
+                {/* botones para confirmar o cancelar */}
+                <AnimatePresence mode="wait">
+                  {showConfirmation && (
+                    <motion.div
+                      layout
+                      layoutRoot
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={CONTAINER_VARIANTS}
+                      className="mx-auto flex items-center space-x-2 overflow-hidden flex-nowrap"
+                      style={{ originX: 0 }}
+                    >
+                      <motion.div layout variants={ITEM_VARIANTS} className="flex-shrink-0">
+                        <Separator
+                          orientation="vertical"
+                          className=" data-[orientation=vertical]:h-6 rounded-full border-[1px] "
+                        />
+                      </motion.div>
+                      <motion.div layout variants={ITEM_VARIANTS} className="flex-shrink-0">
+                        <motion.button
+                          {...BUTTON_MOTION_CONFIG}
+                          className={`flex h-8 w-auto cursor-pointer items-center gap-2 overflow-hidden whitespace-nowrap rounded-lg bg-destructive/80 hover:bg-destructive p-2 ${isPending ? 'cursor-not-allowed opacity-50' : 'text-white'}`}
+                          aria-label="Reject"
+                          disabled={isPending}
+                          onClick={() => {
+                            removeAllToasts();
+                            handleMultipleDelete();
+                          }}
+                        >
+                          <CheckIcon size={16} className="shrink-0" />
+                          <motion.span
+                            variants={LABEL_VARIANTS}
+                            transition={LABEL_TRANSITION}
+                            className="invisible text-sm -mt-1"
+                          >
+                            Confirmar
+                          </motion.span>
+                        </motion.button>
+                      </motion.div>
+                      <motion.div layout variants={ITEM_VARIANTS} className="flex-shrink-0">
+                        <motion.button
+                          {...BUTTON_MOTION_CONFIG}
+                          className={`bg-secondary/90 cursor-pointer ${isPending ? '!text-foreground cursor-not-allowed' : ''} hover:bg-secondary text-foreground flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
+                          aria-label="Reject"
+                          disabled={isPending}
+                          onClick={() => {
+                            setShowConfirmation(false);
+                            removeAllToasts();
+                          }}
+                        >
+                          <XIcon size={16} className="shrink-0" />
+                          <motion.span
+                            variants={LABEL_VARIANTS}
+                            transition={LABEL_TRANSITION}
+                            className="invisible text-sm -mt-1"
+                          >
+                            Cancelar
+                          </motion.span>
+                        </motion.button>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
             </motion.div>
           )}
         </AnimatePresence>
