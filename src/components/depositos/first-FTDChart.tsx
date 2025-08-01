@@ -24,7 +24,7 @@ export function FirstFTDChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart
