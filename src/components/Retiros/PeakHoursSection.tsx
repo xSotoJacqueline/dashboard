@@ -10,14 +10,14 @@ export function PeakHoursSection() {
           <h3 className="font-semibold">Hora pico de retiros</h3>
         </div>
 
-        <div className="text-sm text-gray-600 mb-2">Hora más común de retiro</div>
+        <div className="text-sm text-foreground mb-2">Hora más común de retiro</div>
         <div className="text-5xl font-bold mb-2">
           2:00 <span className="text-xl">PM</span>
         </div>
-        <div className="text-sm text-gray-600 mb-1">
+        <div className="text-sm text-foreground mb-1">
           % de retiros en ese horario: <span className="text-green-600 font-medium">18.35 %</span>
         </div>
-        <div className="text-sm text-gray-600">Últimos 28 días</div>
+        <div className="text-sm text-foreground">Últimos 28 días</div>
       </CardContent>
     </Card>
   )

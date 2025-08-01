@@ -85,7 +85,7 @@ export const DocumentDropZoneWrapper = ({ children, className, isSubmitting }: D
     });
   };
   const onFileDropRejected = () => {
-    toast.error("Error al procesar el archivo. Asegúrate de que sea un archivo válido.");
+    toast.error("Error al procesar uno o más archivos. Asegúrate de que el formato sea válido.");
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

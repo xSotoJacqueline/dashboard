@@ -23,12 +23,12 @@ export function MetricsCardsVariant({ value, className }: Props) {
             <BarChart3 className="w-6 h-6 text-gray-600" />
           </div>
           <div className="mb-2">
-            <span className="text-sm text-gray-600">Total de retiros</span>
+            <span className="text-sm text-foreground">Total de retiros</span>
           </div>
           <div className="text-5xl font-bold mb-2">420</div>
-          <div className="text-sm text-gray-600 mb-3">Transacciones</div>
+          <div className="text-sm text-foreground mb-3">Transacciones</div>
           <div className="flex items-center justify-between w-full">
-            <span className="text-sm text-gray-600">Últimos 28 días</span>
+            <span className="text-sm text-foreground">Últimos 28 días</span>
             	<MotionConfig
                 // Disable layout animations if NumberFlow can't animate.
                 // This worked better than setting layout={canAnimate}

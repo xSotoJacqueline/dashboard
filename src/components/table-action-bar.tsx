@@ -2,24 +2,22 @@ import * as React from 'react';
 
 import type { Table } from '@tanstack/react-table';
 import { AnimatePresence, type Transition, type Variants, motion } from 'framer-motion';
-
 import {
   Download,
   Trash2,
   CheckIcon,
   XIcon,
 } from 'lucide-react';
-
 import { toast, useSonner } from 'sonner';
-import { exportTableToCSV } from '@/lib/export';
 import {
   DataTableActionBar,
   DataTableActionBarSelection,
 } from './data-table-action-bar';
 import { Separator } from '@radix-ui/react-separator';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import JSZip from 'jszip';
 
-interface DataTablePaginationProps<TData extends { id: number }>
+interface DataTablePaginationProps<TData extends { id: number, url: string, name: string }>
   extends React.ComponentProps<'div'> {
   table: Table<TData>;
   loading: boolean;
@@ -103,9 +101,8 @@ const ITEM_VARIANTS: Variants = {
   } as const;
 
 
-export function TableActionBar<TData extends { id: number }>({
+export function TableActionBar<TData extends { id: number, url: string, name: string }>({
   table,
-  download,
 }: DataTablePaginationProps<TData>) {
   const { toasts } = useSonner();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
@@ -157,13 +154,67 @@ export function TableActionBar<TData extends { id: number }>({
     damping: 25,
   };
 
+type letFiles = {
+  title: string;
+  data: Blob;
+};
+
+
 
   async function handleDownload() {
-    const files = "await getFiles()"
-    if (files) {
-      "await downloadAnyFileMultiple({ multipleFiles: files });"
+    const filesToPush: letFiles[] = [];
+
+    const files = rows.map((row) => row.original);
+    console.log(files);
+
+    for (const file of files) {
+      const title = file.name || file.url.split('/').pop() || 'document';
+      const response = await fetch(file.url, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to get file "${file.id}", failed with status code ${response.status}`);
+      }
+
+      const buffer = await response.arrayBuffer();
+
+      const binaryData = new Uint8Array(buffer);
+
+            let contentType = '';
+
+      if (!contentType && title) {
+        const extension = title.split('.').pop()?.toLowerCase();
+        contentType = getMimeTypeFromExtension(extension);
+      }
+
+      if (!contentType) {
+        contentType = 'application/octet-stream';
+      }
+
+      const blob = new Blob([binaryData], {
+        type: contentType,
+      });
+
+      filesToPush.push({
+        title: title,
+        data: blob,
+      });
+    }
+    const zip = new JSZip();
+    for (const file of filesToPush) {
+      zip.file(file.title, file.data);
+    }
+    const zipContent = await zip.generateAsync({ type: 'blob' });
+    if (zipContent) {
+      const blob = new Blob([zipContent], { type: 'application/zip' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Archivos.zip';
+      link.click();
     }
   }
+
 
   const handleMultipleDelete = () => {
     try {
@@ -174,14 +225,6 @@ export function TableActionBar<TData extends { id: number }>({
       console.error('Error deleting record:', error);
     }
   };
-
-  const onTaskExport = React.useCallback(() => {
-      exportTableToCSV(table, {
-        excludeColumns: ['select', 'actions'],
-        onlySelected: true,
-      });
-  }, [table]);
-
 
   return (
     <DataTableActionBar className="min-h-[57px]" table={table} visible={rows.length > 0}>
@@ -206,26 +249,10 @@ export function TableActionBar<TData extends { id: number }>({
                 <motion.div layout className="flex-shrink-0">
                   <motion.button
                     {...BUTTON_MOTION_CONFIG}
-                    className={`bg-secondary/90 ${isPending ? '!text-foreground cursor-not-allowed' : ''} hover:bg-secondary text-foreground flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
+                    className={`bg-secondary/90 ${(isPending || showConfirmation) ? 'cursor-not-allowed text-foreground/80 opacity-50' : ' cursor-pointer text-foreground'} hover:bg-secondary  flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
                     aria-label="Reject"
-                    disabled={isPending}
-                    onClick={
-                      download
-                        ? () => {
-                            toast.promise(handleDownload(), {
-                              loading: (`Downloading files...`),
-                              success: () => {
-                                return (`Files downloaded successfully`);
-                              },
-                              error: () => {
-                                return (`Error downloading files`);
-                              },
-                              position: 'bottom-center',
-                              className: 'mb-16',
-                            });
-                          }
-                        : onTaskExport
-                    }
+                    disabled={isPending || showConfirmation}
+                    onClick={() => {handleDownload()}}
                   >
                     <Download size={16} className="shrink-0" />
                     <motion.span
@@ -233,7 +260,7 @@ export function TableActionBar<TData extends { id: number }>({
                       transition={LABEL_TRANSITION}
                       className="invisible text-sm"
                     >
-                      {download ? (`Download`) : (`Export`)}
+                      Descargar
                     </motion.span>
                   </motion.button>
                 </motion.div>
@@ -324,3 +351,58 @@ export function TableActionBar<TData extends { id: number }>({
     </DataTableActionBar>
   );
 }
+
+const getMimeTypeFromExtension = (extension?: string): string => {
+  if (!extension) return 'application/octet-stream';
+
+  const mimeTypes: Record<string, string> = {
+    // Documents
+    pdf: 'application/pdf',
+    doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xls: 'application/vnd.ms-excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ppt: 'application/vnd.ms-powerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    txt: 'text/plain',
+    rtf: 'application/rtf',
+
+    // Images
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    svg: 'image/svg+xml',
+    bmp: 'image/bmp',
+    webp: 'image/webp',
+
+    // Audio
+    mp3: 'audio/mpeg',
+    wav: 'audio/wav',
+    ogg: 'audio/ogg',
+    flac: 'audio/flac',
+
+    // Video
+    mp4: 'video/mp4',
+    avi: 'video/x-msvideo',
+    mov: 'video/quicktime',
+    wmv: 'video/x-ms-wmv',
+
+    // Archives
+    zip: 'application/zip',
+    rar: 'application/vnd.rar',
+    '7z': 'application/x-7z-compressed',
+    tar: 'application/x-tar',
+    gz: 'application/gzip',
+
+    // Code files
+    html: 'text/html',
+    css: 'text/css',
+    js: 'text/javascript',
+    json: 'application/json',
+    xml: 'application/xml',
+    csv: 'text/csv',
+  };
+
+  return mimeTypes[extension] || 'application/octet-stream';
+};

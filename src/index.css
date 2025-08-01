@@ -134,7 +134,7 @@ html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: #ededed;
+  background: var(--background);
   place-items: end center;
 
 }
@@ -166,7 +166,7 @@ html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
   align-items: flex-start;
   gap: 16px;
   overflow: hidden;
-  background: white;
+  background: var(--background);
   padding: 16px;
 
 
@@ -235,8 +235,8 @@ html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: #6f30ba;
-  --primary-foliatti:#6f30ba;
+  --primary: #7a37cc;
+  --primary-foliatti:#7a37cc;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -248,7 +248,7 @@ html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-    --chart-1: #641abe;
+    --chart-1: #7a37cc;
   --chart-2: #501598;
   --chart-3: #3c1072;
   --chart-4: #21083f;

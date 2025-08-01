@@ -48,7 +48,7 @@ function DataTableActionBar<TData>({
         exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.2, ease: 'easeInOut' }}
         className={cn(
-          'dark:bg-foreground text-foreground z-20 fixed sm:absolute inset-x-0 bottom-8 sm:bottom-2  mx-auto flex w-fit flex-wrap items-center justify-center gap-2 rounded-md border bg-background p-2 shadow-sm',
+          'text-foreground z-20 fixed sm:absolute inset-x-0 bottom-8 sm:bottom-2  mx-auto flex w-fit flex-wrap items-center justify-center gap-2 rounded-md border bg-background p-2 shadow-sm',
           className,
         )}
         {...props}
@@ -115,7 +115,7 @@ function DataTableActionBarSelection<TData>({ table }: DataTableActionBarSelecti
   }, [table]);
 
   return (
-    <div className="flex h-8 items-center rounded-md border px-1">
+    <div className="flex h-8 items-center rounded-md border px-1 text-foreground">
       <span className="flex items-center gap-2 whitespace-nowrap text-xs text-right">
         <NumberFlow className='min-w-4' value={table.getFilteredSelectedRowModel().rows.length} />
         {table.getFilteredSelectedRowModel().rows.length === 1 ? 'Seleccionado' : 'Seleccionados'}

@@ -12,7 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -195,16 +194,16 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
   return (
     <>
     <div className="w-full h-full flex flex-col justify-between">
-      <div className="flex items-center py-4">
+      {/* <div className="flex items-center py-4">
         <Input
-          placeholder="Filter names..."
+          placeholder="Nombre..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-      </div>
+      </div> */}
       <div className="overflow-hidden">
         <Table className="">
           <TableHeader className="">

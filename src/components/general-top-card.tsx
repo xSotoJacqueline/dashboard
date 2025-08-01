@@ -33,7 +33,7 @@ export function GeneralCardTopCard({ value, Icon, title, description, label, per
             <Icon size={20} strokeWidth={2} className="text-primary"/>
           </div>
           <div className="">
-            <span className="text-xs text-gray-600 line-clamp-1">{description}</span>
+            <span className="text-xs text-muted-foreground line-clamp-1">{description}</span>
           </div>
         </section>
 
@@ -45,7 +45,7 @@ export function GeneralCardTopCard({ value, Icon, title, description, label, per
         />
         {/* <div className="text-5xl font-bold mb-2">{value}</div> */}
         <div className="flex xl:flex-row  lg:items-start lg:flex-col items-center justify-between w-full">
-          <span className="text-sm text-gray-600">{label}</span>
+          <span className="text-sm text-muted-foreground">{label}</span>
             <MotionConfig
               // Disable layout animations if NumberFlow can't animate.
               // This worked better than setting layout={canAnimate}

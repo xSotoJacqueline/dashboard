@@ -68,7 +68,7 @@ export function PlayersSection() {
               <AccordionItem value={`item-${player.id}`}>
                 <AccordionTrigger className={buttonVariants({ variant: "ghost", className: "w-full text-left flex items-center justify-between cursor-pointer"})}>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold">
+                    <div className="w-6 h-6 bg-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">
                       {player.id}
                     </div>
                     <span className="text-sm font-medium">{player.name}</span>
@@ -77,15 +77,15 @@ export function PlayersSection() {
                 {player.details && (
                   <AccordionContent className="px-9 py-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Retiro promedio:</span>
+                      <span className="text-foreground">Retiro promedio:</span>
                       <span className="font-medium">{player.details.montoPromedio}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Retiros/Mes:</span>
+                      <span className="text-foreground">Retiros/Mes:</span>
                       <span className="font-medium">{player.details.numeroRetiros}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-600">{player.details.periodo}</span>
+                      <span className="text-foreground">{player.details.periodo}</span>
                     </div>
                   </AccordionContent>
                 )}

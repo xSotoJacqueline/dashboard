@@ -98,7 +98,7 @@ export default function CsvUploadInput({
           });
 
           if (newCSVFiles.length === files.length) {
-            addCsvFiles(newCSVFiles); // Use store method instead of setCsvFiles
+            addCsvFiles(newCSVFiles);
           }
         };
         reader.readAsText(file);
@@ -144,8 +144,7 @@ export default function CsvUploadInput({
             <span className="">
               Seleccionar Archivos
             </span>
-             {csvFiles.length < 0 && <Badge variant="secondary">{csvFiles.length} file</Badge>}
-            {csvFiles.length > 0 && <Badge variant="secondary">{csvFiles.length} file</Badge>}
+            {csvFiles.length > 0 && <Badge variant="secondary">{csvFiles.length} {csvFiles.length === 1 ? 'archivo' : 'archivos'}</Badge>}
           </Button>
 
           {csvFiles.length > 0 && (
@@ -175,7 +174,7 @@ export default function CsvUploadInput({
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Badge variant="default" className="text-xs">
+                              <Badge variant="default" className="text-xs text-w}">
                                 {csvFile.columnCount} columnas
                               </Badge>
                               <button

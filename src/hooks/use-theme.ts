@@ -3,7 +3,7 @@ import { useDarkMode } from 'usehooks-ts';
 
 export const useTheme = () => {
   const { isDarkMode, toggle, enable, disable, set } = useDarkMode({ 
-    defaultValue: true, // Cambia a false si prefieres light mode por defecto
+    defaultValue: true, 
     initializeWithValue: false 
   });
 

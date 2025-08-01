@@ -64,6 +64,6 @@ export function benchmarkKeysQueryOptions({pageParam}: {pageParam?: number} = {}
       }
       return res.json();
     },
-    staleTime: 6000
+    refetchOnWindowFocus: false,
   });
 }
