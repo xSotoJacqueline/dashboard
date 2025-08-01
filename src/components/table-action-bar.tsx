@@ -210,7 +210,7 @@ type letFiles = {
       const blob = new Blob([zipContent], { type: 'application/zip' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'Archivos.zip';
+      link.download = `Archivos-${Date.now()}.zip`;
       link.click();
     }
   }

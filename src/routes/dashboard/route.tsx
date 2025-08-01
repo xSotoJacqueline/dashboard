@@ -37,8 +37,8 @@ function RouteComponent() {
                 <header className=" md:hidden md:fix fixed z-50 flex h-fit shrink-0 items-center gap-2 transition-[width,height] px-5 ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <SidebarTrigger className="-ml-1" />
                 </header>
-                <Scroller size={activeGame ? 0 : 18} style={{containerType: "size"}} className={`h-[95cqh] p-5  md:p-0 overflow-x-visible ${activeGame ? "overflow-visible" : ""}`}>
-                    
+                <Scroller size={18} style={{containerType: "size", scrollbarGutter: "stable"}} className={`h-[95cqh] p-5  md:p-0 overflow-x-hidden ${activeGame ? "overflow-hidden" : ""}`}>
+
                     <div className="w-full h-full">
                       <Outlet />
                     </div>

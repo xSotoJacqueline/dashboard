@@ -39,9 +39,12 @@ import {
 import { buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils"
 import { ThemeSwitcher } from "./theme-switcher"
+import { useTheme } from "@/hooks/use-theme"
+import { dark } from '@clerk/themes'
 
 export function NavUser() {
   const { isSignedIn, user: clerkUser, isLoaded } = useUser()
+  const { isDarkMode } = useTheme();
 
   const { isMobile } = useSidebar()
 
@@ -108,7 +111,7 @@ export function NavUser() {
                         Aquí puedes ver y editar tu información de usuario.
                       </DialogDescription>
                     </DialogHeader>
-                    <UserProfile   appearance = {{elements:{menuItem__emailAddresses:{display:"none"}, profileSection__emailAddresses: {display:"none"} } }}/>
+                    <UserProfile   appearance = {{elements:{menuItem__emailAddresses:{display:"none"}, profileSection__emailAddresses: {display:"none"} }, theme: isDarkMode ? dark : "simple" }}/>
 
                   </DialogContent>
               </Dialog>

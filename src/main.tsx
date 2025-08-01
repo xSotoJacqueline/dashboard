@@ -5,7 +5,6 @@ import { NuqsAdapter } from 'nuqs/adapters/react'
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-
 import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import "./index.css";
 import "./App.css"
@@ -55,7 +54,6 @@ window.addEventListener('resize', () => {
 const rootElement = document.getElementById("root");
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  
   root.render(
     <StrictMode>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
