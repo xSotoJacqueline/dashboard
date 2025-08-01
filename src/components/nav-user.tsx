@@ -104,14 +104,14 @@ export function NavUser() {
                     <BadgeCheck />
                       Cuenta
                   </DialogTrigger>
-                  <DialogContent className="!max-h-[600px] w-fit h-fit overflow-hidden p-0">
+                  <DialogContent className="!max-h-[600px] min-w-fit w-fit h-fit overflow-hidden p-0">
                     <DialogHeader className="sr-only">
                       <DialogTitle className="text-lg font-semibold">Perfil de Usuario</DialogTitle>
                       <DialogDescription className="text-sm text-muted-foreground">
                         Aquí puedes ver y editar tu información de usuario.
                       </DialogDescription>
                     </DialogHeader>
-                    <UserProfile appearance = {{elements:{menuItem__emailAddresses:{display:"none"}, profileSection__emailAddresses: {display:"none"} }, theme: isDarkMode ? dark : "simple" }}/>
+                    <UserProfile appearance={{elements:{menuItem__emailAddresses:{display:"none"}, profileSection__emailAddresses: {display:"none"} }, theme: isDarkMode ? dark : "simple" }}/>
 
                   </DialogContent>
               </Dialog>
