@@ -9,6 +9,7 @@ import { Scroller } from "@/components/ui/scroller";
 import { Toaster } from 'sonner';
 import { useIsActiveStore } from '@/lib/active-full-container'
 import NotFound from "@/components/notfound";
+import { useTheme } from "@/hooks/use-theme";
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
@@ -27,7 +28,7 @@ export const Route = createFileRoute('/dashboard')({
 
 function RouteComponent() {
   const { activeGame } = useIsActiveStore();
-
+  useTheme();
   return (
     <div  style={{containerType: "size"}} className=" fixed w-full h-full flex justify-center items-center">
       <div className='w-full h-full relative'>

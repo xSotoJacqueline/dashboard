@@ -16,8 +16,6 @@ export const useTheme = () => {
     }
   }, [isDarkMode]);
 
-  console.log('Current theme:', isDarkMode ? 'dark' : 'light');
-
   return {
     isDarkMode,
     toggle,
