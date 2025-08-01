@@ -17,10 +17,10 @@ export default function PlayersTab() {
     const canAnimate = useCanAnimate()
 
   return (
-    <div  style={{containerType: "size"}}  className="w-full h-full flex flex-col gap-6">
+    <div className="w-full h-full flex flex-col gap-6">
     <div className='h-fit md:h-[65cqh] w-full grid grid-cols-1 md:grid-cols-2 gap-6'>
-      <BarChartPerDayMarketing className="w-full h-full col-span-1" title="Jugadores activos diarios" description="Promedio: 1500"/>
-      <BarChartPerDayMarketing className="w-full h-full col-span-1" title="Registros por días" description="Nuevos usuarios registrados" />
+      <BarChartPerDayMarketing identifier='chart1' className="w-full h-full col-span-1" title="Jugadores activos diarios" description="Promedio: 1500"/>
+      <BarChartPerDayMarketing identifier='chart2' className="w-full h-full col-span-1" title="Registros por días" description="Nuevos usuarios registrados" />
     </div>
     <div className='h-full md:h-[35cqh] w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
       <Card className="w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">

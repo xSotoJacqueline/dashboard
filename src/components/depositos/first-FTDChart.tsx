@@ -1,10 +1,8 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { useIsActiveStore } from "@/lib/active-full-container";
 
 export function FirstFTDChart() {
-    const { activeGame } = useIsActiveStore();
     const chartData = [
         { date: "07/01/2025 00:51", desktop: 186, mobile: 80 },
         { date: "07/02/2025 00:51", desktop: 305, mobile: 200 },
@@ -26,53 +24,55 @@ export function FirstFTDChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart1" title="FTD’s diarios" description="(Primeros depósitos)">
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
-                <BarChart
-                    accessibilityLayer
-                    data={chartData}
-                    margin={{
-                    left: -30
-                    }}
-                >
-                    <CartesianGrid vertical={false} />
-                    <XAxis
-                    dataKey="date"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    minTickGap={32}
-                    tickFormatter={(value) => {
-                        const date = new Date(value)
-                        return date.toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        })
-                    }}
-                    />
-                    <YAxis
-                    type="number"
-                    domain={[0, "dataMax"]}
-                    tickFormatter={(value) => `${value}`}
-                    />
-                    <ChartTooltip
-                    content={
-                        <ChartTooltipContent
-                        className="w-[150px]"
-                        nameKey="views"
-                        labelFormatter={(value) => {
-                            return new Date(value).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                            })
-                        }}
-                        />
-                    }
-                    />
-                    <Bar dataKey="desktop" fill="var(--color-primary-foliatti)" radius={8} />
-                </BarChart>
-            </ChartContainer>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+            <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
+                <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
+                    <BarChart
+        accessibilityLayer
+        data={chartData}
+        margin={{
+        left: -30
+        }}
+    >
+        <CartesianGrid vertical={false} />
+        <XAxis
+        dataKey="date"
+        tickLine={false}
+        axisLine={false}
+        tickMargin={8}
+        minTickGap={32}
+        tickFormatter={(value) => {
+            const date = new Date(value)
+            return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            })
+        }}
+        />
+        <YAxis
+        type="number"
+        domain={[0, "dataMax"]}
+        tickFormatter={(value) => `${value}`}
+        />
+        <ChartTooltip
+        content={
+            <ChartTooltipContent
+            className="w-[150px]"
+            nameKey="views"
+            labelFormatter={(value) => {
+                return new Date(value).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+                })
+            }}
+            />
+        }
+        />
+        <Bar dataKey="desktop" fill="var(--color-primary-foliatti)" radius={8} />
+                    </BarChart>
+                </ChartContainer>
+            </div>
         </FullSizeCard>
     );
 }

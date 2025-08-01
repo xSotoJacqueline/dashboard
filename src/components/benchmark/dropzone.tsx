@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { megabytesToBytes } from '@/lib/unit-convertions';
 import { cn } from '@/lib/utils';
 import { useCsvFilesStore } from '@/lib/store-csv';
-import type { CSVFile } from './csv-input';
+import type { CSVFile } from './upload-input';
 
 export interface DocumentDropZoneWrapperProps {
   children: ReactNode;
@@ -110,7 +110,7 @@ export const DocumentDropZoneWrapper = ({ children, className, isSubmitting }: D
   });
 
   return (
-    <div {...getRootProps()} className={cn('relative min-h-fit h-full py-3 w-full border-2 border-dashed rounded-xl border-foreground flex flex-col gap-3 justify-center items-center', className)}>
+    <div {...getRootProps()} className={cn('relative min-h-fit h-full p-3 w-full border-2 border-dashed rounded-xl overflow-hidden border-foreground flex flex-col gap-3 justify-center items-center', className)}>
       <input disabled={isSubmitting} {...getInputProps()} />
       <FileIcon className="text-primary" size={24}/>
       <div className='flex flex-col items-center justify-center w-full h-fit'>

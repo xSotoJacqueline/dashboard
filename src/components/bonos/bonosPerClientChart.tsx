@@ -1,11 +1,9 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { useIsActiveStore } from "@/lib/active-full-container";
 import { GiftIcon } from "lucide-react";
 
 export function BonosPerClientChart() {
-    const { activeGame } = useIsActiveStore();
     const chartData = [
         { month: "January", desktop: 186, mobile: 80 },
         { month: "February", desktop: 305, mobile: 200 },
@@ -27,9 +25,9 @@ export function BonosPerClientChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart2" title="Bonos por Cliente" description="Número total de bonos utilizados por cliente" Icon={GiftIcon}>
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
-                {/* <ResponsiveContainer width="100%" height="100%"> */}
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por Cliente" description="Número total de bonos utilizados por cliente" Icon={GiftIcon}>
+            <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
+                <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
                     <CartesianGrid vertical={false} />
                     <XAxis
@@ -63,8 +61,8 @@ export function BonosPerClientChart() {
                     />
                     </Line>
                     </LineChart>
-                {/* </ResponsiveContainer> */}
-            </ChartContainer>
+                </ChartContainer>
+            </div>
         </FullSizeCard>
     );
 }

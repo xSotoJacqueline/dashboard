@@ -313,7 +313,7 @@ type letFiles = {
                           <motion.span
                             variants={LABEL_VARIANTS}
                             transition={LABEL_TRANSITION}
-                            className="invisible text-sm -mt-1"
+                            className="invisible text-sm"
                           >
                             Confirmar
                           </motion.span>
@@ -334,7 +334,7 @@ type letFiles = {
                           <motion.span
                             variants={LABEL_VARIANTS}
                             transition={LABEL_TRANSITION}
-                            className="invisible text-sm -mt-1"
+                            className="invisible text-sm"
                           >
                             Cancelar
                           </motion.span>

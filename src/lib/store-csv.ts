@@ -1,6 +1,6 @@
 import { create } from 'zustand/react';
 
-import { type CSVFile } from '@/components/benchmark/csv-input';
+import { type CSVFile } from '@/components/benchmark/upload-input';
 
 interface CsvFilesStore {
   csvFiles: CSVFile[];

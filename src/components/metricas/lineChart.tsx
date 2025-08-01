@@ -6,7 +6,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { useIsActiveStore } from "@/lib/active-full-container";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -33,13 +32,12 @@ type ChartLineLabelProps = {
   identifier?: string;
 }
 export function ChartLineLabel({ title, identifier }: ChartLineLabelProps) {
-    const { activeGame } = useIsActiveStore();
 
   return (
         <FullSizeCard identifier={identifier} title={title} description="Número total de bonos utilizados por cliente">
-            <ChartContainer config={chartConfig} className={`${activeGame ? "h-[100cqh]" : "h-[150px]"}  !aspect-auto`}>
-                {/* <ResponsiveContainer width="100%" height="100%"> */}
-                    <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
+            <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
+                <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
+                  <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
                     <CartesianGrid vertical={false} />
                     <XAxis
                     dataKey="month"
@@ -71,9 +69,9 @@ export function ChartLineLabel({ title, identifier }: ChartLineLabelProps) {
                         fontSize={12}
                     />
                     </Line>
-                    </LineChart>
-                {/* </ResponsiveContainer> */}
-            </ChartContainer>
+                  </LineChart>
+                </ChartContainer>
+            </div>
         </FullSizeCard>
   )
 }

@@ -133,13 +133,13 @@ export default function CsvUploadInput({
   return (
     <div className="w-full max-w-80 space-y-4">
       <div className="space-y-2">
-        <div className="flex items-center justify-center gap-2 w-full">
+        <div className="flex items-center sm:flex-row flex-col justify-center gap-2 w-full">
           <Button
             type="button"
             variant="outline"
             disabled={isSubmitting}
             onClick={triggerFileInput}
-            className={`flex items-center bg-transparent text-foreground font-normal w-fit ${csvFiles.length > 0 ? 'justify-between' : 'justify-center'}`}
+            className={`flex items-center bg-transparent text-foreground font-normal w-full sm:w-fit ${csvFiles.length > 0 ? 'justify-between' : 'justify-center'}`}
           >
             <span className="">
               Seleccionar Archivos
@@ -155,11 +155,11 @@ export default function CsvUploadInput({
                     <Eye className="h-4 w-4" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[600px] p-4">
+                <PopoverContent align='center' className="w-[90cqw] sm:w-[600px] mx-5">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h4 className="font-medium">Vista Previa de CSV</h4>
-                      <Badge variant="secondary">
+                      <Badge variant="secondary" className='text-white'>
                         {csvFiles.length} {csvFiles.length === 1 ? 'archivo' : 'archivos'}
                       </Badge>
                     </div>
@@ -170,11 +170,11 @@ export default function CsvUploadInput({
                             <div className="flex items-center gap-2">
                               <FileText className="h-4 w-4" />
                               <span className="max-w-[200px] truncate text-sm font-medium">
-                                {csvFile.file.name}
+                                {csvFile.file.name.slice(0, 20) || 'Archivo CSV'}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Badge variant="default" className="text-xs text-w}">
+                              <Badge variant="default" className="text-xs text-white">
                                 {csvFile.columnCount} columnas
                               </Badge>
                               <button

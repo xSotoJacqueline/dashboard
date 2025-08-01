@@ -61,7 +61,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="overlay bg-[#ededed] dark:bg-[#1f1e1e] "
+            className="overlay bg-[#F7F7F7] dark:bg-[#1f1e1e] "
           />
         ) : null}
       </AnimatePresence>
@@ -74,17 +74,16 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
               style={{ borderRadius: 12 }}
 			        ref={ref}
             >
-              <Card className="w-full h-full border-0 pb-0 pt-2 px-2 col-span-1">
+              <Card className="w-full h-full border-0 pt-2 px-2 col-span-1">
                 <CardHeader className="flex flex-col items-start px-2 gap-0">
                     <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
-                        <motion.h2
-                          layoutId={`title-${identifier}`}
+                        <div
                           className="game-title flex items-center gap-2"
                         >
-                          {/* {Icon && <Icon className="w-5 h-5 text-primary" />} */}
+                          {Icon && <Icon className="w-5 h-5 text-primary" />}
 
                           <CardTitle className=" text-base md:text-xl font-bold">{title}</CardTitle>
-                        </motion.h2>
+                        </div>
 
                       <Button onClick={() => setActiveGame(null)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
                         <ExpandIcon size={16} />
@@ -97,7 +96,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                       </CardDescription>
                     </motion.div>
                 </CardHeader>
-                <CardContent style={{containerType: "size"}} className=" h-[calc(100%-theme(spacing.24))] px-2">
+                <CardContent style={{containerType: "size"}} className=" h-full px-2">
                   <motion.div layoutId={`content-${title}`} className="h-full">
                     {children}
                   </motion.div>
@@ -108,18 +107,17 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
         ) : null}
       </AnimatePresence>
 
-      <motion.div  layoutId={`card-${identifier || title}`} className="w-full h-full">
-        <Card className={cn("w-full h-full border-0 pb-0 ", className)}>
+      <motion.div layoutId={`card-${identifier || title}`} className={cn("w-full h-full", className)}>
+        <Card className={cn("w-full h-full border-0 ", className)}>
             <CardHeader className="flex flex-col items-start gap-0">
                 <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
-                    <motion.h2
-                      layoutId={`title-${title}`}
+                    <div
                       className="game-title flex items-center gap-2"
                     >
                       {Icon && <Icon className="w-5 h-5 text-primary" />}
 
                       <CardTitle className="text-base md:text-xl font-bold">{title}</CardTitle>
-                    </motion.h2>
+                    </div>
                   {fullScreenButton && (
                     <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
                       <ExpandIcon size={16} />
@@ -129,7 +127,7 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                 </motion.div>
 
                 <motion.div layoutId={`description-${title}`}>
-                  <CardDescription className="text-base text-foreground">
+                  <CardDescription className="text-base text-foreground line-clamp-2">
                     {description}
                   </CardDescription>
                 </motion.div>

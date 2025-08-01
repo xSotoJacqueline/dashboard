@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import CsvUploadInput from "@/components/benchmark/csv-input"
+import CsvUploadInput from "@/components/benchmark/upload-input"
 import { DocumentDropZoneWrapper } from "@/components/benchmark/dropzone";
 import { Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,8 +50,8 @@ function RouteComponent() {
       },
       onSuccess: () => {
         toast.success('Archivos subidos correctamente');
-        queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
         clearCsvFiles();
+        queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
       },
       onError: (error) => {
         toast.error(`Error al subir archivos: ${error.message}`);

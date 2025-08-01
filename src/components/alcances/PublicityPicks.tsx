@@ -28,7 +28,7 @@ export type PublicityPicksProps = {
 export function PublicityPicks({title, description, Icon, identifier, values}: PublicityPicksProps) {
 
   return (
-    <GeneralCard classNameContainer="overflow-visible" className=" min-h-fit" cardContentClassName="h-fit" identifier={identifier} title={title} description={description} Icon={Icon}>
+    <GeneralCard classNameContainer="overflow-hidden" className=" min-h-fit" cardContentClassName="h-fit" identifier={identifier} title={title} description={description} Icon={Icon}>
        <div className="w-full h-full min-h-fit flex flex-col gap-6">
         {values.map((time, index) => {
             return (

@@ -3,6 +3,7 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useSidebar } from "./sidebar";
+import { motion } from "framer-motion";
 
 function Tabs({
   className,
@@ -82,7 +83,7 @@ const TabsList = React.forwardRef<
   }, [updateIndicator]);
 
   return (
-    <div className="relative" ref={tabsListRef}>
+    <motion.div layoutId="tabs-list" className="relative" ref={tabsListRef}>
       <TabsPrimitive.List
         ref={ref}
         data-slot="tabs-list"
@@ -98,7 +99,7 @@ const TabsList = React.forwardRef<
       >
         <div className="w-10 border-b-2 border-foreground" />
         </div>
-    </div>
+    </motion.div>
   );
 });
 TabsList.displayName = TabsPrimitive.List.displayName;

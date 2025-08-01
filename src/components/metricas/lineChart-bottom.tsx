@@ -82,7 +82,7 @@ export function ChartLineLabelBottom({ className, title }: ChartLineLabelProps) 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="overlay bg-[#ededed] dark:bg-[#1f1e1e] "
+            className="overlay bg-[#F7F7F7] dark:bg-[#1f1e1e] "
           />
         ) : null}
       </AnimatePresence>
