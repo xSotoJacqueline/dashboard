@@ -34,7 +34,7 @@ function RouteComponent() {
       <div className='w-full h-full relative'>
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset  className='md:ml-15 w-full md:mr-10  my-auto overflow-visible '>
+            <SidebarInset  className='md:ml-15 w-full md:mr-8  my-auto overflow-visible '>
                 <header className=" md:hidden md:fix fixed z-50 flex h-fit shrink-0 items-center gap-2 transition-[width,height] px-5 ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <SidebarTrigger className="-ml-1" />
                 </header>

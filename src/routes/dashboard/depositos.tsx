@@ -6,6 +6,7 @@ import ErrorPage from '@/components/errorPage'
 import DespistosTopCards from '@/components/depositos/despistos-top-cards'
 import { Suspense } from 'react'
 import CardLoading from '@/components/loading-card'
+import { PeriodSummaryCard } from '@/components/depositos/period-summart¿y'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   component: RouteComponent,
@@ -31,6 +32,8 @@ function RouteComponent() {
         <FirstFTDChart />
         <FTDAmountChart />
       </div>
+
+      <PeriodSummaryCard title='Resumen del período' />
 
     </div>
   )}
