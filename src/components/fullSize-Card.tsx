@@ -137,7 +137,6 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                   {children}
                 </motion.div>
               </CardContent>
-
         </Card>
       </motion.div>
     </>

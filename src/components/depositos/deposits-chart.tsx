@@ -1,66 +1,194 @@
 import { FullSizeCard } from "../fullSize-Card";
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getTotalDepositsByStatusAndDayQueryOptions } from "@/queryOptions/queryOptions";
+import { AreaSeries, createChart, ColorType, type IChartApi, type ISeriesApi } from 'lightweight-charts';  
+import React, { useEffect, useMemo, useRef } from 'react';
+
+
+interface ChartColors {  
+    backgroundColor?: string;  
+    lineColor?: string;  
+    textColor?: string;  
+    areaTopColor?: string;  
+    areaBottomColor?: string;  
+}  
+  
+interface ChartComponentProps {  
+    data: Array<{ time: string; value: number }>;  
+    colors?: ChartColors;  
+}  
+  
+export const ChartComponent: React.FC<ChartComponentProps> = (props) => {  
+    const {  
+        data,  
+        colors: {  
+            backgroundColor = 'black',  
+            lineColor = '#2962FF',  
+            textColor = 'white',  
+            areaTopColor = '#2962FF',  
+            areaBottomColor = 'rgba(41, 98, 255, 0.28)',  
+        } = {},  
+    } = props;  
+  
+    const chartContainerRef = useRef<HTMLDivElement>(null);  
+  
+    useEffect(  
+        () => {  
+            if (!chartContainerRef.current) return;  
+  
+            const handleResize = () => {  
+                if (chartContainerRef.current) {  
+                    chart.applyOptions({ width: chartContainerRef.current.clientWidth });  
+                }  
+            };  
+  
+            const chart: IChartApi = createChart(chartContainerRef.current, {  
+                layout: {  
+                    background: { type: ColorType.Solid, color: backgroundColor },  
+                    textColor,  
+                },  
+                width: chartContainerRef.current.clientWidth,  
+                height: 300,  
+            });  
+            chart.timeScale().fitContent();  
+  
+            const newSeries: ISeriesApi<'Area'> = chart.addSeries(AreaSeries, {   
+                lineColor,   
+                topColor: areaTopColor,   
+                bottomColor: areaBottomColor   
+            });  
+            newSeries.setData(data);  
+  
+            window.addEventListener('resize', handleResize);  
+  
+            return () => {  
+                window.removeEventListener('resize', handleResize);  
+                chart.remove();  
+            };  
+        },  
+        [data, backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]  
+    );  
+  
+    return (  
+        <div  
+            ref={chartContainerRef}  
+        />  
+    );  
+};  
 
 export function DepositsChart() {
-    const chartData = [
-        { month: "January", desktop: 186, mobile: 80 },
-        { month: "February", desktop: 305, mobile: 200 },
-        { month: "March", desktop: 237, mobile: 120 },
-        { month: "April", desktop: 73, mobile: 190 },
-        { month: "May", desktop: 209, mobile: 130 },
-        { month: "June", desktop: 214, mobile: 140 },
-    ]
+
+    const { data: allDeposits } = useSuspenseQuery(getTotalDepositsByStatusAndDayQueryOptions());
+    console.log(allDeposits);
+    const chartData = useMemo(() => {
+        const dateMap = new Map();
+        
+        // Process paid deposits
+        allDeposits.Paid.forEach(item => {
+            if (!dateMap.has(item.date)) {
+                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+            }
+            dateMap.get(item.date).paid = item.dailyTotal;
+        });
+        
+        // Process failed deposits
+        allDeposits.Failed.forEach(item => {
+            if (!dateMap.has(item.date)) {
+                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+            }
+            dateMap.get(item.date).failed = item.dailyTotal;
+        });
+        
+        // Process cancelled deposits
+        allDeposits.Cancelled.forEach(item => {
+            if (!dateMap.has(item.date)) {
+                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+            }
+            dateMap.get(item.date).cancelled = item.dailyTotal;
+        });
+        
+        return Array.from(dateMap.values()).sort((a, b) => 
+            new Date(a.time).getTime() - new Date(b.time).getTime()
+        );
+    }, [allDeposits]);
+
+    console.log("chartData", chartData);
 
     const chartConfig = {
-        desktop: {
-        label: "Desktop",
-        color: "var(--chart-1)",
+        paid: {
+            label: "Paid",
+            color: "var(--color-green-foliatti)",
         },
-        mobile: {
-        label: "Mobile",
-        color: "var(--chart-2)",
+        failed: {
+            label: "Failed",
+            color: "var(--martes)",
+        },
+        cancelled: {
+            label: "Cancelled",
+            color: "var(#FFA500)",
         },
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo">
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
-                    <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
+                    <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 0, left: 20 }}>
                     <CartesianGrid vertical={false} />
                     <XAxis
-                    dataKey="month"
+                    dataKey="time"
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
+                    tickFormatter={(value) => {
+                        const date = new Date(value)
+                        return date.toLocaleDateString("es-MX", {
+                        day: "numeric",
+                        month: "short",
+                        })
+                    }}
+                    />
+
+                    <YAxis
+                    type="number"
+                    minTickGap={10}
                     />
                     <ChartTooltip
                     cursor={false}
-                    content={<ChartTooltipContent indicator="line" />}
+                    content={<ChartTooltipContent indicator="line"  />}
                     />
-                    <Line
-                    dataKey="desktop"
-                    type="natural"
-                    stroke="var(--color-lunes)"
-                    strokeWidth={2}
-                    dot={{
-                        stroke: "var(--color-green-foliatti)",
-                    }}
-                    activeDot={{
-                        r: 6,
-                    }}
-                    >
-                    <LabelList
-                        position="top"
-                        offset={12}
-                        className="fill-foreground"
-                        fontSize={12}
-                    />
-                    </Line>
+                        <Line
+                            dataKey="paid"
+                            type="natural"
+                            stroke="var(--primary)"
+                            strokeWidth={2}
+                            dot={{
+                                stroke: "var(--color-green-foliatti)",
+                            }}
+                            activeDot={{ r: 6 }}
+                        />
+                        <Line
+                            dataKey="failed"
+                            type="natural"
+                            stroke="#FF0000"
+                            strokeWidth={2}
+                            dot={{ stroke: "#FF0000" }}
+                            activeDot={{ r: 6 }}
+                        />
+                        <Line
+                            dataKey="cancelled"
+                            type="natural"
+                            stroke="#FFA500"
+                            strokeWidth={2}
+                            dot={{ stroke: "#FFA500" }}
+                            activeDot={{ r: 6 }}
+                        />
                     </LineChart>
-                </ChartContainer>
+                </ChartContainer>     
+                                {/* <ChartComponent data={deposits}/>   */}
+
             </div>
         </FullSizeCard>
     );

@@ -1,17 +1,11 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { FTDMountByDayQueryOptions } from "@/queryOptions/queryOptions";
 
 export function FTDAmountChart() {
-    const chartData = [
-        { month: "January", desktop: 186, mobile: 80 },
-        { month: "February", desktop: 305, mobile: 200 },
-        { month: "March", desktop: 237, mobile: 120 },
-        { month: "April", desktop: 73, mobile: 190 },
-        { month: "May", desktop: 209, mobile: 130 },
-        { month: "June", desktop: 214, mobile: 140 },
-    ]
-
+    const { data: ftdMount } = useSuspenseQuery(FTDMountByDayQueryOptions());
     const chartConfig = {
         desktop: {
         label: "Desktop",
@@ -29,9 +23,9 @@ export function FTDAmountChart() {
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart
                         accessibilityLayer
-                        data={chartData}
+                        data={ftdMount}
                         margin={{
-                        left: -30
+                        left: 0
                         }}
                     >
                         <CartesianGrid vertical={false} />
@@ -39,8 +33,8 @@ export function FTDAmountChart() {
                         dataKey="date"
                         tickLine={false}
                         axisLine={false}
-                        tickMargin={8}
-                        minTickGap={32}
+                        tickMargin={2}
+                        minTickGap={5}
                         tickFormatter={(value) => {
                             const date = new Date(value)
                             return date.toLocaleDateString("en-US", {
@@ -58,7 +52,7 @@ export function FTDAmountChart() {
                         content={
                             <ChartTooltipContent
                             className="w-[150px]"
-                            nameKey="views"
+                            nameKey="total"
                             labelFormatter={(value) => {
                                 return new Date(value).toLocaleDateString("en-US", {
                                 month: "short",
@@ -69,7 +63,7 @@ export function FTDAmountChart() {
                             />
                         }
                         />
-                        <Bar dataKey="desktop" fill="var(--color-green-foliatti)" radius={8} />
+                        <Bar dataKey="total" fill="var(--color-green-foliatti)" radius={8} />
                     </BarChart>
                 </ChartContainer>
             </div>
