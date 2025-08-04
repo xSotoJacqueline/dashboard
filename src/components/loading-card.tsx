@@ -26,7 +26,6 @@ export default function CardLoading({ className, icon, description, title, child
                 {children ? children : <div className="animate-pulse bg-foreground/10 h-[100cqh] min-h-[120px] !aspect-autow-full rounded-md"/>}
             </CardContent>
         </div>
-
     </Card>
   )
 }

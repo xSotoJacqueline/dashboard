@@ -27,7 +27,7 @@ import { TableActionBar } from "../table-action-bar"
 import NumberFlow from "@number-flow/react"
 import { useDataTable } from "@/lib/use-data-table"
 import { type BenchmarkKey } from "@/queryOptions/queryOptions"
-import { benchmarkKeysQueryOptions } from "@/queryOptions/queryOptions";
+import { useSidebar } from "../ui/sidebar"
 
 
 interface DataColumns {
@@ -42,7 +42,7 @@ interface DataColumns {
 
 export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading: boolean }) {
   const queryClient = useQueryClient()
-
+  const { isMobile } = useSidebar();
   const { mutate } = useMutation({
     mutationFn: async (id: number) => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
@@ -55,8 +55,11 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
       return res.json();
     },
     onSuccess: () => {
-      toast.success('Archivo Eliminado',{ className: "mb-2" });
-      queryClient.invalidateQueries({ queryKey: benchmarkKeysQueryOptions().queryKey });
+      toast.success('Archivo Eliminado',{ className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
+      queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
+    },
+    onError: (error) => {
+      toast.error(`Error al eliminar archivo: ${error.message}`, { position: isMobile ? "top-center" : "bottom-right" });
     },
   });
 
@@ -172,25 +175,6 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
     clearOnDefault: true,
   });
 
-  // const table = useReactTable({
-  //   data,
-  //   columns,
-  //   onSortingChange: setSorting,
-  //   onColumnFiltersChange: setColumnFilters,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   getPaginationRowModel: getPaginationRowModel(),
-  //   getSortedRowModel: getSortedRowModel(),
-  //   getFilteredRowModel: getFilteredRowModel(),
-  //   onColumnVisibilityChange: setColumnVisibility,
-  //   onRowSelectionChange: setRowSelection,
-  //   state: {
-  //     sorting,
-  //     columnFilters,
-  //     columnVisibility,
-  //     rowSelection,
-  //   },
-  // })
-
   return (
     <>
     <div className="w-full h-full flex flex-col justify-between">
@@ -205,7 +189,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
         />
       </div> */}
       <div className="overflow-hidden">
-        <Table className="">
+        <Table className="h-full min-h-56">
           <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -256,7 +240,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
         </Table>
       </div>
 
-        <div className="flex w-full items-center justify-end gap-1 sm:justify-end">
+        <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
           <Button
             size={'icon'}
             className="h-fit w-fit p-2"
@@ -311,7 +295,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
         </div>
     </div>
 
-    <TableActionBar table={table} loading={false} />
+    <TableActionBar isMobile={isMobile} table={table} loading={false} />
     </>
 
 

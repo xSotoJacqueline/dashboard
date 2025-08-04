@@ -39,7 +39,7 @@ export default function CardFiles() {
 
 
   return (
-    <Card className="w-full h-full min-h-fit">
+    <Card className="w-full h-full min-h-fit sm:pb-3 pb-24">
         <CardHeader className="gap-0 space-y-0">
             <CardTitle className="text-xl font-bold flex gap-2">
                 <FileIcon className="text-primary" size={24}/>

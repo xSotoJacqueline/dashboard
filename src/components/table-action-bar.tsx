@@ -22,6 +22,7 @@ interface DataTablePaginationProps<TData extends { id: number, url: string, name
   table: Table<TData>;
   loading: boolean;
   download?: boolean;
+  isMobile: boolean;
   onMultipleDownload?: (ids: number[]) => Promise<void>;
   onMultipleDelete?: (ids: number[]) => Promise<void>;
 }
@@ -103,6 +104,7 @@ const ITEM_VARIANTS: Variants = {
 
 export function TableActionBar<TData extends { id: number, url: string, name: string }>({
   table,
+  isMobile,
 }: DataTablePaginationProps<TData>) {
   const { toasts } = useSonner();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
@@ -129,12 +131,12 @@ export function TableActionBar<TData extends { id: number, url: string, name: st
       return res.json();
     },
     onSuccess: () => {
-      toast.success('Archivos eliminados correctamente');
+      toast.success('Archivos eliminados correctamente', { className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
       queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
       table.resetRowSelection();
     },
     onError: (error) => {
-      toast.error(`Error al eliminar archivos: ${error.message}`);
+      toast.error(`Error al eliminar archivos: ${error.message}`, { className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
     },
     onSettled: () => {
       setShowConfirmation(false);

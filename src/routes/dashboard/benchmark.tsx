@@ -1,14 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import CsvUploadInput from "@/components/benchmark/upload-input"
 import { DocumentDropZoneWrapper } from "@/components/benchmark/dropzone";
-import { Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from 'sonner';
 import { useCsvFilesStore } from "@/lib/store-csv";
 import CardFiles from '@/components/benchmark/card-files';
-import CardLoading from '@/components/loading-card';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ErrorPage from '@/components/errorPage';
+import { useSidebar } from '@/components/ui/sidebar';
 
 type ProductSearch = {
   page?: number
@@ -29,7 +28,7 @@ function RouteComponent() {
 
   const { clearCsvFiles } = useCsvFilesStore();
   const queryClient = useQueryClient()
-
+  const { isMobile } = useSidebar();
   const { mutate, isPending  } = useMutation({
       mutationKey: ['uploadCsvFiles'],
       mutationFn: async (files: File[]) => {
@@ -49,12 +48,12 @@ function RouteComponent() {
         return res.json();
       },
       onSuccess: () => {
-        toast.success('Archivos subidos correctamente');
+        toast.success('Archivos subidos correctamente',{ className: "mt-8 sm:mt-0", position: isMobile ? "top-center" : "bottom-right" });
         clearCsvFiles();
         queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
       },
       onError: (error) => {
-        toast.error(`Error al subir archivos: ${error.message}`);
+        toast.error(`Error al subir archivos: ${error.message}`, { position: isMobile ? "top-center" : "bottom-right" });
       },
   
   });
@@ -64,7 +63,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full ">
+    <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full">
       <Card className="w-full h-fit">
         <CardHeader className="gap-0 space-y-0 pb-0">
           <CardTitle className="text-xl font-bold">Subir Documentos</CardTitle>
@@ -76,11 +75,8 @@ function RouteComponent() {
             </DocumentDropZoneWrapper>
         </CardContent>
       </Card>
-      
-      <Suspense fallback={<CardLoading title={true} description={true} icon={true} />}>
-        <CardFiles />
-      </Suspense>
 
+      <CardFiles />
 
     </div>
   )
