@@ -20,6 +20,12 @@ export type allDeposits = {
   dateTime: Date;
 }
 
+export type proportionalDepositFTD = {
+  total: number;
+  ftdTotal: number;
+  proportion: number;
+};
+
 export type totalDepositsStatusDay = {
   Paid: {
     date: string;
@@ -118,6 +124,24 @@ export function depositsWithdrawalQuantityQueryOptions() {
     refetchOnWindowFocus: false,
   });
 }
+
+export function proportionalDepositFTDQueryOptions() {
+  return queryOptions({
+    queryKey: ['proportionalDepositFTD'],
+    queryFn: async () : Promise<proportionalDepositFTD> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch first time deposit average');
+      }
+      return res.json();
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
 
 
 export function allDepositsQueryOptions() {

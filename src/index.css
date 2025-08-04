@@ -167,8 +167,6 @@ html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
   overflow: hidden;
   background: var(--background);
   padding: 16px;
-
-
 }
 
 .header {

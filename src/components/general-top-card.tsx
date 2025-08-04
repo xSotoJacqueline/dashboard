@@ -6,38 +6,53 @@ import { cn } from "@/lib/utils"
 import {
   type LucideIcon,
 } from "lucide-react"
+import CardLoading from "./loading-card"
+import { GeneralErrorContent } from "./general-error-content"
 
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
 export type ValueFormat = 'currency' | 'percent' | 'decimal'
 export type GeneralCardTopCardProps = {
-	value: number
+	value?: number
   title: string
-  percentageValue: number
+  percentageValue?: number
   description?: string
   Icon: LucideIcon
   valueFormat: ValueFormat
   label?: string
   className?: string
   mainNumberClassName?: string
+  isloading?: boolean
+  containerClassName?: string
+  isError?: boolean
 }
 
-export function GeneralCardTopCard({ value, Icon, title, description, label, percentageValue, valueFormat, className }: GeneralCardTopCardProps) {
+export function GeneralCardTopCard({ value = 0, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError }: GeneralCardTopCardProps) {
   const canAnimate = useCanAnimate()
+  if (isloading) {
+    return (
+      <CardLoading className="w-full min-h-[841.2px] max-h-[841.2px] md:min-h-[354.6px] lg:min-h-[185.3px] xl:min-h-[165.3px] md:max-h-[354.6px] lg:max-h-[185.3px] xl:max-h-[165.3px] animate-pulse" children={<p></p>} />
+    )
+  }
+
+
   return (
-    <Card className="border-0 h-full col-span-1 overflow-hidden">
-      <CardContent className={cn(`flex px-4 flex-col justify-between h-full ${description ? '' : 'gap-2'}`, className)}>
+    <Card className={cn("border-0 h-full col-span-1 overflow-hidden", containerClassName)}>
+      <CardContent className={cn(`flex px-4 flex-col ${isError ? "" : "justify-between"} h-full ${description ? '' : 'gap-3'}`, className)}>
         <section>
-          <div className="flex justify-between items-center gap-2">
-            <h2 className="text-xl font-bold">{title}</h2>
-            <Icon size={20} strokeWidth={2} className="text-primary"/>
+          <div className="flex justify-between items-start gap-2">
+            <h2 className="text-xl font-bold min-h-14">{title}</h2>
+            <Icon size={20} strokeWidth={2} className="text-primary mt-1"/>
           </div>
           <div className="">
             <span className="text-xs text-muted-foreground line-clamp-1">{description}</span>
           </div>
         </section>
 
-        <section className="flex flex-col gap-2">
+        {isError ? (
+             <GeneralErrorContent className="min-h-0 h-full" />
+          ) : (
+                    <section className="flex flex-col gap-3">
           <NumberFlow
             value={valueFormat === "percent" ? value / 100 : value}
             locales="en-US"
@@ -84,6 +99,9 @@ export function GeneralCardTopCard({ value, Icon, title, description, label, per
               </MotionConfig>
           </div>
         </section>
+
+          )}
+
 
 
       </CardContent>

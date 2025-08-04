@@ -1,11 +1,36 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { FTDMountByDayQueryOptions } from "@/queryOptions/queryOptions";
+import CardLoading from "../loading-card";
+import { GeneralEmptyContent } from "../general-empty-content";
+import { GeneralErrorContent } from "../general-error-content";
 
 export function FTDAmountChart() {
-    const { data: ftdMount } = useSuspenseQuery(FTDMountByDayQueryOptions());
+    const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions());
+
+        if (isPending || isFetching) {
+            return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+    
+        }
+    
+        if (error) {
+           return (    
+            <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+                <GeneralErrorContent refetch={refetch} />
+            </FullSizeCard>
+            )
+        }
+    
+        if (!ftdMount) {
+            return (    
+            <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+                <GeneralEmptyContent />
+            </FullSizeCard>
+            )
+        }
+
     const chartConfig = {
         desktop: {
         label: "Desktop",

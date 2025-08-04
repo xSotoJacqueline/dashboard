@@ -1,10 +1,13 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { type totalDepositsStatusDay } from "@/queryOptions/queryOptions";
+import { getTotalDepositsByStatusAndDayQueryOptions, type totalDepositsStatusDay } from "@/queryOptions/queryOptions";
 import { AreaSeries, createChart, ColorType, type IChartApi, type ISeriesApi } from 'lightweight-charts';  
-import React, { useEffect, useMemo, useRef } from 'react';
-
+import React, { useEffect, useRef } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import CardLoading from "../loading-card";
+import { GeneralEmptyContent } from "../general-empty-content";
+import { GeneralErrorContent } from "../general-error-content";
 
 interface ChartColors {  
     backgroundColor?: string;  
@@ -75,14 +78,38 @@ export const ChartComponent: React.FC<ChartComponentProps> = (props) => {
             ref={chartContainerRef}  
         />  
     );  
-};  
+};
 
-export function DepositsChart({allDeposits}: {allDeposits: totalDepositsStatusDay}) {
+export function DepositsChart() {
 
-    const chartData = useMemo(() => {
+    const { data: allDeposits, error, isPending, isFetching, refetch } = useQuery(
+        getTotalDepositsByStatusAndDayQueryOptions(),
+    );
+
+    if (isPending || isFetching) {
+        return <CardLoading className="w-full h-full animate-pulse" title={true} description={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+    }
+
+    if (error) {
+        return (    
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
+                <GeneralErrorContent refetch={refetch} />
+            </FullSizeCard>
+        )
+    }
+
+    if (!allDeposits) {
+        return (    
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
+            <GeneralEmptyContent />
+        </FullSizeCard>
+        )
+    }
+
+
+    const chartGetData = ({allDeposits}: {allDeposits: totalDepositsStatusDay}) => {
         const dateMap = new Map();
-        
-        // Process paid deposits
+
         allDeposits.Paid.forEach(item => {
             if (!dateMap.has(item.date)) {
                 dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
@@ -109,7 +136,9 @@ export function DepositsChart({allDeposits}: {allDeposits: totalDepositsStatusDa
         return Array.from(dateMap.values()).sort((a, b) => 
             new Date(a.time).getTime() - new Date(b.time).getTime()
         );
-    }, [allDeposits]);
+    }
+
+    const chartData = chartGetData({allDeposits});
 
     const chartConfig = {
         paid: {
