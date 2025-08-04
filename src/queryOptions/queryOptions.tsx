@@ -70,6 +70,56 @@ export function totalFTDQueryOptions() {
   });
 }
 
+export function totalAmountFTDQueryOptions() {
+  return queryOptions({
+    queryKey: ['FTDAmount'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch first time deposit average');
+      }
+      return res.json();
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function averageAmountDepositsQueryOptions() {
+  return queryOptions({
+    queryKey: ['averageAmountDeposits'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/table-test/average-amount`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch first time deposit average');
+      }
+      return res.json();
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
+export function depositsWithdrawalQuantityQueryOptions() {
+  return queryOptions({
+    queryKey: ['depositsWithdrawalQuantity'],
+    queryFn: async () : Promise<totalTransactionsByType> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch first time deposit average');
+      }
+      return res.json();
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
 export function allDepositsQueryOptions() {
   return queryOptions({
     queryKey: ['allDeposits'],

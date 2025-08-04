@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 
 export function NavCalendar({}) {
   const [dateSelected, setDateSelected] = useState<{ from: Date; to?: Date } | undefined>(undefined);
+  console.log("dateSelected:", dateSelected);
   return (
     <SidebarMenu>
       <SidebarMenuItem>

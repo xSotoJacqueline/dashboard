@@ -1,8 +1,7 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getTotalDepositsByStatusAndDayQueryOptions } from "@/queryOptions/queryOptions";
+import { type totalDepositsStatusDay } from "@/queryOptions/queryOptions";
 import { AreaSeries, createChart, ColorType, type IChartApi, type ISeriesApi } from 'lightweight-charts';  
 import React, { useEffect, useMemo, useRef } from 'react';
 
@@ -78,10 +77,8 @@ export const ChartComponent: React.FC<ChartComponentProps> = (props) => {
     );  
 };  
 
-export function DepositsChart() {
+export function DepositsChart({allDeposits}: {allDeposits: totalDepositsStatusDay}) {
 
-    const { data: allDeposits } = useSuspenseQuery(getTotalDepositsByStatusAndDayQueryOptions());
-    console.log(allDeposits);
     const chartData = useMemo(() => {
         const dateMap = new Map();
         
@@ -113,8 +110,6 @@ export function DepositsChart() {
             new Date(a.time).getTime() - new Date(b.time).getTime()
         );
     }, [allDeposits]);
-
-    console.log("chartData", chartData);
 
     const chartConfig = {
         paid: {

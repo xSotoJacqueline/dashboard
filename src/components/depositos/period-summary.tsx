@@ -15,8 +15,9 @@ export type Source = {
     Icon?: LucideIcon;
     identifier?: string;
     fullScreenButton?: boolean;
+    averageAmountDeposits: number;
   }
-export function PeriodSummaryCard({ title, description, identifier }: Props) {
+export function PeriodSummaryCard({ title, description, identifier, averageAmountDeposits }: Props) {
 
   return (
     <GeneralCard classNameContainer="overflow-visible" className='h-full' identifier={identifier} title={title} description={description}>
@@ -26,7 +27,7 @@ export function PeriodSummaryCard({ title, description, identifier }: Props) {
           <section className='flex flex-col justify-center items-center w-fit'>
             <div className='flex w-fit h-fit gap-0 items-center justify-center -mb-3'>
                 <NumberFlow
-                  value={32}
+                  value={averageAmountDeposits}
                   locales="en-US"
                   format={{ style: 'currency', currency: 'USD' }}
                   className="text-6xl font-bold w-fit text-primary"

@@ -165,7 +165,6 @@ type letFiles = {
     const filesToPush: letFiles[] = [];
 
     const files = rows.map((row) => row.original);
-    console.log(files);
 
     for (const file of files) {
       const title = file.name || file.url.split('/').pop() || 'document';

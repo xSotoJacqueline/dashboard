@@ -1,17 +1,8 @@
 import { FullSizeCard } from "../fullSize-Card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { FTDQuantityByDayQueryOptions } from "@/queryOptions/queryOptions";
-import { toast } from "sonner";
 
-export function FirstFTDChart() {
-
-    const { data: ftdMount, error } = useSuspenseQuery(FTDQuantityByDayQueryOptions());
-    if (error) {
-        toast.error("Error al cargar los depósitos");
-        return
-    }
+export function FirstFTDChart({ftdMount}: {ftdMount: {time: string, value: number}[]}) {
 
     const chartConfig = {
         ftdMount: {
