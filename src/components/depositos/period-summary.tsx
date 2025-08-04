@@ -1,7 +1,7 @@
 
 import NumberFlow from '@number-flow/react'
 import { GeneralCard } from '../general-card';
-import { averageAmountDepositsQueryOptions, proportionalDepositFTDQueryOptions} from '@/queryOptions/queryOptions';
+import { averageAmountDepositsQueryOptions, globalAverageDepositQueryOptions, proportionalDepositFTDQueryOptions} from '@/queryOptions/queryOptions';
 import { useQueries } from '@tanstack/react-query';
 import CardLoading from '../loading-card';
 import { Button } from '../ui/button';
@@ -14,11 +14,11 @@ export type Source = {
 
 export function PeriodSummaryCard() {
 
-  const [{data: averageAmountDeposits, error: averageAmountDepositsError, isPending: isPendingAverage, isFetching: isFetchingAverage}, {data: proportionalDepositFTD, error: proportionalDepositFTDError, refetch: refetchProportional, isPending: isPendingProportional, isFetching: isFetchingProportional}] = useQueries({
-    queries: [ averageAmountDepositsQueryOptions(), proportionalDepositFTDQueryOptions()],
+  const [{data: averageAmountDeposits, error: averageAmountDepositsError, isPending: isPendingAverage, isFetching: isFetchingAverage}, {data: proportionalDepositFTD, error: proportionalDepositFTDError, refetch: refetchProportional, isPending: isPendingProportional, isFetching: isFetchingProportional}, {data: globalAverageDeposit, error: globalAverageDepositError, isPending: isPendingGlobalAverage, isFetching: isFetchingGlobalAverage, refetch: refetchGlobalAverage}] = useQueries({
+    queries: [ averageAmountDepositsQueryOptions(), proportionalDepositFTDQueryOptions(), globalAverageDepositQueryOptions()],
   });
 
-    if (isPendingProportional || isPendingAverage || isFetchingProportional || isFetchingAverage) {
+    if (isPendingProportional || isPendingAverage || isFetchingProportional || isFetchingAverage || isPendingGlobalAverage || isFetchingGlobalAverage) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[120px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
     }
 
@@ -66,15 +66,22 @@ export function PeriodSummaryCard() {
           </section>
 
           <section className='flex flex-col justify-center items-center w-fit'>
-            <div className='flex w-fit h-fit gap-0 items-center justify-center -mb-3'>
+              {globalAverageDepositError ? 
+              <div className='text-5xl xl:text-6xl my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
+            : globalAverageDeposit ? (
                 <NumberFlow
-                  value={32}
+                  value={globalAverageDeposit}
                   locales="en-US"
                   format={{ style: 'decimal' }}
                   className="text-5xl xl:text-6xl font-bold w-fit text-primary"
                 />
-            </div>
-            <span className='w-fit'>Depositos por dia</span>
+                ) : <CircleSlashIcon className='size-[48px] xl:size-[60px] font-bold w-fit mt-5 mb-1'>Sin Datos</CircleSlashIcon> }
+
+            {globalAverageDepositError ?
+              <Button size={"sm"} variant={"link"} className='p-0 h-fit w-fit' onClick={() => refetchGlobalAverage()}>Reintentar</Button>
+              :  
+              <span className='w-fit'>Promedio global</span>
+            }
           </section>
         </div>
       </div>

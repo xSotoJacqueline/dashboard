@@ -34,7 +34,7 @@ export default function CardFiles() {
               <GeneralErrorContent refetch={refetch} />
           </CardContent>
       </Card>
-  )
+    )
   }
 
 

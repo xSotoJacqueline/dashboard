@@ -76,6 +76,22 @@ export function totalFTDQueryOptions() {
   });
 }
 
+export function globalAverageDepositQueryOptions() {
+  return queryOptions({
+    queryKey: ['globalAverageDeposit'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch first time deposit average');
+      }
+      return res.json();
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function totalAmountFTDQueryOptions() {
   return queryOptions({
     queryKey: ['FTDAmount'],
