@@ -15,11 +15,11 @@ export default function DespistosTopCards() {
   }
 
   if (firstTimeDepositIsPending || totalTransactionsIsPending || depositsWithdrawalIsPending || totalAmountFTDIsPending) {
-   return (<CardLoading className="w-full min-h-[723.8px] max-h-[723.8px] md:min-h-[410.6px] lg:min-h-[213.3px] xl:min-h-[193.3px] md:max-h-[354.6px] lg:max-h-[213.3px] xl:max-h-[193.3px] animate-pulse" children={<p></p>} />)
+   return (<CardLoading className="w-full min-h-[881.17px] max-h-[881.17px] md:min-h-[410.6px] lg:min-h-[213.3px] xl:min-h-[193.3px] md:max-h-[354.6px] lg:max-h-[213.3px] xl:max-h-[193.3px] animate-pulse" children={<p></p>} />)
   }
 
   return (
-    <div className="grid w-full min-h-[723.8px] max-h-[723.8px] md:min-h-[410.6px] lg:min-h-[213.3px] xl:min-h-[193.3px] md:max-h-[354.6px] lg:max-h-[213.3px] xl:max-h-[193.3px]grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+    <div className="grid w-full md:min-h-[410.6px] lg:min-h-[213.3px] xl:min-h-[193.3px] md:max-h-[354.6px] lg:max-h-[213.3px] xl:max-h-[193.3px]grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
         <GeneralCardTopCard
           containerClassName="col-span-1"
           value={totalAmountFTD}

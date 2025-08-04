@@ -20,7 +20,7 @@ export default function CardLoading({ className, icon, description, title, child
                     {icon && <div className="animate-pulse bg-foreground/10 size-5 rounded-sm"/>}
                     {title && <div className="animate-pulse bg-foreground/10 h-4 w-52 rounded-full"/>}
                 </CardTitle>
-                <CardDescription>{description && <div className="animate-pulse mt-2 bg-foreground/10 h-4 w-96 rounded-full"/>}</CardDescription>
+                <CardDescription>{description && <div className="animate-pulse mt-2 bg-foreground/10 h-4 w-64 sm:w-96 rounded-full"/>}</CardDescription>
             </CardHeader>
             <CardContent style={{containerType: "size"}} className="flex flex-col h-full min-h-[120px]">
                 {children ? children : <div className="animate-pulse bg-foreground/10 h-[100cqh] min-h-[120px] !aspect-autow-full rounded-md"/>}
