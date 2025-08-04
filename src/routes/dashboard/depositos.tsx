@@ -32,7 +32,7 @@ function RouteComponent() {
         <DespistosTopCards/>
 
         <div className="w-full h-full max-h-full flex gap-6">
-           <DepositsChart  />
+           <DepositsChart />
         </div>
 
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">

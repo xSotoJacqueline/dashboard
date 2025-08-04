@@ -5,7 +5,7 @@ import { UsersRoundIcon, UserRoundPlus, MedalIcon, GiftIcon } from "lucide-react
 import CardLoading from "../loading-card";
 
 export default function DespistosTopCards() {
-  const [{data: firstTimeDepositAverage, isPending: firstTimeDepositIsPending, error: firstTimeDepositError}, {data: totalTransactionsByType, isPending: totalTransactionsIsPending, error: totalTransactionsError}, {data: depositsWithdrawalQuantity, isPending: depositsWithdrawalIsPending, error: depositsWithdrawalError}, {data: totalAmountFTD, isPending: totalAmountFTDIsPending, error: totalAmountFTDError}] = useQueries({
+  const [{data: firstTimeDepositAverage, refetch: firstTimeDepositRefetch, isPending: firstTimeDepositIsPending, error: firstTimeDepositError}, {data: totalTransactionsByType, refetch: totalTransactionsRefetch, isPending: totalTransactionsIsPending, error: totalTransactionsError}, {data: depositsWithdrawalQuantity, refetch: depositsWithdrawalRefetch, isPending: depositsWithdrawalIsPending, error: depositsWithdrawalError}, {data: totalAmountFTD, refetch: totalAmountFTDRefetch, isPending: totalAmountFTDIsPending, error: totalAmountFTDError}] = useQueries({
     queries: [totalFTDQueryOptions(), totalTransactionsByTypeQueryOptions(), depositsWithdrawalQuantityQueryOptions(), totalAmountFTDQueryOptions()],
   });
 
@@ -24,6 +24,7 @@ export default function DespistosTopCards() {
           containerClassName="col-span-1 !min-h-0"
           value={totalAmountFTD}
           title="Monto total de FTD’s"
+          refetch={totalAmountFTDRefetch}
           Icon={MedalIcon}
           isError={!!totalAmountFTDError}
           label="Últimos 28 días"
@@ -36,6 +37,7 @@ export default function DespistosTopCards() {
           value={depositsWithdrawalQuantity?.Deposit}
           isError={!!depositsWithdrawalError}
           title="Número de depósitos"
+          refetch={depositsWithdrawalRefetch}
           Icon={GiftIcon}
           label="Últimos 28 días"
           percentageValue={fetchData()}
@@ -47,6 +49,7 @@ export default function DespistosTopCards() {
           value={firstTimeDepositAverage}
           isError={!!firstTimeDepositError}
           title="FTD’s"
+          refetch={firstTimeDepositRefetch}
           Icon={UsersRoundIcon}
           label="Últimos 28 días"
           percentageValue={fetchData()}
@@ -58,6 +61,7 @@ export default function DespistosTopCards() {
           value={totalTransactionsByType?.Deposit}
           isError={!!totalTransactionsError}
           title="Monto FTD’s"
+          refetch={totalTransactionsRefetch}
           Icon={UserRoundPlus}
           label="Últimos 28 días"
           percentageValue={fetchData()}

@@ -8,6 +8,7 @@ import {
 } from "lucide-react"
 import CardLoading from "./loading-card"
 import { GeneralErrorContent } from "./general-error-content"
+import type { QueryObserverResult, RefetchOptions } from "@tanstack/react-query"
 
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
@@ -25,9 +26,10 @@ export type GeneralCardTopCardProps = {
   isloading?: boolean
   containerClassName?: string
   isError?: boolean
+  refetch?: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>
 }
 
-export function GeneralCardTopCard({ value = 0, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError }: GeneralCardTopCardProps) {
+export function GeneralCardTopCard({ refetch, value = 0, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError }: GeneralCardTopCardProps) {
   const canAnimate = useCanAnimate()
   if (isloading) {
     return (
@@ -50,7 +52,7 @@ export function GeneralCardTopCard({ value = 0, Icon, title, description, label,
         </section>
 
         {isError ? (
-             <GeneralErrorContent className="min-h-0 h-full" />
+             <GeneralErrorContent title={false} refetch={refetch} className="min-h-0 h-full" />
           ) : (
                     <section className="flex flex-col gap-3">
           <NumberFlow
