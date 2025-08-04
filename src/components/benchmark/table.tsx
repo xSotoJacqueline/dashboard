@@ -276,8 +276,8 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
           >
             <ChevronLeft size={16} />
           </Button>
-          <div className="mx-2 flex items-center space-x-1 text-sm tabular-nums">
-            <span className="text-muted-foreground flex min-w-5 items-center">
+          <div className="mr-2 flex items-end justify-end space-x-1 text-sm tabular-nums">
+            <span className="text-muted-foreground justify-end flex min-w-5 items-end text-end">
               <NumberFlow value={table.getState().pagination.pageIndex + 1} />
             </span>
             <span className="text-muted-foreground flex items-center gap-1">
@@ -309,30 +309,6 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
             <ChevronsRight size={16} />
           </Button>
         </div>
-      {/* <div className="flex items-center justify-end space-x-2 pt-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div> */}
     </div>
 
     <TableActionBar table={table} loading={false} />
