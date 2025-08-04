@@ -52,7 +52,7 @@ export function GeneralCardTopCard({ refetch, value = 0, Icon, title, descriptio
         </section>
 
         {isError ? (
-             <GeneralErrorContent title={false} refetch={refetch} className="min-h-0 py-2 h-full" />
+             <GeneralErrorContent title={false} refetch={refetch} className="min-h-0 py-1 h-full" />
           ) : (
                     <section className="flex flex-col gap-3">
           <NumberFlow

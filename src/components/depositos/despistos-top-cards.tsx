@@ -19,9 +19,9 @@ export default function DespistosTopCards() {
   }
 
   return (
-    <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid w-full min-h-[723.8px] max-h-[723.8px] md:min-h-[410.6px] lg:min-h-[213.3px] xl:min-h-[193.3px] md:max-h-[354.6px] lg:max-h-[213.3px] xl:max-h-[193.3px]grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
         <GeneralCardTopCard
-          containerClassName="col-span-1 !min-h-0"
+          containerClassName="col-span-1"
           value={totalAmountFTD}
           title="Monto total de FTD’s"
           refetch={totalAmountFTDRefetch}
