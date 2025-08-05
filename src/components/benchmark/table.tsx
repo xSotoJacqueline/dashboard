@@ -1,0 +1,304 @@
+import {
+  type ColumnDef,
+  flexRender,
+} from "@tanstack/react-table"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { bytesToMegabytes } from "@/lib/unit-convertions"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
+import { TableActionBar } from "../table-action-bar"
+import NumberFlow from "@number-flow/react"
+import { useDataTable } from "@/lib/use-data-table"
+import { type BenchmarkKey } from "@/queryOptions/queryOptions"
+import { useSidebar } from "../ui/sidebar"
+
+
+interface DataColumns {
+  id: number;
+  key: string;
+  name: string;
+  size: string;
+  url: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading: boolean }) {
+  const queryClient = useQueryClient()
+  const { isMobile } = useSidebar();
+  const { mutate } = useMutation({
+    mutationFn: async (id: number) => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/benchmark/delete/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        throw new Error('Failed to delete benchmark key');
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success('Archivo Eliminado',{ className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
+      queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
+    },
+    onError: (error) => {
+      toast.error(`Error al eliminar archivo: ${error.message}`, { position: isMobile ? "top-center" : "bottom-right" });
+    },
+  });
+
+  const columns: ColumnDef<DataColumns>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: "Archivo",
+    cell: ({ row }) => (
+    <div className="">{row.getValue("name")}</div>
+    ),
+  },
+  {
+    accessorKey: "size",
+    header: "Tamaño",
+    cell: ({ row }) => {
+      const sizeString = row.getValue("size") as string;
+      
+      // Extract numeric value from the string (e.g., "2635835 bytes")
+      const sizeInBytes = parseInt(sizeString.split(" ")[0]);
+      
+      const sizeInMegabytes = bytesToMegabytes(sizeInBytes);
+      return (
+        <div className="">
+        {sizeInMegabytes} MB
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: () => <div className="text-right">Fecha de Subida</div>,
+    cell: ({ row }) => {
+        const date = new Date(row.getValue("createdAt"))
+        return (
+            <div className="text-right">
+            {date.toLocaleDateString()} {date.toLocaleTimeString()}
+            </div>
+        )
+    },
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+                onClick={() => {
+                    toast.warning('Esta acción sera permanente', {
+                    action: {
+                        label: 'Eliminar',
+                        onClick: () => mutate(payment.id),
+                    },
+                    className: "mb-2 mr-8"
+                    });
+                }}
+            >
+              Eliminar
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
+  },
+]
+
+  const { table } = useDataTable({
+    data: data.data || [],
+    columns,
+    pageCount: data.totalPages,
+    enableAdvancedFilter: true,
+    initialState: {
+      sorting: [{ id: 'id', desc: true }],
+      columnPinning: { right: ['actions'] },
+    },
+    defaultColumn: {
+      columns,
+      enableColumnFilter: false,
+    },
+    getRowId: (originalRow) => originalRow.id.toString(),
+    shallow: false,
+    clearOnDefault: true,
+  });
+
+  return (
+    <>
+    <div className="w-full h-full flex flex-col justify-between">
+      {/* <div className="flex items-center py-4">
+        <Input
+          placeholder="Nombre..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div> */}
+      <div className="overflow-hidden">
+        <Table className="h-full min-h-56">
+          <TableHeader className="">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody className="border-none">
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                 className="border-none"
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-full text-center"
+                >
+                  Sin Archivos
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+        <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            aria-label="Go to first page"
+            onClick={() => table.setPageIndex(0)}
+            disabled={loading || !table.getCanPreviousPage()}
+          >
+            <ChevronsLeft size={16} />
+          </Button>
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            disabled={loading || table.getState().pagination.pageIndex + 1 === 1}
+            onClick={() => table.previousPage()}
+          >
+            <ChevronLeft size={16} />
+          </Button>
+          <div className="mr-2 flex items-end justify-end space-x-1 text-sm tabular-nums">
+            <span className="text-muted-foreground justify-end flex min-w-5 items-end text-end">
+              <NumberFlow value={table.getState().pagination.pageIndex + 1} />
+            </span>
+            <span className="text-muted-foreground flex items-center gap-1">
+              /{' '}
+              {loading ? (
+                <div className="h-4 w-5 animate-pulse rounded-sm bg-slate-200/50" />
+              ) : (
+                table.getPageCount()
+              )}
+            </span>
+          </div>
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            disabled={loading || table.getState().pagination.pageIndex + 1 === table.getPageCount()}
+            onClick={() => table.nextPage()}
+          >
+            <ChevronRight size={16} />
+          </Button>
+          <Button
+            size={'icon'}
+            variant={'secondary'}
+            className="h-fit w-fit p-2"
+            aria-label="Go to first page"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={loading || !table.getCanNextPage()}
+          >
+            <ChevronsRight size={16} />
+          </Button>
+        </div>
+    </div>
+
+    <TableActionBar isMobile={isMobile} table={table} loading={false} />
+    </>
+
+
+
+  )
+}

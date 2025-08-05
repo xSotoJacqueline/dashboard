@@ -1,0 +1,65 @@
+import { ChartColumnDecreasingIcon } from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { useSidebar } from "../ui/sidebar";
+import { GeneralCard } from "../general-card";
+
+type DepositMethodsTableItem = {
+  username: string;
+  earnings: number;
+  gamesPlayed: number;
+  winRate: number;
+}
+
+const depositMethodsData: DepositMethodsTableItem[] = [
+  { username: "Jugador1", earnings: -150, gamesPlayed: 20, winRate: 0.15 },
+  { username: "Jugador2", earnings: -200, gamesPlayed: 25, winRate: 0.12 },
+  { username: "Jugador3", earnings: -180, gamesPlayed: 30, winRate: 0.10 },
+  { username: "Jugador4", earnings: -220, gamesPlayed: 22, winRate: 0.08 },
+  { username: "Jugador5", earnings: -170, gamesPlayed: 18, winRate: 0.14 },
+  { username: "Jugador6", earnings: -160, gamesPlayed: 28, winRate: 0.11 },
+  { username: "Jugador7", earnings: -190, gamesPlayed: 24, winRate: 0.09 },
+  { username: "Jugador8", earnings: -210, gamesPlayed: 26, winRate: 0.07 },
+  { username: "Jugador9", earnings: -230, gamesPlayed: 21, winRate: 0.06 },
+  { username: "Jugador10", earnings: -240, gamesPlayed: 19, winRate: 0.05 },
+]
+
+
+export function WithDrawMethodsTable() {
+  const { state } = useSidebar();
+
+  return (
+    <GeneralCard identifier="chart2" title="Métodos de retiro" description="Jugadores con mayores perdidas" Icon={ChartColumnDecreasingIcon}>
+       <div className="w-full h-full">
+              <Table>
+                <TableHeader className=" ">
+                  <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-xs md:text-lg" : "text-xs lg:text-lg"}`}>
+                    <TableHead className="text-left h-fit px-0">Usuario</TableHead>
+                    <TableHead className="text-center h-fit px-0">Ganancias</TableHead>
+                    <TableHead className="text-center h-fit px-0">Juego</TableHead>
+                    <TableHead className="text-right h-fit px-0">Win Rate</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="border-0">
+                  <TableRow className="border-0 text-primary h-2" />
+
+                  {depositMethodsData.map((deposit) => (
+                    <TableRow className="border-0 text-primary" key={deposit.username}>
+                      <TableCell className="text-start px-0">{deposit.username}</TableCell>
+                      <TableCell className="text-center px-0">{deposit.earnings}</TableCell>
+                      <TableCell className="text-center px-0">{deposit.gamesPlayed}</TableCell>
+                      <TableCell className="text-right px-0">{deposit.winRate}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+          </div>
+    </GeneralCard>
+  )
+}

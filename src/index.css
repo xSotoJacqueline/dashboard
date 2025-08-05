@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -26,6 +26,22 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-lunes: #3C1072;
+  --color-martes: #573087;
+  --color-miercoles: #77589D;
+  --color-jueves: #AF9BC8;
+  --color-viernes: #C8BAD9;
+  --color-sabado: #AB9FB9;
+  --color-domingo: #C5C5C5;
+  --lunes: #3C1072;
+  --martes: #573087;
+  --miercoles: #77589D;
+  --jueves: #AF9BC8;
+  --viernes: #C8BAD9;
+  --sabado: #AB9FB9;
+  --domingo: #C5C5C5;
+  --green-foliatti: #0AA64D;
+  --color-green-foliatti: var(--green-foliatti);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -39,17 +55,149 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+    --color-midnight: #121063;
+  --color-tahiti: #3ab7bf;
+  --color-bermuda: #78dcca;
+  --color-primary-foliatti:#3c1072;
+  --color-primary-foliatti-dark:#57209a;
 }
+
+html, body { height: 100dvh } html, body { height: calc(var(--vh, 1vh) * 100) }
+
+
+.app {
+    height: 100%;
+}
+
+.list {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 48px 0;
+}
+
+.list li {
+  display: flex;
+  width: 386px;
+  cursor: pointer;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+}
+
+.game-wrapper {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d4d6d861;
+}
+
+.list li:last-of-type .game-wrapper {
+  border: none;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+}
+
+.active-game .content-wrapper {
+  padding: 0;
+}
+
+.game-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.game-description {
+  font-size: 14px;
+  color: #63635d;
+}
+
+.button {
+  border-radius: 9999px;
+  background: #f1f0ef;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #007aff;
+}
+
+.overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  place-items: end center;
+
+}
+
+.active-game {
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  top: 0;
+  z-index: 20;
+  height: 100%;
+}
+
+.active-action-bar .inner {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.active-game .inner {
+  display: flex;
+  height: fit-content;
+  width: 100cqw;
+  height: 100cqh;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  overflow: hidden;
+  background: var(--background);
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-inner {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.long-description {
+  font-size: 14px;
+  color: #63635d;
+}
+
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: var(--color-white);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: var(--color-white);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #3c1072;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -61,12 +209,13 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
+    --chart-1: #C5C5C5;
+  --chart-2: #AB9FB9;
+  --chart-3: #C8BAD9;
+  --chart-4: #AF9BC8;
+  --chart-5: #3C1072;
+  --chart-6: #3C1072;
+  --sidebar: var(--color-white);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -77,13 +226,14 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(21.017% 0.00157 16.444);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --primary: #7a37cc;
+  --primary-foliatti:#7a37cc;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -95,11 +245,11 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+    --chart-1: #7a37cc;
+  --chart-2: #501598;
+  --chart-3: #3c1072;
+  --chart-4: #21083f;
+  --chart-5: #261240;
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);

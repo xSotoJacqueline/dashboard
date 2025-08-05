@@ -1,4 +1,3 @@
-"use client"
 
 import { useState } from "react"
 import { BarChart3, Users, Gift, CreditCard, BookOpen, TrendingUp, Target, CalendarIcon } from "lucide-react"
@@ -23,7 +22,7 @@ export function Sidebar() {
 
   return (
     <div className="w-72 bg-gray-50 p-6">
-      <h2 className="font-semibold text-xl mb-6">Menú</h2>
+      <h2 className="font-semibold text-xl text-foreground mb-6">Menú</h2>
 
       <nav className="space-y-1 mb-8">
         {menuItems.map((item, index) => (

@@ -8,15 +8,15 @@ export function MetricsCards() {
       <Card className="bg-gray-50 border-0">
         <CardContent className="p-6">
           <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className="w-6 h-6 text-gray-600" />
+            <BarChart3 className="w-6 h-6 text-foreground" />
           </div>
           <div className="mb-2">
-            <span className="text-sm text-gray-600">Total de retiros</span>
+            <span className="text-sm text-foreground">Total de retiros</span>
           </div>
           <div className="text-5xl font-bold mb-2">420</div>
-          <div className="text-sm text-gray-600 mb-3">Transacciones gay x2</div>
+          <div className="text-sm text-foreground mb-3">Transacciones</div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">Últimos 28 días</span>
+            <span className="text-sm text-foreground">Últimos 28 días</span>
             <Badge className="bg-green-500 hover:bg-green-500 text-white text-xs px-2 py-1">+2.5</Badge>
           </div>
         </CardContent>
