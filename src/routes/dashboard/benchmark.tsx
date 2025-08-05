@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useSearch } from '@tanstack/react-router'
 import CsvUploadInput from "@/components/benchmark/upload-input"
 import { DocumentDropZoneWrapper } from "@/components/benchmark/dropzone";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,16 +8,20 @@ import CardFiles from '@/components/benchmark/card-files';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ErrorPage from '@/components/errorPage';
 import { useSidebar } from '@/components/ui/sidebar';
-
-type ProductSearch = {
-  page?: number
-}
+import { es } from 'date-fns/locale';  
+import { format } from 'date-fns';  
+import type { BenchmarkSearch } from '@/types/search-types';
 
 export const Route = createFileRoute('/dashboard/benchmark')({
-    validateSearch: (search: Record<string, unknown>): ProductSearch => {
-    // validate and parse the search params into a typed state
+  validateSearch: (search: Record<string, unknown>): BenchmarkSearch => {
     return {
       page: Number(search?.page ?? 1),
+      from: typeof search?.from === 'string'
+        ? search.from
+        : undefined,
+      to: typeof search?.to === 'string'
+        ? search.to
+        : undefined,
     }
   },
   component: RouteComponent,
@@ -61,6 +65,13 @@ function RouteComponent() {
   const handleCsvUpload = (files: File[]) => {
     mutate(files);
   };
+  const search = useSearch({ from: '/dashboard/benchmark' });
+  
+  const from = search.from;
+  console.log("from",from)
+  const to = search.to;
+  console.log("benchmark from", from ? format(from, 'd MMM yyyy', { locale: es }) : undefined);
+  console.log("benchmark to", to ? format(to, 'd MMM yyyy', { locale: es }) : undefined);
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full">

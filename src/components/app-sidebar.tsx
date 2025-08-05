@@ -22,13 +22,7 @@ import {
   BookIcon,
 } from "lucide-react"
 
-// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   projects: [
     {
       name: "Retiros",
@@ -75,11 +69,10 @@ const data = {
       url: "/dashboard/benchmark",
       icon: ChartNoAxesCombinedIcon,
     }
-
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = React.memo(function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="ml-10 my-auto max-h-[95cqh] rounded-2xl pl-0" collapsible="icon" {...props}>
       <SidebarHeader className="rounded-t-3xl mt-5 px-6">
@@ -96,4 +89,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail className="rounded-3xl max-h-[90cqh] my-auto bg-transparent"/>
     </Sidebar>
   )
-}
+});
