@@ -28,10 +28,10 @@ export function NavCalendar() {
         <Popover>  
           <PopoverTrigger asChild>  
             <SidebarMenuButton className={cn(  
-              buttonVariants({ variant: "outline", size: "default" }),   
-              "w-full justify-start font-normal group-data-[collapsible=icon]:!p-1.5"  
+              buttonVariants({ variant: applyFilters ? "default" : "outline", size: "default" }),   
+              "w-full justify-start items-center flex font-normal"  
             )}>  
-              <CalendarIcon className="h-4 w-4 opacity-50" />  
+              <CalendarIcon className="h-4 w-4"/>  
               {from ? (  
                 <span className="group-data-[collapsible=icon]:hidden block">  
                   {format(from, 'd MMM yyyy', { locale: es })}  
@@ -44,7 +44,7 @@ export function NavCalendar() {
               )}  
             </SidebarMenuButton>  
           </PopoverTrigger>  
-          <PopoverContent className="z-9999 w-auto p-0" align="start">  
+          <PopoverContent className="z-9999 w-fit p-0" align="start">  
             <Calendar  
               mode="range"  
               numberOfMonths={2}  
@@ -56,40 +56,49 @@ export function NavCalendar() {
                   from: dateRange?.from || null,  
                   to: dateRange?.to || null  
                 })  
+                setApplyFilters(false)
               }}   
               disabled={(date) => date < new Date('1900-01-01')}  
               initialFocus  
             />  
-            <div className="p-3 border-t flex gap-2">  
+            <div style={{containerType: "size"}} className="border-t p-3 h-14 flex justify-between w-full">  
               <Button  
-                variant="secondary"  
                 onClick={() => {  
                   setDates({ from: null, to: null })  
+                  setApplyFilters(false)
                 }}  
+                variant={"secondary"}
+                className="w-[32%]"
+                size={"sm"}
+                disabled={!from && !to} 
               >  
                 Limpiar fechas  
               </Button>  
 
               <Button  
-                variant="secondary"  
                 onClick={() => {  
                   setApplyFilters(true)
-                }}  
+                }} 
+                variant={"secondary"}
+                className="w-[32%]"
+                size={"sm"}
+                disabled={!from && !to || applyFilters} 
                 
               >  
                 Aplicar Filtro
               </Button> 
 
-              {applyFilters && (
                 <Button
-                  variant="secondary"
+                  variant={"secondary"}
+                  className="w-[32%]"
                   onClick={() => {
                     setApplyFilters(false)
                   }}
+                  size={"sm"}
+                  disabled={!applyFilters}
                 >
-                  Cancelar
+                  Limpiar Filtro
                 </Button>
-              )}
             </div>  
           </PopoverContent>  
         </Popover>  

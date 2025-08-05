@@ -19,6 +19,9 @@ export const Route = createFileRoute('/dashboard/depositos')({
       to: typeof search?.to === 'number'
         ? search.to
         : undefined,
+      apply: typeof search?.apply === 'boolean'
+        ? search.apply
+        : false,
     }
   },
   component: RouteComponent,
@@ -28,7 +31,8 @@ export const Route = createFileRoute('/dashboard/depositos')({
 
 function RouteComponent() {
    const search = useSearch({ from: '/dashboard/depositos' });
-
+    const applyFilters = search.apply ? search.apply : false;
+    console.log("applyFilters", applyFilters)
     const from = search.from ? search.from : undefined;
     console.log("from", from)
     const to = search.to ? search.to : undefined;
