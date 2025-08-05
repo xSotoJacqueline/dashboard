@@ -14,8 +14,22 @@ import {
 } from "@/components/ui/animated-tabs";
 import PlayersTab from "@/components/tabs/players-tab"
 import ErrorPage from '@/components/errorPage'
+import type { GeneralSearch } from '@/types/search-types'
 
 export const Route = createFileRoute('/dashboard/marketing')({
+  validateSearch: (search: Record<string, unknown>): GeneralSearch => {
+    return {
+      from: typeof search?.from === 'number'
+        ? search.from
+        : undefined,
+      to: typeof search?.to === 'number'
+        ? search.to
+        : undefined,
+      apply: typeof search?.apply === 'boolean'
+        ? search.apply
+        : false,
+    }
+  },
   component: RouteComponent,
   errorComponent: ({error}) => <ErrorPage error={error.message} />,
   

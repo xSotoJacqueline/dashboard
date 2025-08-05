@@ -12,8 +12,22 @@ import CasinoBetsTab from '@/components/tabs/casino-bets-tab'
 import PeakHoursTab from '@/components/tabs/peak-hours-tab';
 import OverviewTab from '@/components/tabs/overview-tab';
 import ErrorPage from '@/components/errorPage';
+import type { GeneralSearch } from '@/types/search-types';
 
 export const Route = createFileRoute('/dashboard/alcances')({
+  validateSearch: (search: Record<string, unknown>): GeneralSearch => {
+    return {
+      from: typeof search?.from === 'number'
+        ? search.from
+        : undefined,
+      to: typeof search?.to === 'number'
+        ? search.to
+        : undefined,
+      apply: typeof search?.apply === 'boolean'
+        ? search.apply
+        : false,
+    }
+  },
   component: RouteComponent,
   errorComponent: ({error}) => <ErrorPage error={error.message} />,
   pendingComponent: () => <div className="w-full h-full flex items-center justify-center">Loading sportsbook...</div>,

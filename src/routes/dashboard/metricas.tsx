@@ -3,8 +3,22 @@ import { BarChart3 } from "lucide-react"
 import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 import ErrorPage from '@/components/errorPage'
+import type { GeneralSearch } from '@/types/search-types'
 
 export const Route = createFileRoute('/dashboard/metricas')({
+  validateSearch: (search: Record<string, unknown>): GeneralSearch => {
+    return {
+      from: typeof search?.from === 'number'
+        ? search.from
+        : undefined,
+      to: typeof search?.to === 'number'
+        ? search.to
+        : undefined,
+      apply: typeof search?.apply === 'boolean'
+        ? search.apply
+        : false,
+    }
+  },
   component: RouteComponent,
   errorComponent: ({error}) => <ErrorPage error={error.message} />,
   
