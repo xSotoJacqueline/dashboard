@@ -11,10 +11,11 @@ import { buttonVariants, Button } from "./ui/button";
 import { es } from 'date-fns/locale';  
 import { format } from 'date-fns';  
 import { cn } from "@/lib/utils";  
-import { parseAsIsoDate, useQueryState, parseAsBoolean, useQueryStates} from 'nuqs'  
+import { parseAsTimestamp , useQueryState, parseAsBoolean, useQueryStates} from 'nuqs'  
+
 const dateParams = {  
-  from: parseAsIsoDate,  
-  to: parseAsIsoDate     
+  from: parseAsTimestamp,  
+  to: parseAsTimestamp      
 }  
 export function NavCalendar() { 
   

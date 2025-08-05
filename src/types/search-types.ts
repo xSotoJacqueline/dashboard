@@ -1,10 +1,10 @@
 export type BenchmarkSearch = {
   page?: number
-  from?: string
-  to?: string
+  from?: number
+  to?: number
 }
 
 export type GeneralSearch = {
-  from?: string
-  to?: string
+  from?: number
+  to?: number
 }

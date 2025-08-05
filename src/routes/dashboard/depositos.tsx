@@ -7,16 +7,16 @@ import { DepositsChart } from '@/components/depositos/deposits-chart'
 import {PendingDepositos} from '@/components/depositos/pending-depositos'
 import { PeriodSummaryCard } from '@/components/depositos/period-summary'
 import type { GeneralSearch } from '@/types/search-types'
-import { addHours, format, setHours, addDays } from 'date-fns'
+import { format } from 'date-fns'
 import { es } from 'date-fns/locale/es'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
     return {
-      from: typeof search?.from === 'string'
+      from: typeof search?.from === 'number'
         ? search.from
         : undefined,
-      to: typeof search?.to === 'string'
+      to: typeof search?.to === 'number'
         ? search.to
         : undefined,
     }
@@ -29,9 +29,9 @@ export const Route = createFileRoute('/dashboard/depositos')({
 function RouteComponent() {
    const search = useSearch({ from: '/dashboard/depositos' });
 
-    const from = search.from ? addDays(setHours(new Date(search.from), 0), 1) : undefined;
+    const from = search.from ? search.from : undefined;
     console.log("from", from)
-    const to = search.to ? addHours(new Date(search.to), 12) : undefined;
+    const to = search.to ? search.to : undefined;
     console.log("depositos from", from ? format(from, 'd MMM yyyy', { locale: es }) : undefined);
     console.log("depositos to", to ? format(to, 'd MMM yyyy', { locale: es }) : undefined);
 

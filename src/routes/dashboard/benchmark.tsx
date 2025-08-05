@@ -16,10 +16,10 @@ export const Route = createFileRoute('/dashboard/benchmark')({
   validateSearch: (search: Record<string, unknown>): BenchmarkSearch => {
     return {
       page: Number(search?.page ?? 1),
-      from: typeof search?.from === 'string'
+      from: typeof search?.from === 'number'
         ? search.from
         : undefined,
-      to: typeof search?.to === 'string'
+      to: typeof search?.to === 'number'
         ? search.to
         : undefined,
     }

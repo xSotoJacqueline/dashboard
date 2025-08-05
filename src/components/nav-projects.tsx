@@ -9,12 +9,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Link, useLocation } from "@tanstack/react-router"
-import { createSerializer, parseAsIsoDate, useQueryStates } from 'nuqs'  
+import { createSerializer, parseAsTimestamp, useQueryStates } from 'nuqs'  
 import { useMemo } from "react"
   
 const dateParams = {  
-  from: parseAsIsoDate,  
-  to: parseAsIsoDate  
+  from: parseAsTimestamp,  
+  to: parseAsTimestamp  
 }  
 const serialize = createSerializer(dateParams)  
 
