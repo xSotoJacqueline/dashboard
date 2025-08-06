@@ -45,8 +45,8 @@ export function NavCalendar() {
               )}  
             </SidebarMenuButton>  
           </PopoverTrigger>  
-          <PopoverContent className="z-9999 w-fit p-0 max-h-[500px] overflow-y-hidden" align="start">  
-            <ScrollArea className="w-full h-[500px]">
+          <PopoverContent className="z-9999 w-fit p-0 max-h-[390px] overflow-y-hidden" align="start">  
+            <ScrollArea className="w-full h-[390px]">
                 <Calendar  
                   mode="range"  
                   numberOfMonths={2}  
