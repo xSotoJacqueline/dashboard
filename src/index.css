@@ -63,7 +63,7 @@
 }
 
 ::view-transition-group(root) {
-  animation-duration: 0.5s;
+  animation-duration: 1s;
   animation-timing-function: var(--expo-out);
 }
       
@@ -82,19 +82,19 @@
 
 @keyframes reveal-dark {
   from {
-    clip-path: inset(0 0 100% 0);
+    clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%);
   }
   to {
-    clip-path: inset(0 0 0 0);
+    clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%);
   }
 }
 
 @keyframes reveal-light {
   from {
-    clip-path: inset(100% 0 0 0);
+    clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%);
   }
   to {
-    clip-path: inset(0 0 0 0);
+    clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%);
   }
 }
 
