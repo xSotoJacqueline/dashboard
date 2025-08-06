@@ -12,6 +12,7 @@ import { es } from 'date-fns/locale';
 import { format } from 'date-fns';  
 import { cn } from "@/lib/utils";  
 import { parseAsTimestamp , useQueryState, parseAsBoolean, useQueryStates} from 'nuqs'  
+import { ScrollArea } from "./ui/scroll-area";
 
 const dateParams = {  
   from: parseAsTimestamp,  
@@ -25,7 +26,7 @@ export function NavCalendar() {
   return (  
     <SidebarMenu>  
       <SidebarMenuItem>  
-        <Popover>  
+        <Popover modal={true}>  
           <PopoverTrigger asChild>  
             <SidebarMenuButton className={cn(  
               buttonVariants({ variant: applyFilters ? "default" : "outline", size: "default" }),   
@@ -44,62 +45,64 @@ export function NavCalendar() {
               )}  
             </SidebarMenuButton>  
           </PopoverTrigger>  
-          <PopoverContent className="z-9999 w-fit p-0" align="start">  
-            <Calendar  
-              mode="range"  
-              numberOfMonths={2}  
-              captionLayout="dropdown"  
-              selected={{ from: from || undefined, to: to || undefined }}  
-              onSelect={(dateRange) => {  
-                console.log("daterange",dateRange)
-                setDates({  
-                  from: dateRange?.from || null,  
-                  to: dateRange?.to || null  
-                })  
-                setApplyFilters(false)
-              }}   
-              disabled={(date) => date < new Date('1900-01-01')}  
-              initialFocus  
-            />  
-            <div style={{containerType: "size"}} className="border-t p-3 h-14 flex justify-between w-full">  
-              <Button  
-                onClick={() => {  
-                  setDates({ from: null, to: null })  
-                  setApplyFilters(false)
-                }}  
-                variant={"secondary"}
-                className="w-[32%]"
-                size={"sm"}
-                disabled={!from && !to} 
-              >  
-                Limpiar fechas  
-              </Button>  
-
-              <Button  
-                onClick={() => {  
-                  setApplyFilters(true)
-                }} 
-                variant={"secondary"}
-                className="w-[32%]"
-                size={"sm"}
-                disabled={!from && !to || applyFilters} 
-                
-              >  
-                Aplicar Filtro
-              </Button> 
-
-                <Button
-                  variant={"secondary"}
-                  className="w-[32%]"
-                  onClick={() => {
+          <PopoverContent className="z-9999 w-fit p-0 max-h-[500px] overflow-y-hidden" align="start">  
+            <ScrollArea className="w-full h-[500px]">
+                <Calendar  
+                  mode="range"  
+                  numberOfMonths={2}  
+                  captionLayout="dropdown"  
+                  selected={{ from: from || undefined, to: to || undefined }}  
+                  onSelect={(dateRange) => {  
+                    console.log("daterange",dateRange)
+                    setDates({  
+                      from: dateRange?.from || null,  
+                      to: dateRange?.to || null  
+                    })  
                     setApplyFilters(false)
-                  }}
-                  size={"sm"}
-                  disabled={!applyFilters}
-                >
-                  Limpiar Filtro
-                </Button>
-            </div>  
+                  }}   
+                  disabled={(date) => date < new Date('1900-01-01')}  
+                  initialFocus  
+                />  
+                <div style={{containerType: "size"}} className="border-t p-3 h-14 flex flex-col sm:flex-row justify-between gap-3 w-full">  
+                  <Button  
+                    onClick={() => {  
+                      setDates({ from: null, to: null })  
+                      setApplyFilters(false)
+                    }}  
+                    variant={"secondary"}
+                    className="w-full sm:w-[32%]"
+                    size={"sm"}
+                    disabled={!from && !to} 
+                  >  
+                    Limpiar fechas  
+                  </Button>  
+
+                  <Button  
+                    onClick={() => {  
+                      setApplyFilters(true)
+                    }} 
+                    variant={"secondary"}
+                    className="w-full sm:w-[32%]"
+                    size={"sm"}
+                    disabled={!from && !to || applyFilters} 
+                    
+                  >  
+                    Aplicar Filtro
+                  </Button> 
+
+                    <Button
+                      variant={"secondary"}
+                      className="w-full sm:w-[32%]"
+                      onClick={() => {
+                        setApplyFilters(false)
+                      }}
+                      size={"sm"}
+                      disabled={!applyFilters}
+                    >
+                      Limpiar Filtro
+                    </Button>
+                </div>  
+            </ScrollArea>
           </PopoverContent>  
         </Popover>  
       </SidebarMenuItem>  

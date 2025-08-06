@@ -42,7 +42,7 @@ function RouteComponent() {
         });
   
         const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-        const res = await fetch(`${API_BASE_URL}/benchmark/many`, {
+        const res = await fetch(`${API_BASE_URL}/benchmark/manya`, {
           method: 'POST',
           body: formdata,
         });

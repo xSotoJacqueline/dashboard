@@ -92,6 +92,35 @@ export function globalAverageDepositQueryOptions() {
   });
 }
 
+type usersByCityTabProps = {
+    city: string;
+    activeUsers: string;
+}
+
+
+export function usersByCityQueryOptions() {
+  return queryOptions({
+    queryKey: ['usersByCity'],
+    queryFn: async () : Promise<{ top10: usersByCityTabProps[]; all: usersByCityTabProps[] }> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/users-by-city?propertyId=294090389`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch users by city');
+      }
+
+      // return 10 most cities with most active users
+      const data = await res.json();
+      const sortedData = data.sort((a: usersByCityTabProps, b: usersByCityTabProps) => {
+        return parseInt(b.activeUsers) - parseInt(a.activeUsers);
+      });
+      return { top10: sortedData.slice(0, 10), all: sortedData };
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
 export function totalAmountFTDQueryOptions() {
   return queryOptions({
     queryKey: ['FTDAmount'],

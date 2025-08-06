@@ -2,83 +2,10 @@ import { FullSizeCard } from "../fullSize-Card";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
 import { getTotalDepositsByStatusAndDayQueryOptions, type totalDepositsStatusDay } from "@/queryOptions/queryOptions";
-import { AreaSeries, createChart, ColorType, type IChartApi, type ISeriesApi } from 'lightweight-charts';  
-import React, { useEffect, useRef } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
-
-interface ChartColors {  
-    backgroundColor?: string;  
-    lineColor?: string;  
-    textColor?: string;  
-    areaTopColor?: string;  
-    areaBottomColor?: string;  
-}  
-  
-interface ChartComponentProps {  
-    data: Array<{ time: string; value: number }>;  
-    colors?: ChartColors;  
-}  
-  
-export const ChartComponent: React.FC<ChartComponentProps> = (props) => {  
-    const {  
-        data,  
-        colors: {  
-            backgroundColor = 'black',  
-            lineColor = '#2962FF',  
-            textColor = 'white',  
-            areaTopColor = '#2962FF',  
-            areaBottomColor = 'rgba(41, 98, 255, 0.28)',  
-        } = {},  
-    } = props;  
-  
-    const chartContainerRef = useRef<HTMLDivElement>(null);  
-  
-    useEffect(  
-        () => {  
-            if (!chartContainerRef.current) return;  
-  
-            const handleResize = () => {  
-                if (chartContainerRef.current) {  
-                    chart.applyOptions({ width: chartContainerRef.current.clientWidth });  
-                }  
-            };  
-  
-            const chart: IChartApi = createChart(chartContainerRef.current, {  
-                layout: {  
-                    background: { type: ColorType.Solid, color: backgroundColor },  
-                    textColor,  
-                },  
-                width: chartContainerRef.current.clientWidth,  
-                height: 300,  
-            });  
-            chart.timeScale().fitContent();  
-  
-            const newSeries: ISeriesApi<'Area'> = chart.addSeries(AreaSeries, {   
-                lineColor,   
-                topColor: areaTopColor,   
-                bottomColor: areaBottomColor   
-            });  
-            newSeries.setData(data);  
-  
-            window.addEventListener('resize', handleResize);  
-  
-            return () => {  
-                window.removeEventListener('resize', handleResize);  
-                chart.remove();  
-            };  
-        },  
-        [data, backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]  
-    );  
-  
-    return (  
-        <div  
-            ref={chartContainerRef}  
-        />  
-    );  
-};
 
 export function DepositsChart() {
 

@@ -12,7 +12,6 @@ export interface DocumentDropZoneWrapperProps {
   children: ReactNode;
   className?: string;
   isSubmitting: boolean;
-
 }
 
 export const DocumentDropZoneWrapper = ({ children, className, isSubmitting }: DocumentDropZoneWrapperProps) => {
