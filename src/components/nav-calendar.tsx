@@ -30,28 +30,35 @@ export function NavCalendar() {
       <SidebarMenuItem>  
         <Popover modal={true}>  
           <PopoverTrigger asChild>  
-            <SidebarMenuButton className={cn(  
-              buttonVariants({ variant: applyFilters ? "default" : "outline", size: "default" }),   
-              "w-full justify-start items-center flex font-normal"  
-            )}>  
-              <CalendarIcon className="h-4 w-4"/>  
-              {from ? (  
-                <span className="group-data-[collapsible=icon]:hidden block">  
-                  {format(from, 'd MMM yyyy', { locale: es })}  
-                  {to ? ` - ${format(to, 'd MMM yyyy', { locale: es })}` : ''}  
-                </span>  
-              ) : (  
-                <span className="group-data-[collapsible=icon]:hidden block">  
-                  Selecciona una fecha  
-                </span>  
-              )}  
-            </SidebarMenuButton>  
+            <SidebarMenuButton
+              className={cn(
+              buttonVariants({
+                variant: "outline",
+                className: (applyFilters
+                ? "bg-primary border border-primary hover:!text-white text-white shadow-xs hover:!bg-primary/90"
+                : ""),
+                size: "default"
+              }),
+              "w-full justify-start items-center flex font-normal transition-colors duration-300"
+              )}
+            >
+              <CalendarIcon className="h-4 w-4" />
+              {dateSelected?.from ? (
+              <span className="group-data-[collapsible=icon]:hidden block">
+                {format(dateSelected.from, 'd MMM yyyy', { locale: es })}
+                {dateSelected.to ? ` - ${format(dateSelected.to, 'd MMM yyyy', { locale: es })}` : ''}
+              </span>
+              ) : (
+              <span className="group-data-[collapsible=icon]:hidden block">
+                Selecciona una fecha
+              </span>
+              )}
+            </SidebarMenuButton>
           </PopoverTrigger>  
           <PopoverContent className="z-9999 w-fit p-0 max-h-[390px] overflow-y-hidden" align="start">  
             <ScrollArea className="w-full h-[390px]">
                 <Calendar
                 mode="range"
-                showOutsideDays={false}
                 numberOfMonths={2}
                 captionLayout="dropdown"
                 selected={dateSelected}
