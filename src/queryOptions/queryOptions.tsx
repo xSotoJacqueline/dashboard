@@ -240,9 +240,18 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString}: {query
         throw new Error('Failed to fetch all deposits');
       }
       const data = await res.json();
-      if (data.length === 0 || !data.Paid || !data.Failed || !data.Cancelled) {
-        return { Paid: [], Failed: [], Cancelled: [] };
+      console.log("getTotalDepositsByStatusAndDay data", data);
+      // Verificar si data contiene almenos uno de los campos Paid, Failed o Cancelled, con al menos un elemento, si falta alguno agregarlo como un array vacío
+      if (!data.Paid) {
+        data.Paid = [];
       }
+      if (!data.Failed) {
+        data.Failed = [];
+      }
+      if (!data.Cancelled) {
+        data.Cancelled = [];
+      }
+
       return data;
     },
     staleTime: Infinity,
