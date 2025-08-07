@@ -240,7 +240,6 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString}: {query
         throw new Error('Failed to fetch all deposits');
       }
       const data = await res.json();
-      console.log("getTotalDepositsByStatusAndDay data", data);
       if (data.length === 0 || !data.Paid || !data.Failed || !data.Cancelled) {
         return { Paid: [], Failed: [], Cancelled: [] };
       }

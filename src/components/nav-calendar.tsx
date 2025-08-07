@@ -51,6 +51,7 @@ export function NavCalendar() {
             <ScrollArea className="w-full h-[390px]">
                 <Calendar
                 mode="range"
+                showOutsideDays={false}
                 numberOfMonths={2}
                 captionLayout="dropdown"
                 selected={dateSelected}
@@ -90,9 +91,9 @@ export function NavCalendar() {
                     variant={"secondary"}
                     className="w-full sm:w-[49%]"
                     size={"sm"}
-                    disabled={!dateSelected} 
+                    disabled={!dateSelected || applyFilters} 
                   >  
-                    {applyFilters ? 'Desactivar filtro' : 'Aplicar filtro'}
+                    Aplicar filtro
                   </Button> 
 
                   {/* <Button

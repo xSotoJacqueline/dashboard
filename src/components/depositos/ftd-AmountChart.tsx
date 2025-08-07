@@ -6,6 +6,8 @@ import { FTDMountByDayQueryOptions } from "@/queryOptions/queryOptions";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 
 export function FTDAmountChart() {
     const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions());
@@ -61,11 +63,7 @@ export function FTDAmountChart() {
                         tickMargin={2}
                         minTickGap={5}
                         tickFormatter={(value) => {
-                            const date = new Date(value)
-                            return date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            })
+                             return format(parseISO(value), 'd MMM yyyy', {locale: es})   
                         }}
                         />
                         <YAxis
@@ -79,11 +77,7 @@ export function FTDAmountChart() {
                             className="w-[150px]"
                             nameKey="total"
                             labelFormatter={(value) => {
-                                return new Date(value).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                })
+                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
                             }}
                             />
                         }

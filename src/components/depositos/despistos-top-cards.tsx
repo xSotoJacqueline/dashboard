@@ -4,7 +4,7 @@ import { GeneralCardTopCard} from "@/components/general-top-card"
 import { UsersRoundIcon, UserRoundPlus, MedalIcon, GiftIcon } from "lucide-react"
 // import CardLoading from "../loading-card";
 
-export default function DespistosTopCards({queryString}: {queryString?: string}) {
+export default function DespistosTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
   const [{data: firstTimeDepositAverage, refetch: firstTimeDepositRefetch, isPending: firstTimeDepositIsPending, error: firstTimeDepositError}, {data: totalTransactionsByType, refetch: totalTransactionsRefetch, isPending: totalTransactionsIsPending, error: totalTransactionsError}, {data: depositsWithdrawalQuantity, refetch: depositsWithdrawalRefetch, isPending: depositsWithdrawalIsPending, error: depositsWithdrawalError}, {data: totalAmountFTD, refetch: totalAmountFTDRefetch, isPending: totalAmountFTDIsPending, error: totalAmountFTDError}] = useQueries({
     queries: [totalFTDQueryOptions({queryString}), totalTransactionsByTypeQueryOptions({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), totalAmountFTDQueryOptions({queryString})],
   });
@@ -28,7 +28,7 @@ export default function DespistosTopCards({queryString}: {queryString?: string})
           refetch={totalAmountFTDRefetch}
           Icon={MedalIcon}
           isError={!!totalAmountFTDError}
-          label="Últimos 28 días"
+          label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}
           percentageValue={fetchData()}
           valueFormat="currency"
         />
@@ -41,7 +41,7 @@ export default function DespistosTopCards({queryString}: {queryString?: string})
           title="Número de depósitos"
           refetch={depositsWithdrawalRefetch}
           Icon={GiftIcon}
-          label="Últimos 28 días"
+          label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}
           percentageValue={fetchData()}
           valueFormat="decimal"
         />
@@ -54,7 +54,7 @@ export default function DespistosTopCards({queryString}: {queryString?: string})
           title="FTD’s"
           refetch={firstTimeDepositRefetch}
           Icon={UsersRoundIcon}
-          label="Últimos 28 días"
+          label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}
           percentageValue={fetchData()}
           valueFormat="decimal"
         />
@@ -67,7 +67,7 @@ export default function DespistosTopCards({queryString}: {queryString?: string})
           title="Monto FTD’s"
           refetch={totalTransactionsRefetch}
           Icon={UserRoundPlus}
-          label="Últimos 28 días"
+          label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}
           percentageValue={fetchData()}
           valueFormat="currency"
         />

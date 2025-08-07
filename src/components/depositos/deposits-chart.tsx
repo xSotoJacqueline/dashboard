@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 
 export function DepositsChart({queryString}: {queryString?: string}) {
 
@@ -94,11 +96,7 @@ export function DepositsChart({queryString}: {queryString?: string}) {
                     axisLine={false}
                     tickMargin={8}
                     tickFormatter={(value) => {
-                        const date = new Date(value)
-                        return date.toLocaleDateString("es-MX", {
-                        day: "numeric",
-                        month: "short",
-                        })
+                        return  format(parseISO(value), 'd MMM yyyy', {locale: es})
                     }}
                     />
 
@@ -107,8 +105,16 @@ export function DepositsChart({queryString}: {queryString?: string}) {
                     minTickGap={10}
                     />
                     <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="line"  />}
+                        content={
+                            <ChartTooltipContent
+                            className="w-[150px]"
+                            indicator="line"
+                            nameKey="total"
+                            labelFormatter={(value) => {
+                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
+                            }}
+                            />
+                        }
                     />
                         <Line
                             dataKey="paid"

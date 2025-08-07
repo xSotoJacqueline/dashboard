@@ -6,6 +6,8 @@ import { FTDQuantityByDayQueryOptions } from "@/queryOptions/queryOptions";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 
 export function FirstFTDChart({queryString}: {queryString?: string}) {
 
@@ -58,11 +60,7 @@ export function FirstFTDChart({queryString}: {queryString?: string}) {
                         axisLine={false}
                         tickMargin={8}
                         tickFormatter={(value) => {
-                            const date = new Date(value)
-                            return date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            })
+                            return format(parseISO(value), 'd MMM yyyy', {locale: es})                            
                         }}
                         />
                     <YAxis
@@ -71,14 +69,17 @@ export function FirstFTDChart({queryString}: {queryString?: string}) {
                     tickFormatter={(value) => `${value}`}
                     tickMargin={2}
                     />
-                    <ChartTooltip
-                    content={
-                        <ChartTooltipContent
-                        className="w-[150px]"
-                        nameKey="total"
+                        <ChartTooltip
+                        content={
+                            <ChartTooltipContent
+                            className="w-[150px]"
+                            nameKey="total"
+                            labelFormatter={(value) => {
+                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
+                            }}
+                            />
+                        }
                         />
-                    }
-                    />
                     <Bar dataKey="total" fill="var(--color-primary-foliatti)" radius={8} />
                                 </BarChart>
                 </ChartContainer>
