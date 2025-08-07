@@ -9,13 +9,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Link, useLocation } from "@tanstack/react-router"
-import { createSerializer, parseAsBoolean, parseAsTimestamp, useQueryStates } from 'nuqs'  
+import { createSerializer, parseAsTimestamp, useQueryStates } from 'nuqs'  
 import { useMemo } from "react"
   
 const dateParams = {  
   from: parseAsTimestamp,  
   to: parseAsTimestamp,
-  apply: parseAsBoolean.withDefault(false)
 }  
 const serialize = createSerializer(dateParams)  
 
@@ -31,10 +30,13 @@ export function NavProjects({
 }) {
 
   const { pathname } = useLocation();
-  const [{ from, to, apply }] = useQueryStates(dateParams)
+  const [{ from, to }] = useQueryStates(dateParams)
   const projectItems = useMemo(() => (
     projects.map((item) => {
-      const href = serialize(item.url, { from, to, apply })
+      let href = serialize(item.url, { from, to })
+      if (item.url === '/dashboard/benchmark') {
+        href = item.url;
+      }
       const isActive = pathname?.startsWith(`${item.url.toLocaleLowerCase()}`)
       return (
         <SidebarMenuItem key={item.name}>
@@ -56,7 +58,7 @@ export function NavProjects({
         </SidebarMenuItem>
       )
     })
-  ), [projects, pathname, from, to, apply])
+  ), [projects, pathname, from, to])
 
   return (
     <SidebarGroup className="pl-0" >

@@ -16,9 +16,6 @@ export const Route = createFileRoute('/dashboard/retiros')({
       to: typeof search?.to === 'number'
         ? search.to
         : undefined,
-      apply: typeof search?.apply === 'boolean'
-        ? search.apply
-        : false,
     }
   },
   component: RouteComponent,

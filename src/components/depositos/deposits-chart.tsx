@@ -7,13 +7,13 @@ import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 
-export function DepositsChart() {
+export function DepositsChart({queryString}: {queryString?: string}) {
 
-    const { data: allDeposits, error, isPending, isFetching, refetch } = useQuery(
-        getTotalDepositsByStatusAndDayQueryOptions(),
+    const { data: allDeposits, error, isPending, refetch } = useQuery(
+        getTotalDepositsByStatusAndDayQueryOptions({queryString}),
     );
 
-    if (isPending || isFetching) {
+    if (isPending) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} description={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
     }
 
@@ -25,7 +25,7 @@ export function DepositsChart() {
         )
     }
 
-    if (!allDeposits) {
+    if (!allDeposits || allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0) {
         return (    
         <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
             <GeneralEmptyContent />

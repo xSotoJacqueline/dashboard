@@ -16,12 +16,6 @@ export const Route = createFileRoute('/dashboard/benchmark')({
   validateSearch: (search: Record<string, unknown>): BenchmarkSearch => {
     return {
       page: Number(search?.page ?? 1),
-      from: typeof search?.from === 'number'
-        ? search.from
-        : undefined,
-      to: typeof search?.to === 'number'
-        ? search.to
-        : undefined,
     }
   },
   component: RouteComponent,
@@ -42,7 +36,7 @@ function RouteComponent() {
         });
   
         const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-        const res = await fetch(`${API_BASE_URL}/benchmark/manya`, {
+        const res = await fetch(`${API_BASE_URL}/benchmark/many`, {
           method: 'POST',
           body: formdata,
         });

@@ -7,10 +7,10 @@ import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 
-export function FirstFTDChart() {
+export function FirstFTDChart({queryString}: {queryString?: string}) {
 
     const { data: ftdMount, error, isPending, isFetching, refetch } = useQuery(
-        FTDQuantityByDayQueryOptions(),
+        FTDQuantityByDayQueryOptions({queryString}),
     );
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
@@ -25,7 +25,7 @@ export function FirstFTDChart() {
         )
     }
 
-    if (!ftdMount) {
+    if (!ftdMount || ftdMount.length === 0) {
         return (    
         <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <GeneralEmptyContent />

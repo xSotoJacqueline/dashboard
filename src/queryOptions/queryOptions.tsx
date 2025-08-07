@@ -1,4 +1,9 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, keepPreviousData } from "@tanstack/react-query";
+
+export type GeneralProps = {
+  queryString?: string;
+  applyFilters?: boolean;
+}
 
 export type totalTransactionsByType ={
     Withdrawal: number;
@@ -60,19 +65,22 @@ export interface BenchmarkKey {
     }[]
 }
 
-export function totalFTDQueryOptions() {
+export function totalFTDQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['firstTimeDepositAverage'],
+    queryKey: ['firstTimeDepositAverage', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd?${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
       return res.json();
     },
+
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
@@ -121,12 +129,12 @@ export function usersByCityQueryOptions() {
 }
 
 
-export function totalAmountFTDQueryOptions() {
+export function totalAmountFTDQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['FTDAmount'],
+    queryKey: ['FTDAmount', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -134,6 +142,8 @@ export function totalAmountFTDQueryOptions() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
@@ -154,12 +164,12 @@ export function averageAmountDepositsQueryOptions() {
 }
 
 
-export function depositsWithdrawalQuantityQueryOptions() {
+export function depositsWithdrawalQuantityQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['depositsWithdrawalQuantity'],
+    queryKey: ['depositsWithdrawalQuantity', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -167,15 +177,17 @@ export function depositsWithdrawalQuantityQueryOptions() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
-export function proportionalDepositFTDQueryOptions() {
+export function proportionalDepositFTDQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['proportionalDepositFTD'],
+    queryKey: ['proportionalDepositFTD', queryString],
     queryFn: async () : Promise<proportionalDepositFTD> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money`);
+      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -218,16 +230,21 @@ export function allDepositsQueryOptions() {
   });
 }
 
-export function getTotalDepositsByStatusAndDayQueryOptions() {
+export function getTotalDepositsByStatusAndDayQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['getTotalDepositsByStatusAndDay'],
+    queryKey: ['getTotalDepositsByStatusAndDay', queryString],
     queryFn: async () : Promise<totalDepositsStatusDay> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-total-deposit-by-status-and-day`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-total-deposit-by-status-and-day${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
-      return await res.json();
+      const data = await res.json();
+      console.log("getTotalDepositsByStatusAndDay data", data);
+      if (data.length === 0 || !data.Paid || !data.Failed || !data.Cancelled) {
+        return { Paid: [], Failed: [], Cancelled: [] };
+      }
+      return data;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
@@ -253,12 +270,12 @@ export function FTDMountByDayQueryOptions() {
 }
 
 
-export function FTDQuantityByDayQueryOptions() {
+export function FTDQuantityByDayQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['FTDQuantityByDay'],
+    queryKey: ['FTDQuantityByDay', queryString],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-first-depossit-by-all-days`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-first-depossit-by-all-days${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -271,12 +288,12 @@ export function FTDQuantityByDayQueryOptions() {
 }
 
 
-export function totalTransactionsByTypeQueryOptions() {
+export function totalTransactionsByTypeQueryOptions({queryString}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['totalTransactionsByType'],
+    queryKey: ['totalTransactionsByType', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-by-type`);
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'; 
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-by-type${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -284,6 +301,8 @@ export function totalTransactionsByTypeQueryOptions() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
@@ -299,5 +318,6 @@ export function benchmarkKeysQueryOptions({pageParam}: {pageParam?: number} = {}
       return res.json();
     },
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
   });
 }
