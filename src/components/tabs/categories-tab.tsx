@@ -17,7 +17,7 @@ export default function CategoriesTab() {
 
   return (
     <div  style={{containerType: "size"}}  className="w-full h-full flex flex-col gap-6">
-      {/* <div className='h-fit lg:h-[35cqh] w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
+      <div className='h-fit lg:h-[35cqh] w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
         <Card className="w-full flex flex-col justify-between h-full border-0 gap-6 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">
             <CardHeader className="flex justify-between items-center h-fit">
                 <CardTitle className="text-xl font-semibold">Casino</CardTitle>
@@ -194,7 +194,7 @@ export default function CategoriesTab() {
               </div>
             </CardFooter>
         </Card>
-      </div> */}
+      </div>
 
       <div className='h-full w-full'>
         <CategoriesTable/>

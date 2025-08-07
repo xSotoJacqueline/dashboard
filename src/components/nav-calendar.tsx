@@ -11,7 +11,7 @@ import { buttonVariants, Button } from "./ui/button";
 import { es } from 'date-fns/locale';  
 import { format } from 'date-fns';  
 import { cn } from "@/lib/utils";  
-import { parseAsTimestamp, useQueryStates} from 'nuqs'  
+import { parseAsBoolean, parseAsTimestamp, useQueryState, useQueryStates} from 'nuqs'  
 import { ScrollArea } from "./ui/scroll-area";
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ const dateParams = {
 }  
 export function NavCalendar() { 
   
-  const [applyFilters, setApplyFilters] = useState(false);
+  const [applyFilters, setApplyFilters] = useQueryState('apply', parseAsBoolean.withDefault(false))
   const [{ from, to }, setDates] = useQueryStates(dateParams)  
   const [dateSelected, setDateSelected] = useState<{ from: Date; to?: Date } | undefined>(undefined);
   
