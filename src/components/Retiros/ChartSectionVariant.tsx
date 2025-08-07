@@ -57,8 +57,8 @@ export function ChartSection() {
   const isMobile = useIsMobile({MOBILE_BREAKPOINT:900})
   
   return (
-    <GeneralCard cardContentClassName="pb-6" identifier="chart1" title="Días en los que más retiros se realizan" Icon={Calendar}>
-      <section className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
+    <GeneralCard cardContentClassName="pb-6 h-full"  identifier="chart1" title="Días en los que más retiros se realizan" Icon={Calendar}>
+      <section className="w-full flex sm:flex-row flex-col justify-center h-full items-center sm:justify-between">
           <div className="w-full sm:w-fit h-full max-w-xs">
           <table className="w-full h-full">
             <thead>

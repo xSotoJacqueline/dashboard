@@ -8,6 +8,7 @@ import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
+import { useMemo, useCallback } from "react"; // Agregado
 
 export function DepositsChart({queryString}: {queryString?: string}) {
 
@@ -15,28 +16,8 @@ export function DepositsChart({queryString}: {queryString?: string}) {
         getTotalDepositsByStatusAndDayQueryOptions({queryString}),
     );
 
-    if (isPending) {
-        return <CardLoading className="w-full h-full animate-pulse" title={true} description={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-    }
-
-    if (error) {
-        return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
-                <GeneralErrorContent refetch={refetch} />
-            </FullSizeCard>
-        )
-    }
-
-    if (!allDeposits || allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0) {
-        return (    
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
-            <GeneralEmptyContent />
-        </FullSizeCard>
-        )
-    }
-
-
-    const chartGetData = ({allDeposits}: {allDeposits: totalDepositsStatusDay}) => {
+    // Memoizar la función de procesamiento de datos
+    const chartGetData = useCallback(({allDeposits}: {allDeposits: totalDepositsStatusDay}) => {
         const dateMap = new Map();
 
         allDeposits.Paid.forEach(item => {
@@ -65,87 +46,122 @@ export function DepositsChart({queryString}: {queryString?: string}) {
         return Array.from(dateMap.values()).sort((a, b) => 
             new Date(a.time).getTime() - new Date(b.time).getTime()
         );
-    }
+    }, []);
 
-    const chartData = chartGetData({allDeposits});
+    // Memoizar los datos del gráfico para evitar recálculos innecesarios
+    const chartData = useMemo(() => {
+        if (!allDeposits) return [];
+        return chartGetData({allDeposits});
+    }, [allDeposits, chartGetData]);
 
-    const chartConfig = {
+    // Memoizar la configuración del gráfico
+    const chartConfig = useMemo(() => ({
         paid: {
-            label: "Paid",
+            label: "Pagados",
             color: "var(--color-green-foliatti)",
         },
         failed: {
-            label: "Failed",
+            label: "Fallidos",
             color: "var(--martes)",
         },
         cancelled: {
-            label: "Cancelled",
-            color: "var(#FFA500)",
+            label: "Cancelados",
+            color: "#FFA500",
         },
-    } satisfies ChartConfig
+    } satisfies ChartConfig), []);
+
+    // Memoizar los formateadores de fecha para evitar recrearlos
+    const tickFormatter = useCallback((value: string) => {
+        return format(parseISO(value), 'd MMM yyyy', {locale: es});
+    }, []);
+
+    const tooltipLabelFormatter = useCallback((value: string) => {
+        return format(parseISO(value), 'd MMM yyyy', {locale: es});
+    }, []);
+
+    // Memoizar las líneas del gráfico
+    const chartLines = useMemo(() => [
+        <Line
+            key="paid"
+            dataKey="paid"
+            type="natural"
+            stroke="var(--primary)"
+            strokeWidth={2}
+            dot={{
+                stroke: "var(--color-green-foliatti)",
+            }}
+            activeDot={{ r: 6 }}
+        />,
+        <Line
+            key="failed"
+            dataKey="failed"
+            type="natural"
+            stroke="#FF0000"
+            strokeWidth={2}
+            dot={{ stroke: "#FF0000" }}
+            activeDot={{ r: 6 }}
+        />,
+        <Line
+            key="cancelled"
+            dataKey="cancelled"
+            type="natural"
+            stroke="#FFA500"
+            strokeWidth={2}
+            dot={{ stroke: "#FFA500" }}
+            activeDot={{ r: 6 }}
+        />
+    ], []);
+
+    if (isPending) {
+        return <CardLoading className="w-full h-full animate-pulse" title={true} description={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+    }
+
+    if (error) {
+        return (    
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+                <GeneralErrorContent refetch={refetch} />
+            </FullSizeCard>
+        )
+    }
+
+    if (!allDeposits || (allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0)) {
+        return (    
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+                <GeneralEmptyContent />
+            </FullSizeCard>
+        )
+    }
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de bonos utilizados por cliente">
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 0, left: 20 }}>
-                    <CartesianGrid vertical={false} />
-                    <XAxis
-                    dataKey="time"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tickFormatter={(value) => {
-                        return  format(parseISO(value), 'd MMM yyyy', {locale: es})
-                    }}
-                    />
-
-                    <YAxis
-                    type="number"
-                    minTickGap={10}
-                    />
-                    <ChartTooltip
-                        content={
-                            <ChartTooltipContent
-                            className="w-[150px]"
-                            indicator="line"
-                            nameKey="total"
-                            labelFormatter={(value) => {
-                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
-                            }}
-                            />
-                        }
-                    />
-                        <Line
-                            dataKey="paid"
-                            type="natural"
-                            stroke="var(--primary)"
-                            strokeWidth={2}
-                            dot={{
-                                stroke: "var(--color-green-foliatti)",
-                            }}
-                            activeDot={{ r: 6 }}
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="time"
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
+                            tickFormatter={tickFormatter}
                         />
-                        <Line
-                            dataKey="failed"
-                            type="natural"
-                            stroke="#FF0000"
-                            strokeWidth={2}
-                            dot={{ stroke: "#FF0000" }}
-                            activeDot={{ r: 6 }}
+                        <YAxis
+                            type="number"
+                            minTickGap={10}
                         />
-                        <Line
-                            dataKey="cancelled"
-                            type="natural"
-                            stroke="#FFA500"
-                            strokeWidth={2}
-                            dot={{ stroke: "#FFA500" }}
-                            activeDot={{ r: 6 }}
+                        <ChartTooltip
+                            content={
+                                <ChartTooltipContent
+                                    className="w-[150px]"
+                                    indicator="line"
+                                    nameKey="total"
+                                    labelFormatter={tooltipLabelFormatter}
+                                />
+                            }
                         />
+                        {chartLines}
                     </LineChart>
-                </ChartContainer>     
-                                {/* <ChartComponent data={deposits}/>   */}
-
+                </ChartContainer>
             </div>
         </FullSizeCard>
     );
