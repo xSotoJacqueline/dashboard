@@ -1,7 +1,8 @@
 import {  
   SidebarMenu,  
   SidebarMenuButton,  
-  SidebarMenuItem,  
+  SidebarMenuItem,
+  useSidebar,  
 } from "@/components/ui/sidebar"  
   
 import { Calendar } from "./ui/calendar";  
@@ -20,7 +21,7 @@ const dateParams = {
   to: parseAsTimestamp      
 }  
 export function NavCalendar() { 
-  
+  const {isMobile} = useSidebar()
   const [applyFilters, setApplyFilters] = useQueryState('apply', parseAsBoolean.withDefault(false))
   const [{ from, to }, setDates] = useQueryStates(dateParams)  
   const [dateSelected, setDateSelected] = useState<{ from: Date; to?: Date } | undefined>(undefined);
@@ -35,7 +36,7 @@ export function NavCalendar() {
               buttonVariants({
                 variant: "outline",
                 className: (applyFilters
-                ? "bg-primary border border-primary hover:!text-white text-white shadow-xs hover:!bg-primary/90"
+                ? "!bg-primary border !border-primary hover:!text-white text-white shadow-xs hover:!bg-primary/90"
                 : ""),
                 size: "default"
               }),
@@ -43,7 +44,7 @@ export function NavCalendar() {
               )}
             >
               <CalendarIcon className="h-4 w-4" />
-              {dateSelected?.from ? (
+              {from ? (
               <span className="group-data-[collapsible=icon]:hidden block">
                 {from ? format(from, 'd MMM yyyy', { locale: es }) : ''}
                 {to ? ` - ${format(to, 'd MMM yyyy', { locale: es })}` : ''}
@@ -59,7 +60,7 @@ export function NavCalendar() {
             <ScrollArea className="w-full h-[390px]">
                 <Calendar
                 mode="range"
-                numberOfMonths={2}
+                numberOfMonths={isMobile ? 1 : 2}
                 captionLayout="dropdown"
                 selected={dateSelected}
                 onSelect={(date) => {
@@ -102,19 +103,6 @@ export function NavCalendar() {
                   >  
                     Aplicar filtro
                   </Button> 
-
-                  {/* <Button
-                    variant={"secondary"}
-                    className="w-full sm:w-[32%]"
-                    onClick={() => {
-                      setApplyFilters(false)
-                      
-                    }}
-                    size={"sm"}
-                    disabled={!applyFilters}
-                  >
-                    Limpiar Filtro
-                  </Button> */}
                 </div>  
             </ScrollArea>
           </PopoverContent>  
