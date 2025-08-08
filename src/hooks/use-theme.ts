@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 import { useDarkMode } from 'usehooks-ts';
 
 export const useTheme = () => {
@@ -7,13 +7,28 @@ export const useTheme = () => {
     initializeWithValue: false 
   });
 
+  // Memorizar el estado isDarkMode
+  const memoizedIsDarkMode = useMemo(() => isDarkMode, [isDarkMode]);
+
+console.log(memoizedIsDarkMode);
+  useLayoutEffect(() => {
+    try {
+      const savedTheme = localStorage.getItem('usehooks-ts-dark-mode');
+      if (savedTheme !== null) {
+        set(savedTheme === 'true');
+      }
+    } catch (error) {
+      console.warn('Failed to read theme from localStorage:', error);
+    }
+  }, [set]);
+
   const applyTheme = useCallback((darkMode: boolean) => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, []);
+  }, [set]);
 
   const toggleWithTransition = useCallback(() => {
     if (!document.startViewTransition) {
@@ -26,11 +41,11 @@ export const useTheme = () => {
   }, [toggle]);
 
   useEffect(() => {
-    applyTheme(isDarkMode);
-  }, [isDarkMode, applyTheme]);
+    applyTheme(memoizedIsDarkMode);
+  }, [memoizedIsDarkMode, applyTheme]);
 
   return {
-    isDarkMode,
+    isDarkMode: memoizedIsDarkMode,
     toggle: toggleWithTransition,
     enable,
     disable,
