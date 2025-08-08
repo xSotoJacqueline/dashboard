@@ -41,7 +41,7 @@ function RouteComponent() {
     if(startDate === endDate) {
       labelTimePeriod = startDate ? `Fecha: ${format(new Date(startDate), 'd MMM yyyy', {locale: es})}` : undefined;
     } 
-    return { labelTimePeriod, queryString: startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '' };
+    return { labelTimePeriod, queryString: startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : undefined };
    }, [search.from, search.to]);
 
 

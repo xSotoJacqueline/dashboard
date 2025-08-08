@@ -1,10 +1,16 @@
 import { queryOptions, keepPreviousData } from "@tanstack/react-query";
+import { format, startOfMonth, subMonths, endOfMonth } from "date-fns";
 
 export type GeneralProps = {
   queryString?: string;
   applyFilters?: boolean;
 }
 
+//queryString last month ?startDate=${startDate}&endDate=${endDate}`
+
+const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
+
+console.log("queryString", queryStringDefault);
 export type totalTransactionsByType ={
     Withdrawal: number;
     Deposit: number;
@@ -65,21 +71,21 @@ export interface BenchmarkKey {
     }[]
 }
 
-export function totalFTDQueryOptions({queryString}: {queryString?: string}) {
+export function totalFTDQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['firstTimeDepositAverage', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd?${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd${queryString}`);
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
-      return res.json();
+      const data = await res.json();
+      return data;
     },
 
     staleTime: Infinity,
     refetchOnWindowFocus: false,
-    placeholderData: keepPreviousData,
 
   });
 }
@@ -129,7 +135,7 @@ export function usersByCityQueryOptions() {
 }
 
 
-export function totalAmountFTDQueryOptions({queryString}: {queryString?: string}) {
+export function totalAmountFTDQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['FTDAmount', queryString],
     queryFn: async () : Promise<number> => {
@@ -164,7 +170,7 @@ export function averageAmountDepositsQueryOptions() {
 }
 
 
-export function depositsWithdrawalQuantityQueryOptions({queryString}: {queryString?: string}) {
+export function depositsWithdrawalQuantityQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['depositsWithdrawalQuantity', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
@@ -182,7 +188,7 @@ export function depositsWithdrawalQuantityQueryOptions({queryString}: {queryStri
   });
 }
 
-export function proportionalDepositFTDQueryOptions({queryString}: {queryString?: string}) {
+export function proportionalDepositFTDQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['proportionalDepositFTD', queryString],
     queryFn: async () : Promise<proportionalDepositFTD> => {
@@ -230,7 +236,7 @@ export function allDepositsQueryOptions() {
   });
 }
 
-export function getTotalDepositsByStatusAndDayQueryOptions({queryString}: {queryString?: string}) {
+export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['getTotalDepositsByStatusAndDay', queryString],
     queryFn: async () : Promise<totalDepositsStatusDay> => {
@@ -240,7 +246,6 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString}: {query
         throw new Error('Failed to fetch all deposits');
       }
       const data = await res.json();
-      console.log("getTotalDepositsByStatusAndDay data", data);
       // Verificar si data contiene almenos uno de los campos Paid, Failed o Cancelled, con al menos un elemento, si falta alguno agregarlo como un array vacío
       if (!data.Paid) {
         data.Paid = [];
@@ -278,7 +283,7 @@ export function FTDMountByDayQueryOptions() {
 }
 
 
-export function FTDQuantityByDayQueryOptions({queryString}: {queryString?: string}) {
+export function FTDQuantityByDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['FTDQuantityByDay', queryString],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
@@ -296,7 +301,7 @@ export function FTDQuantityByDayQueryOptions({queryString}: {queryString?: strin
 }
 
 
-export function totalTransactionsByTypeQueryOptions({queryString}: {queryString?: string}) {
+export function totalTransactionsByTypeQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['totalTransactionsByType', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {

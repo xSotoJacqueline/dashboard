@@ -10,7 +10,6 @@ export const useTheme = () => {
   // Memorizar el estado isDarkMode
   const memoizedIsDarkMode = useMemo(() => isDarkMode, [isDarkMode]);
 
-console.log(memoizedIsDarkMode);
   useLayoutEffect(() => {
     try {
       const savedTheme = localStorage.getItem('usehooks-ts-dark-mode');
@@ -20,7 +19,7 @@ console.log(memoizedIsDarkMode);
     } catch (error) {
       console.warn('Failed to read theme from localStorage:', error);
     }
-  }, [set]);
+  }, []);
 
   const applyTheme = useCallback((darkMode: boolean) => {
     if (darkMode) {

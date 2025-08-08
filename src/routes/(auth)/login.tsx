@@ -9,5 +9,6 @@ export const Route = createFileRoute('/(auth)/login')({
 
 function RouteComponent() {
   const { isDarkMode } = useTheme();
+  console.log(isDarkMode);
   return <SignIn appearance={{theme: isDarkMode ? dark : "simple"}}/>
 }

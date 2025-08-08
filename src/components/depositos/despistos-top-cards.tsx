@@ -8,7 +8,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
   const [{data: firstTimeDepositAverage, refetch: firstTimeDepositRefetch, isPending: firstTimeDepositIsPending, error: firstTimeDepositError}, {data: totalTransactionsByType, refetch: totalTransactionsRefetch, isPending: totalTransactionsIsPending, error: totalTransactionsError}, {data: depositsWithdrawalQuantity, refetch: depositsWithdrawalRefetch, isPending: depositsWithdrawalIsPending, error: depositsWithdrawalError}, {data: totalAmountFTD, refetch: totalAmountFTDRefetch, isPending: totalAmountFTDIsPending, error: totalAmountFTDError}] = useQueries({
     queries: [totalFTDQueryOptions({queryString}), totalTransactionsByTypeQueryOptions({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), totalAmountFTDQueryOptions({queryString})],
   });
-
+  
   const fetchData = () => {
     const random = (Math.floor(Math.random() * 100.55))
     return (random - 40)/1000
@@ -20,19 +20,19 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
 
   return (
     <div className="grid w-full md:min-h-[410.6px] lg:min-h-[213.3px] xl:min-h-[193.3px] md:max-h-[354.6px] lg:max-h-[213.3px] xl:max-h-[193.3px]grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+
         <GeneralCardTopCard
           containerClassName="col-span-1"
-          value={totalAmountFTD}
-          isloading={totalAmountFTDIsPending}
-          title="Monto total de FTD’s"
-          refetch={totalAmountFTDRefetch}
-          Icon={MedalIcon}
-          isError={!!totalAmountFTDError}
+          value={totalTransactionsByType?.Deposit}
+          isloading={totalTransactionsIsPending}
+          isError={!!totalTransactionsError}
+          title="Monto total de depósitos"
+          refetch={totalTransactionsRefetch}
+          Icon={UserRoundPlus}
           label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}
           percentageValue={fetchData()}
           valueFormat="currency"
         />
-
         <GeneralCardTopCard
           containerClassName="col-span-1"
           value={depositsWithdrawalQuantity?.Deposit}
@@ -61,16 +61,18 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
 
         <GeneralCardTopCard
           containerClassName="col-span-1"
-          value={totalTransactionsByType?.Deposit}
-          isloading={totalTransactionsIsPending}
-          isError={!!totalTransactionsError}
-          title="Monto FTD’s"
-          refetch={totalTransactionsRefetch}
-          Icon={UserRoundPlus}
+          value={totalAmountFTD}
+          isloading={totalAmountFTDIsPending}
+          title="Monto total de FTD’s"
+          refetch={totalAmountFTDRefetch}
+          Icon={MedalIcon}
+          isError={!!totalAmountFTDError}
           label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}
           percentageValue={fetchData()}
           valueFormat="currency"
         />
+
+
     </div>
   );
 }

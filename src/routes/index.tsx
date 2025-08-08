@@ -107,23 +107,20 @@ function RouteComponent() {
           </div>
         </SignedOut>
 
-        {/* Signed in */}
         <SignedIn>
-
-          {/* Canvas desplazable */}
           <section className="flex-1">
             <div className="relative w-full min-h-[680px] h-full">
               <div className="flex items-center h-fit justify-between z-50 gap-3 mx-auto absolute inset-x-0 w-[95%] top-4 max-w-5xl">
-                      <UserButton
-                        appearance={{
-                          elements: {
-                            menuItem__emailAddresses: { display: "none" },
-                            profileSection__emailAddresses: { display: "none" },
-                          },
-                          theme: isDarkMode ? dark : "simple",
-                        }}
-                      />
-                      <ThemeSwitcher className="rounded-full bg-transparent" />
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        menuItem__emailAddresses: { display: "none" },
+                        profileSection__emailAddresses: { display: "none" },
+                      },
+                      theme: isDarkMode ? dark : "simple",
+                    }}
+                  />
+                  <ThemeSwitcher className="rounded-full bg-transparent" />
               </div>
               <GridAuroraBackground />
 
@@ -154,8 +151,7 @@ function RouteComponent() {
                   "
                 >
                   {/* Máscara para TODA la franja (light y dark compatibles) */}
-                  <div className="dark:dock-fade-mask pointer-events-none absolute inset-0" />
-                  {/* Contenido del dock */}
+                    <div className="dock-fade-mask pointer-events-none absolute inset-0 max-sm:hidden" />
                   <div className="grid grid-cols-12 gap-4 p-4">
                     {/* Sidebar izquierda */}
                     <div className="col-span-12 sm:col-span-3">
@@ -201,7 +197,7 @@ function RouteComponent() {
                         <div className="space-y-4">
                           {/* My Cards mini */}
                           <div className="rounded-xl border border-foreground/10 bg-foreground/[0.06] p-4 animate-[reveal-up_520ms_40ms_ease-out_both]">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between ">
                               <div className="flex items-center gap-2">
                                 <div className="animate-pulse bg-foreground/10 size-5 rounded-sm  border border-foreground/10 "/>
                                 <div className="w-24 h-4 rounded-full bg-foreground/10 border border-foreground/10 animate-pulse" />
@@ -253,9 +249,8 @@ function RouteComponent() {
                       </div>
                     </div>
 
-                    {/* Derecha: donut */}
                     <div className="col-span-12 sm:col-span-3">
-                      <div className="rounded-xl border border-foreground/10 bg-foreground/[0.06] p-4 animate-[reveal-up_520ms_160ms_ease-out_both]">
+                      <div className="z-10 rounded-xl border border-foreground/10 bg-foreground/[0.06] p-4 ">
                         <div className="flex items-center justify-between">
                           <span className="rounded-full border border-foreground/10 bg-foreground/10 px-2 py-1 text-[10px]">
                             Top

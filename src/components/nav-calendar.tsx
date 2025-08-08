@@ -45,8 +45,8 @@ export function NavCalendar() {
               <CalendarIcon className="h-4 w-4" />
               {dateSelected?.from ? (
               <span className="group-data-[collapsible=icon]:hidden block">
-                {format(dateSelected.from, 'd MMM yyyy', { locale: es })}
-                {dateSelected.to ? ` - ${format(dateSelected.to, 'd MMM yyyy', { locale: es })}` : ''}
+                {from ? format(from, 'd MMM yyyy', { locale: es }) : ''}
+                {to ? ` - ${format(to, 'd MMM yyyy', { locale: es })}` : ''}
               </span>
               ) : (
               <span className="group-data-[collapsible=icon]:hidden block">
