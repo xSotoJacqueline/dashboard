@@ -110,7 +110,7 @@ function RouteComponent() {
         <SignedIn>
           <section className="flex-1">
             <div className="relative w-full min-h-[680px] h-full">
-              <div className="flex items-center h-fit justify-between z-50 gap-3 mx-auto absolute inset-x-0 w-[95%] top-4 max-w-5xl">
+              <div className="flex items-center h-fit justify-between z-50 gap-3 mx-auto absolute inset-x-0 sm:w-[95%] w-[90%] top-4 max-w-5xl">
                   <UserButton
                     appearance={{
                       elements: {
@@ -150,7 +150,7 @@ function RouteComponent() {
               <Scroller className="relative h-[500px] z-10 mt-8 md:mt-10 pb-28">
                 <div
                   className="
-                    relative mx-auto w-[95%] max-w-5xl rounded-2xl
+                    relative mx-auto sm:w-[95%] w-[90%] max-w-5xl rounded-2xl
                     border border-foreground/10 bg-foreground/[0.06]
                     backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.4)]
                     overflow-hidden
