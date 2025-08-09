@@ -21,7 +21,6 @@ export const Route = createFileRoute('/dashboard')({
     const token = await ctx.context.auth?.getToken();
     if (!token)
       throw redirect({
-        viewTransition: { types: ['slide-right'] },
         to: "/login",
       });
   },

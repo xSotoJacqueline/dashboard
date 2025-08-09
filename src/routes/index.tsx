@@ -135,7 +135,13 @@ function RouteComponent() {
                     Dashboard para visualizar y gestion de datos.
                   </p>
                   <div className="mt-6 flex w-full justify-center">
-                    <Link viewTransition={{ types: ['slide-left'] }} className={buttonVariants({ variant: "default", className: '!rounded-full w-fit' })} to="/dashboard/retiros">Entrar</Link>
+                    <Link 
+                      viewTransition={{ types: ['elastic'] }} 
+                      className={buttonVariants({ variant: "default", className: '!rounded-full w-fit' })} 
+                      to="/dashboard/retiros"
+                    >
+                      Entrar
+                    </Link>
                   </div>
                 </div>
               </div>
