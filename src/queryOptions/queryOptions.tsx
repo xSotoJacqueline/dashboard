@@ -9,7 +9,7 @@ export type GeneralProps = {
 //queryString last month ?startDate=${startDate}&endDate=${endDate}`
 
 const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
-
+export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 console.log("queryString", queryStringDefault);
 export type totalTransactionsByType ={
     Withdrawal: number;
@@ -76,7 +76,7 @@ export function totalFTDQueryOptions({queryString = queryStringDefault}: {queryS
     queryKey: ['firstTimeDepositAverage', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -95,7 +95,7 @@ export function globalAverageDepositQueryOptions() {
     queryKey: ['globalAverageDeposit'],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -117,7 +117,7 @@ export function usersByCityQueryOptions() {
     queryKey: ['usersByCity'],
     queryFn: async () : Promise<{ top10: usersByCityTabProps[]; all: usersByCityTabProps[] }> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/analytics/users-by-city?propertyId=294090389`);
+      const res = await fetch(`${API_BASE_URL}/analytics/users-by-city?propertyId=294090389`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch users by city');
       }
@@ -140,7 +140,7 @@ export function totalAmountFTDQueryOptions({queryString = queryStringDefault}: {
     queryKey: ['FTDAmount', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -158,7 +158,7 @@ export function averageAmountDepositsQueryOptions() {
     queryKey: ['averageAmountDeposits'],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/average-amount`);
+      const res = await fetch(`${API_BASE_URL}/table-test/average-amount`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -175,7 +175,7 @@ export function depositsWithdrawalQuantityQueryOptions({queryString = queryStrin
     queryKey: ['depositsWithdrawalQuantity', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -193,7 +193,7 @@ export function proportionalDepositFTDQueryOptions({queryString = queryStringDef
     queryKey: ['proportionalDepositFTD', queryString],
     queryFn: async () : Promise<proportionalDepositFTD> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -212,7 +212,7 @@ export function allDepositsQueryOptions() {
     queryKey: ['allDeposits'],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/without-pagination`);
+      const res = await fetch(`${API_BASE_URL}/table-test/without-pagination`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -241,7 +241,7 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryS
     queryKey: ['getTotalDepositsByStatusAndDay', queryString],
     queryFn: async () : Promise<totalDepositsStatusDay> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-total-deposit-by-status-and-day${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-total-deposit-by-status-and-day${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -270,7 +270,7 @@ export function FTDMountByDayQueryOptions() {
     queryKey: ['FTDMountByDay'],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-total-money-by-day`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-total-money-by-day`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -288,7 +288,7 @@ export function FTDQuantityByDayQueryOptions({queryString = queryStringDefault}:
     queryKey: ['FTDQuantityByDay', queryString],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-first-depossit-by-all-days${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-first-deposit-by-all-days${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -306,7 +306,7 @@ export function totalTransactionsByTypeQueryOptions({queryString = queryStringDe
     queryKey: ['totalTransactionsByType', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'; 
-      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-by-type${queryString}`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-by-type${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -324,7 +324,7 @@ export function benchmarkKeysQueryOptions({pageParam}: {pageParam?: number} = {}
     queryKey: ['benchmarkKeys', pageParam],
     queryFn: async () : Promise<BenchmarkKey> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls?page=${pageParam || 1}`);
+      const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls?page=${pageParam || 1}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch benchmark keys');
       }

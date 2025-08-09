@@ -127,11 +127,12 @@ function RouteComponent() {
               {/* Hero central */}
               <div className="relative z-10 animate-[reveal-up_500ms_ease-out_both]">
                 <div className="mx-auto max-w-4xl px-6 text-center pt-16">
-                  <h1 className="leading-tight font-semibold tracking-tight text-[44px] md:text-[72px]">
-                    <span className="block text-foreground/80">Foliatti</span>
-                  </h1>
+                  <div className="leading-tight flex w-full gap-3 text-center items-cente justify-center tracking-tight ">
+                    <span className="block text-[44px] md:text-[72px] text-foreground/80 font-bold">Foliatti </span>
+                    <span className="text-[44px] md:text-[72px]">Casino</span>
+                  </div>
                   <p className="mt-4 text-sm md:text-base text-foreground/60 max-w-2xl mx-auto">
-                    Dashboard para visualizar y gestionar data.
+                    Dashboard para visualizar y gestion de datos.
                   </p>
                   <div className="mt-6 flex w-full justify-center">
                     <Link viewTransition={{ types: ['slide-left'] }} className={buttonVariants({ variant: "default", className: '!rounded-full w-fit' })} to="/dashboard/retiros">Entrar</Link>
@@ -151,7 +152,7 @@ function RouteComponent() {
                   "
                 >
                   {/* Máscara para TODA la franja (light y dark compatibles) */}
-                    <div className="dock-fade-mask pointer-events-none absolute inset-0 max-sm:hidden" />
+                    <div className="dark:dock-fade-mask pointer-events-none absolute inset-0 max-sm:hidden" />
                   <div className="grid grid-cols-12 gap-4 p-4">
                     {/* Sidebar izquierda */}
                     <div className="col-span-12 sm:col-span-3">
@@ -391,7 +392,7 @@ function GridAuroraBackground() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(110% 80% at 50% 50%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%)",
+            "radial-gradient(110% 80% at 50% 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%)",
         }}
       />
     </div>

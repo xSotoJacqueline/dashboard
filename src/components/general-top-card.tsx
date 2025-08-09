@@ -25,11 +25,12 @@ export type GeneralCardTopCardProps = {
   mainNumberClassName?: string
   isloading?: boolean
   containerClassName?: string
+  numberSectionClassName?: string
   isError?: boolean
   refetch?: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>
 }
 
-export function GeneralCardTopCard({ refetch, value = 0, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError }: GeneralCardTopCardProps) {
+export function GeneralCardTopCard({ refetch, value = 0, numberSectionClassName, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError }: GeneralCardTopCardProps) {
   const canAnimate = useCanAnimate()
 
   return (
@@ -48,7 +49,7 @@ export function GeneralCardTopCard({ refetch, value = 0, Icon, title, descriptio
         {isError ? (
              <GeneralErrorContent title={false} refetch={refetch} className="min-h-0 py-1 h-full" />
           ) : (
-                    <section className="flex flex-col gap-3">
+        <section className={cn("flex flex-col gap-3 w-full", numberSectionClassName)}>
           <NumberFlow
             value={valueFormat === "percent" ? value / 100 : value}
             locales="en-US"
@@ -76,7 +77,7 @@ export function GeneralCardTopCard({ refetch, value = 0, Icon, title, descriptio
                     className="mr-0.5 size-[0.70em]"
                     absoluteStrokeWidth
                     strokeWidth={3}
-                    layout // undo parent
+                    layout
                     transition={{
                       rotate: canAnimate ? { type: 'spring', duration: 0.5, bounce: 0 } : { duration: 0 }
                     }}
