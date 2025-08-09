@@ -23,9 +23,9 @@ export const Route = createFileRoute('/dashboard/depositos')({
 
     }
   },
-  component: RouteComponent,
-  errorComponent: ({error}) => <ErrorPage error={error.message} />,
-  pendingComponent: () => <PendingDepositos />
+    component: RouteComponent,
+    errorComponent: ({error}) => <ErrorPage error={error.message} />,
+    pendingComponent: () => <PendingDepositos />
 })
 
 function RouteComponent() {

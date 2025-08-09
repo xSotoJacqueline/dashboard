@@ -62,7 +62,14 @@ export function NavCalendar() {
                 mode="range"
                 numberOfMonths={isMobile ? 1 : 2}
                 captionLayout="dropdown"
-                selected={dateSelected}
+                selected={
+                  dateSelected
+                    ? dateSelected
+                    : {
+                        from: from ?? undefined,
+                        to: to ?? undefined,
+                      }
+                }
                 onSelect={(date) => {
                   date?.from ? setDateSelected(date as { from: Date; to?: Date }) : setDateSelected(undefined)
                   if (applyFilters) {
