@@ -1,11 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { ChartSection } from "@/components/Retiros/ChartSectionVariant"
 import { PlayersSection } from "@/components/Retiros/PlayersSection"
 import { PeakHoursSection } from "@/components/Retiros/PeakHoursSection"
-import { MetricsCardsVariant } from "@/components/Retiros/MetricsCardsVariant"
 import { ScrollArea } from '@/components/ui/scroll-area'
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
+import { BarChart3 } from 'lucide-react'
+import { TopCard, TopCardHeader, TopCardTitle, TopCardContent, TopCardValue, TopCardFooter } from '@/components/ui/general-top-card'
+import { Label } from '@/components/ui/label'
+import { useQueries } from '@tanstack/react-query'
+import { averageWithdrawalsPerDay, mostCommonWithdrawHour, percentageDepositsByDayOfWeek, TopPlayersMostWithdrawals, totalWithdrawals } from '@/queryOptions/queryOptions-retiros'
+import { createQueryString } from '@/lib/utils'
+import { depositsWithdrawalQuantityQueryOptions } from '@/queryOptions/queryOptions'
 
 export const Route = createFileRoute('/dashboard/retiros')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -24,24 +30,85 @@ export const Route = createFileRoute('/dashboard/retiros')({
 })
 
 function RouteComponent() {
+   const search = useSearch({ from: '/dashboard/retiros' });
+    
+  const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
+
+  const [averageWithdrawals, totalWithdrawalsData, depositsWithdrawalQuantityData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
+    queries: [averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour(), percentageDepositsByDayOfWeek({queryString})],
+  });
+
+  console.log("percentageDepositsByDayOfWeekData error", percentageDepositsByDayOfWeekData.error?.message);
   return (
     <div className="w-full rounded-lg text-black h-full">
         <div className="flex flex-col h-full xl:flex-row justify-between gap-6 ">
           {/* Main Content */}
           <div className="w-full flex flex-col gap- justify-between">
             <div className="grid  w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 mb-8">
-              <MetricsCardsVariant className="col-span-1" value={Math.floor(Math.random() * 100) + 1} />
-              <MetricsCardsVariant className="col-span-1" value={Math.floor(Math.random() * 100) + 1} />
-              <MetricsCardsVariant className="cols md:col-span-2 lg:col-span-1" value={Math.floor(Math.random() * 100) + 1} />
+                <TopCard
+                  isLoading={totalWithdrawalsData.isPending}
+                  isError={totalWithdrawalsData.isError}
+                  iconSize={24}
+                  iconStrokeWidth={2}
+                  Icon={BarChart3}
+                  valueFormat="decimal"
+                  className="col-span-1 flex flex-col justify-center font-normal gap-3"
+                >
+                  <TopCardHeader className="flex flex-col-reverse gap-3">
+                    <TopCardTitle className="min-h-0">Total de retiros</TopCardTitle>
+                  </TopCardHeader>
+                  <TopCardContent className='gap-4'>
+                    <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <Label className='font-normal text-muted-foreground'>Transacciones completadas</Label>
+                  </TopCardContent>
+                  <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                </TopCard>
+
+                <TopCard
+                  isLoading={averageWithdrawals.isPending}
+                  isError={averageWithdrawals.isError}
+                  iconSize={24}
+                  iconStrokeWidth={2}
+                  Icon={BarChart3}
+                  className="col-span-1 flex flex-col justify-center font-normal gap-3"
+                >
+                  <TopCardHeader className="flex flex-col-reverse gap-3">
+                    <TopCardTitle className="min-h-0">Promedio de retiros</TopCardTitle>
+                  </TopCardHeader>
+                  <TopCardContent className='gap-4'>
+                    <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
+                  </TopCardContent>
+                  <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                </TopCard>
+
+                <TopCard
+                  isLoading={depositsWithdrawalQuantityData.isPending}
+                  isError={depositsWithdrawalQuantityData.isError}
+                  iconSize={24}
+                  iconStrokeWidth={2}
+                  Icon={BarChart3}
+                  valueFormat="currency"
+                  className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-center font-normal gap-3"
+                >
+                  <TopCardHeader className="flex flex-col-reverse gap-3">
+                    <TopCardTitle className="min-h-0">Monto de retiros</TopCardTitle>
+                  </TopCardHeader>
+                  <TopCardContent className='gap-4'>
+                    <TopCardValue valueFormat="currency" value={depositsWithdrawalQuantityData.data?.Withdrawal ? depositsWithdrawalQuantityData.data.Withdrawal : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
+                  </TopCardContent>
+                  <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                </TopCard>
             </div>
-            <ChartSection />
+            <ChartSection errorMessage={percentageDepositsByDayOfWeekData.error?.message} isPending={percentageDepositsByDayOfWeekData.isPending} isError={percentageDepositsByDayOfWeekData.isError} percentageDepositsByDayOfWeekData={percentageDepositsByDayOfWeekData.data}/>
           </div>
           
           {/* Right Sidebar */}
           <ScrollArea className="w-full xl:w-80 h-fit xl:h-[100cqh]">
             <div className='w-full h-fit xl:h-[100cqh] flex flex-col gap-6 '>
-              <PlayersSection />
-              <PeakHoursSection />
+              <PlayersSection isError={topPlayersMostWithdrawalsData.isError} isPending={topPlayersMostWithdrawalsData.isPending} topPlayersMostWithdrawalsData={topPlayersMostWithdrawalsData.data?.slice(0, 5)} />
+              <PeakHoursSection isError={mostCommonWithdrawHourData.isError} isPending={mostCommonWithdrawHourData.isPending} labelTimePeriod={labelTimePeriod} mostCommonWithdrawHourData={mostCommonWithdrawHourData.data} />
             </div>
 
           </ScrollArea>

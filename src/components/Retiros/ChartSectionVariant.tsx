@@ -8,54 +8,72 @@ import {
 } from "@/components/ui/chart"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { GeneralCard } from "../general-card"
+import type { PercentageDepositsByDayOfWeekData } from "@/queryOptions/queryOptions-retiros"
+import CardLoading from "../loading-card"
+import { GeneralErrorContent } from "../general-error-content"
+import { GeneralEmptyContent } from "../general-empty-content"
 
-const chartData = [
-  { day: "lunes", visitors: 14.5, fill: "var(--lunes)" },
-  { day: "martes", visitors: 14.5, fill: "var(--martes)" },
-  { day: "miércoles", visitors: 14.5, fill: "var(--miercoles)" },
-  { day: "jueves", visitors: 14.5, fill: "var(--jueves)" },
-  { day: "viernes", visitors: 14.5, fill: "var(--viernes)" },
-  { day: "sábado", visitors: 14.5, fill: "var(--sabado)" },
-  { day: "domingo", visitors: 14.5, fill: "var(--domingo)" },
-]
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  percentage: {
+    label: "Retiros",
   },
-  lunes: {
-    label: "lunes",
+  Monday: {
+    label: "Monday",
     color: "var(--lunes)",
   },
-  martes: {
-    label: "martes",
+  Tuesday: {
+    label: "Tuesday",
     color: "var(--martes)",
   },
-  miercoles: {
-    label: "miércoles",
+  Wednesday: {
+    label: "Wednesday",
     color: "var(--miercoles)",
   },
-  jueves: {
-    label: "jueves",
+  Thursday: {
+    label: "Thursday",
     color: "var(--jueves)",
   },
-  viernes: {
-    label: "viernes",
+  Friday: {
+    label: "Friday",
     color: "var(--viernes)",
   },
-  sabado: {
-    label: "sábado",
+  Saturday: {
+    label: "Saturday",
     color: "var(--sabado)",
   },
-  domingo: {
-    label: "domingo",
+  Sunday: {
+    label: "Sunday",
     color: "var(--domingo)",
   },
 } satisfies ChartConfig
 
 
-export function ChartSection() {
+export function ChartSection({ percentageDepositsByDayOfWeekData, errorMessage, isError, isPending }: { percentageDepositsByDayOfWeekData?: PercentageDepositsByDayOfWeekData, errorMessage?: string, isError: boolean, isPending: boolean }) {
   const isMobile = useIsMobile({MOBILE_BREAKPOINT:900})
-  
+
+
+  if (isPending) return <CardLoading className="animate-pulse min-h-[724px] sm:min-h-[444px] md:min-h-[472px] lg:min-h-[444px]" children={<p/>} />
+  if (isError) return <GeneralErrorContent errorMessage={errorMessage} className="min-h-[724px] sm:min-h-[444px] md:min-h-[472px] lg:min-h-[444px]" />
+
+  if (!percentageDepositsByDayOfWeekData || percentageDepositsByDayOfWeekData.length === 0) return <GeneralEmptyContent />;
+
+  const dayTranslations: Record<string, string> = {
+    Monday: "Lunes",
+    Tuesday: "Martes",
+    Wednesday: "Miércoles",
+    Thursday: "Jueves",
+    Friday: "Viernes",
+    Saturday: "Sábado",
+    Sunday: "Domingo",
+  };
+
+  const chartData = percentageDepositsByDayOfWeekData.map(item => ({
+    day: dayTranslations[item.day] || item.day,
+    count: item.count,
+    percentage: item.percentage,
+    fill: chartConfig[item.day]?.color,
+  }));
+
   return (
     <GeneralCard cardContentClassName="pb-6 h-full"  identifier="chart1" title="Días en los que más retiros se realizan" Icon={Calendar}>
       <section className="w-full flex sm:flex-row flex-col justify-center h-full items-center sm:justify-between">
@@ -76,27 +94,35 @@ export function ChartSection() {
                     <span className="pl-8 text-base font-semibold">{item.day}</span>
                   </div>
                 </td>
-                <td className="text-sm pl-4 font-medium text-right">{item.visitors}</td>
+                <td className="text-sm pl-4 font-medium text-right">{item.percentage}</td>
               </tr>
             ))}
             </tbody>
           </table>
         </div>
         <ChartContainer config={chartConfig} className="h-[320px] w-[320px] !aspect-auto">
-            {/* <ResponsiveContainer width="100%" height="100%">                 */}
               <PieChart>
                 <ChartTooltip
-                  content={<ChartTooltipContent hideLabel />}
+                content={<ChartTooltipContent hideLabel={false} />}
+                payload={chartData}
+                formatter={(value, name, props) => {
+                  return (
+                    <span id={name.toString()} className="relative pl-2">
+                      <div  className="absolute inset-0 left-0 w-1 rounded-full" style={{ backgroundColor: props.payload.fill }} />
+                      {props.payload.day}: {value}%<br />
+                      Count: {props.payload.count}
+                    </span>
+                  )
+                }}
                 />
                 <Pie
                   data={chartData}
-                  dataKey="visitors"
+                  dataKey="percentage"
                   nameKey="day"
                   innerRadius={!isMobile ? 60 : 40}
                   outerRadius={!isMobile ? 160 : 100}
                 />
               </PieChart>
-            {/* </ResponsiveContainer> */}
         </ChartContainer>
       </section>
     </GeneralCard>
