@@ -41,7 +41,7 @@ function RouteComponent() {
 
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
         <FirstFTDChart queryString={queryString} /> 
-        <FTDAmountChart />
+        <FTDAmountChart queryString={queryString} />
       </div>
 
       <PeriodSummaryCard queryString={queryString} />

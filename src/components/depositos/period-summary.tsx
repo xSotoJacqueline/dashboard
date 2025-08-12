@@ -15,7 +15,7 @@ export type Source = {
 export function PeriodSummaryCard({queryString}: {queryString?: string}) {
 
   const [{data: averageAmountDeposits, error: averageAmountDepositsError, isPending: isPendingAverage, isFetching: isFetchingAverage}, {data: proportionalDepositFTD, error: proportionalDepositFTDError, refetch: refetchProportional, isPending: isPendingProportional, isFetching: isFetchingProportional}, {data: globalAverageDeposit, error: globalAverageDepositError, isPending: isPendingGlobalAverage, isFetching: isFetchingGlobalAverage, refetch: refetchGlobalAverage}] = useQueries({
-    queries: [ averageAmountDepositsQueryOptions(), proportionalDepositFTDQueryOptions({queryString}), globalAverageDepositQueryOptions()],
+    queries: [ averageAmountDepositsQueryOptions({queryString}), proportionalDepositFTDQueryOptions({queryString}), globalAverageDepositQueryOptions({queryString})],
   });
 
     if (isPendingProportional || isPendingAverage || isFetchingProportional || isFetchingAverage || isPendingGlobalAverage || isFetchingGlobalAverage) {

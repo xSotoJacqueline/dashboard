@@ -89,12 +89,12 @@ export function totalFTDQueryOptions({queryString = queryStringDefault}: {queryS
   });
 }
 
-export function globalAverageDepositQueryOptions() {
+export function globalAverageDepositQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['globalAverageDeposit'],
+    queryKey: ['globalAverageDeposit', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -150,12 +150,12 @@ export function totalAmountFTDQueryOptions({queryString = queryStringDefault}: {
   });
 }
 
-export function averageAmountDepositsQueryOptions() {
+export function averageAmountDepositsQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['averageAmountDeposits'],
+    queryKey: ['averageAmountDeposits', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/average-amount`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/table-test/average-amount${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -262,12 +262,12 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryS
 }
 
 
-export function FTDMountByDayQueryOptions() {
+export function FTDMountByDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['FTDMountByDay'],
+    queryKey: ['FTDMountByDay', queryString],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-total-money-by-day`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/table-test/get-total-money-by-day${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }

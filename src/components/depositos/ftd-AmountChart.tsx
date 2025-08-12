@@ -9,8 +9,8 @@ import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 
-export function FTDAmountChart() {
-    const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions());
+export function FTDAmountChart({queryString}: {queryString?: string}) {
+    const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions({queryString}));
 
         if (isPending || isFetching) {
             return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
@@ -25,13 +25,15 @@ export function FTDAmountChart() {
             )
         }
     
-        if (!ftdMount) {
-            return (    
-            <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
-                <GeneralEmptyContent />
-            </FullSizeCard>
-            )
-        }
+
+    if (!ftdMount || ftdMount.length === 0) {
+        return (    
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+            <GeneralEmptyContent />
+        </FullSizeCard>
+        )
+    }
+
 
     const chartConfig = {
         desktop: {

@@ -97,12 +97,12 @@ export type MostCommonWithdrawHourData = {
     //     "count": "11"
     // },
 
-export function mostCommonWithdrawHour() {
+export function mostCommonWithdrawHour({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['mostCommonWithdrawHour'],
+    queryKey: ['mostCommonWithdrawHour', queryString],
     queryFn: async () : Promise<MostCommonWithdrawHourData> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/withdraw/get-rush-hour-withdraws`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/withdraw/get-rush-hour-withdraws${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch rush hour withdrawals');
       }

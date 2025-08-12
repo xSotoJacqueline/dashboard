@@ -35,7 +35,7 @@ function RouteComponent() {
   const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
 
   const [averageWithdrawals, totalWithdrawalsData, depositsWithdrawalQuantityData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
-    queries: [averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour(), percentageDepositsByDayOfWeek({queryString})],
+    queries: [averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour({queryString}), percentageDepositsByDayOfWeek({queryString})],
   });
 
   return (
