@@ -26,7 +26,7 @@ import { toast } from "sonner"
 import { TableActionBar } from "../table-action-bar"
 import NumberFlow from "@number-flow/react"
 import { useDataTable } from "@/lib/use-data-table"
-import { type BenchmarkKey } from "@/queryOptions/queryOptions"
+import { xApiKey, type BenchmarkKey } from "@/queryOptions/queryOptions"
 import { useSidebar } from "../ui/sidebar"
 
 
@@ -48,6 +48,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
       const res = await fetch(`${API_BASE_URL}/benchmark/delete/${id}`, {
         method: 'DELETE',
+        headers: { 'x-api-key': xApiKey }
       });
       if (!res.ok) {
         throw new Error('Failed to delete benchmark key');

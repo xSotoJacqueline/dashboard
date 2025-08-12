@@ -33,7 +33,8 @@ export default function CampaignTab({campaignValues, campaignPerformanceValues}:
             label={metric.label}
             percentageValue={metric.percentageValue}
             valueFormat={metric.valueFormat}
-            className="items-center justify-center"
+            numberSectionClassName="items-center justify-center"
+            className="items-center justify-center flex w-full"
           />
         ))}
       </div>

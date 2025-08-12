@@ -5,8 +5,19 @@ import { RankingBonosTable } from '@/components/bonos/ranking-table'
 import { BonosPerClientChart } from '@/components/bonos/bonosPerClientChart'
 import { EarningsClientBonosChart } from '@/components/bonos/earningsClientBonosChart'
 import ErrorPage from '@/components/errorPage'
+import type { GeneralSearch } from '@/types/search-types'
 
 export const Route = createFileRoute('/dashboard/bonos')({
+  validateSearch: (search: Record<string, unknown>): GeneralSearch => {
+    return {
+      from: typeof search?.from === 'number'
+        ? search.from
+        : undefined,
+      to: typeof search?.to === 'number'
+        ? search.to
+        : undefined,
+    }
+  },
   component: RouteComponent,
   errorComponent: ({error}) => <ErrorPage error={error.message} />,
   

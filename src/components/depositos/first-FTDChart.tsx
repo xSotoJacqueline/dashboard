@@ -6,11 +6,13 @@ import { FTDQuantityByDayQueryOptions } from "@/queryOptions/queryOptions";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 
-export function FirstFTDChart() {
+export function FirstFTDChart({queryString}: {queryString?: string}) {
 
     const { data: ftdMount, error, isPending, isFetching, refetch } = useQuery(
-        FTDQuantityByDayQueryOptions(),
+        FTDQuantityByDayQueryOptions({queryString}),
     );
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
@@ -25,7 +27,7 @@ export function FirstFTDChart() {
         )
     }
 
-    if (!ftdMount) {
+    if (!ftdMount || ftdMount.length === 0) {
         return (    
         <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <GeneralEmptyContent />
@@ -58,11 +60,7 @@ export function FirstFTDChart() {
                         axisLine={false}
                         tickMargin={8}
                         tickFormatter={(value) => {
-                            const date = new Date(value)
-                            return date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            })
+                            return format(parseISO(value), 'd MMM yyyy', {locale: es})                            
                         }}
                         />
                     <YAxis
@@ -71,14 +69,17 @@ export function FirstFTDChart() {
                     tickFormatter={(value) => `${value}`}
                     tickMargin={2}
                     />
-                    <ChartTooltip
-                    content={
-                        <ChartTooltipContent
-                        className="w-[150px]"
-                        nameKey="total"
+                        <ChartTooltip
+                        content={
+                            <ChartTooltipContent
+                            className="w-[150px]"
+                            nameKey="total"
+                            labelFormatter={(value) => {
+                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
+                            }}
+                            />
+                        }
                         />
-                    }
-                    />
                     <Bar dataKey="total" fill="var(--color-primary-foliatti)" radius={8} />
                                 </BarChart>
                 </ChartContainer>

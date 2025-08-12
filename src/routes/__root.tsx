@@ -33,6 +33,9 @@ const RootComponent = () => {
 
 export const Route = createRootRouteWithContext<RootRouteContext>()({
   component: RootComponent,
+  context: () => ({
+    queryClient, // Proporcionar queryClient en el contexto
+  }),
    notFoundComponent: () => {
     return <NotFound />
   },

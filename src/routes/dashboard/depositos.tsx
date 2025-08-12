@@ -8,7 +8,8 @@ import {PendingDepositos} from '@/components/depositos/pending-depositos'
 import { PeriodSummaryCard } from '@/components/depositos/period-summary'
 import type { GeneralSearch } from '@/types/search-types'
 import { format } from 'date-fns'
-import { es } from 'date-fns/locale/es'
+import { useMemo } from 'react'
+import { es } from 'date-fns/locale'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -19,36 +20,45 @@ export const Route = createFileRoute('/dashboard/depositos')({
       to: typeof search?.to === 'number'
         ? search.to
         : undefined,
+
     }
   },
-  component: RouteComponent,
-  errorComponent: ({error}) => <ErrorPage error={error.message} />,
-  pendingComponent: () => <PendingDepositos />
+    component: RouteComponent,
+    errorComponent: ({error}) => <ErrorPage error={error.message} />,
+    pendingComponent: () => <PendingDepositos />
 })
 
 function RouteComponent() {
    const search = useSearch({ from: '/dashboard/depositos' });
-
-    const from = search.from ? search.from : undefined;
-    console.log("from", from)
+    
+   const {queryString, labelTimePeriod} = useMemo(() => {
+    const from = search.from ? new Date(search.from) : undefined;
     const to = search.to ? search.to : undefined;
-    console.log("depositos from", from ? format(from, 'd MMM yyyy', { locale: es }) : undefined);
-    console.log("depositos to", to ? format(to, 'd MMM yyyy', { locale: es }) : undefined);
+    
+    const startDate = from ? format(from, 'yyyy-MM-dd') : undefined;
+    const endDate = to ? format(new Date(to), 'yyyy-MM-dd') : undefined;
+    let labelTimePeriod = from && to ? `${format(from, 'd MMM yyyy', {locale: es})} - ${format(new Date(to), 'd MMM yyyy', {locale: es})}` : undefined;
+    if(startDate === endDate) {
+      labelTimePeriod = startDate ? `Fecha: ${format(new Date(startDate), 'd MMM yyyy', {locale: es})}` : undefined;
+    } 
+    return { labelTimePeriod, queryString: startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : undefined };
+   }, [search.from, search.to]);
+
 
   return (
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
-        <DespistosTopCards/>
+        <DespistosTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
 
         <div className="w-full h-full max-h-full flex gap-6">
-           <DepositsChart />
+           <DepositsChart queryString={queryString} />
         </div>
 
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
-        <FirstFTDChart /> 
+        <FirstFTDChart queryString={queryString} /> 
         <FTDAmountChart />
       </div>
 
-      <PeriodSummaryCard/>
+      <PeriodSummaryCard queryString={queryString} />
 
     </div>
   )}

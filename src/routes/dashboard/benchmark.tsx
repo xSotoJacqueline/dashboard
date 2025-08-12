@@ -11,17 +11,12 @@ import { useSidebar } from '@/components/ui/sidebar';
 import { es } from 'date-fns/locale';  
 import { format } from 'date-fns';  
 import type { BenchmarkSearch } from '@/types/search-types';
+import { xApiKey } from '@/queryOptions/queryOptions';
 
 export const Route = createFileRoute('/dashboard/benchmark')({
   validateSearch: (search: Record<string, unknown>): BenchmarkSearch => {
     return {
       page: Number(search?.page ?? 1),
-      from: typeof search?.from === 'number'
-        ? search.from
-        : undefined,
-      to: typeof search?.to === 'number'
-        ? search.to
-        : undefined,
     }
   },
   component: RouteComponent,
@@ -45,6 +40,7 @@ function RouteComponent() {
         const res = await fetch(`${API_BASE_URL}/benchmark/many`, {
           method: 'POST',
           body: formdata,
+          headers: { 'x-api-key': xApiKey }
         });
         if (!res.ok) {
           throw new Error('Failed to delete benchmark key');

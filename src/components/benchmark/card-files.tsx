@@ -12,7 +12,6 @@ export default function CardFiles() {
 
   const search = useSearch({ from: '/dashboard/benchmark' });
   const page = search.page || 1;
-  console.log("search", search.page);
 
   const {data, isPending, error, refetch} = useQuery(benchmarkKeysQueryOptions({pageParam: page}));
 

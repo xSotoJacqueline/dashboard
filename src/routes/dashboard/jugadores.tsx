@@ -13,11 +13,22 @@ import SpecificGamesTab from "@/components/tabs/specific-games-tab";
 import HybridUsersTab from "@/components/tabs/hybrid-users-tab";
 import CategoriesTab from "@/components/tabs/categories-tab";
 import ErrorPage from '@/components/errorPage';
+import type { GeneralSearch } from '@/types/search-types';
+import UsersByCityTab from '@/components/tabs/users-by-city-tab';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
+  validateSearch: (search: Record<string, unknown>): GeneralSearch => {
+    return {
+      from: typeof search?.from === 'number'
+        ? search.from
+        : undefined,
+      to: typeof search?.to === 'number'
+        ? search.to
+        : undefined,
+    }
+  },
   component: RouteComponent,
   errorComponent: ({error}) => <ErrorPage error={error.message} />,
-  
 })
 
 function RouteComponent() {
@@ -58,6 +69,7 @@ function RouteComponent() {
           <ScrollArea className="whitespace-nowrap">
             <TabsList className="w-full">
                 <TabsTrigger value="top-users">Top usuarios</TabsTrigger>
+                <TabsTrigger value="users-by-city">Usuarios por ciudad</TabsTrigger>
                 <TabsTrigger value="categories">Categorías</TabsTrigger>
                 <TabsTrigger value="specific-games">Juegos específicos</TabsTrigger>
                 <TabsTrigger value="hybrid-players">Usuarios híbridos</TabsTrigger>
@@ -67,6 +79,10 @@ function RouteComponent() {
 
            <TabsContent  className="w-full h-full" value="top-users">
               <TopUsersTab />
+           </TabsContent>
+
+           <TabsContent  className="w-full h-full" value="users-by-city">
+              <UsersByCityTab />
            </TabsContent>
            <TabsContent className="w-full h-full" value="specific-games">
             <SpecificGamesTab />

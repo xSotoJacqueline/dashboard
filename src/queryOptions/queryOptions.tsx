@@ -1,5 +1,16 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, keepPreviousData } from "@tanstack/react-query";
+import { format, startOfMonth, subMonths, endOfMonth } from "date-fns";
 
+export type GeneralProps = {
+  queryString?: string;
+  applyFilters?: boolean;
+}
+
+//queryString last month ?startDate=${startDate}&endDate=${endDate}`
+
+const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
+export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
+console.log("queryString", queryStringDefault);
 export type totalTransactionsByType ={
     Withdrawal: number;
     Deposit: number;
@@ -60,19 +71,22 @@ export interface BenchmarkKey {
     }[]
 }
 
-export function totalFTDQueryOptions() {
+export function totalFTDQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['firstTimeDepositAverage'],
+    queryKey: ['firstTimeDepositAverage', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-ftd${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
-      return res.json();
+      const data = await res.json();
+      return data;
     },
+
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+
   });
 }
 
@@ -81,7 +95,7 @@ export function globalAverageDepositQueryOptions() {
     queryKey: ['globalAverageDeposit'],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-global-average-deposit`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -92,12 +106,41 @@ export function globalAverageDepositQueryOptions() {
   });
 }
 
-export function totalAmountFTDQueryOptions() {
+type usersByCityTabProps = {
+    city: string;
+    activeUsers: string;
+}
+
+
+export function usersByCityQueryOptions() {
   return queryOptions({
-    queryKey: ['FTDAmount'],
+    queryKey: ['usersByCity'],
+    queryFn: async () : Promise<{ top10: usersByCityTabProps[]; all: usersByCityTabProps[] }> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/users-by-city?propertyId=294090389`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch users by city');
+      }
+
+      // return 10 most cities with most active users
+      const data = await res.json();
+      const sortedData = data.sort((a: usersByCityTabProps, b: usersByCityTabProps) => {
+        return parseInt(b.activeUsers) - parseInt(a.activeUsers);
+      });
+      return { top10: sortedData.slice(0, 10), all: sortedData };
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
+export function totalAmountFTDQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['FTDAmount', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-money-ftd${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -105,6 +148,8 @@ export function totalAmountFTDQueryOptions() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
@@ -113,7 +158,7 @@ export function averageAmountDepositsQueryOptions() {
     queryKey: ['averageAmountDeposits'],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/average-amount`);
+      const res = await fetch(`${API_BASE_URL}/table-test/average-amount`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -125,12 +170,12 @@ export function averageAmountDepositsQueryOptions() {
 }
 
 
-export function depositsWithdrawalQuantityQueryOptions() {
+export function depositsWithdrawalQuantityQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['depositsWithdrawalQuantity'],
+    queryKey: ['depositsWithdrawalQuantity', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-quantity-by-type${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -138,15 +183,17 @@ export function depositsWithdrawalQuantityQueryOptions() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
-export function proportionalDepositFTDQueryOptions() {
+export function proportionalDepositFTDQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['proportionalDepositFTD'],
+    queryKey: ['proportionalDepositFTD', queryString],
     queryFn: async () : Promise<proportionalDepositFTD> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money`);
+      const res = await fetch(`${API_BASE_URL}/table-test/proportional-deposit-FTD-total-money${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -165,7 +212,7 @@ export function allDepositsQueryOptions() {
     queryKey: ['allDeposits'],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/without-pagination`);
+      const res = await fetch(`${API_BASE_URL}/table-test/without-pagination`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -189,16 +236,28 @@ export function allDepositsQueryOptions() {
   });
 }
 
-export function getTotalDepositsByStatusAndDayQueryOptions() {
+export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['getTotalDepositsByStatusAndDay'],
+    queryKey: ['getTotalDepositsByStatusAndDay', queryString],
     queryFn: async () : Promise<totalDepositsStatusDay> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-total-deposit-by-status-and-day`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-total-deposit-by-status-and-day${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
-      return await res.json();
+      const data = await res.json();
+      // Verificar si data contiene almenos uno de los campos Paid, Failed o Cancelled, con al menos un elemento, si falta alguno agregarlo como un array vacío
+      if (!data.Paid) {
+        data.Paid = [];
+      }
+      if (!data.Failed) {
+        data.Failed = [];
+      }
+      if (!data.Cancelled) {
+        data.Cancelled = [];
+      }
+
+      return data;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
@@ -211,7 +270,7 @@ export function FTDMountByDayQueryOptions() {
     queryKey: ['FTDMountByDay'],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/get-total-money-by-day`);
+      const res = await fetch(`${API_BASE_URL}/table-test/get-total-money-by-day`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -224,12 +283,12 @@ export function FTDMountByDayQueryOptions() {
 }
 
 
-export function FTDQuantityByDayQueryOptions() {
+export function FTDQuantityByDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['FTDQuantityByDay'],
+    queryKey: ['FTDQuantityByDay', queryString],
     queryFn: async () : Promise<{ time: string; value: number }[]> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-first-depossit-by-all-days`);
+      const res = await fetch(`${API_BASE_URL}/table-test/total-first-deposit-by-all-days${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch all deposits');
       }
@@ -242,12 +301,12 @@ export function FTDQuantityByDayQueryOptions() {
 }
 
 
-export function totalTransactionsByTypeQueryOptions() {
+export function totalTransactionsByTypeQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['totalTransactionsByType'],
+    queryKey: ['totalTransactionsByType', queryString],
     queryFn: async () : Promise<totalTransactionsByType> => {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-by-type`);
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'; 
+      const res = await fetch(`${API_BASE_URL}/table-test/total-transactions-by-type${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
@@ -255,6 +314,8 @@ export function totalTransactionsByTypeQueryOptions() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+
   });
 }
 
@@ -263,12 +324,13 @@ export function benchmarkKeysQueryOptions({pageParam}: {pageParam?: number} = {}
     queryKey: ['benchmarkKeys', pageParam],
     queryFn: async () : Promise<BenchmarkKey> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls?page=${pageParam || 1}`);
+      const res = await fetch(`${API_BASE_URL}/benchmark/signed-urls?page=${pageParam || 1}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch benchmark keys');
       }
       return res.json();
     },
     refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
   });
 }

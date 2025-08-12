@@ -9,12 +9,14 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Link, useLocation } from "@tanstack/react-router"
-import { createSerializer, parseAsTimestamp, useQueryStates } from 'nuqs'  
+import { createSerializer, parseAsBoolean, parseAsTimestamp, useQueryStates } from 'nuqs'  
 import { useMemo } from "react"
   
 const dateParams = {  
   from: parseAsTimestamp,  
-  to: parseAsTimestamp  
+  to: parseAsTimestamp,
+    apply: parseAsBoolean.withDefault(false)
+
 }  
 const serialize = createSerializer(dateParams)  
 
@@ -30,21 +32,24 @@ export function NavProjects({
 }) {
 
   const { pathname } = useLocation();
-  const [{ from, to }] = useQueryStates(dateParams)
+  const [{ from, to, apply }] = useQueryStates(dateParams)
   const projectItems = useMemo(() => (
     projects.map((item) => {
-      const href = serialize(item.url, { from, to })
+      let href = serialize(item.url, { from, to, apply })
+      if (item.url === '/dashboard/benchmark') {
+        href = item.url;
+      }
       const isActive = pathname?.startsWith(`${item.url.toLocaleLowerCase()}`)
       return (
         <SidebarMenuItem key={item.name}>
           <div className="flex relative items-center justify-start gap-6 h-fit w-full pl-6 group-data-[collapsible=icon]:pl-2 ">
             {isActive &&
-              <div className="absolute group-data-[collapsible=icon]:hidden left-0 w-2 h-8 bg-primary rounded-r-full transition-all duration-300 ease-in-out animate-in slide-in-from-left-2" />
+              <div className="absolute left-0 w-2 h-8 bg-primary rounded-r-full transition-all duration-300 ease-in-out animate-in slide-in-from-left-2" />
             }
             <SidebarMenuButton asChild>
               <Link to={href} className={`flex gap-3 h-fit items-center !text-base justify-start transition-all duration-300 ease-in-out ${
                 isActive
-                  ? 'text-primary font-bold transform scale-105'
+                  ? 'text-primary font-bold'
                   : 'hover:text-primary/70'
               }`}>
                 <item.icon strokeWidth={2.5} className="transition-transform duration-300 ease-in-out" />
@@ -55,7 +60,7 @@ export function NavProjects({
         </SidebarMenuItem>
       )
     })
-  ), [projects, pathname, from, to])
+  ), [projects, pathname, from, to, apply])
 
   return (
     <SidebarGroup className="pl-0" >
