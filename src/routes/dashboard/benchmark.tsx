@@ -1,4 +1,4 @@
-import { createFileRoute, useSearch } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import CsvUploadInput from "@/components/benchmark/upload-input"
 import { DocumentDropZoneWrapper } from "@/components/benchmark/dropzone";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,8 +8,6 @@ import CardFiles from '@/components/benchmark/card-files';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ErrorPage from '@/components/errorPage';
 import { useSidebar } from '@/components/ui/sidebar';
-import { es } from 'date-fns/locale';  
-import { format } from 'date-fns';  
 import type { BenchmarkSearch } from '@/types/search-types';
 import { xApiKey } from '@/queryOptions/queryOptions';
 
@@ -61,14 +59,6 @@ function RouteComponent() {
   const handleCsvUpload = (files: File[]) => {
     mutate(files);
   };
-  const search = useSearch({ from: '/dashboard/benchmark' });
-  
-  const from = search.from;
-  console.log("from",from)
-  const to = search.to;
-  console.log("benchmark from", from ? format(from, 'd MMM yyyy', { locale: es }) : undefined);
-  console.log("benchmark to", to ? format(to, 'd MMM yyyy', { locale: es }) : undefined);
-
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full">
       <Card className="w-full h-fit">

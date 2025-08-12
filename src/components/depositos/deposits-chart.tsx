@@ -118,7 +118,7 @@ export function DepositsChart({queryString}: {queryString?: string}) {
 
     if (error) {
         return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
                 <GeneralErrorContent refetch={refetch} />
             </FullSizeCard>
         )
@@ -126,14 +126,14 @@ export function DepositsChart({queryString}: {queryString?: string}) {
 
     if (!allDeposits || (allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0)) {
         return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
                 <GeneralEmptyContent />
             </FullSizeCard>
         )
     }
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 0, left: 20 }}>

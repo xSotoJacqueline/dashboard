@@ -48,7 +48,6 @@ export function averageWithdrawalsPerDay({queryString = queryStringDefault}: {qu
       const data = await res.json();
       return data;
     },
-
     staleTime: Infinity,
     refetchOnWindowFocus: false,
 
@@ -75,10 +74,8 @@ export function TopPlayersMostWithdrawals({queryString = queryStringDefault}: {q
       const data = await res.json();
       return data;
     },
-
     staleTime: Infinity,
     refetchOnWindowFocus: false,
-
   });
 }
 
@@ -111,23 +108,19 @@ export function mostCommonWithdrawHour() {
       }
       const data: RushHourWithdrawsData = await res.json();
       
-      // Agrupar por hora y sumar los conteos
       const hourCounts = data.reduce((acc, item) => {
         const hour = item.hour;
         acc[hour] = (acc[hour] || 0) + parseInt(item.count.toString());
         return acc;
       }, {} as Record<string, number>);
 
-      // Encontrar la hora con más retiros
       const [mostCommonHour, maxCount] = Object.entries(hourCounts).reduce(
         (max, [hour, count]) => count > max[1] ? [hour, count] : max,
         ['0', 0]
       );
 
-      // Calcular el total de retiros
       const totalWithdraws = Object.values(hourCounts).reduce((sum, count) => sum + count, 0);
       
-      // Calcular el porcentaje
       const percentage = totalWithdraws > 0 ? (maxCount / totalWithdraws) * 100 : 0;
 
       return {

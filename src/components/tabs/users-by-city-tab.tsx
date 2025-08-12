@@ -28,6 +28,8 @@ export default function UsersByCityTab() {
   );
 
   const tableData = usersByCity?.all || [];
+
+  console.log("tableData lenght",tableData.length)
   
     const chartConfig = {
         ftdMount: {

@@ -7,10 +7,8 @@ export const useTheme = () => {
     initializeWithValue: false 
   });
 
-  // Memorizar el estado isDarkMode
   const memoizedIsDarkMode = useMemo(() => isDarkMode, [isDarkMode]);
 
-console.log(memoizedIsDarkMode);
   useLayoutEffect(() => {
     try {
       const savedTheme = localStorage.getItem('usehooks-ts-dark-mode');

@@ -38,7 +38,6 @@ function RouteComponent() {
     queries: [averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour(), percentageDepositsByDayOfWeek({queryString})],
   });
 
-  console.log("percentageDepositsByDayOfWeekData error", percentageDepositsByDayOfWeekData.error?.message);
   return (
     <div className="w-full rounded-lg text-black h-full">
         <div className="flex flex-col h-full xl:flex-row justify-between gap-6 ">

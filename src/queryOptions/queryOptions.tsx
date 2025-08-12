@@ -10,7 +10,6 @@ export type GeneralProps = {
 
 const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
-console.log("queryString", queryStringDefault);
 export type totalTransactionsByType ={
     Withdrawal: number;
     Deposit: number;
@@ -121,8 +120,6 @@ export function usersByCityQueryOptions() {
       if (!res.ok) {
         throw new Error('Failed to fetch users by city');
       }
-
-      // return 10 most cities with most active users
       const data = await res.json();
       const sortedData = data.sort((a: usersByCityTabProps, b: usersByCityTabProps) => {
         return parseInt(b.activeUsers) - parseInt(a.activeUsers);
