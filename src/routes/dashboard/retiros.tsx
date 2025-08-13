@@ -9,9 +9,8 @@ import { BarChart3 } from 'lucide-react'
 import { TopCard, TopCardHeader, TopCardTitle, TopCardContent, TopCardValue, TopCardFooter } from '@/components/ui/general-top-card'
 import { Label } from '@/components/ui/label'
 import { useQueries } from '@tanstack/react-query'
-import { averageWithdrawalsPerDay, mostCommonWithdrawHour, percentageDepositsByDayOfWeek, TopPlayersMostWithdrawals, totalWithdrawals } from '@/queryOptions/queryOptions-retiros'
+import { averageAmountWithdrawalsPerDay, averageWithdrawalsPerDay, mostCommonWithdrawHour, percentageDepositsByDayOfWeek, TopPlayersMostWithdrawals, totalWithdrawals } from '@/queryOptions/queryOptions-retiros'
 import { createQueryString } from '@/lib/utils'
-import { depositsWithdrawalQuantityQueryOptions } from '@/queryOptions/queryOptions'
 
 export const Route = createFileRoute('/dashboard/retiros')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -34,8 +33,8 @@ function RouteComponent() {
     
   const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
 
-  const [averageWithdrawals, totalWithdrawalsData, depositsWithdrawalQuantityData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
-    queries: [averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour({queryString}), percentageDepositsByDayOfWeek({queryString})],
+  const [averageAmountWithdrawals, averageWithdrawals, totalWithdrawalsData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
+    queries: [averageAmountWithdrawalsPerDay({queryString}), averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour({queryString}), percentageDepositsByDayOfWeek({queryString})],
   });
 
   return (
@@ -82,8 +81,8 @@ function RouteComponent() {
                 </TopCard>
 
                 <TopCard
-                  isLoading={depositsWithdrawalQuantityData.isPending}
-                  isError={depositsWithdrawalQuantityData.isError}
+                  isLoading={averageAmountWithdrawals.isPending}
+                  isError={averageAmountWithdrawals.isError}
                   iconSize={24}
                   iconStrokeWidth={2}
                   Icon={BarChart3}
@@ -94,7 +93,7 @@ function RouteComponent() {
                     <TopCardTitle className="min-h-0">Monto de retiros</TopCardTitle>
                   </TopCardHeader>
                   <TopCardContent className='gap-4'>
-                    <TopCardValue valueFormat="currency" value={depositsWithdrawalQuantityData.data?.Withdrawal ? depositsWithdrawalQuantityData.data.Withdrawal : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}  className="text-4xl md:text-5xl font-bold" />
                     <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                   </TopCardContent>
                   <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />

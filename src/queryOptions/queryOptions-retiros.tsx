@@ -36,6 +36,25 @@ export function percentageDepositsByDayOfWeek({queryString = queryStringDefault}
   });
 }
 
+
+export function averageAmountWithdrawalsPerDay({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['averageAmountWithdrawalsPerDay', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/withdraw/get-average-withdrawals-amount-per-day${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch average withdrawals per day');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+
+  });
+}
+
 export function averageWithdrawalsPerDay({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['averageWithdrawalsPerDay', queryString],
