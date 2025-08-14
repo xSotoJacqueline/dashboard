@@ -40,7 +40,6 @@ function RouteComponent() {
   return (
     <div className="w-full rounded-lg text-black h-full">
         <div className="flex flex-col h-full xl:flex-row justify-between gap-6 ">
-          {/* Main Content */}
           <div className="w-full flex flex-col gap- justify-between">
             <div className="grid  w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 mb-8">
                 <TopCard
@@ -101,8 +100,6 @@ function RouteComponent() {
             </div>
             <ChartSection errorMessage={percentageDepositsByDayOfWeekData.error?.message} isPending={percentageDepositsByDayOfWeekData.isPending} isError={percentageDepositsByDayOfWeekData.isError} percentageDepositsByDayOfWeekData={percentageDepositsByDayOfWeekData.data}/>
           </div>
-          
-          {/* Right Sidebar */}
           <ScrollArea className="w-full xl:w-80 h-fit xl:h-[100cqh]">
             <div className='w-full h-fit xl:h-[100cqh] flex flex-col gap-6 '>
               <PlayersSection isError={topPlayersMostWithdrawalsData.isError} isPending={topPlayersMostWithdrawalsData.isPending} topPlayersMostWithdrawalsData={topPlayersMostWithdrawalsData.data?.slice(0, 5)} />
