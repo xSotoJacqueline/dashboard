@@ -110,7 +110,7 @@ function RouteComponent() {
         <SignedIn>
           <section className="flex-1">
             <div className="relative w-full min-h-[680px] h-full">
-              <div className="flex items-center h-fit justify-between z-50 gap-3 mx-auto absolute inset-x-0 sm:w-[95%] w-[90%] top-4 max-w-5xl">
+              <div className="flex items-center h-fit justify-between z-50 gap-3 mx-auto absolute inset-x-0 sm:w-[95%] w-[90%] top-5 sm:top-8 max-w-5xl">
                   <UserButton
                     appearance={{
                       elements: {
