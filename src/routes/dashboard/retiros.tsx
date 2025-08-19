@@ -55,7 +55,7 @@ function RouteComponent() {
                     <TopCardTitle className="min-h-0">Total de retiros</TopCardTitle>
                   </TopCardHeader>
                   <TopCardContent className='gap-4'>
-                    <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}  className="text-4xl md:text-4xl font-bold" />
                     <Label className='font-normal text-muted-foreground'>Transacciones completadas</Label>
                   </TopCardContent>
                   <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
@@ -73,7 +73,7 @@ function RouteComponent() {
                     <TopCardTitle className="min-h-0">Promedio de retiros</TopCardTitle>
                   </TopCardHeader>
                   <TopCardContent className='gap-4'>
-                    <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}  className="text-4xl md:text-4xl font-bold" />
                     <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                   </TopCardContent>
                   <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
@@ -92,7 +92,7 @@ function RouteComponent() {
                     <TopCardTitle className="min-h-0">Monto de retiros</TopCardTitle>
                   </TopCardHeader>
                   <TopCardContent className='gap-4'>
-                    <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}  className="text-4xl md:text-5xl font-bold" />
+                    <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}  className="text-4xl md:text-4xl font-bold" />
                     <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                   </TopCardContent>
                   <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
