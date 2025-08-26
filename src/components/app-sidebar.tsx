@@ -19,7 +19,7 @@ import {
   UserIcon,
   GiftIcon,
   HandCoinsIcon,
-  BookIcon,
+  // BookIcon,
 } from "lucide-react"
 
 const data = {
@@ -54,11 +54,11 @@ const data = {
       url: "/dashboard/depositos",
       icon: HandCoinsIcon,
     },
-        {
-      name: "Sportsbook",
-      url: "/dashboard/sportsbook",
-      icon: BookIcon,
-    },
+    //     {
+    //   name: "Sportsbook",
+    //   url: "/dashboard/sportsbook",
+    //   icon: BookIcon,
+    // },
     {
       name: "Alcances",
       url: "/dashboard/alcances",

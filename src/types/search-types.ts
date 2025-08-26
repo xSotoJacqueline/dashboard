@@ -6,6 +6,13 @@ export type BenchmarkSearch = {
 
 }
 
+export type GeneralSearchWithPagination = {
+  page?: number
+  from?: number
+  to?: number
+  apply?: boolean
+}
+
 export type GeneralSearch = {
   from?: number
   to?: number

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Progress } from '../ui/progress';
 import { BarChartPerDayMarketing } from '../marketing/barChart-perday';
+import UsersByCity from '../marketing/users-by-city'
 
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
@@ -165,6 +166,8 @@ export default function PlayersTab() {
           </CardContent>
       </Card>
     </div>
+
+    <UsersByCity />
 
 
     </div>

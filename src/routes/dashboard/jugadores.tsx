@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { Gamepad2, ChartLineIcon, Users } from "lucide-react"
 import { GeneralCardTopCard, type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
@@ -13,11 +13,11 @@ import SpecificGamesTab from "@/components/tabs/specific-games-tab";
 import HybridUsersTab from "@/components/tabs/hybrid-users-tab";
 import CategoriesTab from "@/components/tabs/categories-tab";
 import ErrorPage from '@/components/errorPage';
-import type { GeneralSearch } from '@/types/search-types';
-import UsersByCityTab from '@/components/tabs/users-by-city-tab';
+import type { GeneralSearchWithPagination } from '@/types/search-types';
+import { createQueryString } from '@/lib/utils';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
-  validateSearch: (search: Record<string, unknown>): GeneralSearch => {
+  validateSearch: (search: Record<string, unknown>): GeneralSearchWithPagination => {
     return {
       from: typeof search?.from === 'number'
         ? search.from
@@ -25,6 +25,7 @@ export const Route = createFileRoute('/dashboard/jugadores')({
       to: typeof search?.to === 'number'
         ? search.to
         : undefined,
+      page: Number(search?.page ?? 1),
     }
   },
   component: RouteComponent,
@@ -32,6 +33,13 @@ export const Route = createFileRoute('/dashboard/jugadores')({
 })
 
 function RouteComponent() {
+
+  const search = useSearch({ from: '/dashboard/jugadores' });
+
+  const page = search.page || 1;
+    
+  const { queryString } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
+
  const fetchData = () => {
     const random = (Math.floor(Math.random() * 100.55))
     return (random - 40)/1000
@@ -69,7 +77,7 @@ function RouteComponent() {
           <ScrollArea className="whitespace-nowrap">
             <TabsList className="w-full">
                 <TabsTrigger value="top-users">Top usuarios</TabsTrigger>
-                <TabsTrigger value="users-by-city">Usuarios por ciudad</TabsTrigger>
+                {/* <TabsTrigger value="users-by-city">Usuarios por ciudad</TabsTrigger> */}
                 <TabsTrigger value="categories">Categorías</TabsTrigger>
                 <TabsTrigger value="specific-games">Juegos específicos</TabsTrigger>
                 <TabsTrigger value="hybrid-players">Usuarios híbridos</TabsTrigger>
@@ -78,12 +86,12 @@ function RouteComponent() {
           </ScrollArea>
 
            <TabsContent  className="w-full h-full" value="top-users">
-              <TopUsersTab />
+              <TopUsersTab queryString={queryString} pageParam={page} />
            </TabsContent>
 
-           <TabsContent  className="w-full h-full" value="users-by-city">
+           {/* <TabsContent  className="w-full h-full" value="users-by-city">
               <UsersByCityTab />
-           </TabsContent>
+           </TabsContent> */}
            <TabsContent className="w-full h-full" value="specific-games">
             <SpecificGamesTab />
           </TabsContent>

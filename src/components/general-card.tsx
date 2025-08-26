@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
+  LoaderCircleIcon,
   type LucideIcon,
 } from "lucide-react"
 import React from "react";
@@ -21,9 +22,10 @@ type ChartLineLabelProps = {
   children: React.ReactNode;
   identifier?: string;
   cardContentClassName?: string;
+  isLoading?: boolean;
 }
 
-export function GeneralCard({ title, description, Icon, children, identifier, className, cardContentClassName, classNameContainer }: ChartLineLabelProps) {
+export function GeneralCard({ title, description, Icon, children, identifier, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
 
   return (
     <motion.div  layoutId={`card-${identifier || title}`} className={cn("w-full h-full overflow-hidden", classNameContainer)}>
@@ -34,8 +36,7 @@ export function GeneralCard({ title, description, Icon, children, identifier, cl
                     layoutId={`title-${title}`}
                     className="game-title flex items-center gap-2"
                   >
-                    {Icon && <Icon className="w-5 h-5 text-primary" />}
-
+                    {Icon && (isLoading ? <LoaderCircleIcon className="w-5 h-5 text-primary animate-spin"/> : <Icon className="w-5 h-5 text-primary"/>)}
                     <CardTitle className="text-xl font-bold">{title}</CardTitle>
                   </motion.h2>  
               </motion.div>

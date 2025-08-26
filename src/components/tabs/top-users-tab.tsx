@@ -8,31 +8,84 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { GeneralCard } from "../general-card";
+import { topLoosers, type TopLoosersData } from "@/queryOptions/queryOptions-jugadores";
+import { useQuery } from "@tanstack/react-query";
+import { GeneralEmptyContent } from "../general-empty-content";
+import { GeneralErrorContent } from "../general-error-content";
+import CardLoading from "../loading-card";
+import {
+  type ColumnDef,
+  flexRender,
+} from "@tanstack/react-table"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { useDataTable } from "@/lib/use-data-table"
+import { Button } from "@/components/ui/button"
+import NumberFlow from "@number-flow/react";
 
-type LosersTableItem = {
-  username: string;
-  earnings: number;
-  gamesPlayed: number;
-  winRate: number;
-}
+export default function TopUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
 
-const losersData: LosersTableItem[] = [
-  { username: "Jugador1", earnings: -150, gamesPlayed: 20, winRate: 0.15 },
-  { username: "Jugador2", earnings: -200, gamesPlayed: 25, winRate: 0.12 },
-  { username: "Jugador3", earnings: -180, gamesPlayed: 30, winRate: 0.10 },
-  { username: "Jugador4", earnings: -220, gamesPlayed: 22, winRate: 0.08 },
-  { username: "Jugador5", earnings: -170, gamesPlayed: 18, winRate: 0.14 },
-  { username: "Jugador6", earnings: -160, gamesPlayed: 28, winRate: 0.11 },
-  { username: "Jugador7", earnings: -190, gamesPlayed: 24, winRate: 0.09 },
-  { username: "Jugador8", earnings: -210, gamesPlayed: 26, winRate: 0.07 },
-  { username: "Jugador9", earnings: -230, gamesPlayed: 21, winRate: 0.06 },
-  { username: "Jugador10", earnings: -240, gamesPlayed: 19, winRate: 0.05 },
+  const losersData = useQuery(topLoosers({queryString, pageParam}));
+  
+  const columns: ColumnDef<TopLoosersData>[] = [
+  {
+    accessorKey: "user_name",
+    header: "Usuarios",
+    cell: ({ row }) => (
+    <div className="">{row.getValue("user_name")}</div>
+    ),
+  },
+  {
+    accessorKey: "real_money_wins",
+    header: "Ganancias",
+    cell: ({ row }) => (
+    <div className="">{row.getValue("real_money_wins")}</div>
+    ),
+  },
+  {
+    accessorKey: "number_of_bets",
+    header: "Juegos",
+    cell: ({ row }) => (
+    <div className="">{row.getValue("number_of_bets")}</div>
+    ),
+  },
+  {
+    accessorKey: "wins",
+    header: "Win Rate",
+    cell: ({ row }) => (
+    <div className="">{row.getValue("wins")}</div>
+    ),
+  },
 ]
 
-export default function TopUsersTab() {
+    const { table } = useDataTable({
+      data: losersData.data || [],
+      columns,
+      pageCount: 10,
+      enableAdvancedFilter: true,
+      initialState: {
+        sorting: [{ id: 'id', desc: true }],
+        columnPinning: { right: ['actions'] },
+      },
+      defaultColumn: {
+        columns,
+        enableColumnFilter: false,
+      },
+      getRowId: (originalRow) => originalRow.id.toString(),
+      shallow: false,
+      clearOnDefault: true,
+    });
   
+
+  if (losersData.isLoading) {
+    return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+  }
+
+  if (losersData.isError){
+    return <GeneralErrorContent />;
+  }
+
   return (
-    <GeneralCard identifier="chart1" title="Días en los que más retiros se realizan" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard isLoading={losersData.isFetching} identifier="chart1" title="Top perdedores" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
       <div className="w-full h-full">
         <Table>
           <TableHeader className=" ">
@@ -46,16 +99,91 @@ export default function TopUsersTab() {
           <TableBody className="border-0">
             <TableRow className="border-0 text-primary h-2" />
 
-            {losersData.map((loser) => (
-              <TableRow className="border-0 text-primary" key={loser.username}>
-                <TableCell className="text-start px-0">{loser.username}</TableCell>
-                <TableCell className="text-center px-0">{loser.earnings}</TableCell>
-                <TableCell className="text-center px-0">{loser.gamesPlayed}</TableCell>
-                <TableCell className="text-right px-0">{loser.winRate}</TableCell>
-              </TableRow>
-            ))}
+
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    className="border-0 text-primary"
+                    key={row.id}
+                  >
+                    
+                    {row.getVisibleCells().map((cell) => (
+
+                      <TableCell className={`${cell.column.id === 'user_name' ? 'text-start px-0' : cell.column.id === 'real_money_wins' ? 'text-center px-0' :  cell.column.id === 'number_of_bets' ? 'text-center px-0' : 'text-right px-0'}`} key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-full text-center"
+                  >
+                    <GeneralEmptyContent />
+                  </TableCell>
+                </TableRow>
+              )}
           </TableBody>
         </Table>
+
+                <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            aria-label="Go to first page"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronsLeft size={16} />
+          </Button>
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            disabled={table.getState().pagination.pageIndex + 1 === 1}
+            onClick={() => table.previousPage()}
+          >
+            <ChevronLeft size={16} />
+          </Button>
+          <div className="mr-2 flex items-end justify-end space-x-1 text-sm tabular-nums">
+            <span className="text-muted-foreground justify-end flex min-w-5 items-end text-end">
+              <NumberFlow value={table.getState().pagination.pageIndex + 1} />
+            </span>
+            <span className="text-muted-foreground flex items-center gap-1">
+              /{' '}
+              {losersData.isFetching ? (
+                <div className="h-4 w-5 animate-pulse rounded-sm bg-slate-200/50" />
+              ) : (
+                table.getPageCount()
+              )}
+            </span>
+          </div>
+          <Button
+            size={'icon'}
+            className="h-fit w-fit p-2"
+            variant={'secondary'}
+            disabled={table.getState().pagination.pageIndex + 1 === table.getPageCount()}
+            onClick={() => table.nextPage()}
+          >
+            <ChevronRight size={16} />
+          </Button>
+          <Button
+            size={'icon'}
+            variant={'secondary'}
+            className="h-fit w-fit p-2"
+            aria-label="Go to first page"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronsRight size={16} />
+          </Button>
+        </div>
       </div>
     </GeneralCard>
   )

@@ -1,6 +1,5 @@
 import { GeneralCard } from "../general-card";
 import { useQuery } from "@tanstack/react-query";
-import { usersByCityQueryOptions } from "@/queryOptions/queryOptions";
 import { FullSizeCard } from "../fullSize-Card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
@@ -21,8 +20,9 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table"
+import { usersByCityQueryOptions } from "@/queryOptions/queryOptions-metricas";
 
-export default function UsersByCityTab() {
+export default function UsersByCity() {
   const { data: usersByCity, error, isPending, isFetching, refetch } = useQuery(
       usersByCityQueryOptions(),
   );
@@ -135,7 +135,7 @@ export default function UsersByCityTab() {
 
   return (
         <div className="w-full h-full grid grid-cols-1 md:grid-cols-6 gap-6">
-          <FullSizeCard identifier="chart2" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Usuarios activos por ciudad" description="Top 10 ciudades con más usuarios activos">
+          <FullSizeCard identifier="chart3" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Usuarios activos por ciudad" description="Top 10 ciudades con más usuarios activos">
               <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                   <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                       {ChartComponent}

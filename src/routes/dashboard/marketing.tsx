@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { BarChart3, Circle, ChartLine, UserRoundPlus, Users } from "lucide-react"
+import { Circle, ChartLine, UserRoundPlus } from "lucide-react"
 
 import TrafficTab from "@/components/tabs/traffic-tab"
 import type { TrafficSource } from "@/components/tabs/traffic-sources"
 import CampaignTab, { type CampaignPerformanceProps } from "@/components/marketing/campaign-tab"
-import { GeneralCardTopCard, type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
+import { type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
@@ -15,6 +15,7 @@ import {
 import PlayersTab from "@/components/tabs/players-tab"
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
+import MarketingTopCards from '@/components/marketing/marketing-top-cards'
 
 export const Route = createFileRoute('/dashboard/marketing')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -52,13 +53,6 @@ function RouteComponent() {
     return (random - 40)/1000
   }
 
-  const values: GeneralCardTopCardProps[] = [
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Tráfico Total", Icon: ChartLine, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Bonus Rate ", Icon: BarChart3, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Únicos", Icon: Users, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Registros Totales", Icon: UserRoundPlus, label: "Últimos 28 días" },
-  ]
-
   const campaignValues: GeneralCardTopCardProps[] = [
     { value: fetchData(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "CTR Promedio", Icon: Circle, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Alcance Total", Icon: ChartLine, label: "Últimos 28 días" },
@@ -81,19 +75,7 @@ function RouteComponent() {
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
-      <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {values.map((metric, index) => (
-          <GeneralCardTopCard
-            key={index}
-            value={metric.value}
-            title={metric.title}
-            Icon={metric.Icon}
-            label={metric.label}
-            percentageValue={metric.percentageValue}
-            valueFormat={metric.valueFormat}
-          />
-        ))}
-      </div>
+      <MarketingTopCards />
 
        <Tabs defaultValue="traffic" className="w-full h-full">
           <ScrollArea className="whitespace-nowrap">
