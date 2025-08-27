@@ -131,7 +131,7 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
           </TableBody>
         </Table>
 
-                <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
+        <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
           <Button
             size={'icon'}
             className="h-fit w-fit p-2"

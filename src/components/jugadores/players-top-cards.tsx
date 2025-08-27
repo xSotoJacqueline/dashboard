@@ -1,7 +1,8 @@
 import { useQueries } from "@tanstack/react-query";
-import { Users } from "lucide-react"
+import { Users, Gamepad2Icon, ChartLineIcon } from "lucide-react"
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { getTotalPlayers, getTotalHybridPlayers } from "@/queryOptions/queryOptions-jugadores";
+
 
 export default function PlayersTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
   const [totalPlayers, totalHybridPlayers] = useQueries({
@@ -49,7 +50,43 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
 
+      <TopCard
+        isLoading={totalHybridPlayers.isPending}
+        isError={totalHybridPlayers.isError}
+        iconSize={24}
+        iconStrokeWidth={2}
+        refetch={totalHybridPlayers.refetch}
+        Icon={ChartLineIcon}
+        index={3}
+        className="col-span-1 flex flex-col justify-between font-normal gap-3"
+      >
+        <TopCardHeader className="flex ">
+          <TopCardTitle className="min-h-14">Ingresos Totales</TopCardTitle>
+        </TopCardHeader>
+        <TopCardContent className='gap-4'>
+          <TopCardValue  valueFormat="decimal" value={totalHybridPlayers.data ? totalHybridPlayers.data : 0}   />
+        </TopCardContent>
+        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+      </TopCard>
 
+      <TopCard
+        isLoading={totalHybridPlayers.isPending}
+        isError={totalHybridPlayers.isError}
+        iconSize={24}
+        iconStrokeWidth={3}
+        refetch={totalHybridPlayers.refetch}
+        Icon={Gamepad2Icon}
+        index={4}
+        className="col-span-1 flex flex-col justify-between font-normal gap-3"
+      >
+        <TopCardHeader className="flex ">
+          <TopCardTitle className="min-h-14">Jugadores activos</TopCardTitle>
+        </TopCardHeader>
+        <TopCardContent className='gap-4'>
+          <TopCardValue  valueFormat="decimal" value={totalHybridPlayers.data ? totalHybridPlayers.data : 0}   />
+        </TopCardContent>
+        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+      </TopCard>
 
 
       {/* <TopCard
