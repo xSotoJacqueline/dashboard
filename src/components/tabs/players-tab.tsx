@@ -9,11 +9,12 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import { Progress } from '../ui/progress';
-import { BarChartPerDayMarketing } from '../marketing/barChart-perday';
+import { BarChartPerDayMarketing } from '../marketing/barChart-campaigns-perday';
 import UsersByCity from '../marketing/users-by-city'
 import { getAverageTimeOnPage } from '@/queryOptions/queryOptions-marketing'
 import { useQueries } from '@tanstack/react-query'
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
+import { BarChartRegistersPerDayMarketing } from '../marketing/barChart-registers-perday'
 
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
@@ -28,8 +29,8 @@ export default function PlayersTab({queryString,labelTimePeriod}: {queryString?:
   return (
     <div className="w-full h-full flex flex-col gap-6">
     <div className='h-fit md:h-[65cqh] w-full grid grid-cols-1 md:grid-cols-2 gap-6'>
-      <BarChartPerDayMarketing identifier='chart1' className="w-full h-full col-span-1" title="Jugadores activos diarios" description="Promedio: 1500"/>
-      <BarChartPerDayMarketing identifier='chart2' className="w-full h-full col-span-1" title="Registros por días" description="Nuevos usuarios registrados" />
+      <BarChartPerDayMarketing queryString={queryString} labelTimePeriod={labelTimePeriod} />
+      <BarChartRegistersPerDayMarketing queryString={queryString} />
     </div>
     <div className='h-full md:h-[35cqh] w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
       <Card className="w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">
@@ -60,7 +61,7 @@ export default function PlayersTab({queryString,labelTimePeriod}: {queryString?:
         iconSize={24}
         iconStrokeWidth={2}
         refetch={averageTimeOnPage.refetch}
-        index={6}
+        index={22}
         valueFormat="currency"
         containerClassName='w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0'
         className="flex flex-col justify-between font-normal gap-3"
@@ -72,7 +73,7 @@ export default function PlayersTab({queryString,labelTimePeriod}: {queryString?:
           <TopCardValue suffix="m" valueFormat="decimal" value={averageTimeOnPage.data?.minutes ? averageTimeOnPage.data.minutes : 0}   />
           <TopCardValue suffix="s" valueFormat="decimal" value={averageTimeOnPage.data?.seconds ? averageTimeOnPage.data.seconds : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Último mes`} showPercentage={true}  />
+        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
 
 

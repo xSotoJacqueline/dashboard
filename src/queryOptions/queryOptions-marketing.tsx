@@ -54,3 +54,28 @@ export function getCampaigns() {
     refetchOnWindowFocus: false,
   });
 }
+
+type TrafficData = {
+  date: string;
+  activeUsers: number;
+}
+
+export function getTrafficPerDay({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTrafficPerDay', queryString],
+    queryFn: async () : Promise<TrafficData[]> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-traffic-per-day${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch traffic per day');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}

@@ -32,7 +32,7 @@ export function PeakHoursSection({ mostCommonWithdrawHourData, labelTimePeriod, 
             <div className="text-sm text-foreground mb-1">
               % de retiros en ese horario: <span className="text-green-600 font-medium break-keep whitespace-nowrap">{mostCommonWithdrawHourData?.percentage}%</span>
             </div>
-            <div className="text-sm text-foreground mb-1">{labelTimePeriod ? labelTimePeriod : `Último mes`}</div>
+            <div className="text-sm text-foreground mb-1">{labelTimePeriod ? labelTimePeriod : `Últimos 28 días`}</div>
           </>
         ) :
         (<GeneralEmptyContent className="lg:min-h-[0px] min-h-48 lg:max-h-[165px] h-full" />)}

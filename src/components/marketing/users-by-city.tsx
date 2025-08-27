@@ -1,25 +1,24 @@
-import { GeneralCard } from "../general-card";
 import { useQuery } from "@tanstack/react-query";
 import { FullSizeCard } from "../fullSize-Card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig} from "../ui/chart";
 import { GeneralErrorContent } from "../general-error-content";
 import CardLoading from "../loading-card";
 import * as React from 'react';
-import { useVirtualizer } from '@tanstack/react-virtual';
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-} from '@tanstack/react-table'
+// import { useVirtualizer } from '@tanstack/react-virtual';
+// import {
+//   flexRender,
+//   getCoreRowModel,
+//   getSortedRowModel,
+//   useReactTable,
+//   type ColumnDef,
+// } from '@tanstack/react-table'
 
-import {
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table"
+// import {
+//   TableBody,
+//   TableCell,
+//   TableRow,
+// } from "@/components/ui/table"
 import { usersByCityQueryOptions } from "@/queryOptions/queryOptions-metricas";
 
 export default function UsersByCity() {
@@ -27,10 +26,7 @@ export default function UsersByCity() {
       usersByCityQueryOptions(),
   );
 
-  const tableData = usersByCity?.all || [];
-
-  console.log("tableData lenght",tableData.length)
-  
+  // const tableData = usersByCity?.all || [];  
     const chartConfig = {
         ftdMount: {
         label: "date",
@@ -39,49 +35,50 @@ export default function UsersByCity() {
 
     } satisfies ChartConfig
 
-    type UserByCity = {
-        city: string;
-        activeUsers: string;
-    };
+  //   type UserByCity = {
+  //       city: string;
+  //       activeUsers: string;
+  //   };
 
-    const columns = React.useMemo<ColumnDef<UserByCity>[]>(
-      () => [
-        {
-          accessorKey: 'city',
-          header: () => <div className="text-start">Ciudad</div>,
-          cell: (info) => (
-            <div className="text-start">{String(info.getValue()).slice(0, 30)}</div>
-          ),
-        },
-        {
-          accessorKey: 'activeUsers',
-          header: 'Usuarios Activos',
-          cell: (info) => (
-            <div className="text-end">{String(info.getValue())}</div>
-          ),
-        },
-      ],
-      [],
-    )
+    // const columns = React.useMemo<ColumnDef<UserByCity>[]>(
+    //   () => [
+    //     {
+    //       accessorKey: 'city',
+    //       header: () => <div className="text-start">Ciudad</div>,
+    //       cell: (info) => (
+    //         <div className="text-start">{String(info.getValue()).slice(0, 30)}</div>
+    //       ),
+    //     },
+    //     {
+    //       accessorKey: 'activeUsers',
+    //       header: 'Usuarios Activos',
+    //       cell: (info) => (
+    //         <div className="text-end">{String(info.getValue())}</div>
+    //       ),
+    //     },
+    //   ],
+    //   [],
+    // )
 
-    const table = useReactTable<UserByCity>({
-      data: tableData,
-      columns,
-      getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      debugTable: true,
-    })
+    // const table = useReactTable<UserByCity>({
 
-  const { rows } = table.getRowModel()
+    //   data: tableData,
+    //   columns,
+    //   getCoreRowModel: getCoreRowModel(),
+    //   getSortedRowModel: getSortedRowModel(),
+    //   debugTable: true,
+    // })
 
-  const parentRef = React.useRef<HTMLDivElement>(null)
+  // const { rows } = table.getRowModel()
 
-  const virtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 20,
-    overscan: 10,
-  })
+  // const parentRef = React.useRef<HTMLDivElement>(null)
+
+  // const virtualizer = useVirtualizer({
+  //   count: rows.length,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => 20,
+  //   overscan: 10,
+  // })
 
   const ChartComponent = React.useMemo(() => {
     return (
@@ -134,15 +131,15 @@ export default function UsersByCity() {
   }
 
   return (
-        <div className="w-full h-full grid grid-cols-1 md:grid-cols-6 gap-6">
-          <FullSizeCard identifier="chart3" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Usuarios activos por ciudad" description="Top 10 ciudades con más usuarios activos">
+        <div className="w-full h-full gap-6">
+          <FullSizeCard identifier="chart3" className="w-full" cardContentClassName="min-h-[120px]" title="Usuarios activos por ciudad" description="Top 10 ciudades con más usuarios activos">
               <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                   <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                       {ChartComponent}
                   </ChartContainer>
               </div>
           </FullSizeCard>
-              <GeneralCard identifier="char3" title="Usuarios por ciudad" classNameContainer="col-span-1 md:col-span-2" className="max-h-full overflow-hidden" cardContentClassName="h-fit">
+              {/* <GeneralCard identifier="char3" title="Usuarios por ciudad" classNameContainer="col-span-1 md:col-span-2" className="max-h-full overflow-hidden" cardContentClassName="h-fit">
                   <div ref={parentRef} className="h-80 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-zinc-300">
                     <div className="relative" style={{ containerType: "size", height: `${virtualizer.getTotalSize()}px` }}>
                       <table className="w-full">
@@ -178,7 +175,7 @@ export default function UsersByCity() {
                       </table>
                     </div>
                   </div>
-              </GeneralCard>
+              </GeneralCard> */}
         </div>
   
   )

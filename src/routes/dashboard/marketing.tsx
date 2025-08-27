@@ -3,7 +3,7 @@ import { Circle, ChartLine, UserRoundPlus } from "lucide-react"
 
 import TrafficTab from "@/components/tabs/traffic-tab"
 import type { TrafficSource } from "@/components/tabs/traffic-sources"
-import CampaignTab, { type CampaignPerformanceProps } from "@/components/marketing/campaign-tab"
+import CampaignTab from "@/components/marketing/campaign-tab"
 import { type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
@@ -64,11 +64,6 @@ function RouteComponent() {
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Conversiones", Icon: UserRoundPlus, label: "Últimos 28 días" },
   ]
 
-  const campaignPerformanceValues: CampaignPerformanceProps[] = [
-    { title: "CTR Promedio", status: "active", alcance: fetchData(), ctr: fetchData(), conversiones: fetchData() },
-    { title: "Alcance Total", status: "active", alcance: fetchDataValue(), ctr: fetchData(), conversiones: fetchData() },
-    { title: "Conversiones", status: "inactive", alcance: fetchDataValue(), ctr: fetchData(), conversiones: fetchData() },
-  ]
 
   const trafficSources: TrafficSource[] = [
     { source: "Directo", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
@@ -96,7 +91,7 @@ function RouteComponent() {
               <TrafficTab trafficSources={trafficSources} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="campaigns">
-              <CampaignTab campaignPerformanceValues={campaignPerformanceValues} campaignValues={campaignValues} />
+              <CampaignTab campaignValues={campaignValues} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="players">
               <PlayersTab queryString={queryString} labelTimePeriod={labelTimePeriod}/>
