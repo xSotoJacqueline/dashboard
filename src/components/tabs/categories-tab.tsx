@@ -16,8 +16,8 @@ export default function CategoriesTab() {
   const canAnimate = useCanAnimate()
 
   return (
-    <div  style={{containerType: "size"}}  className="w-full h-full flex flex-col gap-6">
-      <div className='h-fit lg:h-[35cqh] w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
+    <div  style={{containerType: "size"}}  className="w-full h-full min-h-fit flex flex-col gap-6">
+      <div className='h-fit lg:min-h-[35cqh] w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
         <Card className="w-full flex flex-col justify-between h-full border-0 gap-6 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">
             <CardHeader className="flex justify-between items-center h-fit">
                 <CardTitle className="text-xl font-semibold">Casino</CardTitle>
@@ -195,7 +195,7 @@ export default function CategoriesTab() {
             </CardFooter>
         </Card>
       </div>
-      <div className='h-full w-full pt-2'>
+      <div className='h-full min-h-fit w-full pt-2'>
         <CategoriesTable/>
       </div>
 
