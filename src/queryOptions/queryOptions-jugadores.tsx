@@ -49,6 +49,46 @@ export function topLoosers({queryString = queryStringDefault, pageParam}: {query
   });
 }
 
+export function getTotalPlayers({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTotalPlayers', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/betdata/get-total-players${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total players');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function getTotalHybridPlayers({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTotalHybridPlayers', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/betdata/get-hybrid-players-by-casino${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total players');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function percentageDepositsByDayOfWeek({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['percentageDepositsByDayOfWeek', queryString],

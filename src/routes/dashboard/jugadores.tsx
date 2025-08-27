@@ -1,6 +1,4 @@
 import { createFileRoute, useSearch } from '@tanstack/react-router'
-import { Gamepad2, ChartLineIcon, Users } from "lucide-react"
-import { GeneralCardTopCard, type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
@@ -15,6 +13,7 @@ import CategoriesTab from "@/components/tabs/categories-tab";
 import ErrorPage from '@/components/errorPage';
 import type { GeneralSearchWithPagination } from '@/types/search-types';
 import { createQueryString } from '@/lib/utils';
+import PlayersTopCards from '@/components/jugadores/players-top-cards';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
   validateSearch: (search: Record<string, unknown>): GeneralSearchWithPagination => {
@@ -38,28 +37,12 @@ function RouteComponent() {
 
   const page = search.page || 1;
     
-  const { queryString } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
-
- const fetchData = () => {
-    const random = (Math.floor(Math.random() * 100.55))
-    return (random - 40)/1000
-  }
-
-  const fetchDataValue = () => {
-    const random = (Math.floor(Math.random() * 10000))
-    return random
-  }
-
-  const values: GeneralCardTopCardProps[] = [
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Total de Usuarios", Icon: Users, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Usuarios híbridos", Icon: Users, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Ingresos Totales", Icon: ChartLineIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Jugadores Activos", Icon: Gamepad2, label: "Últimos 28 días" },
-  ]
+  const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
-      <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <PlayersTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
+      {/* <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {values.map((metric, index) => (
           <GeneralCardTopCard
             key={index}
@@ -72,7 +55,7 @@ function RouteComponent() {
             valueFormat={metric.valueFormat}
           />
         ))}
-      </div>
+      </div> */}
 
        <Tabs defaultValue="top-users" className="w-full h-full">
           <ScrollArea className="whitespace-nowrap">

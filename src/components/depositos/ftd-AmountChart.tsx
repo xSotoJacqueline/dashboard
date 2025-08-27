@@ -54,7 +54,7 @@ export function FTDAmountChart({queryString}: {queryString?: string}) {
                         accessibilityLayer
                         data={ftdMount}
                         margin={{
-                        left: 0
+                        left: 10
                         }}
                     >
                         <CartesianGrid vertical={false} />
@@ -71,7 +71,7 @@ export function FTDAmountChart({queryString}: {queryString?: string}) {
                         <YAxis
                         type="number"
                         domain={[0, "dataMax"]}
-                        tickFormatter={(value) => `${value}`}
+                        tickFormatter={(value) => `${value.toLocaleString()}`}
                         />
                         <ChartTooltip
                         content={
