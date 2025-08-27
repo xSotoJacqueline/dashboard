@@ -54,7 +54,7 @@ export function FTDAmountChart({queryString}: {queryString?: string}) {
                         accessibilityLayer
                         data={ftdMount}
                         margin={{
-                        left: 10
+                        left: 20
                         }}
                     >
                         <CartesianGrid vertical={false} />

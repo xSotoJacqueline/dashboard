@@ -7,11 +7,10 @@ export type GeneralProps = {
 }
 
 export const queryStringDefault = `?startDate=${format(subDays(new Date(), 27), 'yyyy-MM-dd')}&endDate=${format(new Date(), 'yyyy-MM-dd')}`;
-console.log('Default query string:', queryStringDefault);
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 export type totalTransactionsByType ={
-    Withdrawal: number;
-    Deposit: number;
+    WITHDRAWAL: number;
+    DEPOSIT: number;
 }
 
 export type allDeposits = {
@@ -36,21 +35,21 @@ export type proportionalDepositFTD = {
 };
 
 export type totalDepositsStatusDay = {
-  Paid: {
+  PAID: {
     date: string;
     total: number;
     dailyTotal: number;
   }[],
-  Failed: {
+  DECLINED: {
     date: string;
     total: number;
     dailyTotal: number;
   }[],
-  Cancelled: {
-    date: string;
-    total: number;
-    dailyTotal: number;
-  }[]
+  // Cancelled: {
+  //   date: string;
+  //   total: number;
+  //   dailyTotal: number;
+  // }[]
 }
 
 export interface BenchmarkKey {
@@ -113,12 +112,13 @@ export function totalAmountFTDQueryOptions({queryString = queryStringDefault}: {
       if (!res.ok) {
         throw new Error('Failed to fetch first time deposit average');
       }
-      return res.json();
+      const respuesta = await res.json()
+      console.log("respuesta",respuesta)
+      return respuesta;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
-
   });
 }
 
@@ -216,16 +216,12 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryS
       }
       const data = await res.json();
       // Verificar si data contiene almenos uno de los campos Paid, Failed o Cancelled, con al menos un elemento, si falta alguno agregarlo como un array vacío
-      if (!data.Paid) {
-        data.Paid = [];
+      if (!data.PAID) {
+        data.PAID = [];
       }
-      if (!data.Failed) {
-        data.Failed = [];
+      if (!data.DECLINED) {
+        data.DECLINED = [];
       }
-      if (!data.Cancelled) {
-        data.Cancelled = [];
-      }
-
       return data;
     },
     staleTime: Infinity,

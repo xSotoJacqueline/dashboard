@@ -6,8 +6,7 @@ import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, To
 export default function DespistosTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
   const [firstTimeDepositAverage,totalTransactionsByType, depositsWithdrawalQuantity, totalAmountFTD] = useQueries({
     queries: [totalFTDQueryOptions({queryString}), totalTransactionsByTypeQueryOptions({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), totalAmountFTDQueryOptions({queryString})],
-  });
-  
+  });  
 
   return (
     <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 ">
@@ -26,7 +25,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
           <TopCardTitle className="min-h-14">Monto total de depósitos</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue  valueFormat="currency" value={totalTransactionsByType.data?.Deposit ? totalTransactionsByType.data.Deposit : 0}   />
+          <TopCardValue  valueFormat="currency" value={totalTransactionsByType.data?.DEPOSIT ? totalTransactionsByType.data.DEPOSIT : 0}   />
         </TopCardContent>
         <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
@@ -44,7 +43,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
           <TopCardTitle className="min-h-14">Número de depósitos</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue valueFormat="decimal" value={depositsWithdrawalQuantity.data?.Deposit ? depositsWithdrawalQuantity.data.Deposit : 0}   />
+          <TopCardValue valueFormat="decimal" value={depositsWithdrawalQuantity.data?.DEPOSIT ? depositsWithdrawalQuantity.data.DEPOSIT : 0}   />
         </TopCardContent>
         <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>

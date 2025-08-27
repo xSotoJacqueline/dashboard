@@ -20,28 +20,28 @@ export function DepositsChart({queryString}: {queryString?: string}) {
     const chartGetData = useCallback(({allDeposits}: {allDeposits: totalDepositsStatusDay}) => {
         const dateMap = new Map();
 
-        allDeposits.Paid.forEach(item => {
+        allDeposits.PAID.forEach(item => {
             if (!dateMap.has(item.date)) {
-                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+                dateMap.set(item.date, { time: item.date, PAID: 0, failed: 0});
             }
-            dateMap.get(item.date).paid = item.dailyTotal;
+            dateMap.get(item.date).PAID = item.dailyTotal;
         });
         
         // Process failed deposits
-        allDeposits.Failed.forEach(item => {
+        allDeposits.DECLINED.forEach(item => {
             if (!dateMap.has(item.date)) {
-                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+                dateMap.set(item.date, { time: item.date, PAID: 0, DECLINED: 0 });
             }
-            dateMap.get(item.date).failed = item.dailyTotal;
+            dateMap.get(item.date).DECLINED = item.dailyTotal;
         });
         
         // Process cancelled deposits
-        allDeposits.Cancelled.forEach(item => {
-            if (!dateMap.has(item.date)) {
-                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
-            }
-            dateMap.get(item.date).cancelled = item.dailyTotal;
-        });
+        // allDeposits.Cancelled.forEach(item => {
+        //     if (!dateMap.has(item.date)) {
+        //         dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+        //     }
+        //     dateMap.get(item.date).cancelled = item.dailyTotal;
+        // });
         
         return Array.from(dateMap.values()).sort((a, b) => 
             new Date(a.time).getTime() - new Date(b.time).getTime()
@@ -53,7 +53,7 @@ export function DepositsChart({queryString}: {queryString?: string}) {
         if (!allDeposits) return [];
         return chartGetData({allDeposits});
     }, [allDeposits, chartGetData]);
-
+    console.log('Chart Data:', chartData);
     // Memoizar la configuración del gráfico
     const chartConfig = useMemo(() => ({
         paid: {
@@ -82,8 +82,8 @@ export function DepositsChart({queryString}: {queryString?: string}) {
     // Memoizar las líneas del gráfico
     const chartLines = useMemo(() => [
         <Line
-            key="paid"
-            dataKey="paid"
+            key="Pagado"
+            dataKey="PAID"
             type="natural"
             stroke="var(--primary)"
             strokeWidth={2}
@@ -93,23 +93,23 @@ export function DepositsChart({queryString}: {queryString?: string}) {
             activeDot={{ r: 6 }}
         />,
         <Line
-            key="failed"
-            dataKey="failed"
+            key="Declinado"
+            dataKey="DECLINED"
             type="natural"
             stroke="#FF0000"
             strokeWidth={2}
             dot={{ stroke: "#FF0000" }}
             activeDot={{ r: 6 }}
         />,
-        <Line
-            key="cancelled"
-            dataKey="cancelled"
-            type="natural"
-            stroke="#FFA500"
-            strokeWidth={2}
-            dot={{ stroke: "#FFA500" }}
-            activeDot={{ r: 6 }}
-        />
+        // <Line
+        //     key="cancelled"
+        //     dataKey="cancelled"
+        //     type="natural"
+        //     stroke="#FFA500"
+        //     strokeWidth={2}
+        //     dot={{ stroke: "#FFA500" }}
+        //     activeDot={{ r: 6 }}
+        // />
     ], []);
 
     if (isPending) {
@@ -124,7 +124,7 @@ export function DepositsChart({queryString}: {queryString?: string}) {
         )
     }
 
-    if (!allDeposits || (allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0)) {
+    if (!allDeposits || (allDeposits.DECLINED.length === 0 && allDeposits.DECLINED.length === 0)) {
         return (    
             <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
                 <GeneralEmptyContent />
@@ -148,12 +148,13 @@ export function DepositsChart({queryString}: {queryString?: string}) {
                         <YAxis
                             type="number"
                             minTickGap={10}
+                            tickFormatter={(value) => `${value.toLocaleString()}`}
                         />
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
-                                    className="w-[150px]"
-                                    indicator="line"
+                                    className="w-[200px]"
+                                    indicator="dot"
                                     nameKey="total"
                                     labelFormatter={tooltipLabelFormatter}
                                 />

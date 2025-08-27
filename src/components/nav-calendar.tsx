@@ -60,6 +60,8 @@ export function NavCalendar() {
             <ScrollArea className="w-full h-[390px]">
                 <Calendar
                 mode="range"
+                min={1}
+                max={96}
                 numberOfMonths={isMobile ? 1 : 2}
                 captionLayout="dropdown"
                 selected={

@@ -28,7 +28,7 @@ export default function CategoriesTab() {
                 >
                   <motion.span
                     className={cn(
-                    'inline-flex gap-1 bg-zinc-200 items-center px-[0.3em] text-lg text-foreground transition-colors duration-300'
+                    'inline-flex gap-1 bg-zinc-200 text-black items-center px-[0.3em] text-lg transition-colors duration-300'
                     )}
                     layout
                     style={{ borderRadius: 999 }}
@@ -87,7 +87,7 @@ export default function CategoriesTab() {
                 >
                   <motion.span
                     className={cn(
-                    'inline-flex gap-1 bg-zinc-200 items-center px-[0.3em] text-lg text-foreground transition-colors duration-300'
+                    'inline-flex gap-1 bg-zinc-200 items-center px-[0.3em] text-lg text-black transition-colors duration-300'
                     )}
                     layout
                     style={{ borderRadius: 999 }}
@@ -146,7 +146,7 @@ export default function CategoriesTab() {
                 >
                   <motion.span
                     className={cn(
-                    'inline-flex gap-1 bg-zinc-200 items-center px-[0.3em] text-lg text-foreground transition-colors duration-300'
+                    'inline-flex gap-1 bg-zinc-200 items-center px-[0.3em] text-lg text-black transition-colors duration-300'
                     )}
                     layout
                     style={{ borderRadius: 999 }}
@@ -195,8 +195,7 @@ export default function CategoriesTab() {
             </CardFooter>
         </Card>
       </div>
-
-      <div className='h-full w-full'>
+      <div className='h-full w-full pt-2'>
         <CategoriesTable/>
       </div>
 
