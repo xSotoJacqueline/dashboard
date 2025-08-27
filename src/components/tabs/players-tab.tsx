@@ -11,11 +11,19 @@ import {
 import { Progress } from '../ui/progress';
 import { BarChartPerDayMarketing } from '../marketing/barChart-perday';
 import UsersByCity from '../marketing/users-by-city'
+import { getAverageTimeOnPage } from '@/queryOptions/queryOptions-marketing'
+import { useQueries } from '@tanstack/react-query'
+import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
-export default function PlayersTab() {
+
+export default function PlayersTab({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
     const canAnimate = useCanAnimate()
+
+    const [averageTimeOnPage ] = useQueries({
+      queries: [getAverageTimeOnPage({queryString})],
+    });
 
   return (
     <div className="w-full h-full flex flex-col gap-6">
@@ -45,69 +53,28 @@ export default function PlayersTab() {
           </CardContent>
       </Card>
 
-      <Card className="w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">
-          <CardHeader>
-              <CardTitle className="text-xl font-semibold">Sesión promedio</CardTitle>
-          </CardHeader>
-          <CardContent className=" @container-normal flex relative sm:pt-0 h-full" >
-            <div className="flex flex-col gap-4 justify-between h-full w-full">
-                <div className="h-fit w-full flex gap-4">
-                  <NumberFlow
-                    value={22}
-                    format={{ style: 'decimal' }}
-                    suffix="m"
-                    className="text-4xl font-bold"
-                  />
-                  <NumberFlow
-                    value={22}
-                    format={{ style: 'decimal' }}
-                    suffix="s"
-                    className="text-4xl font-bold"
-                  />
-                </div>
-                <div className="flex xl:flex-row  lg:items-start items-center justify-between w-full">
-                  <span className="text-sm text-gray-600">Ultimos 28 días</span>
-                    <MotionConfig
-                      // Disable layout animations if NumberFlow can't animate.
-                      // This worked better than setting layout={canAnimate}
-                      transition={{
-                        layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
-                      }}
-                    >
-                      <motion.span
-                        className={cn(
-                          2 > 0 ? 'bg-green-foliatti' : 'bg-red-500',
-                          'inline-flex gap-1 items-center px-[0.3em] text-lg text-white transition-colors duration-300'
-                        )}
-                        layout
-                        style={{ borderRadius: 999 }}
-                      >
-                        <MotionArrowUp
-                          className="mr-0.5 size-[0.70em]"
-                          absoluteStrokeWidth
-                          strokeWidth={3}
-                          layout // undo parent
-                          transition={{
-                            rotate: canAnimate ? { type: 'spring', duration: 0.5, bounce: 0 } : { duration: 0 }
-                          }}
-                          animate={{ rotate: 2 > 0 ? 0 : -180 }}
-                          initial={false}
-                        />
-                        <MotionNumberFlow
-                          value={2}
-                          className="font-medium text-sm"
-                          format={{ style: 'percent', maximumFractionDigits: 2, signDisplay: 'always' }}
-                          style={{ ['--number-flow-char-height' as string]: '0.85em', ['--number-flow-mask-height' as string]: '0.3em' }}
-                          layout
-                          layoutRoot
-                        />
-                      </motion.span>
-                    </MotionConfig>
-                
-                </div>
-            </div>
-          </CardContent>
-      </Card>
+
+      <TopCard
+        isLoading={averageTimeOnPage.isPending}
+        isError={averageTimeOnPage.isError}
+        iconSize={24}
+        iconStrokeWidth={2}
+        refetch={averageTimeOnPage.refetch}
+        index={6}
+        valueFormat="currency"
+        containerClassName='w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0'
+        className="flex flex-col justify-between font-normal gap-3"
+      >
+        <TopCardHeader className="flex ">
+          <TopCardTitle className="min-h-14">Sesión promedio</TopCardTitle>
+        </TopCardHeader>
+        <TopCardContent className='gap-4 flex-row justify-start'>
+          <TopCardValue suffix="m" valueFormat="decimal" value={averageTimeOnPage.data?.minutes ? averageTimeOnPage.data.minutes : 0}   />
+          <TopCardValue suffix="s" valueFormat="decimal" value={averageTimeOnPage.data?.seconds ? averageTimeOnPage.data.seconds : 0}   />
+        </TopCardContent>
+        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Último mes`} showPercentage={true}  />
+      </TopCard>
+
 
       <Card className="w-full h-full border-0 gap-0 col-span-2 md:col-span-6 lg:col-span-2 space-y-0">
           <CardHeader>

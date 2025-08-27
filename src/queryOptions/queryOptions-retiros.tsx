@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { format, startOfMonth, subMonths, endOfMonth } from "date-fns";
+import { queryStringDefault } from "./queryOptions";
 
 export type GeneralProps = {
   queryString?: string;
@@ -7,7 +7,6 @@ export type GeneralProps = {
 }
 
 //queryString last month ?startDate=${startDate}&endDate=${endDate}`
-const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
 
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 

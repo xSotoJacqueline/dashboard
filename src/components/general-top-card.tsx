@@ -28,12 +28,15 @@ export type GeneralCardTopCardProps = {
   numberSectionClassName?: string
   isError?: boolean
   refetch?: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>
+  index?: number
 }
 
-export function GeneralCardTopCard({ refetch, value = 0, numberSectionClassName, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError }: GeneralCardTopCardProps) {
+export function GeneralCardTopCard({ refetch, value = 0, numberSectionClassName, Icon, title, description, label, percentageValue = 0, valueFormat, className, containerClassName, isloading, isError, index }: GeneralCardTopCardProps) {
   const canAnimate = useCanAnimate()
-
+  console.log("index", index)
   return (
+
+  <motion.div layoutId={`card-${index}`} className="w-full h-full">
     <Card className={cn("border-0 h-full col-span-1 overflow-hidden", containerClassName)}>
       <CardContent className={cn(`flex px-4 flex-col ${isError ? "" : "justify-between"} h-full ${description ? '' : 'gap-3'}`, className)}>
         <section>
@@ -103,5 +106,6 @@ export function GeneralCardTopCard({ refetch, value = 0, numberSectionClassName,
 
       </CardContent>
     </Card>
+  </motion.div>
   )
 }

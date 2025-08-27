@@ -22,6 +22,7 @@ interface TopCardContextValue {
   iconSize?: number
   iconStrokeWidth?: number
   label?: string
+  index?: number
 }
 
 const TopCardContext = React.createContext<TopCardContextValue>({})
@@ -37,9 +38,11 @@ function TopCard({
   iconSize = 20,
   iconStrokeWidth = 2,
   label,
+  index,
   children,
+  containerClassName,
   ...props 
-}: React.ComponentProps<"div"> & TopCardContextValue) {
+}: React.ComponentProps<"div"> & TopCardContextValue & { containerClassName?: string }) {
   const contextValue = {
     percentageValue,
     valueFormat,
@@ -54,16 +57,19 @@ function TopCard({
 
   return (
     <TopCardContext.Provider value={contextValue}>
-      <div
-        data-slot="card"
-        className={cn(
-          "bg-card text-card-foreground border-0 h-full overflow-hidden rounded-xl",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
+      <motion.div layoutId={`card-${index}`} className={cn("w-full h-full", containerClassName)}>
+        <div
+          data-slot="card"
+          className={cn(
+            "bg-card text-card-foreground border-0 h-full overflow-hidden rounded-xl",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </div>
+      </motion.div>
+
     </TopCardContext.Provider>
   )
 }
@@ -75,14 +81,14 @@ function TopCardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "flex justify-between items-start gap-2 px-4 pt-6",
+        `flex justify-between  gap-2 px-4 pt-6`,
         className
       )}
     >
       <div className="flex-1">
         {props.children}
       </div>
-      {Icon && (
+      {Icon ? (
         <div className="flex-shrink-0">
           {isLoading ? (
             <LoaderCircleIcon 
@@ -98,7 +104,7 @@ function TopCardHeader({ className, ...props }: React.ComponentProps<"div">) {
             />
           )}
         </div>
-      )}
+      ) : isLoading && <LoaderCircleIcon size={iconSize} strokeWidth={iconStrokeWidth} className="text-primary mt-1 animate-spin" />}
     </div>
   )
 }
@@ -224,12 +230,14 @@ function TopCardValue({
   value = 0,
   valueFormat = 'currency',
   className, 
-}: React.ComponentProps<"div"> & { value: number, valueFormat?: ValueFormat }) {
+  suffix = "",
+}: React.ComponentProps<"div"> & { value: number, valueFormat?: ValueFormat, suffix?: string }) {
   
   return (
       <NumberFlow
         value={valueFormat === "percent" ? value / 100 : value}
         locales="en-US"
+        suffix={suffix}
         format={{ style: valueFormat, currency: 'USD' }}
         className={cn("text-4xl md:text-3xl font-bold max-h-10 flex justify-start items-center mb-2", className)}
       />

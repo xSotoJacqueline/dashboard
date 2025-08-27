@@ -8,6 +8,7 @@ import {PendingDepositos} from '@/components/depositos/pending-depositos'
 import { PeriodSummaryCard } from '@/components/depositos/period-summary'
 import type { GeneralSearch } from '@/types/search-types'
 import { createQueryString } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 export const Route = createFileRoute('/dashboard/depositos')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -33,8 +34,10 @@ function RouteComponent() {
 
   return (
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
+      <section className='w-full h-fit'>
         <DespistosTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
-
+        <motion.div layoutId="tabs-list" className='w-full' />
+      </section>
         <div className="w-full h-full max-h-full flex gap-6">
            <DepositsChart queryString={queryString} />
         </div>

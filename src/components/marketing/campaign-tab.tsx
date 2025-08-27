@@ -31,6 +31,7 @@ export default function CampaignTab({campaignValues, campaignPerformanceValues}:
             title={metric.title}
             Icon={metric.Icon}
             label={metric.label}
+            index={index+1}
             percentageValue={metric.percentageValue}
             valueFormat={metric.valueFormat}
             numberSectionClassName="items-center justify-center"

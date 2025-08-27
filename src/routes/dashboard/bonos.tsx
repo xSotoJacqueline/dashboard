@@ -6,6 +6,7 @@ import { BonosPerClientChart } from '@/components/bonos/bonosPerClientChart'
 import { EarningsClientBonosChart } from '@/components/bonos/earningsClientBonosChart'
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
+import { motion } from 'framer-motion'
 
 export const Route = createFileRoute('/dashboard/bonos')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -44,19 +45,24 @@ function RouteComponent() {
 
   return (
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
-      <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {values.map((metric, index) => (
-          <GeneralCardTopCard
-            key={index}
-            value={metric.value}
-            title={metric.title}
-            Icon={metric.Icon}
-            label={metric.label}
-            percentageValue={metric.percentageValue}
-            valueFormat={metric.valueFormat}
-          />
-        ))}
-      </div>
+
+      <section className='w-full h-fit'>
+        <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {values.map((metric, index) => (
+            <GeneralCardTopCard
+              key={index}
+              value={metric.value}
+              title={metric.title}
+              Icon={metric.Icon}
+              label={metric.label}
+              index={index+1}
+              percentageValue={metric.percentageValue}
+              valueFormat={metric.valueFormat}
+            />
+          ))}
+        </div>
+        <motion.div layoutId="tabs-list" className='w-full' />
+      </section>
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
         <RankingBonosTable />
         <BonosPerClientChart />

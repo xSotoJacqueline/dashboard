@@ -66,6 +66,7 @@ function RouteComponent() {
             value={metric.value}
             title={metric.title}
             Icon={metric.Icon}
+            index={index+1}
             label={metric.label}
             percentageValue={metric.percentageValue}
             valueFormat={metric.valueFormat}

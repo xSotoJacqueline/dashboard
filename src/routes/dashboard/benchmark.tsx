@@ -14,7 +14,7 @@ import { xApiKey } from '@/queryOptions/queryOptions';
 export const Route = createFileRoute('/dashboard/benchmark')({
   validateSearch: (search: Record<string, unknown>): BenchmarkSearch => {
     return {
-      page: Number(search?.page ?? 1),
+      page: Number(search?.page ?? 0),
     }
   },
   component: RouteComponent,

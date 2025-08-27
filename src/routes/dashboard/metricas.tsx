@@ -4,6 +4,7 @@ import { ChartLineLabel } from "@/components/metricas/lineChart"
 import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
+import { motion } from 'framer-motion'
 
 export const Route = createFileRoute('/dashboard/metricas')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -22,6 +23,10 @@ export const Route = createFileRoute('/dashboard/metricas')({
 })
 
 function RouteComponent() {
+
+  // const search = useSearch({ from: '/dashboard/metricas' });
+      
+  // const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
   
   const fetchData = () => {
     const random = (Math.floor(Math.random() * 100.55))
@@ -43,20 +48,27 @@ function RouteComponent() {
 
   return (
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
-      <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {values.map((metric, index) => (
-          <GeneralCardTopCard
-            key={index}
-            value={metric.value}
-            title={metric.title}
-            description={metric.description}
-            Icon={metric.Icon}
-            label={metric.label}
-            percentageValue={metric.percentageValue}
-            valueFormat={metric.valueFormat}
-          />
-        ))}
-      </div>
+
+      <section className='w-full h-fit'>
+        <div className="grid w-full  h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {values.map((metric, index) => (
+            <GeneralCardTopCard
+              key={index}
+              value={metric.value}
+              title={metric.title}
+              description={metric.description}
+              Icon={metric.Icon}
+              index={index+1}
+              label={metric.label}
+              percentageValue={metric.percentageValue}
+              valueFormat={metric.valueFormat}
+            />
+          ))}
+        </div>
+        <motion.div layoutId="tabs-list" className='w-full h-0' />
+
+      </section>
+
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
         <ChartLineLabel identifier='chart1'  title="Tasa de Adquisición" />
         <ChartLineLabel identifier='chart2'  title="Tasa de Deserción" />

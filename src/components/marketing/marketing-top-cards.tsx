@@ -3,9 +3,9 @@ import { UsersRoundIcon, Gift, UserRoundPlusIcon, UsersRound } from "lucide-reac
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { totalTraffic, uniqueUsers } from "@/queryOptions/queryOptions-metricas";
 
-export default function MarketingTopCards() {
+export default function MarketingTopCards({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
   const [totalTrafficInfo, uniqueUsersInfo] = useQueries({
-    queries: [totalTraffic(), uniqueUsers()],
+    queries: [totalTraffic(), uniqueUsers({queryString})],
   });
   
 
@@ -17,6 +17,7 @@ export default function MarketingTopCards() {
         iconSize={24}
         iconStrokeWidth={2}
         Icon={UsersRoundIcon}
+        index={1}
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
@@ -34,6 +35,7 @@ export default function MarketingTopCards() {
         iconSize={24}
         iconStrokeWidth={2}
         Icon={Gift}
+        index={2}
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
@@ -45,13 +47,13 @@ export default function MarketingTopCards() {
         <TopCardFooter percentageValue={32} label={"No aplica filtro"} showPercentage={false}   />
       </TopCard>
 
-
       <TopCard
         isLoading={uniqueUsersInfo.isPending}
         isError={uniqueUsersInfo.isError}
         iconSize={24}
         iconStrokeWidth={2}
         Icon={UsersRound}
+        index={3}
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
@@ -60,7 +62,7 @@ export default function MarketingTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={uniqueUsersInfo.data ? uniqueUsersInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={"No aplica filtro"} showPercentage={false}   />
+        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : "Últmo mes"} showPercentage={false}   />
       </TopCard>
 
       <TopCard
@@ -69,6 +71,7 @@ export default function MarketingTopCards() {
         iconSize={24}
         iconStrokeWidth={2}
         Icon={UserRoundPlusIcon}
+        index={4}
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
@@ -79,9 +82,6 @@ export default function MarketingTopCards() {
         </TopCardContent>
         <TopCardFooter percentageValue={32} label={"No aplica filtro"} showPercentage={false}   />
       </TopCard>
-
-
-
     </div>
   );
 }

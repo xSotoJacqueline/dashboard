@@ -59,11 +59,11 @@ const data = {
     //   url: "/dashboard/sportsbook",
     //   icon: BookIcon,
     // },
-    {
-      name: "Alcances",
-      url: "/dashboard/alcances",
-      icon: ChartLineIcon,
-    },
+    // {
+    //   name: "Alcances",
+    //   url: "/dashboard/alcances",
+    //   icon: ChartLineIcon,
+    // },
     {
       name: "Benchmark",
       url: "/dashboard/benchmark",

@@ -6,9 +6,7 @@ export type GeneralProps = {
   applyFilters?: boolean;
 }
 
-//queryString last month ?startDate=${startDate}&endDate=${endDate}`
-
-const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
+export const queryStringDefault = `?startDate=${format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 export type totalTransactionsByType ={
     Withdrawal: number;

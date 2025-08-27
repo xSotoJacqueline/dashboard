@@ -1,4 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
+import { queryStringDefault } from "./queryOptions";
 
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 export const propertyId = import.meta.env.VITE_PROPERTY_ID || '';
@@ -20,12 +21,12 @@ export function totalTraffic() {
   });
 }
 
-export function uniqueUsers() {
+export function uniqueUsers({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
-    queryKey: ['uniqueUsers'],
+    queryKey: ['uniqueUsers', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/analytics/unique-users?propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/analytics/unique-users${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch unique users');
       }
