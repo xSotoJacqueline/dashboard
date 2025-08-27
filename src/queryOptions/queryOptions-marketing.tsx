@@ -27,3 +27,30 @@ export function getAverageTimeOnPage({queryString = queryStringDefault}: {queryS
     refetchOnWindowFocus: false,
   });
 }
+
+type Campaign = {
+    campaign: string;
+    source: string;
+    medium: string;
+    activeUsers: number;
+}
+
+export function getCampaigns() {
+  return queryOptions({
+    queryKey: ['getCampaigns'],
+    queryFn: async () : Promise<Campaign[]> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-campaigns?propertyId=${propertyId}&page=1&pageSize=1000&mediums=organic,cpc.`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch campaigns');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
