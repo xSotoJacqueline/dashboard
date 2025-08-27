@@ -26,16 +26,16 @@ export function PeriodSummaryCard({queryString}: {queryString?: string}) {
     <GeneralCard classNameContainer="overflow-visible" className='h-full' title={"Resumen del período"}>
       <div className='h-full w-full flex flex-col justify-center items-center '>
 
-        <div className='w-full lg:max-w-4/6 h-fit flex md:flex-row flex-col justify-between gap-6 items-center'>
+        <div className='w-full xl:max-w-4/6 h-fit flex md:flex-row flex-col justify-between gap-6 items-center'>
           <section className='flex flex-col justify-center items-center w-fit'>
             {averageAmountDepositsError ? 
-              <div className='sm:text-5xl text-4xl  my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
+              <div className='lg:text-5xl text-4xl  my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
             : averageAmountDeposits ? (
                <NumberFlow
                 value={averageAmountDeposits}
                 locales="en-US"
                 format={{ style: 'currency', currency: 'USD' }}
-                className="sm:text-5xl text-4xl  font-bold w-fit text-primary"
+                className="lg:text-5xl text-4xl  font-bold w-fit text-primary"
               />
                 ) : <CircleSlashIcon className='size-[48px] xl:size-[60px] font-bold w-fit mt-5 mb-1'>Sin Datos</CircleSlashIcon> }
 
@@ -47,33 +47,33 @@ export function PeriodSummaryCard({queryString}: {queryString?: string}) {
           </section>
           <section className='flex flex-col justify-center h-full items-center w-fit'>
               {proportionalDepositFTDError ? 
-              <div className='sm:text-5xl text-4xl  my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
+              <div className='lg:text-5xl text-4xl  my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
             : proportionalDepositFTD ? (
                 <NumberFlow
                   value={proportionalDepositFTD.proportion/100}
                   locales="en-US"
                   format={{ style: 'percent' }}
-                  className="sm:text-5xl text-4xl  font-bold w-fit text-primary"
+                  className="lg:text-5xl text-4xl  font-bold w-fit text-primary"
                 />
                 ) : <CircleSlashIcon className='size-[48px] xl:size-[60px] font-bold w-fit mt-5 mb-1'>Sin Datos</CircleSlashIcon> }
 
             {proportionalDepositFTDError ?
               <Button size={"sm"} variant={"link"} className='p-0 h-fit w-fit' onClick={() => refetchProportional()}>Reintentar</Button>
               :  
-              <span className='w-fit'>% Monto de FTD's</span>
+              <span className='w-fit whitespace-nowrap'>% Monto de FTD's</span>
             }
             
           </section>
 
           <section className='flex flex-col justify-center items-center w-fit'>
               {globalAverageDepositError ? 
-              <div className='sm:text-5xl text-4xl  my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
+              <div className='lg:text-5xl text-4xl  my-2 font-bold w-fit text-destructive h-fit'>Error</div> 
             : globalAverageDeposit ? (
                 <NumberFlow
                   value={globalAverageDeposit}
                   locales="en-US"
                   format={{ style: 'decimal' }}
-                  className="sm:text-5xl text-4xl  font-bold w-fit text-primary"
+                  className="lg:text-5xl text-4xl  font-bold w-fit text-primary"
                 />
                 ) : <CircleSlashIcon className='size-[48px] xl:size-[60px] font-bold w-fit mt-5 mb-1'>Sin Datos</CircleSlashIcon> }
 
