@@ -12,6 +12,7 @@ import { useQueries } from "@tanstack/react-query";
 import { getCampaigns } from "@/queryOptions/queryOptions-marketing";
 import { GeneralEmptyContent } from "../general-empty-content";
 import CardLoading from "../loading-card";
+import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 
 export type CampaignPerformanceProps = {
     title: string;
@@ -30,7 +31,7 @@ export default function CampaignTab({campaignValues, campaignPerformanceValues}:
   return (
     <div className="w-full h-full flex flex-col  gap-6">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {campaignValues.map((metric, index) => (
+        {/* {campaignValues.map((metric, index) => (
           <GeneralCardTopCard
             key={index}
             value={metric.value}
@@ -43,7 +44,29 @@ export default function CampaignTab({campaignValues, campaignPerformanceValues}:
             numberSectionClassName="items-center justify-center"
             className="items-center justify-center flex w-full"
           />
+        ))} */}
+
+        {campaignValues.map((metric, index) => (
+            <TopCard
+              isLoading={false}
+              isError={false}
+              iconSize={24}
+              iconStrokeWidth={2}
+              Icon={metric.Icon}
+              index={index+5}
+              valueFormat="currency"
+              className="flex flex-col gap-6 justify-center items-center"
+            >
+              <TopCardHeader className="flex ">
+                <TopCardTitle className="">{metric.title}</TopCardTitle>
+              </TopCardHeader>
+              <TopCardContent className='gap-6'>
+                <TopCardValue className="text-4xl md:text-5xl"  valueFormat={metric.valueFormat} value={metric.value || 0}/>
+              </TopCardContent>
+              <TopCardFooter percentageValue={metric.percentageValue || 32} label={"Último mes"} showPercentage={true}  />
+            </TopCard>
         ))}
+
       </div>
 
       <Card className={`w-full h-fit pb-0 border-0`}>
