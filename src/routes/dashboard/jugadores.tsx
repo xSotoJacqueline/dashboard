@@ -65,7 +65,7 @@ function RouteComponent() {
             <CategoriesTab />
           </TabsContent>
           <TabsContent className="w-full h-full" value="hybrid-players">
-            <HybridUsersTab />
+            <HybridUsersTab queryString={queryString} pageParam={page} />
           </TabsContent>
         </Tabs>
     </div>

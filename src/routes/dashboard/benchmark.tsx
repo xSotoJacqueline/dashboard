@@ -72,9 +72,7 @@ function RouteComponent() {
             </DocumentDropZoneWrapper>
         </CardContent>
       </Card>
-
       <CardFiles />
-
     </div>
   )
 }

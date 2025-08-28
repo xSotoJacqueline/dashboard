@@ -49,6 +49,50 @@ export function topLoosers({queryString = queryStringDefault, pageParam}: {query
     refetchOnWindowFocus: false,
   });
 }
+type FavoriteGame = {
+  game: string;
+  count: number;
+}
+
+type FavoriteCasino = {
+  casino: string;
+  count: number;
+}
+
+export type PlayerData = {
+  userName: string;
+  favoriteGames: FavoriteGame[];
+  favoriteCasinos: FavoriteCasino[];
+  totalGenerated: number;
+}
+
+export type HybridPlayersDetailsData = {
+  data: {
+    [userId: string]: PlayerData;
+  };
+  totalPlayers: number;
+  totalPages: number;
+  currentPage: string;
+}
+export function getHybridPlayersDetails({queryString = queryStringDefault, pageParam}: {queryString?: string, pageParam?: number}) {
+  return queryOptions({
+    queryKey: ['getHybridPlayersDetails', queryString, pageParam],
+    queryFn: async () : Promise<HybridPlayersDetailsData> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/betdata/get-hybrid-players-details${queryString}&page=${pageParam || 1}&pageSize=10`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch hybrid players details');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
 
 export function getTotalPlayers({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
@@ -90,6 +134,16 @@ export function getTotalIncome({queryString = queryStringDefault}: {queryString?
   });
 }
 
+
+type totalHybridPlayers ={
+  totalHybridPlayers: number;
+  hybridPlayers: {
+    playerId: string;
+    casinos: string[];
+  }[];
+
+}
+
 export function getTotalHybridPlayers({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['getTotalHybridPlayers', queryString],
@@ -101,8 +155,8 @@ export function getTotalHybridPlayers({queryString = queryStringDefault}: {query
         const errorData = await res.json();
         throw new Error(errorData.message || 'Failed to fetch total players');
       }
-      const data = await res.json();
-      return data;
+      const data = await res.json() as totalHybridPlayers;
+      return data.totalHybridPlayers;
     },
     placeholderData: (previousData) => previousData,
     staleTime: Infinity,
