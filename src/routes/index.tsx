@@ -12,8 +12,8 @@ import {
 import { dark } from "@clerk/themes"
 import { useTheme } from "@/hooks/use-theme"
 import { ThemeSwitcher } from "@/components/theme-switcher"
-import { ChartSection } from "@/components/landing/ChartSectionVariant"
-import { BookIcon, ChartLineIcon, ChartNoAxesCombinedIcon, CreditCardIcon, GiftIcon, HandCoinsIcon, SpeechIcon, UserIcon } from "lucide-react"
+// import { ChartSection } from "@/components/landing/ChartSectionVariant"
+import { ChartLineIcon, ChartNoAxesCombinedIcon, CreditCardIcon, GiftIcon, HandCoinsIcon, SpeechIcon, UserIcon } from "lucide-react"
 import { Scroller } from "@/components/ui/scroller"
 
 export const Route = createFileRoute("/")({
@@ -57,14 +57,14 @@ function RouteComponent() {
         name: "Depósitos",
         icon: HandCoinsIcon,
       },
-          {
-        name: "Sportsbook",
-        icon: BookIcon,
-      },
-      {
-        name: "Alcances",
-        icon: ChartLineIcon,
-      },
+      //     {
+      //   name: "Sportsbook",
+      //   icon: BookIcon,
+      // },
+      // {
+      //   name: "Alcances",
+      //   icon: ChartLineIcon,
+      // },
       {
         name: "Benchmark",
         icon: ChartNoAxesCombinedIcon,
@@ -161,8 +161,8 @@ function RouteComponent() {
                     <div className="dark:dock-fade-mask pointer-events-none absolute inset-0 max-sm:hidden" />
                   <div className="grid grid-cols-12 gap-4 p-4">
                     {/* Sidebar izquierda */}
-                    <div className="col-span-12 sm:col-span-3">
-                      <div className="relative rounded-xl border border-foreground/10 bg-foreground/[0.06] p-4 overflow-hidden">
+                    <div className="col-span-12 sm:col-span-3 h-full sm:block hidden">
+                      <div className="relative rounded-xl border h-full border-foreground/10 bg-foreground/[0.06] p-4 overflow-hidden">
                         <div
                           className="absolute -top-16 -left-16 w-44 h-44 rounded-full blur-3xl opacity-80 animate-[pulse-soft_4s_ease-in-out_infinite]"
                           style={{
@@ -198,7 +198,7 @@ function RouteComponent() {
                     </div>
 
                     {/* Centro con máscara adicional de “Cards” */}
-                    <div className="col-span-12 sm:col-span-6">
+                    <div className="col-span-12 sm:col-span-9">
                       <div className="relative rounded-2xl overflow-hidden">
                         <div className="dark:cards-fade-mask absolute inset-0 pointer-events-none" />
                         <div className="space-y-4">
@@ -256,7 +256,7 @@ function RouteComponent() {
                       </div>
                     </div>
 
-                    <div className="col-span-12 sm:col-span-3">
+                    {/* <div className="col-span-12 sm:col-span-3">
                       <div className="z-10 rounded-xl border border-foreground/10 bg-foreground/[0.06] p-4 ">
                         <div className="flex items-center justify-between">
                           <span className="rounded-full border border-foreground/10 bg-foreground/10 px-2 py-1 text-[10px]">
@@ -269,7 +269,7 @@ function RouteComponent() {
                           <ChartSection />
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </Scroller>
