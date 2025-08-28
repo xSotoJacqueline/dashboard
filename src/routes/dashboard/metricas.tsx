@@ -39,7 +39,7 @@ function RouteComponent() {
   }
 
   const values = [
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "CTVL", description: "Customer Lifetime Value", Icon: BarChart3, label: "Últimos 28 días" },
+    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "CLTV", description: "Customer Lifetime Value", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "ARPU", description: "Ingreso Promedio por Usuario", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Deserción", description: "Tasa de deserción", Icon: BarChart3, label: "Últimos 28 días" },
     { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Adquisición", description: "Usuarios adquiridos", Icon: BarChart3, label: "Últimos 28 días" },

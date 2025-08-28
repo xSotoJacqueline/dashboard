@@ -20,6 +20,7 @@ export function Pagination<TData>({
 }: DataTablePaginationProps<TData>) { 
    return (
   <section className="flex w-full sm:flex-row flex-col items-center justify-center sm:justify-end gap-1">
+    <div className="flex w-fit flex-col items-center  sm:flex-row bg gap-1">
      <Input
         type="number"
         min={1}
@@ -37,7 +38,7 @@ export function Pagination<TData>({
           }
         }
       />
-    <div className="flex w-full items-center justify-center sm:justify-end gap-1">
+    <div className="flex w-full items-center justify-| sm:justify-end gap-1">
       
       <Button
         size={'icon'}
@@ -90,6 +91,7 @@ export function Pagination<TData>({
       >
         <ChevronsRight size={16} />
       </Button>
+    </div>
     </div>
   </section>
           
