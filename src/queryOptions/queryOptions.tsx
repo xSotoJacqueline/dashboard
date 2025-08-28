@@ -115,7 +115,6 @@ export function totalAmountFTDQueryOptions({queryString = queryStringDefault}: {
         throw new Error('Failed to fetch first time deposit average');
       }
       const respuesta = await res.json()
-      console.log("respuesta",respuesta)
       return respuesta;
     },
     staleTime: Infinity,

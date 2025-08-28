@@ -155,7 +155,7 @@ function TopCardContent({ className, ...props }: React.ComponentProps<"div">) {
         <GeneralErrorContent 
           title={false} 
           refetch={refetch} 
-          className="min-h-[72px] py-1 h-full" 
+          className="min-h-[72px] w-full min-w-[50px] py-1 h-full" 
         />
       ) : (
         props.children
@@ -167,8 +167,7 @@ function TopCardContent({ className, ...props }: React.ComponentProps<"div">) {
 function TopCardFooter({ className, percentageValue, label, showPercentage = true, ...props }: React.ComponentProps<"div"> & { showPercentage?: boolean, percentageValue?: number, label: string }) {
   const canAnimate = useCanAnimate()
   const { isError } = React.useContext(TopCardContext)
-
-  return (
+  return (  
     <div
       data-slot="card-footer"
       className={cn(
@@ -189,7 +188,7 @@ function TopCardFooter({ className, percentageValue, label, showPercentage = tru
       >
         <motion.span
         className={cn(
-          percentageValue > 0 ? 'bg-green-foliatti' : 'bg-red-500',
+          percentageValue >= 0 ? 'bg-green-foliatti' : 'bg-red-500',
           'inline-flex gap-1 items-center px-[0.3em] text-lg text-white transition-colors duration-300'
         )}
         layout
@@ -203,11 +202,11 @@ function TopCardFooter({ className, percentageValue, label, showPercentage = tru
           transition={{
           rotate: canAnimate ? { type: 'spring', duration: 0.5, bounce: 0 } : { duration: 0 }
           }}
-          animate={{ rotate: percentageValue > 0 ? 0 : -180 }}
+          animate={{ rotate: percentageValue >= 0 ? 0 : -180 }}
           initial={false}
         />
         <MotionNumberFlow
-          value={percentageValue/100}
+          value={percentageValue === 0 ? 0 : percentageValue / 100}
           className="font-medium text-sm"
           format={{ style: 'percent', maximumFractionDigits: 2, signDisplay: 'always' }}
           style={{ 

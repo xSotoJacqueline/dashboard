@@ -28,6 +28,28 @@ export function getAverageTimeOnPage({queryString = queryStringDefault}: {queryS
   });
 }
 
+
+export function getConversionRate() {
+  return queryOptions({
+    queryKey: ['getConversionRate'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/calculate-conversion-rate?propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch getConversionRate');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
 type Campaign = {
     campaign: string;
     source: string;
@@ -74,6 +96,70 @@ export function getTrafficPerDay({queryString = queryStringDefault}: {queryStrin
       }
       const data = await res.json();
       return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function getAverageClicksCTRPromedio({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getAverageClicksCTRPromedio', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-average-clicks-ctr-promedio${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch average clicks CTR');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function getTotalReachAlcance({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTotalReachAlcance', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-total-reach-alcance${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total reach');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+type Conversiones = {
+    eventName: string;
+    conversions: number;
+    eventOccurred: boolean;
+}
+
+export function getConversiones() {
+  return queryOptions({
+    queryKey: ['getConversiones'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-account-creation-event-status?propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total reach');
+      }
+      const data = await res.json() as Conversiones[];
+      return data[0].conversions;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,

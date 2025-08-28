@@ -42,7 +42,7 @@ export function SpecificGamesTable() {
   return (
     <Card className="h-full w-full flex border-0 gap-2">
         <CardContent className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
-           <div className="w-full h-full">
+           <div className="w-full h-full overflow-x-scroll">
               <Table>
                 <TableHeader className=" ">
                   <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-lg" : "text-xs lg:text-lg"}`}>

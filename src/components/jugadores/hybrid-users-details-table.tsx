@@ -19,9 +19,9 @@ import { useDataTable } from "@/lib/use-data-table"
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 import CardLoading from "../loading-card";
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { GeneralCard } from "../general-card";
 import { Pagination } from "../pagination";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 type HybridPlayerTableItem = {
   userId: string;
@@ -81,36 +81,37 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
                       </Badge>
                     ))}
 
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="cursor-pointer text-muted-foreground hover:text-foreground">
-                          + {playerData.favoriteGames.length - 2}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent
-                        side="top"
-                        sideOffset={6}
-                        className="bg-accent text-foreground z-[100] border font-semibold dark:bg-zinc-900 p-2"
-                      >
-                        <div className="flex flex-wrap gap-1 max-w-xs">
-                          {playerData.favoriteGames.slice(isMobile ? 1 : 2).map((game, index) => (
-                            <Badge
-                              key={`tooltip-${game.game}-${index}`}
-                              className="w-fit text-xs"
-                              variant={
-                                game.game === "SLOT_GAME" ? "default" :
-                                game.game === "POKER" ? "outline" :
-                                game.game === "BLACKJACK" ? "secondary" :
-                                game.game === "ROULETTE" ? "destructive" :
-                                "secondary"
-                              }
-                            >
-                              {game.game} ({game.count})
-                            </Badge>
-                          ))}
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
+                  <Popover>
+                  <PopoverTrigger asChild>
+                    <span className="cursor-pointer text-muted-foreground hover:text-foreground select-none">
+                      + {playerData.favoriteGames.length - (isMobile ? 1 : 2)}
+                    </span>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    side="top"
+                    sideOffset={6}
+                    className="w-auto p-2 bg-accent text-foreground border dark:bg-zinc-900"
+                  >
+                    <div className="flex flex-wrap gap-1 max-w-xs">
+                      {playerData.favoriteGames.slice(isMobile ? 1 : 2).map((game, index) => (
+                        <Badge
+                          key={`popover-${game.game}-${index}`}
+                          className="w-fit text-xs"
+                          variant={
+                            game.game === "SLOT_GAME" ? "default" :
+                            game.game === "POKER" ? "outline" :
+                            game.game === "BLACKJACK" ? "secondary" :
+                            game.game === "ROULETTE" ? "destructive" :
+                            "secondary"
+                          }
+                        >
+                          {game.game} ({game.count})
+                        </Badge>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
   
                   </>
                 ) : (

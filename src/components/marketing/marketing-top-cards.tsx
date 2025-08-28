@@ -2,12 +2,26 @@ import { useQueries } from "@tanstack/react-query";
 import { UsersRoundIcon, Gift, UserRoundPlusIcon, UsersRound } from "lucide-react"
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { totalTraffic, uniqueUsers } from "@/queryOptions/queryOptions-metricas";
+import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
+import { useMemo } from "react";
 
 export default function MarketingTopCards({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
   const [totalTrafficInfo, uniqueUsersInfo] = useQueries({
     queries: [totalTraffic(), uniqueUsers({queryString})],
   });
+
+    const comparisonQueryString = createComparisonQueryString(queryString);
   
+    const [uniqueUsersInfoComparison] = useQueries({
+      queries: [
+        uniqueUsers({queryString: comparisonQueryString}),
+      ],
+    });
+
+    const uniqueUsersPercentage = useMemo(() => calculateGrowthPercentage({
+      current: uniqueUsersInfo.data || 0,
+      previous: uniqueUsersInfoComparison.data || 0
+    }), [uniqueUsersInfo.data, uniqueUsersInfoComparison.data]);
 
   return (
     <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 ">
@@ -62,7 +76,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={uniqueUsersInfo.data ? uniqueUsersInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : "Últmo mes"} showPercentage={false}   />
+        <TopCardFooter percentageValue={uniqueUsersPercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={false}   />
       </TopCard>
 
       <TopCard

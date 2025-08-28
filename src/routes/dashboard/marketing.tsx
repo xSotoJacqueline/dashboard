@@ -1,10 +1,7 @@
 import { createFileRoute, useSearch } from '@tanstack/react-router'
-import { Circle, ChartLine, UserRoundPlus } from "lucide-react"
-
 import TrafficTab from "@/components/tabs/traffic-tab"
 import type { TrafficSource } from "@/components/tabs/traffic-sources"
 import CampaignTab from "@/components/marketing/campaign-tab"
-import { type ValueFormat, type GeneralCardTopCardProps } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
@@ -39,16 +36,6 @@ function RouteComponent() {
   const search = useSearch({ from: '/dashboard/marketing' });
   const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
 
- const fetchData = () => {
-    const random = (Math.floor(Math.random() * 100.55))
-    return (random - 40)/1000
-  }
-
-  const fetchDataValue = () => {
-    const random = (Math.floor(Math.random() * 10000))
-    return random
-  }
-
   const fetchRandomVisits = () => {
     return Math.floor(Math.random() * 1500) + 100;
   }
@@ -57,13 +44,6 @@ function RouteComponent() {
     const random = (Math.floor(Math.random() * 100.55))
     return (random - 40)/1000
   }
-
-  const campaignValues: GeneralCardTopCardProps[] = [
-    { value: fetchData(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "CTR Promedio", Icon: Circle, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "percent" as ValueFormat, percentageValue:fetchData(), title: "Alcance Total", Icon: ChartLine, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Conversiones", Icon: UserRoundPlus, label: "Últimos 28 días" },
-  ]
-
 
   const trafficSources: TrafficSource[] = [
     { source: "Directo", totalVisits: fetchRandomVisits(), referenceVisits: fetchRandomPercentage() },
@@ -91,7 +71,7 @@ function RouteComponent() {
               <TrafficTab trafficSources={trafficSources} queryString={queryString} labelTimePeriod={labelTimePeriod} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="campaigns">
-              <CampaignTab campaignValues={campaignValues} />
+              <CampaignTab queryString={queryString} labelTimePeriod={labelTimePeriod} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="players">
               <PlayersTab queryString={queryString} labelTimePeriod={labelTimePeriod}/>
