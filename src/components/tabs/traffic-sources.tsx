@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import NumberFlow, { NumberFlowGroup } from '@number-flow/react'
 import { Progress } from "../ui/progress";
 import { GeneralCard } from "../general-card";
+import { getTrafficSourcesAndEvents } from "@/queryOptions/queryOptions-marketing";
+import { useQuery } from "@tanstack/react-query";
 
 export type TrafficSource = {
   source: string;
@@ -12,25 +14,31 @@ export type TrafficSource = {
 type ChartLineLabelProps = {
   trafficSources: TrafficSource[];
   className?: string;
+  queryString?: string, 
+  labelTimePeriod?: string
 }
-
-export function TrafficSources({ className, trafficSources }: ChartLineLabelProps) {
-    const totalAllVisits = trafficSources.reduce((sum, src) => sum + src.totalVisits, 0);
+export function TrafficSources({ className, queryString }: ChartLineLabelProps) {
+  const trafficSources = useQuery(
+      getTrafficSourcesAndEvents({queryString}),
+  );
 
   return (
-
-    <GeneralCard identifier="chart2" title="Fuentes de Tráfico" classNameContainer="col-span-1 md:col-span-2" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+    <GeneralCard isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de Tráfico" classNameContainer="col-span-1 md:col-span-2" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
         <div className="flex flex-col justify-betweenh-full">
-            {trafficSources.map((source) => {
-              const impactPercentage = (source.totalVisits / totalAllVisits) * 100;
+            {trafficSources.data?.map((source) => {
               return (
                 <div key={source.source} className="flex flex-col">
-                    <span className="text-base font-medium">{source.source}</span>
+                    
+                    <div className="flex gap-1 items-center">
+                      <span className="text-base font-medium">{source.medium}</span>
+                      <span>-</span>
+                      <span className="text-xs text-muted-foreground">{source.eventName}</span>
+                    </div>
 
                     <div className="w-full flex items-start gap-2">
                       <Progress
                         className="h-3"
-                        value={impactPercentage}
+                        value={source.trafficPercentage}
                       />
 
                       <NumberFlowGroup>
@@ -39,18 +47,18 @@ export function TrafficSources({ className, trafficSources }: ChartLineLabelProp
                           className="flex flex-col items-center font-semibold -mt-1"
                         >
                           <NumberFlow
-                            value={source.totalVisits}
+                            value={source.activeUsers}
                             locales="en-US"
                             format={{ style: 'decimal' }}
                             className="text-sm text- font-bold"
                           />
                           <NumberFlow
-                            value={source.referenceVisits}
+                            value={source.trafficPercentage/100}
                             locales="en-US"
-                            format={{ style: 'percent', maximumFractionDigits: 2, signDisplay: 'always' }}
+                            format={{ style: 'percent', maximumFractionDigits: 2 }}
                             className={cn(
                               'text-xs transition-colors duration-300',
-                              source.referenceVisits < 0 ? 'text-red-500' : 'text-emerald-500'
+                              source.trafficPercentage < 0 ? 'text-red-500' : 'text-emerald-500'
                             )}
                           />
                         </div>

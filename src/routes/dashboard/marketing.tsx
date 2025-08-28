@@ -76,7 +76,6 @@ function RouteComponent() {
             <TabsContent className="w-full h-full" value="players">
               <PlayersTab queryString={queryString} labelTimePeriod={labelTimePeriod}/>
             </TabsContent>
-          
         </Tabs>
     </div>
   )}

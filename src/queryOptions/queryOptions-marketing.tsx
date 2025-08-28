@@ -28,6 +28,33 @@ export function getAverageTimeOnPage({queryString = queryStringDefault}: {queryS
   });
 }
 
+type TrafficSourceEvent = {
+    source: string;
+    medium: string;
+    eventName: string;
+    activeUsers: number;
+    trafficPercentage: number;
+}
+
+export function getTrafficSourcesAndEvents({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTrafficSourcesAndEvents', queryString],
+    queryFn: async () : Promise<TrafficSourceEvent[]> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-traffic-sources-and-events${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch traffic sources and events');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
 
 export function getConversionRate() {
   return queryOptions({

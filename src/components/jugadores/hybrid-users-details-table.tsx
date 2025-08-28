@@ -196,12 +196,12 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
   }
 
   return (
-    <GeneralCard cardContentClassName="h-full" className="" classNameContainer="min-h-[595px] overflow-scroll" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard cardContentClassName="h-full" className="" classNameContainer="min-h-[595px]" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
         
         <div className="w-full h-full flex flex-col justify-between">
 
-          <div className="overflow-scroll">
-            <Table className="overflow-scroll" >
+          <div className="overflow-x-auto">
+            <Table className="" >
               <TableHeader className=" ">
                 <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-base" : "text-xs lg:text-base"}`}>
                   {table.getHeaderGroups().map((headerGroup) =>

@@ -196,7 +196,7 @@ export default function CategoriesTab() {
             </CardFooter>
         </Card>
       </div>
-      <div className='h-full min-h-fit w-full pt-2'>
+      <div className='h-full max-h-[300px] min-h-fit w-full pt-2'>
         <CategoriesTable/>
       </div>
 

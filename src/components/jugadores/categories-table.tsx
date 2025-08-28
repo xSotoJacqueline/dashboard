@@ -127,7 +127,7 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
   return (
     <GeneralCard 
       cardContentClassName="h-full" 
-      classNameContainer="" 
+      classNameContainer="h-full" 
       isLoading={totalPlayersGroupedByCasino.isFetching} 
       identifier="chart4" 
       title="Estadísticas por Categoría" 
@@ -186,13 +186,13 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
                 </TableRow>
               ))
             ) : (
-              <TableRow className="h-[400px]">
+              <TableRow className="">
                 <TableCell
                 colSpan={columns.length}
-                className="h-full min-h-[400px] text-center align-middle p-0"
+                className="h-full text-center align-middle p-0"
                 >
-                <div className="flex items-center justify-center h-full w-full min-h-[400px]">
-                  <GeneralEmptyContent className="h-full min-h-[380px]" />
+                <div className="flex items-center justify-center h-full w-full">
+                  <GeneralEmptyContent className="h-full" />
                 </div>
                 </TableCell>
               </TableRow>
