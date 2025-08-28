@@ -56,6 +56,71 @@ export function getTrafficSourcesAndEvents({queryString = queryStringDefault}: {
   });
 }
 
+export function getTotalRegistrations({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTotalRegistrations', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-total-registration${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total registrations');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+type ActiveUsersByDay = {
+  date: string;
+  activeUsers: number;
+}
+export function getActiveUsersByDay({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getActiveUsersByDay', queryString],
+    queryFn: async () : Promise<ActiveUsersByDay[]> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-active-user-by-day${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch active users by day');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+type RegisteredUsersByDay = {
+  date: string;
+  registrations: number;
+}
+
+export function getRegisteredUsersByDay({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getRegisteredUsersByDay', queryString],
+    queryFn: async () : Promise<RegisteredUsersByDay[]> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-registered-user-per-day${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch registered users by day');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function getConversionRate() {
   return queryOptions({
     queryKey: ['getConversionRate'],

@@ -48,7 +48,7 @@ export function PlayersSection({ topPlayersMostWithdrawalsData, isPending, isErr
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-foreground">Total retirado:</span>
-                      <span className="font-medium">${player.totalAmount}</span>
+                      <span className="font-medium">${player.totalAmount.toLocaleString()}</span>
                     </div>
                     {/* <div className="flex justify-between items-center text-sm">
                       <span className="text-foreground">{player.details.periodo}</span>

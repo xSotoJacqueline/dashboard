@@ -1,7 +1,6 @@
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { ChartSection } from "@/components/Retiros/ChartSectionVariant"
 import { PlayersSection } from "@/components/Retiros/PlayersSection"
-import { PeakHoursSection } from "@/components/Retiros/PeakHoursSection"
 import { ScrollArea } from '@/components/ui/scroll-area'
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
@@ -37,7 +36,7 @@ function RouteComponent() {
   const [averageAmountWithdrawals, averageWithdrawals, totalWithdrawalsData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
     queries: [averageAmountWithdrawalsPerDay({queryString}), averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour({queryString}), percentageDepositsByDayOfWeek({queryString})],
   });
-
+  
   return (
     <div className="w-full rounded-lg text-black h-full">
         <div className="flex flex-col h-full xl:flex-row justify-between gap-6 ">
@@ -58,7 +57,7 @@ function RouteComponent() {
                       <TopCardTitle className="min-h-0">Total de retiros</TopCardTitle>
                     </TopCardHeader>
                     <TopCardContent className='gap-4'>
-                      <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}  className="text-4xl md:text-4xl font-bold" />
+                      <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Transacciones completadas</Label>
                     </TopCardContent>
                     <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
@@ -77,7 +76,7 @@ function RouteComponent() {
                       <TopCardTitle className="min-h-0">Promedio de retiros</TopCardTitle>
                     </TopCardHeader>
                     <TopCardContent className='gap-4'>
-                      <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}  className="text-4xl md:text-4xl font-bold" />
+                      <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                     </TopCardContent>
                     <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
@@ -98,7 +97,7 @@ function RouteComponent() {
                       <TopCardTitle className="min-h-0">Monto de retiros</TopCardTitle>
                     </TopCardHeader>
                     <TopCardContent className='gap-4'>
-                      <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}  className="text-4xl md:text-4xl font-bold" />
+                      <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                     </TopCardContent>
                     <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
@@ -111,8 +110,11 @@ function RouteComponent() {
           </div>
           <ScrollArea className="w-full xl:w-80 h-fit xl:h-[100cqh]">
             <div className='w-full h-fit xl:h-[100cqh] flex flex-col gap-6 '>
-              <PlayersSection isError={topPlayersMostWithdrawalsData.isError} isPending={topPlayersMostWithdrawalsData.isPending} topPlayersMostWithdrawalsData={topPlayersMostWithdrawalsData.data?.slice(0, 5)} />
-              <PeakHoursSection isError={mostCommonWithdrawHourData.isError} isPending={mostCommonWithdrawHourData.isPending} labelTimePeriod={labelTimePeriod} mostCommonWithdrawHourData={mostCommonWithdrawHourData.data} />
+              <PlayersSection isError={topPlayersMostWithdrawalsData.isError} isPending={topPlayersMostWithdrawalsData.isPending} topPlayersMostWithdrawalsData={topPlayersMostWithdrawalsData.data?.slice(0, 20)} />
+              {/* <PeakHoursSection isError={mostCommonWithdrawHourData.isError} isPending={mostCommonWithdrawHourData.isPending} labelTimePeriod={labelTimePeriod} mostCommonWithdrawHourData={mostCommonWithdrawHourData.data} /> */}
+              <div className='hidden'>
+                {mostCommonWithdrawHourData.data && mostCommonWithdrawHourData.data.hour}
+              </div>
             </div>
 
           </ScrollArea>

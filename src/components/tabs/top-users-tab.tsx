@@ -18,7 +18,7 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 import { useDataTable } from "@/lib/use-data-table"
-import { Pagination } from "../pagination";
+// import { Pagination } from "../pagination";
 
 export default function TopUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
 
@@ -36,21 +36,21 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
     accessorKey: "real_money_wins",
     header: "Ganancias",
     cell: ({ row }) => (
-    <div className="">{row.getValue("real_money_wins")}</div>
+    <div className="">{(row.getValue("real_money_wins") as number).toLocaleString()}</div>
     ),
   },
   {
     accessorKey: "number_of_bets",
     header: "Juegos",
     cell: ({ row }) => (
-    <div className="">{row.getValue("number_of_bets")}</div>
+    <div className="">{(row.getValue("number_of_bets") as number).toLocaleString()}</div>
     ),
   },
   {
-    accessorKey: "wins",
-    header: "Win Rate",
+    accessorKey: "real_money_bets",
+    header: "Apostado",
     cell: ({ row }) => (
-    <div className="">{row.getValue("wins")}</div>
+    <div className="">{(row.getValue("real_money_bets") as number).toLocaleString()}</div>
     ),
   },
   ]
@@ -90,7 +90,7 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
               <TableHead className="text-left h-fit px-0">Usuarios</TableHead>
               <TableHead className="text-center h-fit px-0">Ganancias</TableHead>
               <TableHead className="text-center h-fit px-0">Juegos</TableHead>
-              <TableHead className="text-right h-fit px-0">Win Rate</TableHead>
+              <TableHead className="text-right h-fit px-0">Apostado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="border-0">
@@ -127,10 +127,10 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
               )}
           </TableBody>
         </Table>
-        <Pagination
+        {/* <Pagination
           table={table}
           loading={losersData.isFetching}
-        />
+        /> */}
       </div>
     </GeneralCard>
   )

@@ -7,12 +7,12 @@ import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO, parse } from "date-fns";
 import { es } from "date-fns/locale";
-import { getTrafficPerDay } from "@/queryOptions/queryOptions-marketing";
+import { getRegisteredUsersByDay } from "@/queryOptions/queryOptions-marketing";
 
 export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: string}) {
 
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
-        getTrafficPerDay({queryString}),
+        getRegisteredUsersByDay({queryString}),
     );
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
@@ -91,7 +91,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
                         content={
                             <ChartTooltipContent
                                 className="w-[150px]"
-                                nameKey="activeUsers"
+                                nameKey="registrations"
                                 labelFormatter={(value) => {
                                 try {
                                     // Check if value is a valid date string
@@ -119,7 +119,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
                             />
                         }
                         />
-                    <Bar dataKey="activeUsers" fill="var(--green-foliatti)" radius={8} />
+                    <Bar dataKey="registrations" fill="var(--green-foliatti)" radius={8} />
                 </BarChart>
                 </ChartContainer>
             </div>

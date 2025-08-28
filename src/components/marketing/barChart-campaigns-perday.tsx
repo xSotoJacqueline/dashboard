@@ -7,12 +7,12 @@ import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO, parse } from "date-fns";
 import { es } from "date-fns/locale";
-import { getTrafficPerDay } from "@/queryOptions/queryOptions-marketing";
+import { getActiveUsersByDay } from "@/queryOptions/queryOptions-marketing";
 
 export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
 
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
-        getTrafficPerDay({queryString}),
+        getActiveUsersByDay({queryString}),
     );
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />

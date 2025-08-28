@@ -4,17 +4,19 @@ import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, To
 import { totalTraffic, uniqueUsers } from "@/queryOptions/queryOptions-metricas";
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
 import { useMemo } from "react";
+import { getTotalRegistrations } from "@/queryOptions/queryOptions-marketing";
 
 export default function MarketingTopCards({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
-  const [totalTrafficInfo, uniqueUsersInfo] = useQueries({
-    queries: [totalTraffic(), uniqueUsers({queryString})],
+  const [totalTrafficInfo, uniqueUsersInfo, totalRegistrationsInfo] = useQueries({
+    queries: [totalTraffic(), uniqueUsers({queryString}), getTotalRegistrations({queryString})],
   });
 
     const comparisonQueryString = createComparisonQueryString(queryString);
-  
-    const [uniqueUsersInfoComparison] = useQueries({
+
+    const [uniqueUsersInfoComparison, totalRegistrationsInfoComparison] = useQueries({
       queries: [
         uniqueUsers({queryString: comparisonQueryString}),
+        getTotalRegistrations({queryString: comparisonQueryString}),
       ],
     });
 
@@ -22,6 +24,11 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
       current: uniqueUsersInfo.data || 0,
       previous: uniqueUsersInfoComparison.data || 0
     }), [uniqueUsersInfo.data, uniqueUsersInfoComparison.data]);
+
+    const totalRegistrationsPercentage = useMemo(() => calculateGrowthPercentage({
+      current: totalRegistrationsInfo.data || 0,
+      previous: totalRegistrationsInfoComparison.data || 0
+    }), [totalRegistrationsInfo.data, totalRegistrationsInfoComparison.data]);
 
   return (
     <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 ">
@@ -80,8 +87,8 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
       </TopCard>
 
       <TopCard
-        isLoading={uniqueUsersInfo.isPending}
-        isError={uniqueUsersInfo.isError}
+        isLoading={totalRegistrationsInfo.isPending}
+        isError={totalRegistrationsInfo.isError}
         iconSize={24}
         iconStrokeWidth={2}
         Icon={UserRoundPlusIcon}
@@ -92,9 +99,9 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
           <TopCardTitle className="min-h-0">Registros Totales</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue valueFormat="decimal" value={uniqueUsersInfo.data ? uniqueUsersInfo.data : 0}   />
+          <TopCardValue valueFormat="decimal" value={totalRegistrationsInfo.data ? totalRegistrationsInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={"No aplica filtro"} showPercentage={false}   />
+        <TopCardFooter percentageValue={totalRegistrationsPercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={false}   />
       </TopCard>
     </div>
   );
