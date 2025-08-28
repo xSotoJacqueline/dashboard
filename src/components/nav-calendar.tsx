@@ -81,7 +81,7 @@ export function NavCalendar() {
                 disabled={(date) => date < new Date('1900-01-01')}
                 initialFocus
                 />
-                <div style={{containerType: "size"}} className="border-t p-3 h-14 flex flex-col sm:flex-row justify-between gap-3 w-full">  
+                <div style={{containerType: "size"}} className="border-t p-3 h-14 flex flex-row justify-between gap-3 w-full">  
                   <Button  
                     onClick={() => {  
                       setDates({ from: null, to: null })  
@@ -89,7 +89,7 @@ export function NavCalendar() {
                       setApplyFilters(false)
                     }}  
                     variant={"secondary"}
-                    className="w-full sm:w-[49%]"
+                    className="w-full flex-1 sm:w-[49%]"
                     size={"sm"}
                     disabled={!from && !to} 
                   >  
@@ -106,7 +106,7 @@ export function NavCalendar() {
                       }
                     }} 
                     variant={"secondary"}
-                    className="w-full sm:w-[49%]"
+                    className="w-full flex-1 sm:w-[49%]"
                     size={"sm"}
                     disabled={!dateSelected || applyFilters} 
                   >  

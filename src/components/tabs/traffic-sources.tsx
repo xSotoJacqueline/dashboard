@@ -23,7 +23,7 @@ export function TrafficSources({ className, queryString }: ChartLineLabelProps) 
   );
 
   return (
-    <GeneralCard isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de Tráfico" classNameContainer="col-span-1 md:col-span-2" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+    <GeneralCard isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de Tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
         <div className="flex flex-col justify-betweenh-full">
             {trafficSources.data?.map((source) => {
               return (
