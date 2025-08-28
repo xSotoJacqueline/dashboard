@@ -4,7 +4,7 @@ import { DocumentDropZoneWrapper } from "@/components/benchmark/dropzone";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from 'sonner';
 import { useCsvFilesStore } from "@/lib/store-csv";
-import CardFiles from '@/components/benchmark/card-files';
+import BenchmarkCardFiles from '@/components/benchmark/benchmark-files-card';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ErrorPage from '@/components/errorPage';
 import { useSidebar } from '@/components/ui/sidebar';
@@ -72,7 +72,8 @@ function RouteComponent() {
             </DocumentDropZoneWrapper>
         </CardContent>
       </Card>
-      <CardFiles />
+
+      <BenchmarkCardFiles />
     </div>
   )
 }

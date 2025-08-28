@@ -14,15 +14,14 @@ import {
   type ColumnDef,
   flexRender,
 } from "@tanstack/react-table"
-import { ChartColumnDecreasingIcon, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { ChartColumnDecreasingIcon } from "lucide-react"
 import { useDataTable } from "@/lib/use-data-table"
-import { Button } from "@/components/ui/button"
-import NumberFlow from "@number-flow/react";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 import CardLoading from "../loading-card";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { GeneralCard } from "../general-card";
+import { Pagination } from "../pagination";
 
 type HybridPlayerTableItem = {
   userId: string;
@@ -40,32 +39,81 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
     playerData
   })) : [];
 
-const columns: ColumnDef<HybridPlayerTableItem>[] = [
-  {
-    accessorKey: "userId",
-    header: "Usuario",
-    cell: ({ row }) => {
-      const playerData = row.getValue("playerData") as PlayerData;
-      return (
-        <div className="flex flex-col">
-          <span className="font-medium">{playerData.userName}</span>
-          {/* <span className="text-xs text-muted-foreground">{row.getValue("userId")}</span> */}
-        </div>
-      );
+  const columns: ColumnDef<HybridPlayerTableItem>[] = [
+    {
+      accessorKey: "userId",
+      header: "Usuario",
+      cell: ({ row }) => {
+        const playerData = row.getValue("playerData") as PlayerData;
+        return (
+          <div className="flex flex-col">
+            <span className="font-medium">{playerData.userName}</span>
+            {/* <span className="text-xs text-muted-foreground">{row.getValue("userId")}</span> */}
+          </div>
+        );
+      },
     },
-  },
-  {
-    accessorKey: "playerData",
-    header: "Juego",
-    cell: ({ row }) => {
-      const playerData = row.getValue("playerData") as PlayerData;
-      return (
-        <div className="flex items-center justify-center w-full">
-          <div className="flex items-center justify-center gap-1 flex-wrap">
-            {
-              playerData.favoriteGames.length > 2 ? (
-                <>
-                  {playerData.favoriteGames.slice(0, 2).map((game, index) => (
+    {
+      accessorKey: "playerData",
+      header: "Juego",
+      cell: ({ row }) => {
+        const playerData = row.getValue("playerData") as PlayerData;
+        return (
+          <div className="flex items-center justify-center w-full">
+            <div className="flex items-center justify-center gap-1 flex-wrap">
+              {
+                playerData.favoriteGames.length > 2 ? (
+                  <>
+                    {playerData.favoriteGames.slice(0, 2).map((game, index) => (
+                      <Badge 
+                        key={`${game.game}-${index}`} 
+                        className="w-fit " 
+                        variant={
+                          game.game === "SLOT_GAME" ? "default" : 
+                          game.game === "POKER" ? "outline" : 
+                          game.game === "BLACKJACK" ? "secondary" :
+                          game.game === "ROULETTE" ? "destructive" :
+                          "secondary"
+                        }
+                      >
+                        {game.game} ({game.count})
+                      </Badge>
+                    ))}
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="cursor-pointer text-muted-foreground hover:text-foreground">
+                          + {playerData.favoriteGames.length - 2}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent
+                        side="top"
+                        sideOffset={6}
+                        className="bg-accent text-foreground z-[100] border font-semibold dark:bg-zinc-900 p-2"
+                      >
+                        <div className="flex flex-wrap gap-1 max-w-xs">
+                          {playerData.favoriteGames.slice(2).map((game, index) => (
+                            <Badge
+                              key={`tooltip-${game.game}-${index}`}
+                              className="w-fit text-xs"
+                              variant={
+                                game.game === "SLOT_GAME" ? "default" :
+                                game.game === "POKER" ? "outline" :
+                                game.game === "BLACKJACK" ? "secondary" :
+                                game.game === "ROULETTE" ? "destructive" :
+                                "secondary"
+                              }
+                            >
+                              {game.game} ({game.count})
+                            </Badge>
+                          ))}
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+  
+                  </>
+                ) : (
+                  playerData.favoriteGames.map((game, index) => (
                     <Badge 
                       key={`${game.game}-${index}`} 
                       className="w-fit " 
@@ -79,95 +127,45 @@ const columns: ColumnDef<HybridPlayerTableItem>[] = [
                     >
                       {game.game} ({game.count})
                     </Badge>
-                  ))}
-
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className="cursor-pointer text-muted-foreground hover:text-foreground">
-                        + {playerData.favoriteGames.length - 2}
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="top"
-                      sideOffset={6}
-                      className="bg-accent text-foreground z-[100] border font-semibold dark:bg-zinc-900 p-2"
-                    >
-                      <div className="flex flex-wrap gap-1 max-w-xs">
-                        {playerData.favoriteGames.slice(2).map((game, index) => (
-                          <Badge
-                            key={`tooltip-${game.game}-${index}`}
-                            className="w-fit text-xs"
-                            variant={
-                              game.game === "SLOT_GAME" ? "default" :
-                              game.game === "POKER" ? "outline" :
-                              game.game === "BLACKJACK" ? "secondary" :
-                              game.game === "ROULETTE" ? "destructive" :
-                              "secondary"
-                            }
-                          >
-                            {game.game} ({game.count})
-                          </Badge>
-                        ))}
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
- 
-                </>
-              ) : (
-                playerData.favoriteGames.map((game, index) => (
-                  <Badge 
-                    key={`${game.game}-${index}`} 
-                    className="w-fit " 
-                    variant={
-                      game.game === "SLOT_GAME" ? "default" : 
-                      game.game === "POKER" ? "outline" : 
-                      game.game === "BLACKJACK" ? "secondary" :
-                      game.game === "ROULETTE" ? "destructive" :
-                      "secondary"
-                    }
-                  >
-                    {game.game} ({game.count})
-                  </Badge>
-                ))
-              )
-            }
+                  ))
+                )
+              }
+            </div>
           </div>
-        </div>
-      );
+        );
+      },
     },
-  },
-  {
-    accessorKey: "playerData",
-    header: "Total apostado",
-    cell: ({ row }) => {
-      const playerData = row.getValue("playerData") as PlayerData;
-      return (
-        <div className="text-center">
-          <span>{playerData.totalGenerated.toLocaleString()}</span>
-        </div>
-      );
+    {
+      accessorKey: "playerData",
+      header: "Total apostado",
+      cell: ({ row }) => {
+        const playerData = row.getValue("playerData") as PlayerData;
+        return (
+          <div className="text-center">
+            <span>{playerData.totalGenerated.toLocaleString()}</span>
+          </div>
+        );
+      },
     },
-  },
-  {
-    accessorKey: "playerData",
-    header: "Categoría favorita",
-    cell: ({ row }) => {
-      const playerData = row.getValue("playerData") as PlayerData;
-      const favoriteCasino = playerData.favoriteCasinos[0]?.casino || "N/A";
-      return (
-        <div className="text-right">
-          <Badge 
-            className="w-fit min-w-16" 
-            variant={favoriteCasino === "Casino" ? "default" : favoriteCasino === "Sport" ? "outline" : "secondary"}
-          >
-            {favoriteCasino}
-          </Badge>
-        </div>
-      );
+    {
+      accessorKey: "playerData",
+      header: "Categoría favorita",
+      cell: ({ row }) => {
+        const playerData = row.getValue("playerData") as PlayerData;
+        const favoriteCasino = playerData.favoriteCasinos[0]?.casino || "N/A";
+        return (
+          <div className="text-right">
+            <Badge 
+              className="w-fit min-w-16" 
+              variant={favoriteCasino === "Casino" ? "default" : favoriteCasino === "Sport" ? "outline" : "secondary"}
+            >
+              {favoriteCasino}
+            </Badge>
+          </div>
+        );
+      },
     },
-  },
-];
-
+  ];
 
   const { table } = useDataTable({
     data: tableData,
@@ -196,7 +194,7 @@ const columns: ColumnDef<HybridPlayerTableItem>[] = [
   }
 
   return (
-    <GeneralCard cardContentClassName="h-full" classNameContainer="min-h-[595px]" isLoading={hybridUsersDetails.isFetching} identifier="chart1" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard cardContentClassName="h-full" classNameContainer="min-h-[595px]" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
         
         <div className="w-full h-full flex flex-col justify-between">
           <Table>
@@ -262,59 +260,11 @@ const columns: ColumnDef<HybridPlayerTableItem>[] = [
               )}
             </TableBody>
           </Table>
-          <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
-            <Button
-              size={'icon'}
-              className="h-fit w-fit p-2"
-              variant={'secondary'}
-              aria-label="Go to first page"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <ChevronsLeft size={16} />
-            </Button>
-            <Button
-              size={'icon'}
-              className="h-fit w-fit p-2"
-              variant={'secondary'}
-              disabled={table.getState().pagination.pageIndex + 1 === 1}
-              onClick={() => table.previousPage()}
-            >
-              <ChevronLeft size={16} />
-            </Button>
-            <div className="mr-2 flex items-end justify-end space-x-1 text-sm tabular-nums">
-              <span className="text-muted-foreground justify-end flex min-w-5 items-end text-end">
-                <NumberFlow value={table.getState().pagination.pageIndex + 1} />
-              </span>
-              <span className="text-muted-foreground flex items-center gap-1">
-                /{' '}
-                {hybridUsersDetails.isFetching ? (
-                  <div className="h-4 w-5 animate-pulse rounded-sm bg-slate-200/50" />
-                ) : (
-                  table.getPageCount()
-                )}
-              </span>
-            </div>
-            <Button
-              size={'icon'}
-              className="h-fit w-fit p-2"
-              variant={'secondary'}
-              disabled={table.getState().pagination.pageIndex + 1 === table.getPageCount()}
-              onClick={() => table.nextPage()}
-            >
-              <ChevronRight size={16} />
-            </Button>
-            <Button
-              size={'icon'}
-              variant={'secondary'}
-              className="h-fit w-fit p-2"
-              aria-label="Go to last page"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              <ChevronsRight size={16} />
-            </Button>
-          </div>
+
+          <Pagination
+            table={table}
+            loading={hybridUsersDetails.isFetching}
+          />
         </div>
     </GeneralCard>
   )

@@ -17,10 +17,8 @@ import {
   type ColumnDef,
   flexRender,
 } from "@tanstack/react-table"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
 import { useDataTable } from "@/lib/use-data-table"
-import { Button } from "@/components/ui/button"
-import NumberFlow from "@number-flow/react";
+import { Pagination } from "../pagination";
 
 export default function TopUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
 
@@ -55,27 +53,26 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
     <div className="">{row.getValue("wins")}</div>
     ),
   },
-]
+  ]
 
-    const { table } = useDataTable({
-      data: losersData.data || [],
+  const { table } = useDataTable({
+    data: losersData.data || [],
+    columns,
+    pageCount: 10,
+    enableAdvancedFilter: true,
+    initialState: {
+      sorting: [{ id: 'id', desc: true }],
+      columnPinning: { right: ['actions'] },
+    },
+    defaultColumn: {
       columns,
-      pageCount: 10,
-      enableAdvancedFilter: true,
-      initialState: {
-        sorting: [{ id: 'id', desc: true }],
-        columnPinning: { right: ['actions'] },
-      },
-      defaultColumn: {
-        columns,
-        enableColumnFilter: false,
-      },
-      getRowId: (originalRow) => originalRow.id.toString(),
-      shallow: false,
-      clearOnDefault: true,
-    });
+      enableColumnFilter: false,
+    },
+    getRowId: (originalRow) => originalRow.id.toString(),
+    shallow: false,
+    clearOnDefault: true,
+  });
   
-
   if (losersData.isLoading) {
     return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
   }
@@ -130,60 +127,10 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
               )}
           </TableBody>
         </Table>
-
-        <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
-          <Button
-            size={'icon'}
-            className="h-fit w-fit p-2"
-            variant={'secondary'}
-            aria-label="Go to first page"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronsLeft size={16} />
-          </Button>
-          <Button
-            size={'icon'}
-            className="h-fit w-fit p-2"
-            variant={'secondary'}
-            disabled={table.getState().pagination.pageIndex + 1 === 1}
-            onClick={() => table.previousPage()}
-          >
-            <ChevronLeft size={16} />
-          </Button>
-          <div className="mr-2 flex items-end justify-end space-x-1 text-sm tabular-nums">
-            <span className="text-muted-foreground justify-end flex min-w-5 items-end text-end">
-              <NumberFlow value={table.getState().pagination.pageIndex + 1} />
-            </span>
-            <span className="text-muted-foreground flex items-center gap-1">
-              /{' '}
-              {losersData.isFetching ? (
-                <div className="h-4 w-5 animate-pulse rounded-sm bg-slate-200/50" />
-              ) : (
-                table.getPageCount()
-              )}
-            </span>
-          </div>
-          <Button
-            size={'icon'}
-            className="h-fit w-fit p-2"
-            variant={'secondary'}
-            disabled={table.getState().pagination.pageIndex + 1 === table.getPageCount()}
-            onClick={() => table.nextPage()}
-          >
-            <ChevronRight size={16} />
-          </Button>
-          <Button
-            size={'icon'}
-            variant={'secondary'}
-            className="h-fit w-fit p-2"
-            aria-label="Go to first page"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronsRight size={16} />
-          </Button>
-        </div>
+        <Pagination
+          table={table}
+          loading={losersData.isFetching}
+        />
       </div>
     </GeneralCard>
   )

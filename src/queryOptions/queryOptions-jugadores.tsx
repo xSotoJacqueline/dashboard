@@ -94,6 +94,50 @@ export function getHybridPlayersDetails({queryString = queryStringDefault, pageP
   });
 }
 
+type Category = {
+  totalPlayers: number;
+  totalIncome: number;
+  averageIncomePerPlayer: number;
+  percentageIncomePerPlayer: {
+    [playerId: string]: number;
+  }[];
+  percentageOfTotalPlayers: number;
+  paginatedPlayers: {
+    playerId: string;
+    userName: string;
+    income: number;
+  }[];
+}
+
+type TotalPlayersGroupedByCasino = {
+  data:{
+    Casino: Category;
+    Sport: Category;
+  }
+  totalPages:number;
+  currentPage:number;
+}
+
+
+export function getTotalPlayersGroupedByCasino({queryString = queryStringDefault, pageParam}: {queryString?: string, pageParam?: number}) {
+  return queryOptions({
+    queryKey: ['getTotalPlayersGroupedByCasino', queryString, pageParam],
+    queryFn: async () : Promise<TotalPlayersGroupedByCasino> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/betdata/get-total-players-grouped-by-casino${queryString}&page=${pageParam || 1}&pageSize=10`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total players grouped by casino');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function getTotalPlayers({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['getTotalPlayers', queryString],
@@ -101,7 +145,6 @@ export function getTotalPlayers({queryString = queryStringDefault}: {queryString
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
       const res = await fetch(`${API_BASE_URL}/betdata/get-total-players${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
-        //check error
         const errorData = await res.json();
         throw new Error(errorData.message || 'Failed to fetch total players');
       }

@@ -8,7 +8,7 @@ import CardLoading from "../loading-card";
 import { GeneralErrorContent } from "../general-error-content";
 
 
-export default function CardFiles() {
+export default function BenchmarkCardFiles() {
 
   const search = useSearch({ from: '/dashboard/benchmark' });
   const page = search.page || 1;

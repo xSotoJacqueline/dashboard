@@ -10,6 +10,7 @@ import { CategoriesTable } from '../jugadores/categories-table';
 import { motion, MotionConfig } from 'framer-motion'
 import NumberFlow, { useCanAnimate } from '@number-flow/react'
 import { cn } from "@/lib/utils"
+
 const MotionNumberFlow = motion.create(NumberFlow)
 
 export default function CategoriesTab() {

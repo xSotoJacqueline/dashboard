@@ -2,7 +2,7 @@ import {
   type ColumnDef,
   flexRender,
 } from "@tanstack/react-table"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -24,11 +24,10 @@ import { bytesToMegabytes } from "@/lib/unit-convertions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { TableActionBar } from "../table-action-bar"
-import NumberFlow from "@number-flow/react"
 import { useDataTable } from "@/lib/use-data-table"
 import { xApiKey, type BenchmarkKey } from "@/queryOptions/queryOptions"
 import { useSidebar } from "../ui/sidebar"
-
+import { Pagination } from "../pagination"
 
 interface DataColumns {
   id: number;
@@ -156,7 +155,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
       )
     },
   },
-]
+  ]
 
   const { table } = useDataTable({
     data: data.data || [],
@@ -179,16 +178,6 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
   return (
     <>
     <div className="w-full h-full flex flex-col justify-between">
-      {/* <div className="flex items-center py-4">
-        <Input
-          placeholder="Nombre..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div> */}
       <div className="overflow-hidden">
         <Table className="h-full min-h-56">
           <TableHeader className="">
@@ -241,59 +230,10 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
         </Table>
       </div>
 
-        <div className="flex w-full items-center justify-center sm:justify-end gap-1 pt-2">
-          <Button
-            size={'icon'}
-            className="h-fit w-fit p-2"
-            variant={'secondary'}
-            aria-label="Go to first page"
-            onClick={() => table.setPageIndex(0)}
-            disabled={loading || !table.getCanPreviousPage()}
-          >
-            <ChevronsLeft size={16} />
-          </Button>
-          <Button
-            size={'icon'}
-            className="h-fit w-fit p-2"
-            variant={'secondary'}
-            disabled={loading || table.getState().pagination.pageIndex + 1 === 1}
-            onClick={() => table.previousPage()}
-          >
-            <ChevronLeft size={16} />
-          </Button>
-          <div className="mr-2 flex items-end justify-end space-x-1 text-sm tabular-nums">
-            <span className="text-muted-foreground justify-end flex min-w-5 items-end text-end">
-              <NumberFlow value={table.getState().pagination.pageIndex + 1} />
-            </span>
-            <span className="text-muted-foreground flex items-center gap-1">
-              /{' '}
-              {loading ? (
-                <div className="h-4 w-5 animate-pulse rounded-sm bg-slate-200/50" />
-              ) : (
-                table.getPageCount()
-              )}
-            </span>
-          </div>
-          <Button
-            size={'icon'}
-            className="h-fit w-fit p-2"
-            variant={'secondary'}
-            disabled={loading || table.getState().pagination.pageIndex + 1 === table.getPageCount()}
-            onClick={() => table.nextPage()}
-          >
-            <ChevronRight size={16} />
-          </Button>
-          <Button
-            size={'icon'}
-            variant={'secondary'}
-            className="h-fit w-fit p-2"
-            aria-label="Go to first page"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={loading || !table.getCanNextPage()}
-          >
-            <ChevronsRight size={16} />
-          </Button>
-        </div>
+      <Pagination
+        table={table}
+        loading={loading}
+      />
     </div>
 
     <TableActionBar isMobile={isMobile} table={table} loading={false} />
