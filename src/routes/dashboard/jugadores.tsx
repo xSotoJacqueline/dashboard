@@ -42,20 +42,6 @@ function RouteComponent() {
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <PlayersTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
-      {/* <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {values.map((metric, index) => (
-          <GeneralCardTopCard
-            key={index}
-            value={metric.value}
-            title={metric.title}
-            Icon={metric.Icon}
-            index={index+1}
-            label={metric.label}
-            percentageValue={metric.percentageValue}
-            valueFormat={metric.valueFormat}
-          />
-        ))}
-      </div> */}
 
        <Tabs defaultValue="top-users" className="w-full h-full">
           <ScrollArea className="whitespace-nowrap">
@@ -69,20 +55,16 @@ function RouteComponent() {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
 
-           <TabsContent  className="w-full h-full" value="top-users">
-              <TopUsersTab queryString={queryString} pageParam={page} />
-           </TabsContent>
-
-           {/* <TabsContent  className="w-full h-full" value="users-by-city">
-              <UsersByCityTab />
-           </TabsContent> */}
-           <TabsContent className="w-full h-full" value="specific-games">
+          <TabsContent  className="w-full h-full" value="top-users">
+            <TopUsersTab queryString={queryString} pageParam={page} />
+          </TabsContent>
+          <TabsContent className="w-full h-full" value="specific-games">
             <SpecificGamesTab />
           </TabsContent>
           <TabsContent className="w-full h-full" value="categories">
             <CategoriesTab />
           </TabsContent>
-           <TabsContent className="w-full h-full" value="hybrid-players">
+          <TabsContent className="w-full h-full" value="hybrid-players">
             <HybridUsersTab />
           </TabsContent>
         </Tabs>

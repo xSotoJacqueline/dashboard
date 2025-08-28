@@ -89,8 +89,9 @@ function RouteComponent() {
                     iconSize={24}
                     iconStrokeWidth={2}
                     Icon={BarChart3}
+                    containerClassName="col-span-1 md:col-span-2 lg:col-span-1 "
                     valueFormat="currency"
-                    className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-center font-normal gap-3"
+                    className="flex flex-col justify-center font-normal gap-3"
                     index={3}
                   >
                     <TopCardHeader className="flex flex-col-reverse gap-3">

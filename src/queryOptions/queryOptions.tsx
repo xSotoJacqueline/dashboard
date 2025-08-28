@@ -1,5 +1,5 @@
 import { queryOptions, keepPreviousData } from "@tanstack/react-query";
-import { format, subDays } from "date-fns";
+import { endOfMonth, format, subDays, subMonths } from "date-fns";
 
 export type GeneralProps = {
   queryString?: string;
@@ -7,6 +7,8 @@ export type GeneralProps = {
 }
 
 export const queryStringDefault = `?startDate=${format(subDays(new Date(), 27), 'yyyy-MM-dd')}&endDate=${format(new Date(), 'yyyy-MM-dd')}`;
+// 28 dias anteriores
+export const queryString28DaysBefore = `?startDate=${format(subMonths(subDays(new Date(), 27), 1), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 export type totalTransactionsByType ={
     WITHDRAWAL: number;

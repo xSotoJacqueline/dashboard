@@ -2,11 +2,44 @@ import { depositsWithdrawalQuantityQueryOptions, totalAmountFTDQueryOptions, tot
 import { useQueries } from "@tanstack/react-query";
 import { UsersRoundIcon, UserRoundPlus, MedalIcon, GiftIcon } from "lucide-react"
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
+import { useMemo } from "react";
+import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
 
 export default function DespistosTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
   const [firstTimeDepositAverage,totalTransactionsByType, depositsWithdrawalQuantity, totalAmountFTD] = useQueries({
     queries: [totalFTDQueryOptions({queryString}), totalTransactionsByTypeQueryOptions({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), totalAmountFTDQueryOptions({queryString})],
   });  
+
+  const comparisonQueryString = createComparisonQueryString(queryString);
+
+  const [firstTimeDepositAverageComparison, totalTransactionsByTypeComparison, depositsWithdrawalQuantityComparison, totalAmountFTDComparison] = useQueries({
+    queries: [
+      totalFTDQueryOptions({queryString: comparisonQueryString}), 
+      totalTransactionsByTypeQueryOptions({queryString: comparisonQueryString}), 
+      depositsWithdrawalQuantityQueryOptions({queryString: comparisonQueryString}), 
+      totalAmountFTDQueryOptions({queryString: comparisonQueryString})
+    ],
+  }); 
+
+  const depositAmountPercentage = useMemo(() => calculateGrowthPercentage({
+    current: totalTransactionsByType.data?.DEPOSIT || 0,
+    previous: totalTransactionsByTypeComparison.data?.DEPOSIT || 0
+  }), [totalTransactionsByType.data, totalTransactionsByTypeComparison.data]);
+
+  const depositQuantityPercentage = useMemo(() => calculateGrowthPercentage({
+    current: depositsWithdrawalQuantity.data?.DEPOSIT || 0,
+    previous: depositsWithdrawalQuantityComparison.data?.DEPOSIT || 0
+  }), [depositsWithdrawalQuantity.data, depositsWithdrawalQuantityComparison.data]);
+
+  const ftdPercentage = useMemo(() => calculateGrowthPercentage({
+    current: firstTimeDepositAverage.data || 0,
+    previous: firstTimeDepositAverageComparison.data || 0
+  }), [firstTimeDepositAverage.data, firstTimeDepositAverageComparison.data]);
+
+  const ftdAmountPercentage = useMemo(() => calculateGrowthPercentage({
+    current: totalAmountFTD.data || 0,
+    previous: totalAmountFTDComparison.data || 0
+  }), [totalAmountFTD.data, totalAmountFTDComparison.data]);
 
   return (
     <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 ">
@@ -27,7 +60,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="currency" value={totalTransactionsByType.data?.DEPOSIT ? totalTransactionsByType.data.DEPOSIT : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={depositAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -45,7 +78,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={depositsWithdrawalQuantity.data?.DEPOSIT ? depositsWithdrawalQuantity.data.DEPOSIT : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={depositQuantityPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -58,12 +91,12 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
-          <TopCardTitle className="min-h-14">FTD’s</TopCardTitle>
+          <TopCardTitle className="min-h-14">FTD's</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={firstTimeDepositAverage.data ? firstTimeDepositAverage.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={ftdPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -77,12 +110,12 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
-          <TopCardTitle className="min-h-14">Monto total de FTD’s</TopCardTitle>
+          <TopCardTitle className="min-h-14">Monto total de FTD's</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="currency" value={totalAmountFTD.data ? totalAmountFTD.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={ftdAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
     </div>
   );

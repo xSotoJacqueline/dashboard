@@ -79,3 +79,4 @@ export function getTrafficPerDay({queryString = queryStringDefault}: {queryStrin
     refetchOnWindowFocus: false,
   });
 }
+

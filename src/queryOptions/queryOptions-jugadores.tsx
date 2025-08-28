@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { queryStringDefault } from "./queryOptions";
+import { propertyId } from "./queryOptions-metricas";
 
 export type GeneralProps = {
   queryString?: string;
@@ -69,6 +70,26 @@ export function getTotalPlayers({queryString = queryStringDefault}: {queryString
   });
 }
 
+export function getTotalIncome({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getTotalIncome', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/betdata/get-total-income${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total income');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function getTotalHybridPlayers({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['getTotalHybridPlayers', queryString],
@@ -79,6 +100,26 @@ export function getTotalHybridPlayers({queryString = queryStringDefault}: {query
         //check error
         const errorData = await res.json();
         throw new Error(errorData.message || 'Failed to fetch total players');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function getRealTimeActivityUsers() {
+  return queryOptions({
+    queryKey: ['realTimeActivityUsers'],
+    queryFn: async () : Promise<any> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/get-real-time-activity-users?propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        //check error
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch real time activity users');
       }
       const data = await res.json();
       return data;

@@ -54,7 +54,7 @@ export default function CategoriesTab() {
             </CardContent>
             <CardFooter>
               <div className="flex h-fulllg:items-startitems-center justify-between w-full">
-                <span className="text-sm text-gray-600">Ultimos 28 días</span>
+                <span className="text-sm text-muted-foreground">Ultimos 28 días</span>
                 <MotionConfig
                   transition={{
                     layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
@@ -113,7 +113,7 @@ export default function CategoriesTab() {
             </CardContent>
             <CardFooter>
               <div className="flex h-full lg:items-start items-center justify-between w-full">
-                <span className="text-sm text-gray-600">Ultimos 28 días</span>
+                <span className="text-sm text-muted-foreground">Ultimos 28 días</span>
                 <MotionConfig
                   transition={{
                     layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
@@ -172,7 +172,7 @@ export default function CategoriesTab() {
             </CardContent>
             <CardFooter className="">
               <div className="flex h-full items-center justify-between w-full">
-                <span className="text-sm text-gray-600">Ultimos 28 días</span>
+                <span className="text-sm text-muted-foreground">Ultimos 28 días</span>
                 <MotionConfig
                   transition={{
                     layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }

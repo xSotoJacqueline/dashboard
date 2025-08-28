@@ -62,6 +62,8 @@ function RouteComponent() {
               label={metric.label}
               percentageValue={metric.percentageValue}
               valueFormat={metric.valueFormat}
+              // containerClassName={`col-span-1 md:col-span-2 lg:col-span-1`}
+              // className={`col-span-1 md:col-span-2 lg:col-span-1`}
             />
           ))}
         </div>

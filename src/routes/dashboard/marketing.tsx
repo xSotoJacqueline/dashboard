@@ -88,7 +88,7 @@ function RouteComponent() {
           </ScrollArea>
 
            <TabsContent  className="w-full h-full" value="traffic">
-              <TrafficTab trafficSources={trafficSources} />
+              <TrafficTab trafficSources={trafficSources} queryString={queryString} labelTimePeriod={labelTimePeriod} />
             </TabsContent>
             <TabsContent className="w-full h-full" value="campaigns">
               <CampaignTab campaignValues={campaignValues} />

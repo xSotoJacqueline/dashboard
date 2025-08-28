@@ -164,7 +164,7 @@ function TopCardContent({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function TopCardFooter({ className, percentageValue, label, showPercentage = true, ...props }: React.ComponentProps<"div"> & { showPercentage?: boolean, percentageValue: number, label: string }) {
+function TopCardFooter({ className, percentageValue, label, showPercentage = true, ...props }: React.ComponentProps<"div"> & { showPercentage?: boolean, percentageValue?: number, label: string }) {
   const canAnimate = useCanAnimate()
   const { isError } = React.useContext(TopCardContext)
 
@@ -181,7 +181,7 @@ function TopCardFooter({ className, percentageValue, label, showPercentage = tru
       <span className="text-sm text-muted-foreground">{label}</span>
       )}
 
-      {showPercentage && !isError ? (
+      {(showPercentage && !isError && percentageValue) ? (
       <MotionConfig
         transition={{
         layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
