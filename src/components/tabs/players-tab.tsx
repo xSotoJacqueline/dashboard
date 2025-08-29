@@ -1,14 +1,14 @@
 import { BarChartPerDayMarketing } from '../marketing/barChart-campaigns-perday';
 import UsersByCity from '../marketing/users-by-city'
-import { getAverageTimeOnPage, getConversionRate } from '@/queryOptions/queryOptions-marketing'
+import { getAverageTimeOnPage, getConversionRate, getRetentionRate } from '@/queryOptions/queryOptions-marketing'
 import { useQueries } from '@tanstack/react-query'
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { BarChartRegistersPerDayMarketing } from '../marketing/barChart-registers-perday'
 
 
 export default function PlayersTab({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
-    const [averageTimeOnPage, conversionRate] = useQueries({
-      queries: [getAverageTimeOnPage({queryString}), getConversionRate()],
+    const [averageTimeOnPage, conversionRate, retentionRate] = useQueries({
+      queries: [getAverageTimeOnPage({queryString}), getConversionRate(), getRetentionRate({queryString})],
     });
 
   return (
@@ -19,24 +19,24 @@ export default function PlayersTab({queryString,labelTimePeriod}: {queryString?:
     </div>
     <div className='h-full min-h-fit w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
       <TopCard
-        isLoading={averageTimeOnPage.isPending}
-        isError={averageTimeOnPage.isError}
+        isLoading={retentionRate.isPending}
+        isError={retentionRate.isError}
         iconSize={24}
         iconStrokeWidth={2}
-        refetch={averageTimeOnPage.refetch}
+        refetch={retentionRate.refetch}
         index={21}
         valueFormat="currency"
         containerClassName='w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0'
         className="flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
-          <TopCardTitle className="">Retención 7 días</TopCardTitle>
+          <TopCardTitle className="">Retención</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4 flex flex-col'>
-          <TopCardValue className='text-4xl md:text-5xl' valueFormat="percent" value={20}   />
+          <TopCardValue className='text-4xl md:text-5xl' valueFormat="percent" value={retentionRate.data ? retentionRate.data : 0}   />
           {/* <Progress value={70} className='' /> */}
         </TopCardContent>
-        <TopCardFooter label={"No aplica filtro"} showPercentage={false}  />
+        <TopCardFooter label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={false}  />
 
       </TopCard>
 

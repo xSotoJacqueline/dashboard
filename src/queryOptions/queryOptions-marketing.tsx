@@ -121,6 +121,32 @@ export function getRegisteredUsersByDay({queryString = queryStringDefault}: {que
   });
 }
 
+
+type RetentionRate = {
+  retentionRate: number;
+  totalTraffic: number;
+  totalRegistrations: number;
+}
+
+export function getRetentionRate({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['getRetentionRate', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/analytics/calculate-retention-rate${queryString}&propertyId=${propertyId}`,{headers: { 'x-api-key': xApiKey }});
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch retention rate');
+      }
+      const data = await res.json() as RetentionRate;
+      return data.retentionRate;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function getConversionRate() {
   return queryOptions({
     queryKey: ['getConversionRate'],

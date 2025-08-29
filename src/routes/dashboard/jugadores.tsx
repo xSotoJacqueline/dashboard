@@ -14,6 +14,7 @@ import ErrorPage from '@/components/errorPage';
 import type { GeneralSearchWithPagination } from '@/types/search-types';
 import { createQueryString } from '@/lib/utils';
 import PlayersTopCards from '@/components/jugadores/players-top-cards';
+import { useDataTable } from '@/lib/use-data-table';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
   validateSearch: (search: Record<string, unknown>): GeneralSearchWithPagination => {
@@ -32,9 +33,16 @@ export const Route = createFileRoute('/dashboard/jugadores')({
 })
 
 function RouteComponent() {
-
   const search = useSearch({ from: '/dashboard/jugadores' });
+  const { setPage } = useDataTable({
+    columns: [], 
+    data: [],
+    pageCount: 0,
+  });
 
+  const handleTabChange = () => {
+    setPage(1); 
+  };
   const page = search.page || 1;
     
   const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
@@ -43,7 +51,7 @@ function RouteComponent() {
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <PlayersTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
 
-       <Tabs defaultValue="top-users" className="w-full h-full">
+       <Tabs onValueChange={handleTabChange} defaultValue="top-users" className="w-full h-full">
           <ScrollArea className="whitespace-nowrap">
             <TabsList className="w-full">
                 <TabsTrigger value="top-users">Top usuarios</TabsTrigger>

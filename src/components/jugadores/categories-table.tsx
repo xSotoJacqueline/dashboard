@@ -85,7 +85,7 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
   const { table } = useDataTable({
     data: tableData,
     columns,
-    pageCount: ((totalPlayersGroupedByCasino.data?.totalPages ?? 1) < 1800 ? (totalPlayersGroupedByCasino.data?.totalPages ?? 1) : 1800),
+    pageCount: ((totalPlayersGroupedByCasino.data?.totalPages ?? 1) < 1500 ? (totalPlayersGroupedByCasino.data?.totalPages ?? 1) : 1500),
     enableAdvancedFilter: true,
     initialState: {
       sorting: [{ id: 'income', desc: true }],
