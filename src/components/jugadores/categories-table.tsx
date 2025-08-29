@@ -105,7 +105,7 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
   }
 
   if (totalPlayersGroupedByCasino.isError) {
-    return <GeneralErrorContent />;
+    return <GeneralErrorContent className="w-full h-full min-h-[595px]"/>;
   }
 
   return (

@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query";
 import { getTotalPlayersGroupedByCasino } from "@/queryOptions/queryOptions-jugadores";
 import { LoaderCircleIcon } from "lucide-react";
+import { GeneralErrorContent } from "../general-error-content";
 
 const MotionNumberFlow = motion.create(NumberFlow)
 type CategoryTableItem = {
@@ -94,10 +95,13 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
             </CardHeader>
             <CardContent className="w-full h-full flex flex-col gap-0" >
               <div className="flex flex-col gap-4 justify-center items-center h-full w-full">
+
+                {totalPlayersGroupedByCasino.isError ? <GeneralErrorContent className="min-h-0" title={false} /> : (
                   <div className="flex flex-col text-base w-full">
                     <span>Jugadores</span>
                     <Progress value={(casinoData.percentageOfTotalPlayers ?? 0) } className='' />
                   </div>
+                )}
               </div>
             </CardContent>
             <CardFooter>
@@ -163,10 +167,12 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
             </CardHeader>
             <CardContent className="w-full h-full flex flex-col gap-6" >
               <div className="flex flex-col gap-4 justify-center items-center h-full w-full">
+                {totalPlayersGroupedByCasino.isError ? <GeneralErrorContent className="min-h-0" title={false} /> : (
                   <div className="flex flex-col text-base w-full">
                     <span>Jugadores</span>
-                    <Progress value={(sportData.percentageOfTotalPlayers ?? 0) }  className='' />
+                    <Progress value={(casinoData.percentageOfTotalPlayers ?? 0) } className='' />
                   </div>
+                )}
               </div>
             </CardContent>
             <CardFooter>
