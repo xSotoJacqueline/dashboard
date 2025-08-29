@@ -7,12 +7,13 @@ export type GeneralProps = {
 }
 
 export const queryStringDefault = `?startDate=${format(subDays(new Date(), 27), 'yyyy-MM-dd')}&endDate=${format(new Date(), 'yyyy-MM-dd')}`;
+console.log("queryStringDefault:", queryStringDefault)
 // 28 dias anteriores
 export const queryString28DaysBefore = `?startDate=${format(subMonths(subDays(new Date(), 27), 1), 'yyyy-MM-dd')}&endDate=${format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd')}`;
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';
 export type totalTransactionsByType ={
-    WITHDRAWAL: number;
-    DEPOSIT: number;
+    Withdrawal: number;
+    Deposit: number;
 }
 
 export type allDeposits = {
@@ -37,22 +38,23 @@ export type proportionalDepositFTD = {
 };
 
 export type totalDepositsStatusDay = {
-  PAID: {
+  Paid: {
     date: string;
     total: number;
     dailyTotal: number;
   }[],
-  DECLINED: {
+  Failed: {
     date: string;
     total: number;
     dailyTotal: number;
   }[],
-  // Cancelled: {
-  //   date: string;
-  //   total: number;
-  //   dailyTotal: number;
-  // }[]
+  Cancelled: {
+    date: string;
+    total: number;
+    dailyTotal: number;
+  }[]
 }
+
 
 export interface BenchmarkKey {
     page: number;
@@ -205,7 +207,6 @@ export function allDepositsQueryOptions() {
     refetchOnWindowFocus: false,
   });
 }
-
 export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['getTotalDepositsByStatusAndDay', queryString],
@@ -217,19 +218,22 @@ export function getTotalDepositsByStatusAndDayQueryOptions({queryString = queryS
       }
       const data = await res.json();
       // Verificar si data contiene almenos uno de los campos Paid, Failed o Cancelled, con al menos un elemento, si falta alguno agregarlo como un array vacío
-      if (!data.PAID) {
-        data.PAID = [];
+      if (!data.Paid) {
+        data.Paid = [];
       }
-      if (!data.DECLINED) {
-        data.DECLINED = [];
+      if (!data.Failed) {
+        data.Failed = [];
       }
+      if (!data.Cancelled) {
+        data.Cancelled = [];
+      }
+
       return data;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
 }
-
 
 export function FTDMountByDayQueryOptions({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({

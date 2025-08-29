@@ -15,7 +15,7 @@ export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {
     );
 
     if (isPending || isFetching) {
-        return <CardLoading className="w-full h-full animate-pulse col-span-1 md:col-span-4" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+        return <CardLoading className="w-full h-full animate-pulse col-span-1 md:col-span-4" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
     }
 
     if (error) {

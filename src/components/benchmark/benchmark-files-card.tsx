@@ -25,7 +25,7 @@ export default function BenchmarkCardFiles() {
           <CardHeader className="gap-0 space-y-0">
               <CardTitle className="text-xl font-bold flex gap-2">
                   <FileIcon className="text-primary" size={24}/>
-                  <span>Documentos Subidos</span>
+                  <span>Documentos subidos</span>
               </CardTitle>
               <CardDescription className="text-foreground text-base">Gestiona tus archivos de benchmark</CardDescription>
           </CardHeader>
@@ -42,7 +42,7 @@ export default function BenchmarkCardFiles() {
         <CardHeader className="gap-0 space-y-0">
             <CardTitle className="text-xl font-bold flex gap-2">
                 <FileIcon className="text-primary" size={24}/>
-                <span>Documentos Subidos</span>
+                <span>Documentos subidos</span>
             </CardTitle>
             <CardDescription className="text-foreground text-base">Gestiona tus archivos de benchmark</CardDescription>
         </CardHeader>

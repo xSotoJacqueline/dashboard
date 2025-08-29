@@ -22,13 +22,13 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
   }); 
 
   const depositAmountPercentage = useMemo(() => calculateGrowthPercentage({
-    current: totalTransactionsByType.data?.DEPOSIT || 0,
-    previous: totalTransactionsByTypeComparison.data?.DEPOSIT || 0
+    current: totalTransactionsByType.data?.Deposit || 0,
+    previous: totalTransactionsByTypeComparison.data?.Deposit || 0
   }), [totalTransactionsByType.data, totalTransactionsByTypeComparison.data]);
 
   const depositQuantityPercentage = useMemo(() => calculateGrowthPercentage({
-    current: depositsWithdrawalQuantity.data?.DEPOSIT || 0,
-    previous: depositsWithdrawalQuantityComparison.data?.DEPOSIT || 0
+    current: depositsWithdrawalQuantity.data?.Deposit || 0,
+    previous: depositsWithdrawalQuantityComparison.data?.Deposit || 0
   }), [depositsWithdrawalQuantity.data, depositsWithdrawalQuantityComparison.data]);
 
   const ftdPercentage = useMemo(() => calculateGrowthPercentage({
@@ -58,7 +58,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
           <TopCardTitle className="min-h-14">Monto total de depósitos</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue  valueFormat="currency" value={totalTransactionsByType.data?.DEPOSIT ? totalTransactionsByType.data.DEPOSIT : 0}   />
+          <TopCardValue  valueFormat="currency" value={totalTransactionsByType.data?.Deposit ? totalTransactionsByType.data.Deposit : 0}   />
         </TopCardContent>
         <TopCardFooter percentageValue={depositAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>
@@ -76,7 +76,7 @@ export default function DespistosTopCards({queryString, labelTimePeriod}: {query
           <TopCardTitle className="min-h-14">Número de depósitos</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue valueFormat="decimal" value={depositsWithdrawalQuantity.data?.DEPOSIT ? depositsWithdrawalQuantity.data.DEPOSIT : 0}   />
+          <TopCardValue valueFormat="decimal" value={depositsWithdrawalQuantity.data?.Deposit ? depositsWithdrawalQuantity.data.Deposit : 0}   />
         </TopCardContent>
         <TopCardFooter percentageValue={depositQuantityPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
       </TopCard>

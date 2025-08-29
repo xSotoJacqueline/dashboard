@@ -28,6 +28,7 @@ import { useDataTable } from "@/lib/use-data-table"
 import { xApiKey, type BenchmarkKey } from "@/queryOptions/queryOptions"
 import { useSidebar } from "../ui/sidebar"
 import { Pagination } from "../pagination"
+import { GeneralEmptyContent } from "../general-empty-content"
 
 interface DataColumns {
   id: number;
@@ -178,8 +179,8 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
   return (
     <>
     <div className="w-full h-full flex flex-col justify-between">
-      <div className="overflow-hidden">
-        <Table className="h-full min-h-56">
+      <div className="overflow-x-auto overflow-y-hidden">
+        <Table className="h-full">
           <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -218,18 +219,15 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-full text-center"
-                >
-                  Sin Archivos
-                </TableCell>
+ 
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-
+        {table.getRowModel().rows?.length < 1 && (
+          <GeneralEmptyContent className="max-h-[90%] my-2" />
+        )}
       <Pagination
         table={table}
         loading={loading}

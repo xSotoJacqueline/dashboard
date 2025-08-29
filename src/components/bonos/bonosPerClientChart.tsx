@@ -25,7 +25,7 @@ export function BonosPerClientChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por Cliente" description="Número total de bonos utilizados por cliente" Icon={GiftIcon}>
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente" Icon={GiftIcon}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>

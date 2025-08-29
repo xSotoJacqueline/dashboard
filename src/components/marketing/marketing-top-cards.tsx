@@ -42,7 +42,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
-          <TopCardTitle className="min-h-0">Tráfico Total</TopCardTitle>
+          <TopCardTitle className="min-h-0">Tráfico total</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={totalTrafficInfo.data ? totalTrafficInfo.data : 0}   />
@@ -60,7 +60,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
-          <TopCardTitle className="min-h-0">Bonus Rate</TopCardTitle>
+          <TopCardTitle className="min-h-0">Bonus rate</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={totalTrafficInfo.data ? totalTrafficInfo.data : 0}   />
@@ -78,7 +78,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
-          <TopCardTitle className="min-h-0">Jugadores Únicos</TopCardTitle>
+          <TopCardTitle className="min-h-0">Jugadores únicos</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={uniqueUsersInfo.data ? uniqueUsersInfo.data : 0}   />
@@ -96,7 +96,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex gap-3">
-          <TopCardTitle className="min-h-0">Registros Totales</TopCardTitle>
+          <TopCardTitle className="min-h-0">Registros totales</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={totalRegistrationsInfo.data ? totalRegistrationsInfo.data : 0}   />

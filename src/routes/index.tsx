@@ -132,7 +132,7 @@ function RouteComponent() {
                     <span className="text-[44px] md:text-[72px]">Casino</span>
                   </div>
                   <p className="mt-4 text-sm md:text-base text-foreground/60 max-w-2xl mx-auto">
-                    Dashboard para visualizar y gestion de datos.
+                    Dashboard para visualización y gestión de datos.
                   </p>
                   <div className="mt-6 flex w-full justify-center">
                     <Link 
@@ -209,7 +209,8 @@ function RouteComponent() {
                                 <div className="animate-pulse bg-foreground/10 size-5 rounded-sm  border border-foreground/10 "/>
                                 <div className="w-24 h-4 rounded-full bg-foreground/10 border border-foreground/10 animate-pulse" />
                               </div>
-                              <div className="size-6 rounded-full bg-foreground/10 border border-foreground/10" />
+                                                            {/* <div className="size-6 rounded-full bg-foreground/10 border border-foreground/10" /> */}
+
                             </div>
                             <div className="mt-3 h-20 rounded-lg bg-foreground/[0.04] border border-foreground/10 overflow-hidden relative">
                               <div
@@ -225,7 +226,8 @@ function RouteComponent() {
                                 <div className="animate-pulse bg-foreground/10 size-5 rounded-sm  border border-foreground/10 "/>
                                 <div className="w-24 h-4 rounded-full bg-foreground/10 border border-foreground/10 animate-pulse" />
                               </div>
-                              <div className="size-6 rounded-full bg-foreground/10 border border-foreground/10" />
+                                                            {/* <div className="size-6 rounded-full bg-foreground/10 border border-foreground/10" /> */}
+
                             </div>
                             <div className="mt-3 h-20 rounded-lg bg-foreground/[0.04] border border-foreground/10 overflow-hidden relative">
                               <div
@@ -241,7 +243,8 @@ function RouteComponent() {
                                 <div className="animate-pulse bg-foreground/10 size-5 rounded-sm  border border-foreground/10 "/>
                                 <div className="w-24 h-4 rounded-full bg-foreground/10 border border-foreground/10 animate-pulse" />
                               </div>
-                              <div className="size-6 rounded-full bg-foreground/10 border border-foreground/10" />
+                                                            {/* <div className="size-6 rounded-full bg-foreground/10 border border-foreground/10" /> */}
+
                             </div>
                             <div className="mt-3 h-20 rounded-lg bg-foreground/[0.04] border border-foreground/10 overflow-hidden relative">
                               <div

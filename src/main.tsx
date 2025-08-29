@@ -56,7 +56,12 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+      <ClerkProvider
+        appearance={{
+          layout: {
+            unsafe_disableDevelopmentModeWarnings: true,
+          },
+        }} publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
           <NuqsAdapter>
             <App />
           </NuqsAdapter>

@@ -63,7 +63,7 @@ function RouteComponent() {
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full">
       <Card className="w-full h-fit">
         <CardHeader className="gap-0 space-y-0 pb-0">
-          <CardTitle className="text-xl font-bold">Subir Documentos</CardTitle>
+          <CardTitle className="text-xl font-bold">Subir documentos</CardTitle>
           <CardDescription className="text-foreground text-base">Arrastra o selecciona archivos de Excel o haz clic para seleccionar</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col h-full py-0">

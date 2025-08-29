@@ -134,7 +134,7 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
       description="Comparación entre Casino y Sport"
       Icon={ChartColumnDecreasingIcon}
     >
-      <div className="w-full h-full flex flex-col justify-between">
+      <div className="w-full h-full flex flex-col overflow-x-auto justify-between">
         <Table>
           <TableHeader className=" ">
             <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-base" : "text-xs lg:text-base"}`}>

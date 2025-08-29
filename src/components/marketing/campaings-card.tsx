@@ -17,9 +17,9 @@ export default function CampaignsCard() {
 
   const campaignQueries = useQuery(getCampaigns());
   return (
-      <Card className={`w-full h-fit pb-0 border-0`}>
+      <Card className={`w-full h-fit border-0`}>
           <CardHeader>
-              <CardTitle className="text-xl font-semibold">Rendimiento de Campañas</CardTitle>
+              <CardTitle className="text-xl font-semibold">Rendimiento de campañas</CardTitle>
               <CardDescription className="text-sm text-muted-foreground">
                 Resultados detallados de tus campañas activas
               </CardDescription>

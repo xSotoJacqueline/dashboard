@@ -20,28 +20,28 @@ export function DepositsChart({queryString}: {queryString?: string}) {
     const chartGetData = useCallback(({allDeposits}: {allDeposits: totalDepositsStatusDay}) => {
         const dateMap = new Map();
 
-        allDeposits.PAID.forEach(item => {
+        allDeposits.Paid.forEach(item => {
             if (!dateMap.has(item.date)) {
-                dateMap.set(item.date, { time: item.date, PAID: 0, failed: 0});
+                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
             }
-            dateMap.get(item.date).PAID = item.dailyTotal;
+            dateMap.get(item.date).paid = item.dailyTotal;
         });
         
         // Process failed deposits
-        allDeposits.DECLINED.forEach(item => {
+        allDeposits.Failed.forEach(item => {
             if (!dateMap.has(item.date)) {
-                dateMap.set(item.date, { time: item.date, PAID: 0, DECLINED: 0 });
+                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
             }
-            dateMap.get(item.date).DECLINED = item.dailyTotal;
+            dateMap.get(item.date).failed = item.dailyTotal;
         });
         
         // Process cancelled deposits
-        // allDeposits.Cancelled.forEach(item => {
-        //     if (!dateMap.has(item.date)) {
-        //         dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
-        //     }
-        //     dateMap.get(item.date).cancelled = item.dailyTotal;
-        // });
+        allDeposits.Cancelled.forEach(item => {
+            if (!dateMap.has(item.date)) {
+                dateMap.set(item.date, { time: item.date, paid: 0, failed: 0, cancelled: 0 });
+            }
+            dateMap.get(item.date).cancelled = item.dailyTotal;
+        });
         
         return Array.from(dateMap.values()).sort((a, b) => 
             new Date(a.time).getTime() - new Date(b.time).getTime()
@@ -53,7 +53,7 @@ export function DepositsChart({queryString}: {queryString?: string}) {
         if (!allDeposits) return [];
         return chartGetData({allDeposits});
     }, [allDeposits, chartGetData]);
-    console.log('Chart Data:', chartData);
+
     // Memoizar la configuración del gráfico
     const chartConfig = useMemo(() => ({
         paid: {
@@ -82,8 +82,8 @@ export function DepositsChart({queryString}: {queryString?: string}) {
     // Memoizar las líneas del gráfico
     const chartLines = useMemo(() => [
         <Line
-            key="Pagado"
-            dataKey="PAID"
+            key="paid"
+            dataKey="paid"
             type="natural"
             stroke="var(--primary)"
             strokeWidth={2}
@@ -93,23 +93,23 @@ export function DepositsChart({queryString}: {queryString?: string}) {
             activeDot={{ r: 6 }}
         />,
         <Line
-            key="Declinado"
-            dataKey="DECLINED"
+            key="failed"
+            dataKey="failed"
             type="natural"
             stroke="#FF0000"
             strokeWidth={2}
             dot={{ stroke: "#FF0000" }}
             activeDot={{ r: 6 }}
         />,
-        // <Line
-        //     key="cancelled"
-        //     dataKey="cancelled"
-        //     type="natural"
-        //     stroke="#FFA500"
-        //     strokeWidth={2}
-        //     dot={{ stroke: "#FFA500" }}
-        //     activeDot={{ r: 6 }}
-        // />
+        <Line
+            key="cancelled"
+            dataKey="cancelled"
+            type="natural"
+            stroke="#FFA500"
+            strokeWidth={2}
+            dot={{ stroke: "#FFA500" }}
+            activeDot={{ r: 6 }}
+        />
     ], []);
 
     if (isPending) {
@@ -118,22 +118,22 @@ export function DepositsChart({queryString}: {queryString?: string}) {
 
     if (error) {
         return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
                 <GeneralErrorContent refetch={refetch} />
             </FullSizeCard>
         )
     }
 
-    if (!allDeposits || (allDeposits.DECLINED.length === 0 && allDeposits.DECLINED.length === 0)) {
+    if (!allDeposits || (allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0)) {
         return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
+            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
                 <GeneralEmptyContent />
             </FullSizeCard>
         )
     }
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por fecha">
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 0, left: 20 }}>
@@ -148,13 +148,12 @@ export function DepositsChart({queryString}: {queryString?: string}) {
                         <YAxis
                             type="number"
                             minTickGap={10}
-                            tickFormatter={(value) => `${value.toLocaleString()}`}
                         />
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
-                                    className="w-[200px]"
-                                    indicator="dot"
+                                    className="w-[150px]"
+                                    indicator="line"
                                     nameKey="total"
                                     labelFormatter={tooltipLabelFormatter}
                                 />

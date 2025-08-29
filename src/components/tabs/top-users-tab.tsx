@@ -121,12 +121,16 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
                     colSpan={columns.length}
                     className="h-full text-center"
                   >
-                    <GeneralEmptyContent />
+                    {/* <GeneralEmptyContent /> */}
                   </TableCell>
                 </TableRow>
               )}
           </TableBody>
         </Table>
+
+        {table.getRowModel().rows?.length < 1 && (
+          <GeneralEmptyContent className="max-h-[90%]" />
+        )}
         {/* <Pagination
           table={table}
           loading={losersData.isFetching}

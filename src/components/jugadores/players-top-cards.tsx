@@ -49,7 +49,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         className="col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
-          <TopCardTitle className="min-h-14">Total de Usuarios</TopCardTitle>
+          <TopCardTitle className="min-h-14">Total de usuarios</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={totalPlayers.data ? totalPlayers.data : 0}   />
@@ -87,7 +87,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         className="col-span-1 flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
-          <TopCardTitle className="min-h-14">Ingresos Totales</TopCardTitle>
+          <TopCardTitle className="min-h-14">Ingresos totales</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={totalIncome.data ? totalIncome.data : 0}   />
