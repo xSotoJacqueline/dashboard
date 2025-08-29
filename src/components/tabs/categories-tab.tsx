@@ -12,6 +12,7 @@ import NumberFlow, { useCanAnimate } from '@number-flow/react'
 import { cn } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query";
 import { getTotalPlayersGroupedByCasino } from "@/queryOptions/queryOptions-jugadores";
+import { LoaderCircleIcon } from "lucide-react";
 
 const MotionNumberFlow = motion.create(NumberFlow)
 type CategoryTableItem = {
@@ -66,7 +67,13 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
                     layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
                   }}
                 >
-                  <motion.span
+
+                  {totalPlayersGroupedByCasino.isPending ?
+                   <LoaderCircleIcon 
+                      size={24}
+                      strokeWidth={2} 
+                      className="text-primary mt-1 animate-spin"
+                    /> :   <motion.span
                     className={cn(
                     'inline-flex gap-1 bg-zinc-200 dark:bg-primary-foliatti-dark text-foreground items-center px-[0.3em] text-lg transition-colors duration-300'
                     )}
@@ -81,7 +88,8 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
                       layout
                       layoutRoot
                     />
-                  </motion.span>
+                  </motion.span>}
+                
                 </MotionConfig>
             </CardHeader>
             <CardContent className="w-full h-full flex flex-col gap-0" >
@@ -104,7 +112,7 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
                       value={casinoData.totalIncome}
                       locales="en-US"
                         className={cn(
-                              casinoData.totalIncome > 0 ? 'text-green-foliatti' : 'text-red-500',
+                              casinoData.totalIncome >= 0 ? 'text-green-foliatti' : 'text-red-500',
                               'font-medium text-sm'
                               )}
                       format={{ style: 'currency', maximumFractionDigits: 2, currency: 'USD' }}
@@ -125,6 +133,14 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
                     layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
                   }}
                 >
+
+                     {totalPlayersGroupedByCasino.isPending ?
+                   <LoaderCircleIcon 
+                      size={24}
+                      strokeWidth={2} 
+                      className="text-primary mt-1 animate-spin"
+                    /> :  
+                  
                   <motion.span
                     className={cn(
                     'inline-flex gap-1 bg-zinc-200 dark:bg-primary-foliatti-dark items-center px-[0.3em] text-lg text-foreground transition-colors duration-300'
@@ -140,7 +156,9 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
                       layout
                       layoutRoot
                     />
-                  </motion.span>
+                  </motion.span>}
+                  
+                  
                 </MotionConfig>
             </CardHeader>
             <CardContent className="w-full h-full flex flex-col gap-6" >
@@ -163,7 +181,7 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
                       value={sportData.totalIncome}
                       locales="en-US"
                         className={cn(
-                              sportData.totalIncome > 0 ? 'text-green-foliatti' : 'text-red-500',
+                              sportData.totalIncome >= 0 ? 'text-green-foliatti' : 'text-red-500',
                               'font-medium text-sm'
                               )}
                       format={{ style: 'currency', maximumFractionDigits: 2, currency: 'USD' }}
