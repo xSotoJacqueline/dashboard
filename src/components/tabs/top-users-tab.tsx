@@ -74,7 +74,7 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
   });
   
   if (losersData.isLoading) {
-    return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
   }
 
   if (losersData.isError){
@@ -127,7 +127,6 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
               )}
           </TableBody>
         </Table>
-
         {table.getRowModel().rows?.length < 1 && (
           <GeneralEmptyContent className="max-h-[90%]" />
         )}

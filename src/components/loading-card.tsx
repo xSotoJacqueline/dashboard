@@ -13,7 +13,7 @@ type CardLoadingProps = {
 export default function CardLoading({ className, icon, description, title, children }: CardLoadingProps) {
 
   return (
-    <Card className={cn("w-full h-full min-h-fit bg-foreground/10 p-0", className)}>
+    <Card className={cn("w-full h-full min-h-fit bg-foreground/10 p-0 overflow-hidden", className)}>
         <div className="flex flex-col h-full min-h-fit py-7 sm:py-[30px] md:py-6   lg:py-[30px]" >
             <CardHeader className="flex flex-col items-start gap-0 pb-6">
                 <CardTitle className="text-xl font-bold flex gap-2 items-center">

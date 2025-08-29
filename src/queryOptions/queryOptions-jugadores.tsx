@@ -138,6 +138,66 @@ export function getTotalPlayersGroupedByCasino({queryString = queryStringDefault
   });
 }
 
+type GamePlayerInfo = {
+  playerId: string;
+  userName: string;
+  income: number;
+};
+
+type GameCategory = {
+  totalPlayers: number;
+  totalIncome: number;
+  averageIncomePerPlayer: number;
+  paginatedPlayers: GamePlayerInfo[];
+};
+
+type CasinoGames = {
+  SLOT_GAME: GameCategory;
+  BACCARAT: GameCategory;
+  BLACKJACK: GameCategory;
+  CASINO_HOLDEM: GameCategory;
+  CRASH: GameCategory;
+  KENO: GameCategory;
+  LOTTERY: GameCategory;
+  OTHERS: GameCategory;
+  POKER: GameCategory;
+  RNG_TABLE_GAME: GameCategory;
+  ROULETTE: GameCategory;
+  SCRATCH_CARD: GameCategory;
+  SHOW_PROGRAM: GameCategory;
+};
+
+type SportGames = {
+  SINGLES: GameCategory;
+  MULTIPLES: GameCategory;
+  "Not Applicable": GameCategory;
+  SYSTEMS: GameCategory;
+};
+
+export type TotalBetsGroupedByGameAndCasinoData = {
+  Casino: CasinoGames;
+  Sport: SportGames;
+};
+
+export function getTotalBetsGroupedByGameAndCasino({queryString = queryStringDefault}: {queryString?: string}) { 
+  return queryOptions({
+    queryKey: ['getTotalBetsGroupedByGameAndCasino', queryString],
+    queryFn: async () : Promise<TotalBetsGroupedByGameAndCasinoData> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/betdata/get-total-bets-grouped-by-game-and-casino${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch total bets grouped by game and casino');
+      }
+      const data = await res.json();
+      return data;
+    },
+    placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 export function getTotalPlayers({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({
     queryKey: ['getTotalPlayers', queryString],
