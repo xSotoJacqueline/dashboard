@@ -18,15 +18,15 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 import { useDataTable } from "@/lib/use-data-table"
-import { Pagination } from "../pagination";
 import { ChartColumnDecreasingIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 
 type CategoryTableItem = {
-  playerId: string;
-  userName: string;
-  income: number;
   category: 'Casino' | 'Sport';
+  totalPlayers: number;
+  totalIncome: number;
+  averageIncomePerPlayer: number;
+  percentageOfTotalPlayers: number;
 }
 
 export function CategoriesTable({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
@@ -34,36 +34,34 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
 
   const totalPlayersGroupedByCasino = useQuery(getTotalPlayersGroupedByCasino({queryString, pageParam}));
 
-  // Combinar los datos de ambas categorías en una sola tabla
   const tableData: CategoryTableItem[] = totalPlayersGroupedByCasino.data ? [
-    ...totalPlayersGroupedByCasino.data.data.Casino.paginatedPlayers.map(player => ({
-      ...player,
-      category: 'Casino' as const
-    })),
-    ...totalPlayersGroupedByCasino.data.data.Sport.paginatedPlayers.map(player => ({
-      ...player,
-      category: 'Sport' as const
-    }))
+    {
+      category: 'Casino',
+      totalPlayers: totalPlayersGroupedByCasino.data.data.Casino.totalPlayers,
+      totalIncome: totalPlayersGroupedByCasino.data.data.Casino.totalIncome,
+      averageIncomePerPlayer: totalPlayersGroupedByCasino.data.data.Casino.averageIncomePerPlayer,
+      percentageOfTotalPlayers: totalPlayersGroupedByCasino.data.data.Casino.percentageOfTotalPlayers,
+    },
+    {
+      category: 'Sport',
+      totalPlayers: totalPlayersGroupedByCasino.data.data.Sport.totalPlayers,
+      totalIncome: totalPlayersGroupedByCasino.data.data.Sport.totalIncome,
+      averageIncomePerPlayer: totalPlayersGroupedByCasino.data.data.Sport.averageIncomePerPlayer,
+      percentageOfTotalPlayers: totalPlayersGroupedByCasino.data.data.Sport.percentageOfTotalPlayers,
+    }
   ] : [];
 
   const columns: ColumnDef<CategoryTableItem>[] = [
-    {
-      accessorKey: "userName",
-      header: "Usuario",
-      cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("userName")}</div>
-      ),
-    },
     {
       accessorKey: "category",
       header: "Categoría",
       cell: ({ row }) => {
         const category = row.getValue("category") as string;
         return (
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <Badge 
               variant={category === "Casino" ? "default" : "outline"}
-              className="w-fit"
+              className="w-fit font-medium"
             >
               {category}
             </Badge>
@@ -72,11 +70,29 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
       },
     },
     {
-      accessorKey: "income",
-      header: "Ingresos",
+      accessorKey: "totalPlayers",
+      header: "Total Jugadores",
       cell: ({ row }) => (
         <div className="text-center font-medium">
-          {(row.getValue("income") as number).toLocaleString()}
+          {(row.getValue("totalPlayers") as number).toLocaleString()}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "percentageOfTotalPlayers",
+      header: "% del Total",
+      cell: ({ row }) => (
+        <div className="text-center">
+          {(row.getValue("percentageOfTotalPlayers") as number).toFixed(1)}%
+        </div>
+      ),
+    },
+    {
+      accessorKey: "averageIncomePerPlayer",
+      header: "Promedio por Jugador",
+      cell: ({ row }) => (
+        <div className="text-right font-medium">
+          ${(row.getValue("averageIncomePerPlayer") as number).toLocaleString()}
         </div>
       ),
     },
@@ -85,23 +101,22 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
   const { table } = useDataTable({
     data: tableData,
     columns,
-    pageCount: ((totalPlayersGroupedByCasino.data?.totalPages ?? 1) < 1800 ? (totalPlayersGroupedByCasino.data?.totalPages ?? 1) : 1800),
-    enableAdvancedFilter: true,
+    pageCount: 1,
+    enableAdvancedFilter: false,
     initialState: {
-      sorting: [{ id: 'income', desc: true }],
-      columnPinning: { right: ['actions'] },
+      sorting: [{ id: 'totalPlayers', desc: true }],
     },
     defaultColumn: {
       columns,
       enableColumnFilter: false,
     },
-    getRowId: (originalRow) => `${originalRow.playerId}-${originalRow.category}`,
+    getRowId: (originalRow) => originalRow.category,
     shallow: false,
     clearOnDefault: true,
   });
 
   if (totalPlayersGroupedByCasino.isLoading) {
-    return <CardLoading className="w-full h-full animate-pulse min-h-[595px]" icon={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+    return <CardLoading className="w-full h-full animate-pulse " icon={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
   }
 
   if (totalPlayersGroupedByCasino.isError) {
@@ -111,24 +126,24 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
   return (
     <GeneralCard 
       cardContentClassName="h-full" 
-      classNameContainer="min-h-[595px]" 
+      classNameContainer="h-full" 
       isLoading={totalPlayersGroupedByCasino.isFetching} 
       identifier="chart4" 
-      title="Jugadores por Categoría" 
-      description="Distribución de jugadores entre Casino y Sport"
+      title="Estadísticas por Categoría" 
+      description="Comparación entre Casino y Sport"
       Icon={ChartColumnDecreasingIcon}
     >
-      <div className="w-full h-full flex flex-col justify-between">
+      <div className="w-full h-full flex flex-col overflow-x-auto justify-between">
         <Table>
           <TableHeader className=" ">
-            <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-lg" : "text-xs lg:text-lg"}`}>
+            <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-base" : "text-xs lg:text-base"}`}>
               {table.getHeaderGroups().map((headerGroup) =>
                 headerGroup.headers.map((header) => (
                   <TableHead 
                     key={header.id}
                     className={`h-fit px-0 ${
-                      header.column.id === 'userName' ? 'text-left' : 
-                      header.column.id === 'playerId' ? 'text-right' : 
+                      header.column.id === 'category' ? 'text-left' : 
+                      header.column.id === 'averageIncomePerPlayer' ? 'text-right' : 
                       'text-center'
                     }`}
                   >
@@ -155,8 +170,8 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
                   {row.getVisibleCells().map((cell) => (
                     <TableCell 
                       className={`${
-                        cell.column.id === 'userName' ? 'text-start px-0' : 
-                        cell.column.id === 'playerId' ? 'text-right px-0' : 
+                        cell.column.id === 'category' ? 'text-start px-0' : 
+                        cell.column.id === 'averageIncomePerPlayer' ? 'text-right px-0' : 
                         'text-center px-0'
                       }`} 
                       key={cell.id}
@@ -170,24 +185,19 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
                 </TableRow>
               ))
             ) : (
-              <TableRow className="h-[400px]">
+              <TableRow className="">
                 <TableCell
                 colSpan={columns.length}
-                className="h-full min-h-[400px] text-center align-middle p-0"
+                className="h-full text-center align-middle p-0"
                 >
-                <div className="flex items-center justify-center h-full w-full min-h-[400px]">
-                  <GeneralEmptyContent className="h-full min-h-[380px]" />
+                <div className="flex items-center justify-center h-full w-full">
+                  <GeneralEmptyContent className="h-full" />
                 </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
-
-        <Pagination
-          table={table}
-          loading={totalPlayersGroupedByCasino.isFetching}
-        />
       </div>
     </GeneralCard>
   )

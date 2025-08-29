@@ -62,7 +62,7 @@ function RouteComponent() {
             <SpecificGamesTab />
           </TabsContent>
           <TabsContent className="w-full h-full" value="categories">
-            <CategoriesTab />
+            <CategoriesTab  queryString={queryString} pageParam={page} labelTimePeriod={labelTimePeriod}/>
           </TabsContent>
           <TabsContent className="w-full h-full" value="hybrid-players">
             <HybridUsersTab queryString={queryString} pageParam={page} />
