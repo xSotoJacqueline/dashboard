@@ -38,6 +38,69 @@ export function uniqueUsers({queryString = queryStringDefault}: {queryString?: s
   });
 }
 
+type AcquisitionRateResponse = {
+  rate: number;
+  acquiredUsers: number;
+};
+
+
+export function getAverageIncome() {
+  return queryOptions({
+    queryKey: ['averageIncome'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/average-income`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch average income');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+//adquisición de usuarios
+export function getAcquisitionRate({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['acquisitionRate', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/acquisition-rate${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch acquisition rate');
+      }
+      const data = await res.json() as AcquisitionRateResponse;
+      return data.acquiredUsers;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+type DropoutRateResponse ={
+  totalUsers: number;
+  activeUsersAnalytics: number;
+  dropoutRateDB: number;
+  activeRateAnalytics: number;
+}
+export function getDropoutRate({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['dropoutRate', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/dropout-comparison${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch dropout rate');
+      }
+      const data = await res.json() as DropoutRateResponse;
+      return data.dropoutRateDB;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
 
 type usersByCityTabProps = {
     city: string;
@@ -65,3 +128,45 @@ export function usersByCityQueryOptions() {
   });
 }
 
+
+type CustomerLifetimeValueResponse = {
+  total_lifetime_value: number;
+  average_lifetime_value: number;
+}
+export function getCustomerLifetimeValue() {
+  return queryOptions({
+    queryKey: ['customerLifetimeValue'],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/customer-lifetime-value`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch customer lifetime value');
+      }
+      const data = await res.json() as CustomerLifetimeValueResponse;
+      return data.total_lifetime_value;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+type RetentionRateResponse = {
+  rateDB: number;
+  rateAnalytics: number;
+}
+export function getRetentionRate({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['retentionRate', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/retation-rate${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch retention rate');
+      }
+      const data = await res.json() as RetentionRateResponse;
+      return data.rateDB;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}

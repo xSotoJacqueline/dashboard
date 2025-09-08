@@ -177,7 +177,7 @@ function TopCardFooter({ className, percentageValue, label, showPercentage = tru
       {...props}
     >
       {label && (
-      <span className="text-sm text-muted-foreground">{label}</span>
+      <span className="text-sm text-muted-foreground line-clamp-1">{label}</span>
       )}
 
       {(showPercentage && !isError && percentageValue) ? (

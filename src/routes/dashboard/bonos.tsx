@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { UsersRoundIcon, UserRoundPlus, MedalIcon, GiftIcon } from "lucide-react"
 import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 import { RankingBonosTable } from '@/components/bonos/ranking-table'
-import { BonosPerClientChart } from '@/components/bonos/bonosPerClientChart'
+import { BonusPerClientChart } from '@/components/bonos/bonosPerClientChart'
 import { EarningsClientBonosChart } from '@/components/bonos/earningsClientBonosChart'
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
@@ -65,7 +65,7 @@ function RouteComponent() {
       </section>
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
         <RankingBonosTable />
-        <BonosPerClientChart />
+        <BonusPerClientChart />
       </div>
       
       <div className="w-full h-full max-h-full flex gap-6">

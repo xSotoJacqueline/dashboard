@@ -100,7 +100,12 @@ export function NavCalendar() {
                     onClick={() => {  
                       setApplyFilters(!applyFilters)
                       if (dateSelected) {
-                        setDates({ from: dateSelected.from, to: dateSelected.to });
+                        // Si solo hay un día seleccionado, iguala from y to
+                        const { from, to } = dateSelected;
+                        setDates({ 
+                          from, 
+                          to: to ?? from // Si to es undefined, iguala a from
+                        });
                       } else {
                         setDates({ from: null, to: null });
                       }

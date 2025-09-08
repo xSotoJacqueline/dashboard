@@ -1,66 +1,84 @@
 import { FullSizeCard } from "../fullSize-Card";
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart";
-import { GiftIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import CardLoading from "../loading-card";
+import { GeneralEmptyContent } from "../general-empty-content";
+import { GeneralErrorContent } from "../general-error-content";
+import { getCountAllUsersByBonus } from "@/queryOptions/queryOptions-bonos";
 
-export function BonosPerClientChart() {
-    const chartData = [
-        { month: "January", desktop: 186, mobile: 80 },
-        { month: "February", desktop: 305, mobile: 200 },
-        { month: "March", desktop: 237, mobile: 120 },
-        { month: "April", desktop: 73, mobile: 190 },
-        { month: "May", desktop: 209, mobile: 130 },
-        { month: "June", desktop: 214, mobile: 140 },
-    ]
+export function BonusPerClientChart() {
+
+    const allUsersByBonus = useQuery(
+      getCountAllUsersByBonus()
+    );
+
+    if (allUsersByBonus.isPending || allUsersByBonus.isFetching) {
+        return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+
+    }
+
+    if (allUsersByBonus.error) {
+        return (    
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente
+">
+            <GeneralErrorContent refetch={allUsersByBonus.refetch} />
+        </FullSizeCard>
+        )
+    }
+
+    if (!allUsersByBonus.data || allUsersByBonus.data.length === 0) {
+        return (    
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
+            <GeneralEmptyContent />
+        </FullSizeCard>
+        )
+    }
 
     const chartConfig = {
-        desktop: {
-        label: "Desktop",
-        color: "var(--chart-1)",
-        },
-        mobile: {
-        label: "Mobile",
-        color: "var(--chart-2)",
+        ftdMount: {
+        label: "Código de bono",
+        color: "var(--green-foliatti)",
         },
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente" Icon={GiftIcon}>
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente
+">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
-                    <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
+                    <BarChart
+                    accessibilityLayer
+                    data={allUsersByBonus.data}
+                    margin={{
+                    left: 0
+                    }}
+                >
                     <CartesianGrid vertical={false} />
-                    <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
+                        <XAxis
+                        dataKey="bonus_code"
+                        tickLine={false}
+                        axisLine={false}
+                        tickMargin={8}
+                        />
+                    <YAxis
+                    type="number"
+                    domain={[0, "dataMax"]}
+                    tickFormatter={(value) => `${value}`}
+                    tickMargin={2}
                     />
-                    <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="line" />}
-                    />
-                    <Line
-                    dataKey="desktop"
-                    type="natural"
-                    stroke="var(--color-lunes)"
-                    strokeWidth={2}
-                    dot={{
-                        stroke: "var(--color-green-foliatti)",
-                    }}
-                    activeDot={{
-                        r: 6,
-                    }}
-                    >
-                    <LabelList
-                        position="top"
-                        offset={12}
-                        className="fill-foreground"
-                        fontSize={12}
-                    />
-                    </Line>
-                    </LineChart>
+                        <ChartTooltip
+                            content={
+                                <ChartTooltipContent
+                                className="w-[150px]"
+                                nameKey="total_users"
+                                label={"Usuarios por"}
+                        
+                                />
+                            }
+                        />
+                    <Bar dataKey="total_users" fill="var(--color-primary-foliatti)" radius={8} />
+                </BarChart>
                 </ChartContainer>
             </div>
         </FullSizeCard>
