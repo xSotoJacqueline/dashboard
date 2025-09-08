@@ -9,8 +9,9 @@ import { TopCard, TopCardHeader, TopCardTitle, TopCardContent, TopCardValue, Top
 import { Label } from '@/components/ui/label'
 import { useQueries } from '@tanstack/react-query'
 import { averageAmountWithdrawalsPerDay, averageWithdrawalsPerDay, mostCommonWithdrawHour, percentageDepositsByDayOfWeek, TopPlayersMostWithdrawals, totalWithdrawals } from '@/queryOptions/queryOptions-retiros'
-import { createQueryString } from '@/lib/utils'
+import { calculateGrowthPercentage, createComparisonQueryString, createQueryString } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import { useMemo } from 'react'
 
 export const Route = createFileRoute('/dashboard/retiros')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -33,10 +34,31 @@ function RouteComponent() {
     
   const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
 
+  const comparisonQueryString = createComparisonQueryString(queryString);
+
   const [averageAmountWithdrawals, averageWithdrawals, totalWithdrawalsData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
     queries: [averageAmountWithdrawalsPerDay({queryString}), averageWithdrawalsPerDay({queryString}), totalWithdrawals({queryString}), TopPlayersMostWithdrawals({queryString}), mostCommonWithdrawHour({queryString}), percentageDepositsByDayOfWeek({queryString})],
   });
-  
+
+  const [averageAmountWithdrawalsComparison, averageWithdrawalsComparison, totalWithdrawalsDataComparison] = useQueries({
+    queries: [averageAmountWithdrawalsPerDay({queryString: comparisonQueryString}), averageWithdrawalsPerDay({queryString: comparisonQueryString}), totalWithdrawals({queryString: comparisonQueryString})],
+  });
+
+    const averageWithdrawalsPercentage = useMemo(() => calculateGrowthPercentage({
+      current: averageWithdrawals.data || 0,
+      previous: averageWithdrawalsComparison.data || 0
+    }), [averageWithdrawals.data, averageWithdrawalsComparison.data]);
+
+    const averageAmountWithdrawalsPercentage = useMemo(() => calculateGrowthPercentage({
+      current: averageAmountWithdrawals.data || 0,
+      previous: averageAmountWithdrawalsComparison.data || 0
+    }), [averageAmountWithdrawals.data, averageAmountWithdrawalsComparison.data]);
+
+    const totalWithdrawalsPercentage = useMemo(() => calculateGrowthPercentage({
+      current: totalWithdrawalsData.data || 0,
+      previous: totalWithdrawalsDataComparison.data || 0
+    }), [totalWithdrawalsData.data, totalWithdrawalsDataComparison.data]);
+
   return (
     <div className="w-full rounded-lg text-black h-full">
         <div className="flex flex-col h-full xl:flex-row justify-between gap-6 ">
@@ -60,7 +82,7 @@ function RouteComponent() {
                       <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Transacciones completadas</Label>
                     </TopCardContent>
-                    <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                    <TopCardFooter percentageValue={totalWithdrawalsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
                   </TopCard>
 
                   <TopCard
@@ -79,7 +101,7 @@ function RouteComponent() {
                       <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                     </TopCardContent>
-                    <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                    <TopCardFooter percentageValue={averageWithdrawalsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
                   </TopCard>
 
                   <TopCard
@@ -100,7 +122,7 @@ function RouteComponent() {
                       <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                     </TopCardContent>
-                    <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                    <TopCardFooter percentageValue={averageAmountWithdrawalsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
                   </TopCard>
               </div>
             </section>
