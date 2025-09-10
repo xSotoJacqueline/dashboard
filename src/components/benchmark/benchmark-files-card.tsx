@@ -8,11 +8,10 @@ import CardLoading from "../loading-card";
 import { GeneralErrorContent } from "../general-error-content";
 
 
-export default function CardFiles() {
+export default function BenchmarkCardFiles() {
 
   const search = useSearch({ from: '/dashboard/benchmark' });
   const page = search.page || 1;
-  console.log("search", search.page);
 
   const {data, isPending, error, refetch} = useQuery(benchmarkKeysQueryOptions({pageParam: page}));
 
@@ -26,7 +25,7 @@ export default function CardFiles() {
           <CardHeader className="gap-0 space-y-0">
               <CardTitle className="text-xl font-bold flex gap-2">
                   <FileIcon className="text-primary" size={24}/>
-                  <span>Documentos Subidos</span>
+                  <span>Documentos subidos</span>
               </CardTitle>
               <CardDescription className="text-foreground text-base">Gestiona tus archivos de benchmark</CardDescription>
           </CardHeader>
@@ -43,7 +42,7 @@ export default function CardFiles() {
         <CardHeader className="gap-0 space-y-0">
             <CardTitle className="text-xl font-bold flex gap-2">
                 <FileIcon className="text-primary" size={24}/>
-                <span>Documentos Subidos</span>
+                <span>Documentos subidos</span>
             </CardTitle>
             <CardDescription className="text-foreground text-base">Gestiona tus archivos de benchmark</CardDescription>
         </CardHeader>

@@ -16,6 +16,7 @@ import {
 import { Separator } from '@radix-ui/react-separator';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import JSZip from 'jszip';
+import { xApiKey } from '@/queryOptions/queryOptions';
 
 interface DataTablePaginationProps<TData extends { id: number, url: string, name: string }>
   extends React.ComponentProps<'div'> {
@@ -123,6 +124,7 @@ export function TableActionBar<TData extends { id: number, url: string, name: st
         body: JSON.stringify({ ids }),
         headers: {
           'Content-Type': 'application/json',
+          'x-api-key': xApiKey
         },
       });
       if (!res.ok) {

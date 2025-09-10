@@ -1,13 +1,10 @@
-import { GeneralCardTopCard, type GeneralCardTopCardProps } from "@/components/general-top-card"
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-  CardDescription,
-} from "@/components/ui/card"
-import { ScrollArea } from "../ui/scroll-area";
-import { Badge } from "../ui/badge";
+import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
+import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
+import CampaignsCard from "./campaings-card";
+import { getAverageClicksCTRPromedio, getConversiones, getTotalReachAlcance } from "@/queryOptions/queryOptions-marketing";
+import { useQueries } from "@tanstack/react-query";
+import { Circle, UserRoundPlus } from "lucide-react";
+import { useMemo } from "react";
 
 export type CampaignPerformanceProps = {
     title: string;
@@ -17,68 +14,97 @@ export type CampaignPerformanceProps = {
     conversiones: number;
   }
 
-export default function CampaignTab({campaignValues, campaignPerformanceValues}: {campaignValues: GeneralCardTopCardProps[], campaignPerformanceValues: CampaignPerformanceProps[]}) {
+export default function CampaignTab({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
 
+    const [CTR, conversiones, alcance] = useQueries({
+      queries: [getAverageClicksCTRPromedio({queryString}), getConversiones(), getTotalReachAlcance({queryString})],
+    });
 
+      const comparisonQueryString = createComparisonQueryString(queryString);
+    
+      const [CTRComparison, alcanceComparison] = useQueries({
+        queries: [
+          getAverageClicksCTRPromedio({queryString: comparisonQueryString}),
+          getTotalReachAlcance({queryString: comparisonQueryString})
+        ],
+      });
+
+      const CTRPercentage = useMemo(() => calculateGrowthPercentage({
+        current: CTR.data || 0,
+        previous: CTRComparison.data || 0
+      }), [CTR.data, CTRComparison.data]);
+
+      const alcancePercentage = useMemo(() => calculateGrowthPercentage({
+        current: alcance.data || 0,
+        previous: alcanceComparison.data || 0
+      }), [alcance.data, alcanceComparison.data]);
 
   return (
     <div className="w-full h-full flex flex-col  gap-6">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {campaignValues.map((metric, index) => (
-          <GeneralCardTopCard
-            key={index}
-            value={metric.value}
-            title={metric.title}
-            Icon={metric.Icon}
-            label={metric.label}
-            percentageValue={metric.percentageValue}
-            valueFormat={metric.valueFormat}
-            className="items-center justify-center"
-          />
-        ))}
+
+            <TopCard
+              isLoading={CTR.isPending}
+              isError={CTR.isError}
+              iconSize={24}
+              iconStrokeWidth={2}
+              Icon={Circle}
+              index={6}
+              valueFormat="currency"
+              className="flex flex-col gap-6 justify-center items-center"
+            >
+              <TopCardHeader className="flex ">
+                <TopCardTitle className="">CTR Promedio</TopCardTitle>
+              </TopCardHeader>
+              <TopCardContent className='gap-6'>
+                <TopCardValue className="text-4xl md:text-5xl"  valueFormat="percent" value={CTR.data || 0}/>
+              </TopCardContent>
+              <TopCardFooter percentageValue={CTRPercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={true}  />
+            </TopCard>
+
+            <TopCard
+              isLoading={alcance.isPending}
+              isError={alcance.isError}
+              iconSize={24}
+              iconStrokeWidth={2}
+              Icon={UserRoundPlus}
+              index={8}
+              valueFormat="currency"
+              className="flex flex-col gap-6 justify-center items-center"
+            >
+              <TopCardHeader className="flex ">
+                <TopCardTitle className="">Alcance Total</TopCardTitle>
+              </TopCardHeader>
+              <TopCardContent className='gap-6'>
+                <TopCardValue className="text-4xl md:text-5xl"  valueFormat="decimal" value={alcance.data || 0}/>
+              </TopCardContent>
+              <TopCardFooter percentageValue={alcancePercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={true}  />
+            </TopCard>
+
+
+            <TopCard
+              isLoading={conversiones.isPending}
+              isError={conversiones.isError}
+              iconSize={24}
+              iconStrokeWidth={2}
+              Icon={UserRoundPlus}
+              index={7}
+              containerClassName="col-span-1 md:col-span-2 lg:col-span-1"
+              className="flex flex-col gap-6 justify-center items-center "
+            >
+              <TopCardHeader className="flex ">
+                <TopCardTitle className="">Conversiones</TopCardTitle>
+              </TopCardHeader>
+              <TopCardContent className='gap-6'>
+                <TopCardValue className="text-4xl md:text-5xl"  valueFormat="decimal" value={conversiones.data || 0}/>
+              </TopCardContent>
+              <TopCardFooter label={"No aplica filtro"} showPercentage={false}  />
+            </TopCard>
+
+
+
       </div>
-
-      <Card className={`w-full h-fit pb-0 border-0`}>
-          <CardHeader>
-              <CardTitle className="text-xl font-semibold">Rendimiento de Campañas</CardTitle>
-              <CardDescription className="text-sm text-muted-foreground">
-                Resultados detallados de tus campañas activas
-              </CardDescription>
-          </CardHeader>
-          <CardContent  className=" @container-normal relative sm:pt-0 h-fit" >
-            <ScrollArea className="w-full h-[500px] ">
-              <div className="h-fit w-full flex flex-col gap-4">
-                {campaignPerformanceValues.map((campaign, index) => (
-                  <Card key={index} className="flex flex-row items-center justify-between px-3 py-3">
-                    <div className="flex flex-col items-start">
-                      <h3 className="text-lg font-bold">{campaign.title}</h3>
-                      <Badge className="rounded-full px-4 bg-foreground" >
-                        {campaign.status === "active" ? "Activo" : campaign.status === "inactive" ? "Inactivo" : "Finalizado"}
-                      </Badge>
-                    </div>
-                    <div className="flex gap-6 text-sm text-foreground">
-                      <div className="flex flex-col items-center">
-                        <span className="font-bold text-base">{(campaign.alcance * 100).toFixed(2).toLocaleString().slice(0, 3)}</span>
-                        <span className="font-semibold -mt-2">Alcance</span>
-                      </div>
-                      <div className="flex flex-col items-center ">
-                        <span className="font-bold text-base">{(campaign.ctr * 100).toFixed(2).toLocaleString().slice(0, 3)}%</span>
-                        <span className="font-semibold -mt-2">CTR</span>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <span className="font-bold text-base">{(campaign.conversiones * 100).toFixed(2).toLocaleString().slice(0, 3)}</span>
-                        <span className="font-semibold -mt-2">Conversiones</span>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-
-            </ScrollArea>
-            
-          </CardContent>
-
-      </Card>
+      <CampaignsCard />
     </div>
   );
 }

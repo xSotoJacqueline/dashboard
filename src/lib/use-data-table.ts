@@ -32,7 +32,7 @@ import type { ExtendedColumnSort } from '../types/data-table';
 import { getSortingStateParser } from './parsers';
 import { useDebouncedCallback } from './use-debounced-callback';
 
-const PAGE_KEY = 'page';
+export const PAGE_KEY = 'page';
 const PER_PAGE_KEY = 'perPage';
 const SORT_KEY = 'sort';
 const ARRAY_SEPARATOR = ',';
@@ -272,5 +272,5 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
     manualFiltering: true,
   });
 
-  return { table, shallow, debounceMs, throttleMs };
+  return { table, shallow, debounceMs, throttleMs, setPage };
 }

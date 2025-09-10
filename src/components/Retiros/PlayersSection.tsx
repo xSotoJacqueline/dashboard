@@ -8,90 +8,55 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { buttonVariants } from "../ui/button"
+import { type TopPlayersMostWithdrawalsData } from '@/queryOptions/queryOptions-retiros'
+import { GeneralErrorContent } from "../general-error-content"
+import { GeneralEmptyContent } from "../general-empty-content"
+import CardLoading from "../loading-card"
 
-const playersData = [
-  {
-    id: 1,
-    name: "Jugador 1",
-    details: {
-      montoPromedio: "$100",
-      numeroRetiros: "5",
-      periodo: "Últimos 28 días",
-    },
-  },
-  { id: 2, name: "Jugador 2",
-    details: {
-      montoPromedio: "$100",
-      numeroRetiros: "5",
-      periodo: "Últimos 28 días",
-    },
-   },
-  { id: 3, name: "Jugador 3",
-    details: {
-      montoPromedio: "$100",
-      numeroRetiros: "5",
-      periodo: "Últimos 28 días",
-    },
-   },
-  { id: 4, name: "Jugador 4",
-    details: {
-      montoPromedio: "$100",
-      numeroRetiros: "5",
-      periodo: "Últimos 28 días",
-    },
-   },
-  { id: 5, name: "Jugador 5",
-    details: {
-      montoPromedio: "$100",
-      numeroRetiros: "5",
-      periodo: "Últimos 28 días",
-    },
-   },
-]
+export function PlayersSection({ topPlayersMostWithdrawalsData, isPending, isError }: { topPlayersMostWithdrawalsData?: TopPlayersMostWithdrawalsData, isPending: boolean, isError: boolean }) {
+  if (isPending) return <CardLoading className="animate-pulse min-h-[352px]" children={<p/>} />
+  if (isError) return <GeneralErrorContent className="" />
 
-export function PlayersSection() {
   return (
     <Card className="border-0 h-full min-h-fit">
       <CardHeader className="flex gap-2">
           <User className="w-5 h-5" />
           <CardTitle className="font-semibold">Jugadores que más retiran</CardTitle>
       </CardHeader>
-      <CardContent className=" h-full">
+      <CardContent className={` h-full ${topPlayersMostWithdrawalsData && topPlayersMostWithdrawalsData.length > 0 ? 'p-2' : ''}`}>
 
         <div className="flex flex-col gap-4 h-full">
-          {playersData.map((player) => (
+          {(topPlayersMostWithdrawalsData && topPlayersMostWithdrawalsData.length > 0)  ? topPlayersMostWithdrawalsData.map((player, index) => (
             <Accordion
-              key={player.id}
+              key={player.playerId}
               type="multiple"
               className="w-full"
             >
-              <AccordionItem value={`item-${player.id}`}>
+              <AccordionItem value={`item-${player.playerId}`}>
                 <AccordionTrigger className={buttonVariants({ variant: "ghost", className: "w-full text-left flex items-center justify-between cursor-pointer"})}>
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">
-                      {player.id}
+                      {index + 1}
                     </div>
-                    <span className="text-sm font-medium">{player.name}</span>
+                    <span className="text-sm font-medium">{player.userName}</span>
                   </div>
                 </AccordionTrigger>
-                {player.details && (
-                  <AccordionContent className="px-9 py-2 space-y-2">
+                  <AccordionContent className="py-2 px-4 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-foreground">Retiro promedio:</span>
-                      <span className="font-medium">{player.details.montoPromedio}</span>
+                      <span className="text-foreground">Retiros:</span>
+                      <span className="font-medium">{player.withdrawCount}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-foreground">Retiros/Mes:</span>
-                      <span className="font-medium">{player.details.numeroRetiros}</span>
+                      <span className="text-foreground">Total retirado:</span>
+                      <span className="font-medium">${player.totalAmount.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between items-center text-sm">
+                    {/* <div className="flex justify-between items-center text-sm">
                       <span className="text-foreground">{player.details.periodo}</span>
-                    </div>
+                    </div> */}
                   </AccordionContent>
-                )}
               </AccordionItem>
             </Accordion>
-          ))}
+          )) : <GeneralEmptyContent />}
         </div>
       </CardContent>
     </Card>

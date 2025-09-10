@@ -8,31 +8,84 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { GeneralCard } from "../general-card";
+import { topLoosers, type TopLoosersData } from "@/queryOptions/queryOptions-jugadores";
+import { useQuery } from "@tanstack/react-query";
+import { GeneralEmptyContent } from "../general-empty-content";
+import { GeneralErrorContent } from "../general-error-content";
+import CardLoading from "../loading-card";
+import {
+  type ColumnDef,
+  flexRender,
+} from "@tanstack/react-table"
+import { useDataTable } from "@/lib/use-data-table"
+import { useContextQuery } from '@/contexts/query-context';
 
-type LosersTableItem = {
-  username: string;
-  earnings: number;
-  gamesPlayed: number;
-  winRate: number;
-}
+// import { Pagination } from "../pagination";
 
-const losersData: LosersTableItem[] = [
-  { username: "Jugador1", earnings: -150, gamesPlayed: 20, winRate: 0.15 },
-  { username: "Jugador2", earnings: -200, gamesPlayed: 25, winRate: 0.12 },
-  { username: "Jugador3", earnings: -180, gamesPlayed: 30, winRate: 0.10 },
-  { username: "Jugador4", earnings: -220, gamesPlayed: 22, winRate: 0.08 },
-  { username: "Jugador5", earnings: -170, gamesPlayed: 18, winRate: 0.14 },
-  { username: "Jugador6", earnings: -160, gamesPlayed: 28, winRate: 0.11 },
-  { username: "Jugador7", earnings: -190, gamesPlayed: 24, winRate: 0.09 },
-  { username: "Jugador8", earnings: -210, gamesPlayed: 26, winRate: 0.07 },
-  { username: "Jugador9", earnings: -230, gamesPlayed: 21, winRate: 0.06 },
-  { username: "Jugador10", earnings: -240, gamesPlayed: 19, winRate: 0.05 },
-]
+export default function TopUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
+  const { labelTimePeriod } = useContextQuery();
 
-export default function TopUsersTab() {
+  const losersData = useQuery(topLoosers({queryString, pageParam}));
   
+  const columns: ColumnDef<TopLoosersData>[] = [
+  {
+    accessorKey: "user_name",
+    header: "Usuarios",
+    cell: ({ row }) => (
+    <div className="">{row.getValue("user_name")}</div>
+    ),
+  },
+  {
+    accessorKey: "real_money_wins",
+    header: "Ganancias",
+    cell: ({ row }) => (
+    <div className="">{(row.getValue("real_money_wins") as number).toLocaleString()}</div>
+    ),
+  },
+  {
+    accessorKey: "number_of_bets",
+    header: "Juegos",
+    cell: ({ row }) => (
+    <div className="">{(row.getValue("number_of_bets") as number).toLocaleString()}</div>
+    ),
+  },
+  {
+    accessorKey: "real_money_bets",
+    header: "Apostado",
+    cell: ({ row }) => (
+    <div className="">{(row.getValue("real_money_bets") as number).toLocaleString()}</div>
+    ),
+  },
+  ]
+
+  const { table } = useDataTable({
+    data: losersData.data || [],
+    columns,
+    pageCount: 10,
+    enableAdvancedFilter: true,
+    initialState: {
+      sorting: [{ id: 'id', desc: true }],
+      columnPinning: { right: ['actions'] },
+    },
+    defaultColumn: {
+      columns,
+      enableColumnFilter: false,
+    },
+    getRowId: (originalRow) => originalRow.id.toString(),
+    shallow: false,
+    clearOnDefault: true,
+  });
+  
+  if (losersData.isLoading) {
+    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+  }
+
+  if (losersData.isError){
+    return <GeneralErrorContent />;
+  }
+
   return (
-    <GeneralCard identifier="chart1" title="Días en los que más retiros se realizan" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard labelTimePeriod={labelTimePeriod} isLoading={losersData.isFetching} identifier="chart1" title="Top perdedores" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
       <div className="w-full h-full">
         <Table>
           <TableHeader className=" ">
@@ -40,22 +93,50 @@ export default function TopUsersTab() {
               <TableHead className="text-left h-fit px-0">Usuarios</TableHead>
               <TableHead className="text-center h-fit px-0">Ganancias</TableHead>
               <TableHead className="text-center h-fit px-0">Juegos</TableHead>
-              <TableHead className="text-right h-fit px-0">Win Rate</TableHead>
+              <TableHead className="text-right h-fit px-0">Apostado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="border-0">
             <TableRow className="border-0 text-primary h-2" />
 
-            {losersData.map((loser) => (
-              <TableRow className="border-0 text-primary" key={loser.username}>
-                <TableCell className="text-start px-0">{loser.username}</TableCell>
-                <TableCell className="text-center px-0">{loser.earnings}</TableCell>
-                <TableCell className="text-center px-0">{loser.gamesPlayed}</TableCell>
-                <TableCell className="text-right px-0">{loser.winRate}</TableCell>
-              </TableRow>
-            ))}
+
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    className="border-0 text-primary"
+                    key={row.id}
+                  >
+                    
+                    {row.getVisibleCells().map((cell) => (
+
+                      <TableCell className={`${cell.column.id === 'user_name' ? 'text-start px-0' : cell.column.id === 'real_money_wins' ? 'text-center px-0' :  cell.column.id === 'number_of_bets' ? 'text-center px-0' : 'text-right px-0'}`} key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-full text-center"
+                  >
+                    {/* <GeneralEmptyContent /> */}
+                  </TableCell>
+                </TableRow>
+              )}
           </TableBody>
         </Table>
+        {table.getRowModel().rows?.length < 1 && (
+          <GeneralEmptyContent className="max-h-[90%]" />
+        )}
+        {/* <Pagination
+          table={table}
+          loading={losersData.isFetching}
+        /> */}
       </div>
     </GeneralCard>
   )

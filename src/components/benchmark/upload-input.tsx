@@ -115,9 +115,12 @@ export default function CsvUploadInput({
     });
   };
 
-  const removeFile = (id: string) => {
-    removeCsvFile(id); 
-  };
+const removeFile = (id: string) => {
+  removeCsvFile(id);
+  if (fileInputRef.current) {
+    fileInputRef.current.value = '';
+  }
+};
 
   const clearAll = () => {
     clearCsvFiles();
@@ -253,7 +256,12 @@ export default function CsvUploadInput({
               <Button
                 variant="outline"
                 disabled={isSubmitting || csvFiles.length === 0}
-                onClick={() => onMultipleUpload?.(csvFiles.map(f => f.file))}
+                onClick={() => {
+                    onMultipleUpload?.(csvFiles.map(f => f.file))
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = '';
+                    }
+                }}
                 size={'default'}
                 className="text-foreground bg-transparent p-3"
               >

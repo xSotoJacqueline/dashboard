@@ -6,11 +6,14 @@ import { FTDQuantityByDayQueryOptions } from "@/queryOptions/queryOptions";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
+import { useContextQuery } from "@/contexts/query-context";
 
-export function FirstFTDChart() {
-
+export function FirstFTDChart({queryString}: {queryString?: string}) {
+    const { labelTimePeriod } = useContextQuery();
     const { data: ftdMount, error, isPending, isFetching, refetch } = useQuery(
-        FTDQuantityByDayQueryOptions(),
+        FTDQuantityByDayQueryOptions({queryString}),
     );
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
@@ -19,15 +22,15 @@ export function FirstFTDChart() {
 
     if (error) {
         return (    
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
     }
 
-    if (!ftdMount) {
+    if (!ftdMount || ftdMount.length === 0) {
         return (    
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -41,7 +44,7 @@ export function FirstFTDChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart
@@ -58,11 +61,7 @@ export function FirstFTDChart() {
                         axisLine={false}
                         tickMargin={8}
                         tickFormatter={(value) => {
-                            const date = new Date(value)
-                            return date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            })
+                            return format(parseISO(value), 'd MMM yyyy', {locale: es})                            
                         }}
                         />
                     <YAxis
@@ -71,16 +70,19 @@ export function FirstFTDChart() {
                     tickFormatter={(value) => `${value}`}
                     tickMargin={2}
                     />
-                    <ChartTooltip
-                    content={
-                        <ChartTooltipContent
-                        className="w-[150px]"
-                        nameKey="total"
+                        <ChartTooltip
+                        content={
+                            <ChartTooltipContent
+                            className="w-[150px]"
+                            nameKey="total"
+                            labelFormatter={(value) => {
+                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
+                            }}
+                            />
+                        }
                         />
-                    }
-                    />
-                    <Bar dataKey="total" fill="var(--color-primary-foliatti)" radius={8} />
-                                </BarChart>
+                    <Bar  isAnimationActive={false} dataKey="total" fill="var(--color-primary-foliatti)" radius={8} />
+                </BarChart>
                 </ChartContainer>
             </div>
         </FullSizeCard>

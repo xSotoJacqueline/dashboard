@@ -1,11 +1,9 @@
 import { HybridUsersDetailsTable } from "../jugadores/hybrid-users-details-table";
-import { HybridUsersTable } from "../jugadores/hybrid-users-table";
 
-export default function HybridUsersTab() {
+export default function HybridUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
   return (
     <div className="w-full h-full flex flex-col gap-6">
-      <HybridUsersTable />
-      <HybridUsersDetailsTable />
+      <HybridUsersDetailsTable queryString={queryString} pageParam={pageParam}/>
     </div>
   );
 }

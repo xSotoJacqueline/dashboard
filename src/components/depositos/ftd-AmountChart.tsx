@@ -6,30 +6,33 @@ import { FTDMountByDayQueryOptions } from "@/queryOptions/queryOptions";
 import CardLoading from "../loading-card";
 import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
+import { useContextQuery } from "@/contexts/query-context";
 
-export function FTDAmountChart() {
-    const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions());
+export function FTDAmountChart({queryString}: {queryString?: string}) {
+    const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions({queryString}));
+    const { labelTimePeriod } = useContextQuery();
 
         if (isPending || isFetching) {
             return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-    
         }
     
         if (error) {
            return (    
-            <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+            <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
                 <GeneralErrorContent refetch={refetch} />
             </FullSizeCard>
             )
         }
-    
-        if (!ftdMount) {
-            return (    
-            <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
-                <GeneralEmptyContent />
-            </FullSizeCard>
-            )
-        }
+
+    if (!ftdMount || ftdMount.length === 0) {
+        return (    
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+            <GeneralEmptyContent />
+        </FullSizeCard>
+        )
+    }
 
     const chartConfig = {
         desktop: {
@@ -43,14 +46,14 @@ export function FTDAmountChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart
                         accessibilityLayer
                         data={ftdMount}
                         margin={{
-                        left: 0
+                        left: 20
                         }}
                     >
                         <CartesianGrid vertical={false} />
@@ -61,17 +64,13 @@ export function FTDAmountChart() {
                         tickMargin={2}
                         minTickGap={5}
                         tickFormatter={(value) => {
-                            const date = new Date(value)
-                            return date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            })
+                             return format(parseISO(value), 'd MMM yyyy', {locale: es})   
                         }}
                         />
                         <YAxis
                         type="number"
                         domain={[0, "dataMax"]}
-                        tickFormatter={(value) => `${value}`}
+                        tickFormatter={(value) => `${value.toLocaleString()}`}
                         />
                         <ChartTooltip
                         content={
@@ -79,16 +78,12 @@ export function FTDAmountChart() {
                             className="w-[150px]"
                             nameKey="total"
                             labelFormatter={(value) => {
-                                return new Date(value).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                })
+                                return format(parseISO(value), 'd MMM yyyy', {locale: es}) 
                             }}
                             />
                         }
                         />
-                        <Bar dataKey="total" fill="var(--color-green-foliatti)" radius={8} />
+                        <Bar isAnimationActive={false} dataKey="total" fill="var(--color-green-foliatti)" radius={8} />
                     </BarChart>
                 </ChartContainer>
             </div>

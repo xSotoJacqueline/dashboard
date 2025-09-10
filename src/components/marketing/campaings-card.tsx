@@ -1,0 +1,64 @@
+import { GeneralEmptyContent } from "../general-empty-content";
+import CardLoading from "../loading-card";
+import { GeneralErrorContent } from "../general-error-content";
+import {
+  Card,
+
+} from "@/components/ui/card"
+import { ScrollArea } from "../ui/scroll-area";
+import { Badge } from "../ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { getCampaigns } from "@/queryOptions/queryOptions-marketing";
+import { GeneralCard } from "../general-card";
+
+export default function CampaignsCard() {
+  const campaignQueries = useQuery(getCampaigns());
+  return (
+
+    <GeneralCard labelTimePeriod={"No aplica filtros"} classNameContainer="" className=" min-h-fit h-fit" cardContentClassName="h-fit" identifier={"Rendimiento de campañas"} title={"Rendimiento de campañas"} description={"Resultados detallados de tus campañas activas"} >
+          {campaignQueries.isLoading ? (
+            <CardLoading className="h-[500px] animate-pulse" children={ <div />} />
+          ) : campaignQueries.isError ? (
+            <GeneralErrorContent className="h-[500px]" />
+          ) : (
+            <ScrollArea className="w-full h-[500px] ">
+              <div className="h-fit w-full flex flex-col gap-4">
+                {
+                campaignQueries.data ? campaignQueries.data.map((campaign, index) => (
+                  <Card key={index} className="flex flex-row items-center justify-between px-3 py-3">
+                    <div className="flex flex-col items-start">
+                      <h3 className="text-lg font-bold">{campaign.campaign}</h3>
+                      <div className="flex gap-2">
+                        <Badge className="rounded-full px-4 bg-foreground text-background" >
+                          {campaign.source}
+                        </Badge>
+                        <Badge className="rounded-full px-4 bg-foreground text-background" >
+                          {campaign.medium}
+                        </Badge>
+                      </div>
+          
+                    </div>
+                    <div className="flex gap-6 text-sm text-foreground">
+                      <div className="flex flex-col items-center">
+                        <span className="font-bold text-base">{campaign.activeUsers.toLocaleString()}</span>
+                        <span className="font-semibold -mt-2">Alcance</span>
+                      </div>
+                      {/* <div className="flex flex-col items-center ">
+                        <span className="font-bold text-base">{(campaign.ctr * 100).toFixed(2).toLocaleString().slice(0, 3)}%</span>
+                        <span className="font-semibold -mt-2">CTR</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <span className="font-bold text-base">{(campaign.conversiones * 100).toFixed(2).toLocaleString().slice(0, 3)}</span>
+                        <span className="font-semibold -mt-2">Conversiones</span>
+                      </div> */}
+                    </div>
+                  </Card>
+                )) : 
+                (<GeneralEmptyContent />)}
+              </div>
+            </ScrollArea>
+          )}  
+    </GeneralCard>
+
+  );
+}

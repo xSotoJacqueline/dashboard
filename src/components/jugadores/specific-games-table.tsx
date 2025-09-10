@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
@@ -8,7 +7,20 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useSidebar } from "../ui/sidebar";
-type SpecificGamesTable = {
+import { useQuery } from "@tanstack/react-query";
+import { getTotalBetsGroupedByGameAndCasino } from "@/queryOptions/queryOptions-jugadores";
+import { GeneralEmptyContent } from "../general-empty-content";
+import { GeneralErrorContent } from "../general-error-content";
+import CardLoading from "../loading-card";
+import {
+  type ColumnDef,
+  flexRender,
+} from "@tanstack/react-table"
+import { useDataTable } from "@/lib/use-data-table"
+import { GeneralCard } from "../general-card";
+import { useContextQuery } from "@/contexts/query-context";
+
+type GameTableData = {
   game: string;
   category: string;
   players: number;
@@ -16,60 +28,176 @@ type SpecificGamesTable = {
   averagePerUser: number;
 }
 
-const specificGamesData: SpecificGamesTable[] = [
-  { game: "Juego1", category: "Aventura", players: 150,
-    earnings: 5000, averagePerUser: 33.33 },
-  { game: "Juego2", category: "Estrategia", players: 200,
-    earnings: 8000, averagePerUser: 40 },
-  { game: "Juego3", category: "Acción", players: 180,
-    earnings: 6000, averagePerUser: 33.33 },
-  { game: "Juego4", category: "Puzzle", players: 120,
-    earnings: 3000, averagePerUser: 25 },
-  { game: "Juego5", category: "Simulación", players: 160,
-    earnings: 7000, averagePerUser: 43.75 },
-  { game: "Juego6", category: "RPG", players: 140,
-    earnings: 5500, averagePerUser: 39.29 },
-  { game: "Juego7", category: "Deportes", players: 130,
-    earnings: 4000, averagePerUser: 30.77 },
-  { game: "Juego8", category: "Carreras", players: 170,
-    earnings: 7500, averagePerUser: 44.12 },
-  { game: "Juego9", category: "Lucha", players: 110,
-    earnings: 3000, averagePerUser: 27.27 },
-]
-
 export function SpecificGamesTable() {
   const { state } = useSidebar();
+  const { labelTimePeriod, queryString } = useContextQuery();
+  const gamesData = useQuery(getTotalBetsGroupedByGameAndCasino({queryString}));
+
+  // Transformar los datos de la API al formato de la tabla
+
+
+
+  const columns: ColumnDef<GameTableData>[] = [
+    {
+      accessorKey: "game",
+      header: "Juego",
+      cell: ({ row }) => (
+        <div className="">{row.getValue("game")}</div>
+      ),
+    },
+    {
+      accessorKey: "category",
+      header: "Categorías",
+      cell: ({ row }) => (
+        <div className="min-w-[100px]">{row.getValue("category")}</div>
+      ),
+    },
+    {
+      accessorKey: "players",
+      header: "Jugadores",
+      cell: ({ row }) => (
+        <div className="min-w-[100px]">{(row.getValue("players") as number).toLocaleString()}</div>
+      ),
+    },
+    {
+      accessorKey: "earnings",
+      header: "Ingresos",
+      cell: ({ row }) => (
+        <div className="">${(row.getValue("earnings") as number).toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+      ),
+    },
+    {
+      accessorKey: "averagePerUser",
+      header: "Promedio por Usuario",
+      cell: ({ row }) => (
+        <div className="min-w-[150px]">${(row.getValue("averagePerUser") as number).toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+      ),
+    },
+  ];
+    const transformedData: GameTableData[] = [];
+  if (gamesData.data && 
+      gamesData.data !== null && 
+      typeof gamesData.data === 'object' &&
+      gamesData.data.Casino && 
+      gamesData.data.Sport) {
+    
+    // Check if Casino has data before processing
+    if (Object.keys(gamesData.data.Casino).length > 0) {
+      Object.entries(gamesData.data.Casino).forEach(([gameType, gameData]) => {
+        transformedData.push({
+          game: gameType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
+          category: 'Casino',
+          players: gameData.totalPlayers,
+          earnings: gameData.totalIncome,
+          averagePerUser: gameData.averageIncomePerPlayer,
+        });
+      });
+    }
+
+    // Check if Sport has data before processing
+    if (Object.keys(gamesData.data.Sport).length > 0) {
+      Object.entries(gamesData.data.Sport).forEach(([gameType, gameData]) => {
+        transformedData.push({
+          game: gameType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
+          category: 'Sport',
+          players: gameData.totalPlayers,
+          earnings: gameData.totalIncome,
+          averagePerUser: gameData.averageIncomePerPlayer,
+        });
+      });
+    }
+  }
+
+  const { table } = useDataTable({
+    data: transformedData || [],
+    columns,
+    pageCount: 10,
+    enableAdvancedFilter: true,
+    initialState: {
+      sorting: [{ id: 'earnings', desc: true }],
+    },
+    defaultColumn: {
+      columns,
+      enableColumnFilter: false,
+    },
+    getRowId: (originalRow, index) => `${originalRow.game}-${index}`,
+    shallow: false,
+    clearOnDefault: true,
+  });
+  if (gamesData.isLoading) {
+    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+  }
+
+  if (!gamesData.data || 
+      gamesData.data === null || 
+      typeof gamesData.data !== 'object' ||
+      !gamesData.data.Casino || 
+      !gamesData.data.Sport ||
+      (Object.keys(gamesData.data.Casino).length === 0 && Object.keys(gamesData.data.Sport).length === 0)) {
+    return <GeneralEmptyContent className="min-h-[35cqh]" />;
+  }
+
+
+  if (gamesData.isError) {
+    return <GeneralErrorContent />;
+  }
+
   return (
-    <Card className="h-full w-full flex border-0 gap-2">
-        <CardContent className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
-           <div className="w-full h-full">
-              <Table>
-                <TableHeader className=" ">
-                  <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-lg" : "text-xs lg:text-lg"}`}>
-                    <TableHead className="text-left h-fit px-0">Juego</TableHead>
-                    <TableHead className="text-center h-fit px-0">Categorias</TableHead>
-                    <TableHead className="text-center h-fit px-0">Jugadores</TableHead>
-                    <TableHead className="text-center h-fit px-0">Ingresos</TableHead>
-                    <TableHead className="text-right h-fit px-0">Promedio por Usuario</TableHead>
+        <GeneralCard labelTimePeriod={labelTimePeriod} classNameContainer="overflow-hidden" className=" min-h-fit" cardContentClassName="h-full" identifier={""} title={""}>
+    
+          <div className="w-full h-full overflow-x-auto">
+          <Table>
+            <TableHeader className=" ">
+              <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-lg" : "text-xs lg:text-lg"}`}>
+                <TableHead className="text-left h-fit px-0">Juego</TableHead>
+                <TableHead className="text-center h-fit px-0">Categorías</TableHead>
+                <TableHead className="text-center h-fit px-0">Jugadores</TableHead>
+                <TableHead className="text-center h-fit px-0">Ingresos</TableHead>
+                <TableHead className="text-right h-fit px-0">Promedio por Usuario</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="border-0">
+              <TableRow className="border-0 text-primary h-2" />
+
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow className="border-0 text-primary" key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell 
+                        className={`${
+                          cell.column.id === 'game' ? 'text-start px-0' : 
+                          cell.column.id === 'category' ? 'text-center px-0' :  
+                          cell.column.id === 'players' ? 'text-center px-0' : 
+                          cell.column.id === 'earnings' ? 'text-center px-0' : 
+                          'text-right px-0'
+                        }`} 
+                        key={cell.id}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
                   </TableRow>
-                </TableHeader>
-                <TableBody className="border-0">
-                  <TableRow className="border-0 text-primary h-2" />
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-full text-center"
+                  >
+                    {/* <GeneralEmptyContent /> */}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+          {table.getRowModel().rows?.length < 1 && (
+            <GeneralEmptyContent className="max-h-[90%]" />
+          )}
+        </div>
+    </GeneralCard>
 
-                  {specificGamesData.map((games) => (
-                    <TableRow className="border-0 text-primary" key={games.game}>
-                      <TableCell className="text-start px-0">{games.game}</TableCell>
-                      <TableCell className="text-center px-0">{games.category}</TableCell>
-                      <TableCell className="text-center px-0">{games.players}</TableCell>
-                      <TableCell className="text-center px-0">{games.earnings}</TableCell>
-                      <TableCell className="text-right px-0">{games.averagePerUser}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-          </div>
-        </CardContent>
-
-    </Card>
   )
 }
