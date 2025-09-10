@@ -82,7 +82,6 @@ export function FullSizeCard({ labelTimePeriod, title, description, Icon, childr
                             className="game-title flex items-center gap-2"
                           >
                             {Icon && <Icon className="w-5 h-5 text-primary" />}
-
                             <CardTitle className="text-base md:text-xl font-bold">{title}</CardTitle>
                           </div>
                         {fullScreenButton && (
