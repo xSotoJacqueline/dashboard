@@ -52,6 +52,7 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
           </div>
         );
       },
+      enableColumnFilter: true,
     },
     {
       accessorKey: "playerData",
@@ -136,6 +137,7 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
           </div>
         );
       },
+      enableColumnFilter: true,
     },
     {
       accessorKey: "playerData",
@@ -148,6 +150,7 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
           </div>
         );
       },
+      enableColumnFilter: true,
     },
     {
       accessorKey: "playerData",
@@ -166,6 +169,7 @@ const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ?
           </div>
         );
       },
+      enableColumnFilter: true,
     },
   ];
 

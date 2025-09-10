@@ -21,6 +21,95 @@ export function totalTraffic() {
   });
 }
 
+type TotalBetsResponse = {
+  bet_free_bets: number;
+  bet_free_spins: number;
+  wagering_bonus_bet: number;
+  total: number;
+}
+
+export function getTotalRedemptions({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['totalRedemptions', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/redencion/suma-redenciones${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch total redemptions');
+      }
+      const data = await res.json() as TotalBetsResponse;
+      return data.total;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+type TotalConvertedAmountResponse = {
+  sumResult: {  
+    Free_Spin_Wins: number;
+    Free_Bet_Net_Wins_Local: number;
+    Wagering_Bonus_Wins_Local: number;
+  };
+  diagnosticInfo: {
+    recordsInRange: number;
+    queryRange: {
+      startDate: string;
+      endDate: string;
+    };
+    availableDataRange: {
+      minDate: string;
+      maxDate: string;
+    };
+  };
+  totalSum: number;
+}
+
+export function getTotalConvertedAmount({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['totalConvertedAmount', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/convertido/suma-por-fecha${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch total converted amount');
+      }
+      const data = await res.json() as TotalConvertedAmountResponse;
+      return data.totalSum;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+type TotalGiftedAmountResponse = {
+  _sum:{
+    ggr_wagering_bonus: number;
+    ggr_free_spins_local: number;
+    ggr_freebets_local: number;
+  }
+  total: number;
+}
+
+export function getTotalGiftedAmount({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['totalGiftedAmount', queryString],
+    queryFn: async () : Promise<number> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/monto/suma-monto-regalado${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch total gifted amount');
+      }
+      const data = await res.json() as TotalGiftedAmountResponse;
+      return data.total;
+    }
+    ,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+
 type countAllUsersByBonusResponse = {
   bonus_code: string;
   total_users: number;

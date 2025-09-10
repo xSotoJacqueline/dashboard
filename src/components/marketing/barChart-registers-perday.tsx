@@ -119,7 +119,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
                             />
                         }
                         />
-                    <Bar dataKey="registrations" fill="var(--green-foliatti)" radius={8} />
+                    <Bar isAnimationActive={false} dataKey="registrations" fill="var(--green-foliatti)" radius={8} />
                 </BarChart>
                 </ChartContainer>
             </div>

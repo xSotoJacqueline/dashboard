@@ -25,10 +25,10 @@ type ChartLineLabelProps = {
   isLoading?: boolean;
 }
 
-export function GeneralCard({ title, description, Icon, children, identifier, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
+export function GeneralCard({ title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
 
   return (
-    <motion.div  layoutId={`card-${identifier || title}`} className={cn("w-full h-full overflow-hidden", classNameContainer)}>
+    <motion.div   className={cn("w-full h-full overflow-hidden", classNameContainer)}>
       <Card className={cn("w-full h-full border-0", className)}>
           <CardHeader className="flex flex-col items-start gap-0">
               <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">

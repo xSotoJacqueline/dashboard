@@ -80,8 +80,8 @@ export function FirstFTDChart({queryString}: {queryString?: string}) {
                             />
                         }
                         />
-                    <Bar dataKey="total" fill="var(--color-primary-foliatti)" radius={8} />
-                                </BarChart>
+                    <Bar  isAnimationActive={false} dataKey="total" fill="var(--color-primary-foliatti)" radius={8} />
+                </BarChart>
                 </ChartContainer>
             </div>
         </FullSizeCard>

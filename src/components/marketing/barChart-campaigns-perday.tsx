@@ -119,7 +119,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
                             />
                         }
                         />
-                    <Bar dataKey="activeUsers" fill="var(--color-primary-foliatti)" radius={8} />
+                    <Bar isAnimationActive={false} dataKey="activeUsers" fill="var(--color-primary-foliatti)" radius={8} />
                 </BarChart>
                 </ChartContainer>
             </div>

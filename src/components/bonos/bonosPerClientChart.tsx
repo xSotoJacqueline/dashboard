@@ -15,13 +15,11 @@ export function BonusPerClientChart() {
 
     if (allUsersByBonus.isPending || allUsersByBonus.isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-
     }
 
     if (allUsersByBonus.error) {
         return (    
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente
-">
+        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
             <GeneralErrorContent refetch={allUsersByBonus.refetch} />
         </FullSizeCard>
         )
@@ -48,6 +46,7 @@ export function BonusPerClientChart() {
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart
+                    
                     accessibilityLayer
                     data={allUsersByBonus.data}
                     margin={{
@@ -70,14 +69,14 @@ export function BonusPerClientChart() {
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
-                                className="w-[150px]"
+                                className="w-fit min-w-[150px]"
                                 nameKey="total_users"
                                 label={"Usuarios por"}
                         
                                 />
                             }
                         />
-                    <Bar dataKey="total_users" fill="var(--color-primary-foliatti)" radius={8} />
+                    <Bar isAnimationActive={false} dataKey="total_users" fill="var(--color-primary-foliatti)" radius={8} />
                 </BarChart>
                 </ChartContainer>
             </div>

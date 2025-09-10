@@ -14,7 +14,6 @@ export type TrafficSource = {
   referenceVisits: number;
 }
 type ChartLineLabelProps = {
-  trafficSources: TrafficSource[];
   className?: string;
   queryString?: string, 
   labelTimePeriod?: string

@@ -84,7 +84,7 @@ export function FTDAmountChart({queryString}: {queryString?: string}) {
                             />
                         }
                         />
-                        <Bar dataKey="total" fill="var(--color-green-foliatti)" radius={8} />
+                        <Bar isAnimationActive={false} dataKey="total" fill="var(--color-green-foliatti)" radius={8} />
                     </BarChart>
                 </ChartContainer>
             </div>
