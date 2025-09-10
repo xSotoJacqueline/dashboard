@@ -86,7 +86,7 @@ export function FullSizeCard({ labelTimePeriod, title, description, Icon, childr
                             <CardTitle className="text-base md:text-xl font-bold">{title}</CardTitle>
                           </div>
                         {fullScreenButton && (
-                          <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
+                          <Button onClick={() => setActiveGame(null)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
                             <ExpandIcon size={16} />
                           </Button>
                         )}
