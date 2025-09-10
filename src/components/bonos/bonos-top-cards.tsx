@@ -40,7 +40,7 @@ export default function BonosTopCards() {
   }), [totalConvertedAmount.data, totalConvertedAmountComparison.data]);
 
   return (
-    <div className="grid w-full  h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+    <div className="grid w-full  h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <TopCard
         isLoading={totalRedemptions.isPending}
         isError={totalRedemptions.isError}
@@ -88,9 +88,10 @@ export default function BonosTopCards() {
         Icon={GiftIcon}
         index={3}
         className="col-span-1 flex flex-col justify-between font-normal gap-3"
+        containerClassName="col-span-1 md:col-span-2 lg:col-span-1 "
       >
         <TopCardHeader  className="flex ">
-          <TopCardTitle className="">Monto Regalado</TopCardTitle>
+          <TopCardTitle className="">Convertido a dinero</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="currency" value={totalConvertedAmountComparison.data ? totalConvertedAmountComparison.data : 0}   />

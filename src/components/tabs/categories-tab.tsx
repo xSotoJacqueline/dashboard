@@ -34,7 +34,7 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
     return <GeneralErrorContent />
   }
 
-  if (!totalPlayersGroupedByCasino.data?.data.Casino || !totalPlayersGroupedByCasino.data?.data.Sport) {
+  if ((!totalPlayersGroupedByCasino.data?.data.Casino || !totalPlayersGroupedByCasino.data?.data.Sport) && !totalPlayersGroupedByCasino.isPending) {
     return <GeneralEmptyContent  className="min-h-[35cqh]"/>
   }
 

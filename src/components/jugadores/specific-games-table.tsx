@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
@@ -18,6 +17,8 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 import { useDataTable } from "@/lib/use-data-table"
+import { GeneralCard } from "../general-card";
+import { useContextQuery } from "@/contexts/query-context";
 
 type GameTableData = {
   game: string;
@@ -27,11 +28,17 @@ type GameTableData = {
   averagePerUser: number;
 }
 
-export function SpecificGamesTable({queryString}: {queryString?: string}) {
+export function SpecificGamesTable() {
   const { state } = useSidebar();
-  
+  const { labelTimePeriod, queryString } = useContextQuery();
   const gamesData = useQuery(getTotalBetsGroupedByGameAndCasino({queryString}));
+  if (gamesData.isLoading) {
+    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+  }
 
+  if (!gamesData.data || gamesData.data === null || (Object.keys(gamesData.data.Casino).length === 0 && Object.keys(gamesData.data.Sport).length === 0)) {
+    return <GeneralEmptyContent className="min-h-[35cqh]" />;
+  }
   // Transformar los datos de la API al formato de la tabla
   const transformedData: GameTableData[] = [];
   
@@ -112,18 +119,16 @@ export function SpecificGamesTable({queryString}: {queryString?: string}) {
     clearOnDefault: true,
   });
 
-  if (gamesData.isLoading) {
-    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-  }
+
 
   if (gamesData.isError) {
     return <GeneralErrorContent />;
   }
 
   return (
-    <Card className="h-full w-full flex border-0 gap-2">
-      <CardContent className="h-fit w-full flex sm:flex-row flex-col justify-center items-center sm:items-stretch sm:justify-between">
-        <div className="w-full h-full overflow-x-auto">
+        <GeneralCard labelTimePeriod={labelTimePeriod} classNameContainer="overflow-hidden" className=" min-h-fit" cardContentClassName="h-full" identifier={""} title={""}>
+    
+          <div className="w-full h-full overflow-x-auto">
           <Table>
             <TableHeader className=" ">
               <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "text-lg" : "text-xs lg:text-lg"}`}>
@@ -175,7 +180,7 @@ export function SpecificGamesTable({queryString}: {queryString?: string}) {
             <GeneralEmptyContent className="max-h-[90%]" />
           )}
         </div>
-      </CardContent>
-    </Card>
+    </GeneralCard>
+
   )
 }

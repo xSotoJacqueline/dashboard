@@ -44,7 +44,18 @@ function RouteComponent() {
   });
 
   const handleTabChange = () => {
-    setPage(1); 
+    setPage(1);
+    // Remove 'filters' from search params
+    window.history.replaceState(
+      {},
+      '',
+      window.location.pathname +
+        '?' +
+        Object.entries({ ...search, filters: undefined })
+          .filter(([_, v]) => v !== undefined)
+          .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v as string)}`)
+          .join('&')
+    );
   };
   const page = search.page || 1;
 

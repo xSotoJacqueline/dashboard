@@ -31,7 +31,7 @@ type HybridPlayerTableItem = {
   user_name: string;
   game_type: FavoriteGame[];
   casino: FavoriteCasino[];
-  totalGenerated: number;
+  real_money_bets: number;
 }
 
 export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
@@ -49,7 +49,7 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
       user_name: playerData.userName,
       game_type: playerData.favoriteGames,
       casino: playerData.favoriteCasinos,
-      totalGenerated: playerData.totalGenerated
+      real_money_bets: playerData.totalGenerated
     })) : [];
 
   const columns: ColumnDef<HybridPlayerTableItem>[] = [
@@ -156,17 +156,20 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
       enableColumnFilter: true,
     },
     {
-      accessorKey: "totalGenerated",
+      accessorKey: "real_money_bets",
       header: "Total apostado",
       cell: ({ row }) => {
-        const totalGenerated = row.getValue("totalGenerated") as number;
+        const totalGenerated = row.getValue("real_money_bets") as number;
         return (
           <div className="text-center">
             <span>{totalGenerated.toLocaleString()}</span>
           </div>
         );
       },
-      enableColumnFilter: true,
+      meta:{
+        label: 'Total apostado',
+        variant: "number"
+      }
 
     },
     {
