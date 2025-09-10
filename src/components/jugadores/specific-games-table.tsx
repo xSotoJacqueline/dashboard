@@ -32,37 +32,10 @@ export function SpecificGamesTable() {
   const { state } = useSidebar();
   const { labelTimePeriod, queryString } = useContextQuery();
   const gamesData = useQuery(getTotalBetsGroupedByGameAndCasino({queryString}));
-  if (gamesData.isLoading) {
-    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-  }
 
-  if (!gamesData.data || gamesData.data === null || (Object.keys(gamesData.data.Casino).length === 0 && Object.keys(gamesData.data.Sport).length === 0)) {
-    return <GeneralEmptyContent className="min-h-[35cqh]" />;
-  }
   // Transformar los datos de la API al formato de la tabla
-  const transformedData: GameTableData[] = [];
-  
-  if (gamesData.data) {
-    Object.entries(gamesData.data.Casino).forEach(([gameType, gameData]) => {
-      transformedData.push({
-        game: gameType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
-        category: 'Casino',
-        players: gameData.totalPlayers,
-        earnings: gameData.totalIncome,
-        averagePerUser: gameData.averageIncomePerPlayer,
-      });
-    });
 
-    Object.entries(gamesData.data.Sport).forEach(([gameType, gameData]) => {
-        transformedData.push({
-          game: gameType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
-          category: 'Sport',
-          players: gameData.totalPlayers,
-          earnings: gameData.totalIncome,
-          averagePerUser: gameData.averageIncomePerPlayer,
-        });
-    });
-  }
+
 
   const columns: ColumnDef<GameTableData>[] = [
     {
@@ -101,6 +74,39 @@ export function SpecificGamesTable() {
       ),
     },
   ];
+    const transformedData: GameTableData[] = [];
+  if (gamesData.data && 
+      gamesData.data !== null && 
+      typeof gamesData.data === 'object' &&
+      gamesData.data.Casino && 
+      gamesData.data.Sport) {
+    
+    // Check if Casino has data before processing
+    if (Object.keys(gamesData.data.Casino).length > 0) {
+      Object.entries(gamesData.data.Casino).forEach(([gameType, gameData]) => {
+        transformedData.push({
+          game: gameType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
+          category: 'Casino',
+          players: gameData.totalPlayers,
+          earnings: gameData.totalIncome,
+          averagePerUser: gameData.averageIncomePerPlayer,
+        });
+      });
+    }
+
+    // Check if Sport has data before processing
+    if (Object.keys(gamesData.data.Sport).length > 0) {
+      Object.entries(gamesData.data.Sport).forEach(([gameType, gameData]) => {
+        transformedData.push({
+          game: gameType.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
+          category: 'Sport',
+          players: gameData.totalPlayers,
+          earnings: gameData.totalIncome,
+          averagePerUser: gameData.averageIncomePerPlayer,
+        });
+      });
+    }
+  }
 
   const { table } = useDataTable({
     data: transformedData || [],
@@ -118,7 +124,18 @@ export function SpecificGamesTable() {
     shallow: false,
     clearOnDefault: true,
   });
+  if (gamesData.isLoading) {
+    return <CardLoading className="w-full h-full animate-pulse" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+  }
 
+  if (!gamesData.data || 
+      gamesData.data === null || 
+      typeof gamesData.data !== 'object' ||
+      !gamesData.data.Casino || 
+      !gamesData.data.Sport ||
+      (Object.keys(gamesData.data.Casino).length === 0 && Object.keys(gamesData.data.Sport).length === 0)) {
+    return <GeneralEmptyContent className="min-h-[35cqh]" />;
+  }
 
 
   if (gamesData.isError) {

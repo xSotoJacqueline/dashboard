@@ -184,7 +184,7 @@ export type TotalBetsGroupedByGameAndCasinoData = {
 export function getTotalBetsGroupedByGameAndCasino({queryString = queryStringDefault}: {queryString?: string}) { 
   return queryOptions({
     queryKey: ['getTotalBetsGroupedByGameAndCasino', queryString],
-    queryFn: async () : Promise<TotalBetsGroupedByGameAndCasinoData | null> => {
+    queryFn: async () : Promise<TotalBetsGroupedByGameAndCasinoData> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
       const res = await fetch(`${API_BASE_URL}/betdata/get-total-bets-grouped-by-game-and-casino${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
@@ -192,49 +192,6 @@ export function getTotalBetsGroupedByGameAndCasino({queryString = queryStringDef
         throw new Error(errorData.message || 'Failed to fetch total bets grouped by game and casino');
       }
       const data = await res.json();
-
-      // Helper to check if any GamePlayerInfo is missing a value
-      const isGamePlayerInfoInvalid = (player: GamePlayerInfo) => {
-        return (
-          !player ||
-          typeof player.playerId !== 'string' ||
-          typeof player.userName !== 'string' ||
-          typeof player.income !== 'number'
-        );
-      };
-
-      // Helper to check if any GameCategory is missing a value
-      const isGameCategoryInvalid = (category: GameCategory) => {
-        return (
-          !category ||
-          typeof category.totalPlayers !== 'number' ||
-          typeof category.totalIncome !== 'number' ||
-          typeof category.averageIncomePerPlayer !== 'number' ||
-          !Array.isArray(category.paginatedPlayers) ||
-          category.paginatedPlayers.some(isGamePlayerInfoInvalid)
-        );
-      };
-
-      // Validate CasinoGames
-      const casinoCategories = [
-        'SLOT_GAME','BACCARAT','BLACKJACK','CASINO_HOLDEM','CRASH','KENO','LOTTERY','OTHERS','POKER','RNG_TABLE_GAME','ROULETTE','SCRATCH_CARD','SHOW_PROGRAM'
-      ];
-      for (const key of casinoCategories) {
-        if (!data?.Casino?.[key] || isGameCategoryInvalid(data.Casino[key])) {
-          return null;
-        }
-      }
-
-      // Validate SportGames
-      const sportCategories = [
-        'SINGLES','MULTIPLES','Not Applicable','SYSTEMS'
-      ];
-      for (const key of sportCategories) {
-        if (!data?.Sport?.[key] || isGameCategoryInvalid(data.Sport[key])) {
-          return null;
-        }
-      }
-
       return data;
     },
     placeholderData: (previousData) => previousData,
