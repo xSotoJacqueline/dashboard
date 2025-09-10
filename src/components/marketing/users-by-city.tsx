@@ -132,7 +132,7 @@ export default function UsersByCity() {
 
   return (
         <div className="w-full h-full gap-6">
-          <FullSizeCard identifier="chart3" className="w-full" cardContentClassName="min-h-[120px]" title="Usuarios activos por ciudad" description="Top 10 ciudades con más usuarios activos">
+          <FullSizeCard labelTimePeriod="No aplica filtro"  identifier="chart3" className="w-full" cardContentClassName="min-h-[120px]" title="Usuarios activos por ciudad" description="Top 10 ciudades con más usuarios activos">
               <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                   <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                       {ChartComponent}

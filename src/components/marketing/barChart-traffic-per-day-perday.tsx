@@ -19,16 +19,16 @@ export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {
     }
 
     if (error) {
-        return (    
-        <FullSizeCard className="col-span-1 md:col-span-4" identifier="chart1"  cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
+        return (
+        <FullSizeCard labelTimePeriod={labelTimePeriod} className="col-span-1 md:col-span-4" identifier="chart1"  cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
     }
 
     if (!trafficData || trafficData.length === 0) {
-        return (    
-        <FullSizeCard className="col-span-1 md:col-span-4" identifier="chart1" cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
+        return (
+        <FullSizeCard labelTimePeriod={labelTimePeriod} className="col-span-1 md:col-span-4" identifier="chart1" cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -42,7 +42,7 @@ export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

@@ -6,6 +6,7 @@ import { useQueries } from '@tanstack/react-query';
 import CardLoading from '../loading-card';
 import { Button } from '../ui/button';
 import { CircleSlashIcon } from 'lucide-react';
+import { useContextQuery } from '@/contexts/query-context';
 
 export type Source = {
   label: string;
@@ -13,6 +14,7 @@ export type Source = {
 }
 
 export function PeriodSummaryCard({queryString}: {queryString?: string}) {
+  const { labelTimePeriod } = useContextQuery();
 
   const [{data: averageAmountDeposits, error: averageAmountDepositsError, isPending: isPendingAverage, isFetching: isFetchingAverage}, {data: proportionalDepositFTD, error: proportionalDepositFTDError, refetch: refetchProportional, isPending: isPendingProportional, isFetching: isFetchingProportional}, {data: globalAverageDeposit, error: globalAverageDepositError, isPending: isPendingGlobalAverage, isFetching: isFetchingGlobalAverage, refetch: refetchGlobalAverage}] = useQueries({
     queries: [ averageAmountDepositsQueryOptions({queryString}), proportionalDepositFTDQueryOptions({queryString}), globalAverageDepositQueryOptions({queryString})],
@@ -23,7 +25,7 @@ export function PeriodSummaryCard({queryString}: {queryString?: string}) {
     }
 
   return (
-    <GeneralCard classNameContainer="overflow-visible" className='h-full' title={"Resumen del período"}>
+    <GeneralCard labelTimePeriod={labelTimePeriod} classNameContainer="overflow-visible" className='h-full' title={"Resumen del período"}>
       <div className='h-full w-full flex flex-col justify-center items-center '>
 
         <div className='w-full xl:max-w-4/6 h-fit flex md:flex-row flex-col justify-between gap-6 items-center'>

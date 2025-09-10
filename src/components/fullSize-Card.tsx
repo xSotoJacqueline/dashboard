@@ -26,9 +26,10 @@ type ChartLineLabelProps = {
   identifier?: string;
   fullScreenButton?: boolean;
   cardContentClassName?: string;
+  labelTimePeriod?: string;
 }
 
-export function FullSizeCard({ title, description, Icon, children, identifier, className, cardContentClassName, fullScreenButton = true }: ChartLineLabelProps) {
+export function FullSizeCard({ labelTimePeriod, title, description, Icon, children, identifier, className, cardContentClassName, fullScreenButton = true }: ChartLineLabelProps) {
   const [activeGame, setActiveGame] = useState<string | null>(null);
   const { setIsActive } = useIsActiveStore();
 
@@ -75,27 +76,34 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
 			        ref={ref}
             >
               <Card className="w-full h-full border-0 pt-2 px-2 col-span-1">
-                <CardHeader className="flex flex-col items-start px-2 gap-0">
-                    <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
-                        <div
-                          className="game-title flex items-center gap-2"
-                        >
-                          {Icon && <Icon className="w-5 h-5 text-primary" />}
+                  <CardHeader className="flex flex-col items-start gap-0">
+                      <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
+                          <div
+                            className="game-title flex items-center gap-2"
+                          >
+                            {Icon && <Icon className="w-5 h-5 text-primary" />}
 
-                          <CardTitle className=" text-base md:text-xl font-bold">{title}</CardTitle>
-                        </div>
+                            <CardTitle className="text-base md:text-xl font-bold">{title}</CardTitle>
+                          </div>
+                        {fullScreenButton && (
+                          <Button onClick={() => setActiveGame(title)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
+                            <ExpandIcon size={16} />
+                          </Button>
+                        )}
+                        
+                      </motion.div>
 
-                      <Button onClick={() => setActiveGame(null)} size={"icon"} variant={"ghost"} className="!p-1 h-fit w-fit -mr-1">
-                        <ExpandIcon size={16} />
-                      </Button>
-                    </motion.div>
+                      <motion.div className="flex flex-col w-full xl:flex-row justify-between xl:items-center" layoutId={`description-${title}`}>
+                        {description && <CardDescription className="text-base text-foreground line-clamp-2">
+                          {description}
+                        </CardDescription>}
+                        <span className="text-sm text-muted-foreground h-fit self-start line-clamp-1">
+                          {labelTimePeriod ? labelTimePeriod : "Últimos 28 días"}
+                        </span>
+                      </motion.div>
 
-                    <motion.div layoutId={`description-${title}`}>
-                      <CardDescription className="text-base text-foreground">
-                        {description}
-                      </CardDescription>
-                    </motion.div>
-                </CardHeader>
+              
+                  </CardHeader>
                 <CardContent style={{containerType: "size"}} className=" h-full px-2">
                   <motion.div layoutId={`content-${title}`} className="h-full">
                     {children}
@@ -126,11 +134,16 @@ export function FullSizeCard({ title, description, Icon, children, identifier, c
                   
                 </motion.div>
 
-                <motion.div layoutId={`description-${title}`}>
-                  <CardDescription className="text-base text-foreground line-clamp-2">
+                <motion.div className="flex flex-col w-full xl:flex-row justify-between xl:items-center" layoutId={`description-${title}`}>
+                  {description && <CardDescription className="text-base text-foreground line-clamp-2">
                     {description}
-                  </CardDescription>
+                  </CardDescription>}
+                  <span className="text-sm text-muted-foreground h-fit self-start line-clamp-1">
+                    {labelTimePeriod ? labelTimePeriod : "Últimos 28 días"}
+                  </span>
                 </motion.div>
+
+        
             </CardHeader>
               <CardContent className={cn("h-[calc(100%-theme(spacing.24))]", cardContentClassName)}>
                 <motion.div  layoutId={`content-${title}`} className="h-full">

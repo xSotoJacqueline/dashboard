@@ -18,9 +18,12 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 import { useDataTable } from "@/lib/use-data-table"
+import { useContextQuery } from '@/contexts/query-context';
+
 // import { Pagination } from "../pagination";
 
 export default function TopUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
+  const { labelTimePeriod } = useContextQuery();
 
   const losersData = useQuery(topLoosers({queryString, pageParam}));
   
@@ -82,7 +85,7 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
   }
 
   return (
-    <GeneralCard isLoading={losersData.isFetching} identifier="chart1" title="Top perdedores" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard labelTimePeriod={labelTimePeriod} isLoading={losersData.isFetching} identifier="chart1" title="Top perdedores" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
       <div className="w-full h-full">
         <Table>
           <TableHeader className=" ">

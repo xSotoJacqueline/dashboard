@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getTotalPlayersGroupedByCasino } from "@/queryOptions/queryOptions-jugadores";
 import { LoaderCircleIcon } from "lucide-react";
 import { GeneralErrorContent } from "../general-error-content";
+import { GeneralEmptyContent } from "../general-empty-content";
 
 const MotionNumberFlow = motion.create(NumberFlow)
 type CategoryTableItem = {
@@ -28,6 +29,14 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
   const canAnimate = useCanAnimate()
 
   const totalPlayersGroupedByCasino = useQuery(getTotalPlayersGroupedByCasino({queryString, pageParam}));
+
+  if (totalPlayersGroupedByCasino.isError) {
+    return <GeneralErrorContent />
+  }
+
+  if (!totalPlayersGroupedByCasino.data?.data.Casino || !totalPlayersGroupedByCasino.data?.data.Sport) {
+    return <GeneralEmptyContent  className="min-h-[35cqh]"/>
+  }
 
   const casinoData: CategoryTableItem = totalPlayersGroupedByCasino.data ? {
     category: 'Casino',

@@ -4,8 +4,11 @@ import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, To
 import { useMemo } from "react";
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
 import { getTotalRedemptions, getTotalGiftedAmount, getTotalConvertedAmount } from "@/queryOptions/queryOptions-bonos";
+import { useContextQuery } from "@/contexts/query-context";
 
-export default function BonosTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
+export default function BonosTopCards() {
+
+  const { queryString, labelTimePeriod } = useContextQuery();
 
   const [totalRedemptions, totalGiftedAmount, totalConvertedAmount] = useQueries({
     queries: [getTotalRedemptions({queryString}), getTotalGiftedAmount({queryString}), getTotalConvertedAmount({queryString})],

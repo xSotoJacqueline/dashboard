@@ -21,7 +21,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
 
     if (error) {
         return (    
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" description={`Visitantes únicos en ${labelTimePeriod || 'Últimos 28 días'}`}>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" labelTimePeriod={labelTimePeriod}>
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -29,7 +29,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
 
     if (!trafficData || trafficData.length === 0) {
         return (    
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" description={`Visitantes únicos en ${labelTimePeriod || 'Últimos 28 días'}`}>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" labelTimePeriod={labelTimePeriod}>
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -43,7 +43,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" description={`Visitantes únicos en ${labelTimePeriod || 'Últimos 28 días'}`}>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" labelTimePeriod={labelTimePeriod}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

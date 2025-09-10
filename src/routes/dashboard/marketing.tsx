@@ -1,4 +1,4 @@
-import { createFileRoute, useSearch } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import TrafficTab from "@/components/tabs/traffic-tab"
 import CampaignTab from "@/components/marketing/campaign-tab"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
@@ -12,7 +12,7 @@ import PlayersTab from "@/components/tabs/players-tab"
 import ErrorPage from '@/components/errorPage'
 import type { GeneralSearch } from '@/types/search-types'
 import MarketingTopCards from '@/components/marketing/marketing-top-cards'
-import { createQueryString } from '@/lib/utils'
+import { useContextQuery } from '@/contexts/query-context'
 
 export const Route = createFileRoute('/dashboard/marketing')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -30,9 +30,7 @@ export const Route = createFileRoute('/dashboard/marketing')({
 })
 
 function RouteComponent() {
-
-  const search = useSearch({ from: '/dashboard/marketing' });
-  const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
+  const { queryString, labelTimePeriod } = useContextQuery();
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">

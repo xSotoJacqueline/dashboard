@@ -4,6 +4,8 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 import { DollarSignIcon } from "lucide-react";
 
 export function EarningsClientBonosChart() {
+
+    const labelTimePeriod = "No aplica filtros";
     const chartData = [
         { month: "January", desktop: 186, mobile: 80 },
         { month: "February", desktop: 305, mobile: 200 },
@@ -25,7 +27,7 @@ export function EarningsClientBonosChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Ganancias generadas por cliente con bonos" description="Número total de clientes que han ganado utilizando bonos" Icon={DollarSignIcon}>
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Ganancias generadas por cliente con bonos" description="Número total de clientes que han ganado utilizando bonos" Icon={DollarSignIcon}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <AreaChart accessibilityLayer data={chartData} margin={{ top: 22, right: 30, bottom: 0, left: -30 }}>

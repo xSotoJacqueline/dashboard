@@ -23,12 +23,13 @@ type ChartLineLabelProps = {
   identifier?: string;
   cardContentClassName?: string;
   isLoading?: boolean;
+  labelTimePeriod?: string;
 }
 
-export function GeneralCard({ title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
+export function GeneralCard({ labelTimePeriod,title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
 
   return (
-    <motion.div   className={cn("w-full h-full overflow-hidden", classNameContainer)}>
+    <motion.div className={cn("w-full h-full overflow-hidden", classNameContainer)}>
       <Card className={cn("w-full h-full border-0", className)}>
           <CardHeader className="flex flex-col items-start gap-0">
               <motion.div layoutId={`title-header-${title}`} className="flex w-full justify-between items-center gap-2">
@@ -41,16 +42,21 @@ export function GeneralCard({ title, description, Icon, children, className, car
                   </motion.h2>  
               </motion.div>
 
-              <motion.div layoutId={`description-${title}`}>
-                <CardDescription className="text-base text-foreground">
+              <motion.div className="flex flex-col w-full xl:flex-row justify-between xl:items-center" layoutId={`description-${title}`}>
+                {description && <CardDescription className="text-base text-foreground">
                   {description}
-                </CardDescription>
+                </CardDescription>}
+                <span className="text-sm text-muted-foreground self-start line-clamp-1">
+                  {labelTimePeriod ? labelTimePeriod : "Últimos 28 días"}
+                </span>
               </motion.div>
+
           </CardHeader>
             <CardContent className={cn("h-[calc(100%-theme(spacing.24))]", cardContentClassName)}>
               <motion.div  layoutId={`content-${title}`} className="h-full">
                 {children}
               </motion.div>
+              
             </CardContent>
       </Card>
     </motion.div>

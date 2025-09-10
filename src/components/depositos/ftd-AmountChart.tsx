@@ -8,32 +8,31 @@ import { GeneralEmptyContent } from "../general-empty-content";
 import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
+import { useContextQuery } from "@/contexts/query-context";
 
 export function FTDAmountChart({queryString}: {queryString?: string}) {
     const { data: ftdMount, isPending, isFetching, error, refetch } = useQuery(FTDMountByDayQueryOptions({queryString}));
+    const { labelTimePeriod } = useContextQuery();
 
         if (isPending || isFetching) {
             return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-    
         }
     
         if (error) {
            return (    
-            <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+            <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
                 <GeneralErrorContent refetch={refetch} />
             </FullSizeCard>
             )
         }
-    
 
     if (!ftdMount || ftdMount.length === 0) {
         return (    
-        <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
             <GeneralEmptyContent />
         </FullSizeCard>
         )
     }
-
 
     const chartConfig = {
         desktop: {
@@ -47,7 +46,7 @@ export function FTDAmountChart({queryString}: {queryString?: string}) {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart3" cardContentClassName="min-h-[120px]" title="Monto FTD’s por día" description="Monto promedio de los primeros depósitos">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

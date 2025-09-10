@@ -10,6 +10,7 @@ import { Toaster } from 'sonner';
 import { useIsActiveStore } from '@/lib/active-full-container'
 import NotFound from "@/components/notfound";
 import { useTheme } from "@/hooks/use-theme";
+import { QueryProvider } from "@/contexts/query-context";
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
@@ -40,7 +41,9 @@ function RouteComponent() {
                 </header>
                 <Scroller size={activeGame ? 0 : 18} style={{containerType: "size", scrollbarGutter: "stable"}} className={`h-[95cqh] p-5  md:p-0 overflow-x-hidden ${activeGame ? "overflow-hidden" : ""}`}>
                     <div className="w-full h-full">
-                      <Outlet />
+                      <QueryProvider>
+                        <Outlet />
+                      </QueryProvider>
                     </div>
                     <Toaster richColors position='bottom-right' className='mb-2' />
                 </Scroller>

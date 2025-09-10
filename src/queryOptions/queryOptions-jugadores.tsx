@@ -1,6 +1,8 @@
 import { queryOptions } from "@tanstack/react-query";
 import { queryStringDefault } from "./queryOptions";
 import { propertyId } from "./queryOptions-metricas";
+import type { FilterStructure } from "@/lib/filter-columns";
+import type { JoinOperator } from "@/types/data-table";
 
 export type GeneralProps = {
   queryString?: string;
@@ -49,12 +51,12 @@ export function topLoosers({queryString = queryStringDefault, pageParam}: {query
     refetchOnWindowFocus: false,
   });
 }
-type FavoriteGame = {
+export type FavoriteGame = {
   game: string;
   count: number;
 }
 
-type FavoriteCasino = {
+export type FavoriteCasino = {
   casino: string;
   count: number;
 }
@@ -74,12 +76,12 @@ export type HybridPlayersDetailsData = {
   totalPages: number;
   currentPage: string;
 }
-export function getHybridPlayersDetails({queryString = queryStringDefault, pageParam}: {queryString?: string, pageParam?: number}) {
+export function getHybridPlayersDetails({queryString = queryStringDefault, pageParam, filters, joinOperator}: {queryString?: string, pageParam?: number, filters?: FilterStructure[], joinOperator: JoinOperator}) {
   return queryOptions({
-    queryKey: ['getHybridPlayersDetails', queryString, pageParam],
+    queryKey: ['getHybridPlayersDetails', queryString, pageParam, filters, joinOperator],
     queryFn: async () : Promise<HybridPlayersDetailsData> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/betdata/get-hybrid-players-details${queryString}&page=${pageParam || 1}&pageSize=10`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/betdata/get-hybrid-players-details${queryString}&page=${pageParam || 1}&pageSize=10${(filters && filters.length > 0) ? `&filters=${JSON.stringify(filters)}&joinOperator=${joinOperator}` : ''}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         //check error
         const errorData = await res.json();

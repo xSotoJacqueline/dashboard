@@ -25,8 +25,8 @@ export function createQueryString({ fromPeriod, toPeriod }: { fromPeriod?: numbe
     let endDate = to ? format(new Date(to), 'yyyy-MM-dd') : undefined;
     let labelTimePeriod = from && to ? `${format(from, 'd MMM yyyy', {locale: es})} - ${format(new Date(to), 'd MMM yyyy', {locale: es})}` : undefined;
     if(startDate === endDate || startDate && !endDate) {
-      labelTimePeriod = from ? `${format(new Date(from), 'd MMM yyyy', {locale: es})}` : undefined;
-    } 
+      labelTimePeriod = from ? `${format(new Date(from), 'd MMM yyyy', {locale: es})}` : "Últimos 28 días";
+    }
 
     if (!endDate) {
       endDate = startDate;

@@ -8,9 +8,10 @@ import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO, parse } from "date-fns";
 import { es } from "date-fns/locale";
 import { getRegisteredUsersByDay } from "@/queryOptions/queryOptions-marketing";
+import { useContextQuery } from "@/contexts/query-context";
 
 export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: string}) {
-
+    const { labelTimePeriod } = useContextQuery();
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
         getRegisteredUsersByDay({queryString}),
     );
@@ -21,7 +22,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
 
     if (error) {
         return (    
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -29,7 +30,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
 
     if (!trafficData || trafficData.length === 0) {
         return (    
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -43,7 +44,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

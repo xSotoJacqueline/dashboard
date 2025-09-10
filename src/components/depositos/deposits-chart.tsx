@@ -9,8 +9,10 @@ import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { useMemo, useCallback } from "react"; // Agregado
+import { useContextQuery } from "@/contexts/query-context";
 
 export function DepositsChart({queryString}: {queryString?: string}) {
+    const { labelTimePeriod } = useContextQuery();
 
     const { data: allDeposits, error, isPending, refetch } = useQuery(
         getTotalDepositsByStatusAndDayQueryOptions({queryString}),
@@ -118,7 +120,7 @@ export function DepositsChart({queryString}: {queryString?: string}) {
 
     if (error) {
         return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+            <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
                 <GeneralErrorContent refetch={refetch} />
             </FullSizeCard>
         )
@@ -126,14 +128,14 @@ export function DepositsChart({queryString}: {queryString?: string}) {
 
     if (!allDeposits || (allDeposits.Paid.length === 0 && allDeposits.Failed.length === 0 && allDeposits.Cancelled.length === 0)) {
         return (    
-            <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+            <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
                 <GeneralEmptyContent />
             </FullSizeCard>
         )
     }
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
+        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart1" cardContentClassName="min-h-[120px]" title="Comportamiento de depósitos en el tiempo" description="Número total de depósitos por estado">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 0, left: 20 }}>

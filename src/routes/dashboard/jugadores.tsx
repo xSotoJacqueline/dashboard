@@ -12,9 +12,9 @@ import HybridUsersTab from "@/components/tabs/hybrid-users-tab";
 import CategoriesTab from "@/components/tabs/categories-tab";
 import ErrorPage from '@/components/errorPage';
 import type { GeneralSearchWithPagination } from '@/types/search-types';
-import { createQueryString } from '@/lib/utils';
 import PlayersTopCards from '@/components/jugadores/players-top-cards';
 import { useDataTable } from '@/lib/use-data-table';
+import { useContextQuery } from '@/contexts/query-context';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
   validateSearch: (search: Record<string, unknown>): GeneralSearchWithPagination => {
@@ -26,6 +26,8 @@ export const Route = createFileRoute('/dashboard/jugadores')({
         ? search.to
         : undefined,
       page: Number(search?.page ?? 1),
+      filters: Array.isArray(search?.filters) ? search.filters as any[] : undefined,
+      joinOperator: typeof search?.joinOperator === 'string' ? (search.joinOperator as "and" | "or") : undefined,
     }
   },
   component: RouteComponent,
@@ -34,6 +36,7 @@ export const Route = createFileRoute('/dashboard/jugadores')({
 
 function RouteComponent() {
   const search = useSearch({ from: '/dashboard/jugadores' });
+  const { queryString, labelTimePeriod } = useContextQuery();
   const { setPage } = useDataTable({
     columns: [], 
     data: [],
@@ -44,8 +47,6 @@ function RouteComponent() {
     setPage(1); 
   };
   const page = search.page || 1;
-    
-  const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
