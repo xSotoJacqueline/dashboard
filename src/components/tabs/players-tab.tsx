@@ -16,9 +16,10 @@ export default function PlayersTab() {
 
     const comparisonQueryString = createComparisonQueryString(queryString);
 
-    const [retentionRateComparison] = useQueries({
+    const [retentionRateComparison, averageTimeOnPageComparison] = useQueries({
       queries: [
         getRetentionRate({queryString: comparisonQueryString}),
+        getAverageTimeOnPage({queryString: comparisonQueryString}),
       ],
     });
 
@@ -26,6 +27,11 @@ export default function PlayersTab() {
       current: retentionRate.data || 0,
       previous: retentionRateComparison.data || 0
     }), [retentionRate.data, retentionRateComparison.data]);
+
+    const averageTimeOnPagePercentage = useMemo(() => calculateGrowthPercentage({
+      current: averageTimeOnPage.data?.minutes || 0,
+      previous: averageTimeOnPageComparison.data?.minutes || 0
+    }), [averageTimeOnPage.data, averageTimeOnPageComparison.data]);
 
   return (
     <div className="w-full h-full flex flex-col gap-6">
@@ -74,7 +80,7 @@ export default function PlayersTab() {
           <TopCardValue className='text-4xl md:text-5xl' suffix="m" valueFormat="decimal" value={averageTimeOnPage.data?.minutes ? averageTimeOnPage.data.minutes : 0}   />
           <TopCardValue className='text-4xl md:text-5xl' suffix="s" valueFormat="decimal" value={averageTimeOnPage.data?.seconds ? averageTimeOnPage.data.seconds : 0}   />
         </TopCardContent>
-        <TopCardFooter hasFilter={true} showPercentage={true}  />
+        <TopCardFooter hasFilter={true} showPercentage={true} percentageValue={averageTimeOnPagePercentage}  />
       </TopCard>
 
 

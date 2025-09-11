@@ -62,6 +62,7 @@ import type {
 } from '@/types/data-table';
 
 import { DataTableRangeFilter } from './data-table-range-filter';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const FILTERS_KEY = 'filters';
 const JOIN_OPERATOR_KEY = 'joinOperator';
@@ -91,6 +92,7 @@ export function DataTableFilterList<TData>({
   const descriptionId = React.useId();
   const [open, setOpen] = React.useState(false);
   const addButtonRef = React.useRef<HTMLButtonElement>(null);
+  const isMobile = useIsMobile({MOBILE_BREAKPOINT:900})
 
   const columns = React.useMemo(() => {
     return table.getAllColumns().filter((column) => column.columnDef.enableColumnFilter);
@@ -231,9 +233,10 @@ export function DataTableFilterList<TData>({
           </Button>
         </PopoverTrigger>
         <PopoverContent
+          align='end'
           aria-describedby={descriptionId}
           aria-labelledby={labelId}
-          className="dark:bg-backgroundDark flex w-full max-w-[var(--radix-popover-content-available-width)] origin-[var(--radix-popover-content-transform-origin)] flex-col gap-3.5 p-4 sm:min-w-[380px]"
+          className="dark:bg-backgroundDark flex w-full max-w-[95vw] mr-3 overflow-hidden origin-[var(--radix-popover-content-transform-origin)] flex-col gap-3.5 p-4 sm:min-w-[380px]"
           {...props}
         >
           <div className="flex flex-col gap-1">
@@ -277,7 +280,7 @@ export function DataTableFilterList<TData>({
               onClick={onFilterAdd}
               disabled={loading}
             >
-              Agregar filtro
+              {isMobile ? 'Agregar' : 'Agregar filtro'}
             </Button>
             {filters.length > 0 ? (
               <Button
@@ -287,7 +290,7 @@ export function DataTableFilterList<TData>({
                 className="rounded"
                 onClick={onFiltersReset}
               >
-                Limpiar filtros
+                {isMobile ? 'Limpiar' : 'Limpiar filtros'}
               </Button>
             ) : null}
             {filters.length > 0 ? (
@@ -299,7 +302,8 @@ export function DataTableFilterList<TData>({
                 disabled={loading || applyFilters === 'true'}
                 onClick={async () => setApplyFilters('true')}
               >
-                Aplicar filtros
+                {isMobile ? 'Aplicar' : 'Aplicar filtros'}
+                
               </Button>
             ) : null}
           </div>
@@ -430,7 +434,7 @@ function DataTableFilterItem<TData>({
               <span className="truncate">
                 {columns.find((column) => column.id === filter.id)?.id ?? 'Select field'}
               </span>
-              <ChevronsUpDown className="opacity-50" />
+              <ChevronsUpDown size={16} className="opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent
@@ -523,13 +527,13 @@ function DataTableFilterItem<TData>({
           aria-controls={filterItemId}
           variant="outline"
           size="icon"
-          className="size-4 rounded"
+          className="size-8 min-w-8 rounded"
           onClick={() => onFilterRemove(filter.filterId)}
         >
           <Trash2 className="size-5" />
         </Button>
         <SortableItemHandle asChild>
-          <Button variant="outline" size="icon" className="size-4 rounded">
+          <Button variant="ghost" size="icon" className="size-8 min-w-8 rounded">
             <GripVertical />
           </Button>
         </SortableItemHandle>
