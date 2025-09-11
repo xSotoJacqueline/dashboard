@@ -252,7 +252,7 @@ export function HybridUsersDetailsTable() {
 
     <>
     
-    <GeneralCard hasFilter={true} cardContentClassName="h-full" className="" classNameContainer="min-h-[595px]" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard hasFilter={true} cardContentClassName="h-full min-h-fit" className="" classNameContainer="sm:min-h-[595px] min-h-[700px] h-fit" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
         <div className="w-full h-full flex flex-col justify-between gap-2">
           <DataTableFilterList 
               loading={false}
@@ -263,9 +263,9 @@ export function HybridUsersDetailsTable() {
               align="start"
           />
           {hybridUsersDetails.isError ? <GeneralErrorContent /> : 
-            <div className="flex flex-col h-full justify-between ">
+            <div className="flex flex-col h-full justify-between min-h-fit ">
               <div className="overflow-x-auto">
-                <Table className="" >
+                <Table className="h-full min-h-[400px]" >
                   <TableHeader className=" ">
                     <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-base" : "text-xs lg:text-base"}`}>
                       {table.getHeaderGroups().map((headerGroup) =>
@@ -289,7 +289,7 @@ export function HybridUsersDetailsTable() {
                       )}
                     </TableRow>
                   </TableHeader>
-                  <TableBody isLoading={hybridUsersDetails.isFetching} className="border-0">
+                  <TableBody isLoading={hybridUsersDetails.isFetching} className="border-0 h-full ">
                     <TableRow className="border-0 text-primary h-2" />
 
                     {table.getRowModel().rows?.length ? (
@@ -340,7 +340,7 @@ export function HybridUsersDetailsTable() {
     </GeneralCard>
   {/* Game Sessions Dialog */}
       <Drawer open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DrawerContent  className="z-9999 h-[90vh] !max-h-screen w-full">
+        <DrawerContent  className="z-9999 h-[100dvh] sm:h-[90dvh] !max-h-screen w-full">
             <DrawerHeader>
               <DrawerTitle>
                 {selectedGame?.userName}
@@ -361,7 +361,7 @@ export function HybridUsersDetailsTable() {
                         <p className="text-lg font-semibold">{selectedGame.totalRealMoneyWins.toLocaleString()}</p>
                       </div>
                   </div>
-                  <ScrollArea className="h-[45vh] w-full">
+                  <ScrollArea className="h-[40dvh] sm:h-[45dvh] w-full">
                     <div className="overflow-x-auto">
                       <Table>
                         <TableHeader>
