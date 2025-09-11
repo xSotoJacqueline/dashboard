@@ -109,15 +109,9 @@ export function DataTableFilterList<TData>({
       }),
   );
 
-  const [applyFilters, setApplyFilters] = useQueryState(
-    'applyFilters',
-    parseAsStringEnum(['true', 'false']).withOptions({
-      clearOnDefault: true,
-      shallow,
-    }),
-  );
+  const [localFilters, setLocalFilters] = React.useState<ExtendedColumnFilter<TData>[]>(filters);
 
-  const debouncedSetFilters = useDebouncedCallback(setFilters, debounceMs);
+  const debouncedSetFilters = useDebouncedCallback(setLocalFilters, debounceMs);
 
   const [joinOperator, setJoinOperator] = useQueryState(
     JOIN_OPERATOR_KEY,
@@ -132,7 +126,7 @@ export function DataTableFilterList<TData>({
 
     if (!column) return;
     debouncedSetFilters([
-      ...filters,
+      ...localFilters,
       {
         id: column.id as Extract<keyof TData, string>,
         value: '',
@@ -141,12 +135,11 @@ export function DataTableFilterList<TData>({
         filterId: generateId({ length: 8 }),
       },
     ]);
-    void setApplyFilters('false');
-  }, [columns, filters, debouncedSetFilters]);
+  }, [columns, localFilters, debouncedSetFilters]);
 
   const onFilterUpdate = React.useCallback(
     (filterId: string, updates: Partial<Omit<ExtendedColumnFilter<TData>, 'filterId'>>) => {
-      void setApplyFilters('false');
+
 
       debouncedSetFilters((prevFilters) => {
         const updatedFilters = prevFilters.map((filter) => {
@@ -163,21 +156,25 @@ export function DataTableFilterList<TData>({
 
   const onFilterRemove = React.useCallback(
     (filterId: string) => {
-      void setApplyFilters('false');
 
-      const updatedFilters = filters.filter((filter) => filter.filterId !== filterId);
-      void setFilters(updatedFilters);
+      const updatedFilters = localFilters.filter((filter) => filter.filterId !== filterId);
+      void setLocalFilters(updatedFilters);
+      if(updatedFilters.length === 0){
+        void setFilters(null);
+      }
+
       requestAnimationFrame(() => {
         addButtonRef.current?.focus();
       });
     },
-    [filters, setFilters],
+    [localFilters, setLocalFilters],
   );
 
   const onFiltersReset = React.useCallback(() => {
     void setFilters(null);
     void setJoinOperator('and');
-  }, [setFilters, setJoinOperator]);
+    void setLocalFilters([]);
+  }, [setFilters, setJoinOperator, setLocalFilters]);
 
   React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -190,28 +187,28 @@ export function DataTableFilterList<TData>({
         setOpen(true);
       }
 
-      if (event.key === OPEN_MENU_SHORTCUT && event.shiftKey && filters.length > 0) {
+      if (event.key === OPEN_MENU_SHORTCUT && event.shiftKey && localFilters.length > 0) {
         event.preventDefault();
-        onFilterRemove(filters[filters.length - 1]?.filterId ?? '');
+        onFilterRemove(localFilters[localFilters.length - 1]?.filterId ?? '');
       }
     }
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [filters, onFilterRemove]);
+  }, [localFilters, onFilterRemove]);
 
   const onTriggerKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (REMOVE_FILTER_SHORTCUTS.includes(event.key) && filters.length > 0) {
+      if (REMOVE_FILTER_SHORTCUTS.includes(event.key) && localFilters.length > 0) {
         event.preventDefault();
-        onFilterRemove(filters[filters.length - 1]?.filterId ?? '');
+        onFilterRemove(localFilters[localFilters.length - 1]?.filterId ?? '');
       }
     },
-    [filters, onFilterRemove],
+    [localFilters, onFilterRemove],
   );
 
   return (
-    <Sortable value={filters} onValueChange={setFilters} getItemValue={(item) => item.filterId}>
+    <Sortable value={localFilters} onValueChange={setLocalFilters} getItemValue={(item) => item.filterId}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -222,12 +219,12 @@ export function DataTableFilterList<TData>({
           >
             <ListFilter className="size-4" />
             Filtros
-            {filters.length > 0 && (
+            {localFilters.length > 0 && (
               <Badge
                 variant="secondary"
                 className="h-[18.24px] rounded-[3.2px] px-[5.12px] font-mono text-[10.4px] font-normal"
               >
-                {filters.length}
+                {localFilters.length}
               </Badge>
             )}
           </Button>
@@ -241,21 +238,21 @@ export function DataTableFilterList<TData>({
         >
           <div className="flex flex-col gap-1">
             <h4 id={labelId} className="font-medium leading-none">
-              {filters.length > 0 ? `Filtros` : `No hay filtros aplicados`}
+              {localFilters.length > 0 ? `Filtros` : `No hay filtros aplicados`}
             </h4>
             <p
               id={descriptionId}
-              className={cn('text-muted-foreground text-sm', filters.length > 0 && 'sr-only')}
+              className={cn('text-muted-foreground text-sm', localFilters.length > 0 && 'sr-only')}
             >
-              {filters.length > 0
+              {localFilters.length > 0
                 ? `Modifica los filtros para refinar tu búsqueda.`
                 : `Agrega filtros para refinar tu busqueda.`}
             </p>
           </div>
-          {filters.length > 0 ? (
+          {localFilters.length > 0 ? (
             <SortableContent asChild>
               <div role="list" className="flex max-h-[300px] flex-col gap-2 overflow-y-auto p-1">
-                {filters.map((filter, index) => (
+                {localFilters.map((filter, index) => (
                   <DataTableFilterItem<TData>
                     key={filter.filterId}
                     filter={filter}
@@ -282,7 +279,7 @@ export function DataTableFilterList<TData>({
             >
               {isMobile ? 'Agregar' : 'Agregar filtro'}
             </Button>
-            {filters.length > 0 ? (
+            {localFilters.length > 0 ? (
               <Button
                 disabled={loading}
                 variant="outline"
@@ -293,14 +290,16 @@ export function DataTableFilterList<TData>({
                 {isMobile ? 'Limpiar' : 'Limpiar filtros'}
               </Button>
             ) : null}
-            {filters.length > 0 ? (
+            {localFilters.length > 0 ? (
               <Button
                 variant="outline"
                 size="sm"
                 className="rounded"
                 loading={loading}
-                disabled={loading || applyFilters === 'true'}
-                onClick={async () => setApplyFilters('true')}
+                disabled={loading}
+                onClick={async () =>{ 
+                  setFilters(localFilters)
+                }}
               >
                 {isMobile ? 'Aplicar' : 'Aplicar filtros'}
                 

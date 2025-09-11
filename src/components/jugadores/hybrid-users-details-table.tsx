@@ -53,8 +53,7 @@ export function HybridUsersDetailsTable() {
   const page = search.page || 1;
   const FilterStructure = search.filters || [];
   const joinOperator = search.joinOperator || "and";
-  const applyFilters = search.applyFilters || false;
-  const hybridUsersDetails = useQuery(getHybridPlayersDetails({queryString, pageParam: page, filters: applyFilters ? FilterStructure : undefined, joinOperator: joinOperator}));
+  const hybridUsersDetails = useQuery(getHybridPlayersDetails({queryString, pageParam: page, filters: FilterStructure, joinOperator: joinOperator}));
 
   const [selectedGame, setSelectedGame] = useState<FavoriteGame & {userName: string} | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -174,6 +173,11 @@ export function HybridUsersDetailsTable() {
       },
       meta:{
         label: 'Juego',
+        variant: "multiSelect",
+        options: Object.values(["SLOT_GAME", "POKER", "BLACKJACK", "ROULETTE", "BACCARAT", "CASINO_HOLDEM", "CRASH", "KENO", "LOTTERY", "OTHERS", "RNG_TABLE_GAME", "SCRATCH_CARD", "SHOW_PROGRAM"]).map((possibility) => ({
+          label: possibility.charAt(0).toUpperCase() + possibility.slice(1).toLowerCase().replace("_", " "),
+          value: possibility,
+        })),  
       },
       enableColumnFilter: true,
     },
