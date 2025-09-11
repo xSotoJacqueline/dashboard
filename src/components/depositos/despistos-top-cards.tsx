@@ -68,6 +68,7 @@ export default function DespistosTopCards() {
       <TopCard
         isLoading={depositsWithdrawalQuantity.isPending}
         isError={totalTransactionsByType.isError}
+        refetch={depositsWithdrawalQuantity.refetch}
         iconSize={24}
         iconStrokeWidth={2}
         Icon={GiftIcon}
@@ -87,6 +88,7 @@ export default function DespistosTopCards() {
         isLoading={firstTimeDepositAverage.isPending}
         index={3}
         isError={firstTimeDepositAverage.isError}
+        refetch={firstTimeDepositAverage.refetch}
         iconSize={24}
         iconStrokeWidth={2}
         Icon={UsersRoundIcon}
@@ -104,6 +106,7 @@ export default function DespistosTopCards() {
       <TopCard
         isLoading={totalAmountFTD.isPending}
         isError={totalAmountFTD.isError}
+        refetch={totalAmountFTD.refetch}
         iconSize={24}
         iconStrokeWidth={2}
         index={4}

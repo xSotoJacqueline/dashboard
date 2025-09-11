@@ -53,7 +53,7 @@ export function ChartLineAcquisition() {
         <FullSizeCard hasFilter={true} identifier='chart1' title="Tasa de Adquisición" description="Número total de bonos utilizados por cliente">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
-                  <LineChart data={dailyAcquisition.data} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
+                  <LineChart data={dailyAcquisition.data} margin={{ top: 20, right: 10, bottom: 20, left: -20 }}>
                     <CartesianGrid vertical={false} />
                     <YAxis
                     type="number"

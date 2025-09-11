@@ -50,10 +50,10 @@ export function ChartLineDropoutRate() {
             )
         }
   return (
-        <FullSizeCard hasFilter={true} identifier='chart2' title={title} description="Número total de bonos utilizados por cliente">
+        <FullSizeCard hasFilter={true} identifier='chart2' title={title}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
-                  <LineChart data={dropoutRate.data.dailyRates} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
+                  <LineChart data={dropoutRate.data.dailyRates} margin={{ top: 20, right: 10, bottom: 20, left: -20 }}>
                     <CartesianGrid vertical={false} />
                     <YAxis
                     type="number"
