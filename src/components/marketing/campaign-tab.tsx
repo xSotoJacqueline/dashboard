@@ -5,6 +5,7 @@ import { getAverageClicksCTRPromedio, getConversiones, getTotalReachAlcance } fr
 import { useQueries } from "@tanstack/react-query";
 import { Circle, UserRoundPlus } from "lucide-react";
 import { useMemo } from "react";
+import { useContextQuery } from "@/contexts/query-context";
 
 export type CampaignPerformanceProps = {
     title: string;
@@ -14,8 +15,8 @@ export type CampaignPerformanceProps = {
     conversiones: number;
   }
 
-export default function CampaignTab({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
-
+export default function CampaignTab() {
+    const { queryString } = useContextQuery();
     const [CTR, conversiones, alcance] = useQueries({
       queries: [getAverageClicksCTRPromedio({queryString}), getConversiones(), getTotalReachAlcance({queryString})],
     });
@@ -59,7 +60,7 @@ export default function CampaignTab({queryString,labelTimePeriod}: {queryString?
               <TopCardContent className='gap-6'>
                 <TopCardValue className="text-4xl md:text-5xl"  valueFormat="percent" value={CTR.data || 0}/>
               </TopCardContent>
-              <TopCardFooter percentageValue={CTRPercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={true}  />
+              <TopCardFooter percentageValue={CTRPercentage} hasFilter={true} showPercentage={true}  />
             </TopCard>
 
             <TopCard
@@ -78,7 +79,7 @@ export default function CampaignTab({queryString,labelTimePeriod}: {queryString?
               <TopCardContent className='gap-6'>
                 <TopCardValue className="text-4xl md:text-5xl"  valueFormat="decimal" value={alcance.data || 0}/>
               </TopCardContent>
-              <TopCardFooter percentageValue={alcancePercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={true}  />
+              <TopCardFooter percentageValue={alcancePercentage} hasFilter={true} showPercentage={true}  />
             </TopCard>
 
 
@@ -98,7 +99,7 @@ export default function CampaignTab({queryString,labelTimePeriod}: {queryString?
               <TopCardContent className='gap-6'>
                 <TopCardValue className="text-4xl md:text-5xl"  valueFormat="decimal" value={conversiones.data || 0}/>
               </TopCardContent>
-              <TopCardFooter label={"No aplica filtro"} showPercentage={false}  />
+              <TopCardFooter hasFilter={false} showPercentage={false}  />
             </TopCard>
 
 

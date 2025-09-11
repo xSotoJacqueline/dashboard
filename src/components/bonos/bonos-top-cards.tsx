@@ -8,7 +8,7 @@ import { useContextQuery } from "@/contexts/query-context";
 
 export default function BonosTopCards() {
 
-  const { queryString, labelTimePeriod } = useContextQuery();
+  const { queryString } = useContextQuery();
 
   const [totalRedemptions, totalGiftedAmount, totalConvertedAmount] = useQueries({
     queries: [getTotalRedemptions({queryString}), getTotalGiftedAmount({queryString}), getTotalConvertedAmount({queryString})],
@@ -58,7 +58,7 @@ export default function BonosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={totalRedemptions.data ? totalRedemptions.data : 0}   />
         </TopCardContent>
-        <TopCardFooter   percentageValue={totalRedemptionsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter   percentageValue={totalRedemptionsPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
       <TopCard
         isLoading={totalGiftedAmount.isPending}
@@ -76,7 +76,7 @@ export default function BonosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="currency" value={totalGiftedAmount.data ? totalGiftedAmount.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalGiftedAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={totalGiftedAmountPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -96,7 +96,7 @@ export default function BonosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="currency" value={totalConvertedAmountComparison.data ? totalConvertedAmountComparison.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalConvertedAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={totalConvertedAmountPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       {/* <TopCard
@@ -114,7 +114,7 @@ export default function BonosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={firstTimeDepositAverage.data ? firstTimeDepositAverage.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={32} hasFilter={true} showPercentage={true}  />
       </TopCard> */}
 
 

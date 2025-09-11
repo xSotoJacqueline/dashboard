@@ -4,9 +4,11 @@ import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, To
 import { useMemo } from "react";
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
 import { getAcquisitionRate, getAverageIncome, getDropoutRate, getCustomerLifetimeValue, getRetentionRate } from "@/queryOptions/queryOptions-metricas";
+import { useContextQuery } from "@/contexts/query-context";
 
-export default function MetricsTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
+export default function MetricsTopCards() {
 
+  const { queryString } = useContextQuery();
   const [acquisitionRate, averageIncome, dropoutRate, customerLifetimeValue, retentionRate] = useQueries({
     queries: [getAcquisitionRate({queryString}), getAverageIncome(), getDropoutRate({queryString}), getCustomerLifetimeValue(), getRetentionRate({queryString})],
   });
@@ -56,7 +58,7 @@ export default function MetricsTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={customerLifetimeValue.data ? customerLifetimeValue.data : 0}   />
         </TopCardContent>
-        <TopCardFooter  label={`No aplica filtros`} showPercentage={false}  />
+        <TopCardFooter  hasFilter={false} showPercentage={false}  />
       </TopCard>
       <TopCard
         isLoading={acquisitionRate.isPending}
@@ -75,7 +77,7 @@ export default function MetricsTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="currency" value={averageIncome.data ? averageIncome.data : 0}   />
         </TopCardContent>
-        <TopCardFooter label={`No aplica filtros`} showPercentage={false}  />
+        <TopCardFooter hasFilter={false} showPercentage={false}  />
       </TopCard>
 
       <TopCard
@@ -95,7 +97,7 @@ export default function MetricsTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="percent" value={dropoutRate.data ? dropoutRate.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={dropoutRatePercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={dropoutRatePercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
 
@@ -118,7 +120,7 @@ export default function MetricsTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={acquisitionRate.data ? acquisitionRate.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={acquisitionRatePercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={acquisitionRatePercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
       <TopCard
         isLoading={retentionRate.isPending}
@@ -138,7 +140,7 @@ export default function MetricsTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="percent" value={retentionRate.data ? retentionRate.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={retentionRatePercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={retentionRatePercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
 
@@ -158,7 +160,7 @@ export default function MetricsTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={firstTimeDepositAverage.data ? firstTimeDepositAverage.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={32} hasFilter={true} showPercentage={true}  />
       </TopCard> */}
 
 

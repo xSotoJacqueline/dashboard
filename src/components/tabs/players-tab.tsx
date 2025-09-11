@@ -7,7 +7,7 @@ import { BarChartRegistersPerDayMarketing } from '../marketing/barChart-register
 import { useContextQuery } from '@/contexts/query-context';
 
 export default function PlayersTab() {
-    const { queryString, labelTimePeriod } = useContextQuery();
+    const { queryString } = useContextQuery();
     const [averageTimeOnPage, conversionRate, retentionRate] = useQueries({
       queries: [getAverageTimeOnPage({queryString}), getConversionRate(), getRetentionRate({queryString})],
     });
@@ -37,7 +37,7 @@ export default function PlayersTab() {
           <TopCardValue className='text-4xl md:text-5xl' valueFormat="percent" value={retentionRate.data ? retentionRate.data : 0}   />
           {/* <Progress value={70} className='' /> */}
         </TopCardContent>
-        <TopCardFooter label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={false}  />
+        <TopCardFooter hasFilter={true}  showPercentage={false}  />
 
       </TopCard>
 
@@ -59,7 +59,7 @@ export default function PlayersTab() {
           <TopCardValue className='text-4xl md:text-5xl' suffix="m" valueFormat="decimal" value={averageTimeOnPage.data?.minutes ? averageTimeOnPage.data.minutes : 0}   />
           <TopCardValue className='text-4xl md:text-5xl' suffix="s" valueFormat="decimal" value={averageTimeOnPage.data?.seconds ? averageTimeOnPage.data.seconds : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter hasFilter={true} percentageValue={32}  showPercentage={true}  />
       </TopCard>
 
 
@@ -80,7 +80,7 @@ export default function PlayersTab() {
         <TopCardContent className='gap-4 flex-row justify-start'>
           <TopCardValue className='text-4xl md:text-5xl' valueFormat="percent" value={conversionRate.data ? conversionRate.data : 0}   />
         </TopCardContent>
-        <TopCardFooter label={"No aplica filtro"} showPercentage={false}  />
+        <TopCardFooter hasFilter={false} showPercentage={false}  />
       </TopCard>
 
     </div>

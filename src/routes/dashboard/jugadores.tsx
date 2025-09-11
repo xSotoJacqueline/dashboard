@@ -14,7 +14,6 @@ import ErrorPage from '@/components/errorPage';
 import type { GeneralSearchWithPagination } from '@/types/search-types';
 import PlayersTopCards from '@/components/jugadores/players-top-cards';
 import { useDataTable } from '@/lib/use-data-table';
-import { useContextQuery } from '@/contexts/query-context';
 
 export const Route = createFileRoute('/dashboard/jugadores')({
   validateSearch: (search: Record<string, unknown>): GeneralSearchWithPagination => {
@@ -36,7 +35,6 @@ export const Route = createFileRoute('/dashboard/jugadores')({
 
 function RouteComponent() {
   const search = useSearch({ from: '/dashboard/jugadores' });
-  const { queryString, labelTimePeriod } = useContextQuery();
   const { setPage } = useDataTable({
     columns: [], 
     data: [],
@@ -61,13 +59,12 @@ function RouteComponent() {
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
-      <PlayersTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
+      <PlayersTopCards/>
 
        <Tabs onValueChange={handleTabChange} defaultValue="top-users" className="w-full h-full">
           <ScrollArea className="whitespace-nowrap">
             <TabsList className="w-full">
                 <TabsTrigger value="top-users">Top usuarios</TabsTrigger>
-                {/* <TabsTrigger value="users-by-city">Usuarios por ciudad</TabsTrigger> */}
                 <TabsTrigger value="categories">Categorías</TabsTrigger>
                 <TabsTrigger value="specific-games">Juegos específicos</TabsTrigger>
                 <TabsTrigger value="hybrid-players">Usuarios híbridos</TabsTrigger>

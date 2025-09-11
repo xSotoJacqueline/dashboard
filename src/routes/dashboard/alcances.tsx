@@ -1,6 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ClockIcon, EyeIcon, TrendingUpIcon, UsersRoundIcon } from "lucide-react"
-import { GeneralCardTopCard, type ValueFormat } from "@/components/general-top-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Tabs,
@@ -32,27 +30,27 @@ export const Route = createFileRoute('/dashboard/alcances')({
 
 function RouteComponent() {
 
-    const fetchData = () => {
-    const random = (Math.floor(Math.random() * 100.55))
-    return (random - 40)/1000
-  }
+  //   const fetchData = () => {
+  //   const random = (Math.floor(Math.random() * 100.55))
+  //   return (random - 40)/1000
+  // }
 
-  const fetchDataValue = () => {
-    const random = (Math.floor(Math.random() * 100))
-    return random
-  }
+  // const fetchDataValue = () => {
+  //   const random = (Math.floor(Math.random() * 100))
+  //   return random
+  // }
 
-  const values = [
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Usuarios por Publicidad", Icon: UsersRoundIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Usuarios Orgánicos", Icon: TrendingUpIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Tiempo promedio total", Icon: ClockIcon, label: "Últimos 28 días" },
-    { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Alcance de campañas ", Icon: EyeIcon, label: "Últimos 28 días" },
-  ]
+  // const values = [
+  //   { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Usuarios por Publicidad", Icon: UsersRoundIcon, label: "Últimos 28 días" },
+  //   { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Usuarios Orgánicos", Icon: TrendingUpIcon, label: "Últimos 28 días" },
+  //   { value: fetchDataValue(), valueFormat: "currency" as ValueFormat, percentageValue:fetchData(), title: "Tiempo promedio total", Icon: ClockIcon, label: "Últimos 28 días" },
+  //   { value: fetchDataValue(), valueFormat: "decimal" as ValueFormat, percentageValue:fetchData(), title: "Alcance de campañas ", Icon: EyeIcon, label: "Últimos 28 días" },
+  // ]
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-lg text-black h-full py-1">
       <div className="grid w-full h-fit grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {values.map((metric, index) => (
+        {/* {values.map((metric, index) => (
           <GeneralCardTopCard
             key={index}
             value={metric.value}
@@ -63,7 +61,7 @@ function RouteComponent() {
             percentageValue={metric.percentageValue}
             valueFormat={metric.valueFormat}
           />
-        ))}
+        ))} */}
       </div>
 
        <Tabs defaultValue="overview" className="w-full h-full">

@@ -1,4 +1,4 @@
-import { createFileRoute, useSearch } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { ChartSection } from "@/components/Retiros/ChartSectionVariant"
 import { PlayersSection } from "@/components/Retiros/PlayersSection"
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -9,9 +9,10 @@ import { TopCard, TopCardHeader, TopCardTitle, TopCardContent, TopCardValue, Top
 import { Label } from '@/components/ui/label'
 import { useQueries } from '@tanstack/react-query'
 import { averageAmountWithdrawalsPerDay, averageWithdrawalsPerDay, mostCommonWithdrawHour, percentageDepositsByDayOfWeek, TopPlayersMostWithdrawals, totalWithdrawals } from '@/queryOptions/queryOptions-retiros'
-import { calculateGrowthPercentage, createComparisonQueryString, createQueryString } from '@/lib/utils'
+import { calculateGrowthPercentage, createComparisonQueryString } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
+import { useContextQuery } from '@/contexts/query-context'
 
 export const Route = createFileRoute('/dashboard/retiros')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -30,10 +31,8 @@ export const Route = createFileRoute('/dashboard/retiros')({
 })
 
 function RouteComponent() {
-   const search = useSearch({ from: '/dashboard/retiros' });
+  const { queryString } = useContextQuery();
     
-  const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
-
   const comparisonQueryString = createComparisonQueryString(queryString);
 
   const [averageAmountWithdrawals, averageWithdrawals, totalWithdrawalsData, topPlayersMostWithdrawalsData, mostCommonWithdrawHourData, percentageDepositsByDayOfWeekData] = useQueries({
@@ -82,7 +81,7 @@ function RouteComponent() {
                       <TopCardValue valueFormat="decimal" value={totalWithdrawalsData.data ? totalWithdrawalsData.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Transacciones completadas</Label>
                     </TopCardContent>
-                    <TopCardFooter percentageValue={totalWithdrawalsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                    <TopCardFooter hasFilter={true} percentageValue={totalWithdrawalsPercentage} showPercentage={true}  />
                   </TopCard>
 
                   <TopCard
@@ -101,7 +100,7 @@ function RouteComponent() {
                       <TopCardValue valueFormat="decimal" value={averageWithdrawals.data ? averageWithdrawals.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                     </TopCardContent>
-                    <TopCardFooter percentageValue={averageWithdrawalsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                    <TopCardFooter hasFilter={true} percentageValue={averageWithdrawalsPercentage} showPercentage={true}  />
                   </TopCard>
 
                   <TopCard
@@ -122,7 +121,7 @@ function RouteComponent() {
                       <TopCardValue valueFormat="currency" value={averageAmountWithdrawals.data ? averageAmountWithdrawals.data : 0}   />
                       <Label className='font-normal text-muted-foreground'>Retiros diarios promedio</Label>
                     </TopCardContent>
-                    <TopCardFooter percentageValue={averageAmountWithdrawalsPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+                    <TopCardFooter hasFilter={true} percentageValue={averageAmountWithdrawalsPercentage} showPercentage={true}  />
                   </TopCard>
               </div>
             </section>

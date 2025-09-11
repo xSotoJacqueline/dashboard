@@ -4,9 +4,10 @@ import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, To
 import { getTotalPlayers, getTotalHybridPlayers, getRealTimeActivityUsers,  getTotalIncome } from "@/queryOptions/queryOptions-jugadores";
 import { useMemo } from "react";
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
+import { useContextQuery } from "@/contexts/query-context";
 
-export default function PlayersTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
-
+export default function PlayersTopCards() {
+  const { queryString } = useContextQuery();
   const [totalPlayers, totalHybridPlayers, realTimeActivityUsers, totalIncome] = useQueries({
     queries: [getTotalPlayers({queryString}), getTotalHybridPlayers({queryString}), getRealTimeActivityUsers(), getTotalIncome({queryString})],
   });
@@ -54,7 +55,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={totalPlayers.data ? totalPlayers.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalPlayersPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={totalPlayersPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -73,7 +74,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={totalHybridPlayers.data ? totalHybridPlayers.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalHybridPlayersPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={totalHybridPlayersPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -92,7 +93,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={totalIncome.data ? totalIncome.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalIncomePercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={totalIncomePercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -111,7 +112,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="decimal" value={realTimeActivityUsers.data ? realTimeActivityUsers.data : 0}   />
         </TopCardContent>
-        <TopCardFooter label={"No aplica filtro"} showPercentage={false}  />
+        <TopCardFooter hasFilter={false} showPercentage={false}  />
       </TopCard>
 
 
@@ -130,7 +131,7 @@ export default function PlayersTopCards({queryString, labelTimePeriod}: {querySt
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={firstTimeDepositAverage.data ? firstTimeDepositAverage.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={32} hasFilter={true} showPercentage={true}  />
       </TopCard> */}
 
 

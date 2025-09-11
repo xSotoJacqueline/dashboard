@@ -5,8 +5,10 @@ import { totalTraffic, uniqueUsers } from "@/queryOptions/queryOptions-metricas"
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
 import { useMemo } from "react";
 import { getTotalRegistrations } from "@/queryOptions/queryOptions-marketing";
+import { useContextQuery } from "@/contexts/query-context";
 
-export default function MarketingTopCards({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
+export default function MarketingTopCards() {
+  const { queryString } = useContextQuery();
   const [totalTrafficInfo, uniqueUsersInfo, totalRegistrationsInfo] = useQueries({
     queries: [totalTraffic(), uniqueUsers({queryString}), getTotalRegistrations({queryString})],
   });
@@ -47,7 +49,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={totalTrafficInfo.data ? totalTrafficInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={32} label={"No aplica filtro"} showPercentage={false}  />
+        <TopCardFooter percentageValue={32} hasFilter={false} showPercentage={false}  />
       </TopCard>
 
       {/* <TopCard
@@ -83,7 +85,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={uniqueUsersInfo.data ? uniqueUsersInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={uniqueUsersPercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={false}   />
+        <TopCardFooter percentageValue={uniqueUsersPercentage} hasFilter={true} showPercentage={false}   />
       </TopCard>
 
       <TopCard
@@ -102,7 +104,7 @@ export default function MarketingTopCards({queryString,labelTimePeriod}: {queryS
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={totalRegistrationsInfo.data ? totalRegistrationsInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalRegistrationsPercentage} label={labelTimePeriod ? labelTimePeriod : "Últmos 28 días"} showPercentage={false}   />
+        <TopCardFooter percentageValue={totalRegistrationsPercentage} hasFilter={true} showPercentage={false}   />
       </TopCard>
     </div>
   );

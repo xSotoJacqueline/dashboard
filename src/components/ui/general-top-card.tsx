@@ -6,6 +6,7 @@ import { type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { GeneralErrorContent } from "@/components/general-error-content"
 import type { QueryObserverResult, RefetchOptions } from "@tanstack/react-query"
+import { useContextQuery } from "@/contexts/query-context"
 
 const MotionNumberFlow = motion.create(NumberFlow)
 const MotionArrowUp = motion.create(TrendingUp)
@@ -164,9 +165,11 @@ function TopCardContent({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function TopCardFooter({ className, percentageValue, label, showPercentage = true, ...props }: React.ComponentProps<"div"> & { showPercentage?: boolean, percentageValue?: number, label: string }) {
+function TopCardFooter({ className, percentageValue, label, hasFilter, showPercentage = true, ...props }: React.ComponentProps<"div"> & { showPercentage?: boolean, percentageValue?: number, label?: string, hasFilter: boolean }) {
   const canAnimate = useCanAnimate()
+  const { labelTimePeriod } = useContextQuery();
   const { isError } = React.useContext(TopCardContext)
+  console.log("hasFilter", hasFilter);
   return (  
     <div
       data-slot="card-footer"
@@ -176,9 +179,13 @@ function TopCardFooter({ className, percentageValue, label, showPercentage = tru
       )}
       {...props}
     >
-      {label && (
+      {label ? (
       <span className="text-sm text-muted-foreground line-clamp-1">{label}</span>
-      )}
+      ) : (hasFilter && hasFilter === true) ? (
+        <span className="text-sm text-muted-foreground line-clamp-1">{labelTimePeriod}</span>
+      ) : (hasFilter === false) ? (
+        <span className="text-sm text-muted-foreground line-clamp-1">No aplica filtro</span>
+      ) : null}
 
       {(showPercentage && !isError && percentageValue) ? (
       <MotionConfig

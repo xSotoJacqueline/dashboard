@@ -7,7 +7,7 @@ import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/ut
 import { useContextQuery } from "@/contexts/query-context";
 
 export default function DespistosTopCards() {
-  const { queryString, labelTimePeriod } = useContextQuery();
+  const { queryString } = useContextQuery();
   const [firstTimeDepositAverage,totalTransactionsByType, depositsWithdrawalQuantity, totalAmountFTD] = useQueries({
     queries: [totalFTDQueryOptions({queryString}), totalTransactionsByTypeQueryOptions({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), totalAmountFTDQueryOptions({queryString})],
   });  
@@ -62,7 +62,7 @@ export default function DespistosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue  valueFormat="currency" value={totalTransactionsByType.data?.Deposit ? totalTransactionsByType.data.Deposit : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={depositAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={depositAmountPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -80,7 +80,7 @@ export default function DespistosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={depositsWithdrawalQuantity.data?.Deposit ? depositsWithdrawalQuantity.data.Deposit : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={depositQuantityPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={depositQuantityPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -98,7 +98,7 @@ export default function DespistosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={firstTimeDepositAverage.data ? firstTimeDepositAverage.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={ftdPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={ftdPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
 
       <TopCard
@@ -117,7 +117,7 @@ export default function DespistosTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="currency" value={totalAmountFTD.data ? totalAmountFTD.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={ftdAmountPercentage} label={labelTimePeriod ? labelTimePeriod : `Últimos 28 días`} showPercentage={true}  />
+        <TopCardFooter percentageValue={ftdAmountPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
     </div>
   );

@@ -15,8 +15,8 @@ export function BarChartPerDayMarketing() {
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
         getActiveUsersByDay({queryString}),
     );
-    
-    const hasFilters = false;
+
+    const hasFilters = true;
 
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />

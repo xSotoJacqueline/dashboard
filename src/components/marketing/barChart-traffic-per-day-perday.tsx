@@ -15,14 +15,14 @@ export function BarChartTrafficPerDayMarketing() {
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
         getTrafficPerDay({queryString}),
     );
-
+    const hasFilters = true;
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse col-span-1 md:col-span-4" description={true} title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
     }
 
     if (error) {
         return (
-        <FullSizeCard hasFilter={false} className="col-span-1 md:col-span-4" identifier="chart1"  cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
+        <FullSizeCard hasFilter={hasFilters} className="col-span-1 md:col-span-4" identifier="chart1"  cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -30,7 +30,7 @@ export function BarChartTrafficPerDayMarketing() {
 
     if (!trafficData || trafficData.length === 0) {
         return (
-        <FullSizeCard hasFilter={false} className="col-span-1 md:col-span-4" identifier="chart1" cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
+        <FullSizeCard hasFilter={hasFilters} className="col-span-1 md:col-span-4" identifier="chart1" cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -44,7 +44,7 @@ export function BarChartTrafficPerDayMarketing() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard hasFilter={false} identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart
