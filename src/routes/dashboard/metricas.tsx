@@ -5,6 +5,7 @@ import type { GeneralSearch } from '@/types/search-types'
 import { motion } from 'framer-motion'
 import MetricsTopCards from '@/components/metricas/metrics-top-cards'
 import { ChartLineAcquisition } from '@/components/metricas/lineChart-acquisition'
+import { ChartLineDropoutRate } from '@/components/metricas/lineChart-dropout-rate'
 
 export const Route = createFileRoute('/dashboard/metricas')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -36,7 +37,7 @@ function RouteComponent() {
 
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
         <ChartLineAcquisition />
-        <ChartLineLabel identifier='chart2'  title="Tasa de Deserción" />
+        <ChartLineDropoutRate />
       </div>
       
       <div className="w-full h-full max-h-full flex gap-6">

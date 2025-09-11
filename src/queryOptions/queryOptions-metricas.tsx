@@ -152,6 +152,39 @@ export function usersByCityQueryOptions() {
   });
 }
 
+type DailyDropoutRate = {
+  date: string;
+  totalUsers: number;
+  dropoutUsers: number;
+  dropoutRate: number;
+}
+
+type DailyDropoutRateResponse = {
+  dailyRates: DailyDropoutRate[];
+  summary: {
+    totalUsers: number;
+    averageDropoutRate: number;
+    totalDropoutUsers: number;
+  }
+
+}
+
+export function getDailyDropoutRate({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['dailyDropoutRate', queryString],
+    queryFn: async () : Promise<DailyDropoutRateResponse> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/daily-dropout-rate${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch daily dropout rate');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
 
 type CustomerLifetimeValueResponse = {
   total_lifetime_value: number;
@@ -183,7 +216,7 @@ export function getRetentionRate({queryString = queryStringDefault}: {queryStrin
     queryKey: ['retentionRate', queryString],
     queryFn: async () : Promise<number> => {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_BASE_URL}/metricas/retation-rate${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      const res = await fetch(`${API_BASE_URL}/metricas/retention-rate${queryString}`,{headers: { 'x-api-key': xApiKey }});
       if (!res.ok) {
         throw new Error('Failed to fetch retention rate');
       }
