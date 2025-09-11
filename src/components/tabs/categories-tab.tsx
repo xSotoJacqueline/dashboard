@@ -70,8 +70,8 @@ export default function CategoriesTab({pageParam}: {pageParam?: number}) {
 
   return (
     <div  style={{containerType: "size"}}  className="w-full h-full min-h-fit flex flex-col gap-6">
-      <div className='h-fit lg:min-h-[35cqh] w-full grid grid-cols-2 md:grid-cols-4 gap-6'>
-        <Card className="w-full flex flex-col justify-between h-full border-0 gap-6 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">
+      <div className='h-fit lg:min-h-[35cqh] w-full grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <Card className="w-full flex flex-col justify-between h-full border-0 gap-6 col-span-1 md:col-span-1 space-y-0">
             <CardHeader className="flex justify-between items-center h-fit">
                 <CardTitle className="text-xl font-semibold">Casino</CardTitle>
                 <MotionConfig  
@@ -140,7 +140,7 @@ export default function CategoriesTab({pageParam}: {pageParam?: number}) {
             </CardFooter>
         </Card>
 
-        <Card className="w-full flex flex-col justify-between h-full border-0 gap-6 col-span-2 md:col-span-3 lg:col-span-2 space-y-0">
+        <Card className="w-full flex flex-col justify-between h-full border-0 gap-6 col-span-1 md:col-span-1 space-y-0">
             <CardHeader className="flex justify-between items-center h-fit">
                 <CardTitle className="text-xl font-semibold">Sports</CardTitle>
                 <MotionConfig  

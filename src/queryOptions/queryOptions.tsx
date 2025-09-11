@@ -7,7 +7,6 @@ export type GeneralProps = {
 }
 
 export const queryStringDefault = `?startDate=${format(subDays(new Date(), 27), 'yyyy-MM-dd')}&endDate=${format(new Date(), 'yyyy-MM-dd')}`;
-console.log("queryStringDefault:", queryStringDefault)
 // 28 dias anteriores
 export const queryString28DaysBefore = `?startDate=${format(subMonths(subDays(new Date(), 27), 1), 'yyyy-MM-dd')}&endDate=${format(subDays(new Date(), 27), 'yyyy-MM-dd')}`;
 export const xApiKey = import.meta.env.VITE_X_API_KEY || '';

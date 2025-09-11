@@ -56,11 +56,11 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
       return res.json();
     },
     onSuccess: () => {
-      toast.success('Archivo Eliminado',{ className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
+      toast.success('Archivo Eliminado',{ className:`${isMobile ? "mt-8" : ""}`, position: isMobile ? "top-center" : "top-right" });
       queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
     },
     onError: (error) => {
-      toast.error(`Error al eliminar archivo: ${error.message}`, { position: isMobile ? "top-center" : "bottom-right" });
+      toast.error(`Error al eliminar archivo: ${error.message}`, { className: `${isMobile ? "mt-8" : ""}`, position: isMobile ? "top-center" : "top-right" });
     },
   });
 
@@ -145,7 +145,8 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
                         label: 'Eliminar',
                         onClick: () => mutate(payment.id),
                     },
-                    className: "mb-2 mr-8"
+                    className: "mb-2 mr-8",
+                    position: "bottom-right"
                     });
                 }}
             >
@@ -199,7 +200,7 @@ export function BenchMarksTable({ data, loading }: { data: BenchmarkKey; loading
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="border-none">
+          <TableBody isLoading={loading} className="border-none">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

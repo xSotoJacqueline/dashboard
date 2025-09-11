@@ -109,7 +109,7 @@ interface DataTableActionBarSelectionProps<TData> {
   table: Table<TData>;
 }
 
-function DataTableActionBarSelection<TData>({ table }: DataTableActionBarSelectionProps<TData>) {
+function DataTableActionBarSelection<TData>({ table, isLoading }: DataTableActionBarSelectionProps<TData> & {isLoading?: boolean}) {
   const onClearSelection = React.useCallback(() => {
     table.toggleAllRowsSelected(false);
   }, [table]);
@@ -123,7 +123,7 @@ function DataTableActionBarSelection<TData>({ table }: DataTableActionBarSelecti
       <Separator orientation="vertical" className="ml-2 mr-1 data-[orientation=vertical]:h-4" />
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className="size-5" onClick={onClearSelection}>
+          <Button disabled={isLoading} variant="ghost" size="icon" className="size-5" onClick={onClearSelection}>
             <X className="size-3.5" />
           </Button>
         </TooltipTrigger>

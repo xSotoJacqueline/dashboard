@@ -24,7 +24,7 @@ export function Pagination<TData>({
       <Input
           type="number"
           min={1}
-          className="h-8 max-w-16 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
+          className="h-8 w-full text-center sm:text-start sm:max-w-16 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
           disabled={loading}
           max={table.getPageCount()}
           onKeyDownCapture={

@@ -144,7 +144,7 @@ export function CategoriesTable({pageParam}: {pageParam?: number}) {
               )}
             </TableRow>
           </TableHeader>
-          <TableBody className="border-0">
+          <TableBody isLoading={totalPlayersGroupedByCasino.isFetching} className="border-0">
             <TableRow className="border-0 text-primary h-2" />
 
             {table.getRowModel().rows?.length ? (

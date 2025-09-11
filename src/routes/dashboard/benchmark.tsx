@@ -14,7 +14,7 @@ import { xApiKey } from '@/queryOptions/queryOptions';
 export const Route = createFileRoute('/dashboard/benchmark')({
   validateSearch: (search: Record<string, unknown>): BenchmarkSearch => {
     return {
-      page: Number(search?.page ?? 0),
+      page: Number(search?.page ?? 1),
     }
   },
   component: RouteComponent,
@@ -46,12 +46,12 @@ function RouteComponent() {
         return res.json();
       },
       onSuccess: () => {
-        toast.success('Archivos subidos correctamente',{ className: "mt-8 sm:mt-0", position: isMobile ? "top-center" : "bottom-right" });
+        toast.success('Archivos subidos correctamente',{ className: "mt-8 sm:mt-0", position: isMobile ? "top-center" : "top-right" });
         clearCsvFiles();
         queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
       },
       onError: (error) => {
-        toast.error(`Error al subir archivos: ${error.message}`, { position: isMobile ? "top-center" : "bottom-right" });
+        toast.error(`Error al subir archivos: ${error.message}`, { position: isMobile ? "top-center" : "top-right" });
       },
   
   });

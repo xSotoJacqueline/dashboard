@@ -144,9 +144,7 @@ const removeFile = (id: string) => {
             onClick={triggerFileInput}
             className={`flex items-center bg-transparent text-foreground font-normal w-full sm:w-fit ${csvFiles.length > 0 ? 'justify-between' : 'justify-center'}`}
           >
-            <span className="">
-              Seleccionar Archivos
-            </span>
+            {csvFiles.length < 1 && <span className="">Seleccionar Archivos</span>}
             {csvFiles.length > 0 && <Badge variant="secondary">{csvFiles.length} {csvFiles.length === 1 ? 'archivo' : 'archivos'}</Badge>}
           </Button>
 
@@ -161,7 +159,7 @@ const removeFile = (id: string) => {
                 <PopoverContent align='center' className="w-[90cqw] sm:w-[600px] mx-5">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-medium">Vista Previa de CSV</h4>
+                      <h4 className="font-medium">Vista previa de archivos</h4>
                       <Badge variant="secondary" className='text-white'>
                         {csvFiles.length} {csvFiles.length === 1 ? 'archivo' : 'archivos'}
                       </Badge>

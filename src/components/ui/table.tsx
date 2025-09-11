@@ -27,11 +27,12 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   )
 }
 
-function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+function TableBody({ className, isLoading, ...props }: React.ComponentProps<"tbody"> & {isLoading?: boolean}) {
   return (
     <tbody
       data-slot="table-body"
-      className={cn("[&_tr:last-child]:border-0", className)}
+      aria-disabled={isLoading}
+      className={cn(`[&_tr:last-child]:border-0 ${isLoading ? "opacity-50 pointer-events-none" : ""}`, className)}
       {...props}
     />
   )

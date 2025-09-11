@@ -13,7 +13,7 @@ export default function BenchmarkCardFiles() {
   const search = useSearch({ from: '/dashboard/benchmark' });
   const page = search.page || 1;
 
-  const {data, isPending, error, refetch} = useQuery(benchmarkKeysQueryOptions({pageParam: page}));
+  const {data, isPending, isFetching, error, refetch} = useQuery(benchmarkKeysQueryOptions({pageParam: page}));
 
   if (isPending) {
     return(<CardLoading title={true} description={true} icon={true} />)
@@ -47,7 +47,7 @@ export default function BenchmarkCardFiles() {
             <CardDescription className="text-foreground text-base">Gestiona tus archivos de benchmark</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 h-full">
-            <BenchMarksTable loading={isPending} data={data} />
+            <BenchMarksTable loading={isFetching} data={data} />
         </CardContent>
     </Card>
   )

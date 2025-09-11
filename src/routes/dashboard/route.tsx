@@ -45,7 +45,7 @@ function RouteComponent() {
                         <Outlet />
                       </QueryProvider>
                     </div>
-                    <Toaster richColors position='bottom-right' className='mb-2' />
+                    <Toaster richColors position='top-right' className='mb-2' />
                 </Scroller>
             </SidebarInset>
         </SidebarProvider>

@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import type { Table } from '@tanstack/react-table';
 import { AnimatePresence, type Transition, type Variants, motion } from 'framer-motion';
 import {
@@ -109,7 +108,7 @@ export function TableActionBar<TData extends { id: number, url: string, name: st
 }: DataTablePaginationProps<TData>) {
   const { toasts } = useSonner();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-
+  const [downloading, setDownloading] = React.useState(false);
   function removeAllToasts() {
     toasts.forEach((t) => toast.dismiss(t.id));
   }
@@ -133,12 +132,12 @@ export function TableActionBar<TData extends { id: number, url: string, name: st
       return res.json();
     },
     onSuccess: () => {
-      toast.success('Archivos eliminados correctamente', { className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
+      toast.success('Archivos eliminados correctamente', { className: `${isMobile ? "mt-8" : ""}`, position: isMobile ? "top-center" : "top-right" });
       queryClient.invalidateQueries({ queryKey: ['benchmarkKeys'] });
       table.resetRowSelection();
     },
     onError: (error) => {
-      toast.error(`Error al eliminar archivos: ${error.message}`, { className: "mt-8", position: isMobile ? "top-center" : "bottom-right" });
+      toast.error(`Error al eliminar archivos: ${error.message}`, { className: `${isMobile ? "mt-8" : ""}`, position: isMobile ? "top-center" : "bottom-right" });
     },
     onSettled: () => {
       setShowConfirmation(false);
@@ -166,6 +165,7 @@ type letFiles = {
 
 
   async function handleDownload() {
+    try{
     const filesToPush: letFiles[] = [];
 
     const files = rows.map((row) => row.original);
@@ -215,7 +215,13 @@ type letFiles = {
       link.href = URL.createObjectURL(blob);
       link.download = `Archivos-${Date.now()}.zip`;
       link.click();
+    }else{
+      throw new Error('Failed to create zip file');
     }
+    }catch(error){
+      throw error;
+    }
+
   }
 
 
@@ -245,17 +251,25 @@ type letFiles = {
             >
 
               <motion.div layout className="flex-shrink-0">
-                <DataTableActionBarSelection table={table} />
+                <DataTableActionBarSelection table={table} isLoading={isPending || showConfirmation || downloading} />
               </motion.div>
 
                 {/* boton para exportar */}
                 <motion.div layout className="flex-shrink-0">
                   <motion.button
                     {...BUTTON_MOTION_CONFIG}
-                    className={`bg-secondary/90 ${(isPending || showConfirmation) ? 'cursor-not-allowed text-foreground/80 opacity-50' : ' cursor-pointer text-foreground'} hover:bg-secondary  flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
+                    className={`bg-secondary/90 ${(isPending || showConfirmation || downloading) ? 'cursor-not-allowed text-foreground/80 opacity-50' : ' cursor-pointer text-foreground'} hover:bg-secondary  flex h-8 w-auto items-center gap-2 overflow-hidden whitespace-nowrap rounded-sm p-2`}
                     aria-label="Reject"
-                    disabled={isPending || showConfirmation}
-                    onClick={() => {handleDownload()}}
+                    disabled={isPending || showConfirmation || downloading}
+                    onClick={() => {
+                      setDownloading(true);
+                      toast.promise(handleDownload(), {
+                        success: 'Archivos descargados correctamente',
+                        error: 'Error al descargar archivos',
+                        loading: 'Descargando archivos...',
+                        finally: () => setDownloading(false),
+                      });
+                    }}
                   >
                     <Download size={16} className="shrink-0" />
                     <motion.span
@@ -271,9 +285,9 @@ type letFiles = {
                 {/* boton para eliminar */}
                 <motion.div layout className="flex-shrink-0">
                   <motion.button
-                    className={`flex h-8 w-auto cursor-pointer items-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-destructive p-2 ${isPending || showConfirmation ? 'cursor-not-allowed text-red-500 opacity-50 dark:!text-red-200' : 'text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60'}`}
+                    className={`flex h-8 w-auto cursor-pointer items-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-destructive p-2 ${isPending || showConfirmation || downloading ? 'cursor-not-allowed text-red-500 opacity-50 dark:!text-red-200' : 'text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60'}`}
                     aria-label="Reject"
-                    disabled={isPending || showConfirmation}
+                    disabled={isPending || showConfirmation || downloading}
                     onClick={() => {
                       setShowConfirmation(!showConfirmation);
                     }}
