@@ -1,4 +1,4 @@
-import { createFileRoute, useSearch } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { FTDAmountChart } from '@/components/depositos/ftd-AmountChart'
 import { FirstFTDChart } from '@/components/depositos/first-FTDChart'
 import ErrorPage from '@/components/errorPage'
@@ -7,7 +7,6 @@ import { DepositsChart } from '@/components/depositos/deposits-chart'
 import {PendingDepositos} from '@/components/depositos/pending-depositos'
 import { PeriodSummaryCard } from '@/components/depositos/period-summary'
 import type { GeneralSearch } from '@/types/search-types'
-import { createQueryString } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
 export const Route = createFileRoute('/dashboard/depositos')({
@@ -28,26 +27,23 @@ export const Route = createFileRoute('/dashboard/depositos')({
 })
 
 function RouteComponent() {
-   const search = useSearch({ from: '/dashboard/depositos' });
     
-  const { queryString, labelTimePeriod } = createQueryString({ fromPeriod: search.from, toPeriod: search.to });
-
   return (
     <div className={`w-full flex flex-col gap-6 rounded-lg text-black h-full py-1`}>
       <section className='w-full h-fit'>
-        <DespistosTopCards queryString={queryString} labelTimePeriod={labelTimePeriod} />
+        <DespistosTopCards />
         <motion.div layoutId="tabs-list" className='w-full' />
       </section>
         <div className="w-full h-full max-h-full flex gap-6">
-           <DepositsChart queryString={queryString} />
+           <DepositsChart/>
         </div>
 
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
-        <FirstFTDChart queryString={queryString} /> 
-        <FTDAmountChart queryString={queryString} />
+        <FirstFTDChart /> 
+        <FTDAmountChart/>
       </div>
 
-      <PeriodSummaryCard queryString={queryString} />
+      <PeriodSummaryCard />
 
     </div>
   )}

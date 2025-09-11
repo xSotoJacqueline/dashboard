@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useContextQuery } from "@/contexts/query-context";
 
 type ChartLineLabelProps = {
   className?: string;
@@ -23,11 +24,11 @@ type ChartLineLabelProps = {
   identifier?: string;
   cardContentClassName?: string;
   isLoading?: boolean;
-  labelTimePeriod?: string;
+  hasFilter: boolean;
 }
 
-export function GeneralCard({ labelTimePeriod,title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
-
+export function GeneralCard({ hasFilter, title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
+  const { labelTimePeriod } = useContextQuery();
   return (
     <motion.div className={cn("w-full h-full overflow-hidden", classNameContainer)}>
       <Card className={cn("w-full h-full border-0", className)}>
@@ -47,7 +48,7 @@ export function GeneralCard({ labelTimePeriod,title, description, Icon, children
                   {description}
                 </CardDescription>}
                 <span className="text-sm text-muted-foreground self-start line-clamp-1">
-                  {labelTimePeriod ? labelTimePeriod : "Últimos 28 días"}
+                  {(labelTimePeriod && hasFilter) ? labelTimePeriod : "No aplica filtro"}
                 </span>
               </motion.div>
 

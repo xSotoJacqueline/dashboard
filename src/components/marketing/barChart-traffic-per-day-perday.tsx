@@ -8,8 +8,10 @@ import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO, parse } from "date-fns";
 import { es } from "date-fns/locale";
 import { getTrafficPerDay } from "@/queryOptions/queryOptions-marketing";
+import { useContextQuery } from "@/contexts/query-context";
 
-export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
+export function BarChartTrafficPerDayMarketing() {
+    const { queryString } = useContextQuery();
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
         getTrafficPerDay({queryString}),
     );
@@ -20,7 +22,7 @@ export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {
 
     if (error) {
         return (
-        <FullSizeCard labelTimePeriod={labelTimePeriod} className="col-span-1 md:col-span-4" identifier="chart1"  cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
+        <FullSizeCard hasFilter={false} className="col-span-1 md:col-span-4" identifier="chart1"  cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -28,7 +30,7 @@ export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {
 
     if (!trafficData || trafficData.length === 0) {
         return (
-        <FullSizeCard labelTimePeriod={labelTimePeriod} className="col-span-1 md:col-span-4" identifier="chart1" cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
+        <FullSizeCard hasFilter={false} className="col-span-1 md:col-span-4" identifier="chart1" cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -42,7 +44,7 @@ export function BarChartTrafficPerDayMarketing({queryString, labelTimePeriod}: {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Tráfico por día" description={`Visitantes únicos en ${labelTimePeriod ? `el período del ${labelTimePeriod}` : 'Últimos 28 días'}`}>
+        <FullSizeCard hasFilter={false} identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px]" title="Tráfico por día" description="Visitantes únicos">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

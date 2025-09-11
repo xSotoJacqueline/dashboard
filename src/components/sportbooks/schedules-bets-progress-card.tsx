@@ -23,7 +23,7 @@ export function SchedulesBetsProgressCard({ title, description, Icon, values }: 
   const totalAllVisits = values.reduce((sum, src) => sum + src.value, 0);
 
   return (
-    <GeneralCard classNameContainer="overflow-visible" className='h-full' Icon={Icon} title={title} description={description}>
+    <GeneralCard hasFilter={false} classNameContainer="overflow-visible" className='h-full' Icon={Icon} title={title} description={description}>
       <div className='h-full w-full flex flex-col gap-4'>
         {values.map((source, index) => {
           const impactPercentage = (source.value / totalAllVisits) * 100;

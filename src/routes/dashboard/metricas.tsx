@@ -5,6 +5,7 @@ import type { GeneralSearch } from '@/types/search-types'
 import { motion } from 'framer-motion'
 import MetricsTopCards from '@/components/metricas/metrics-top-cards'
 import { createQueryString } from '@/lib/utils'
+import { ChartLineAcquisition } from '@/components/metricas/lineChart-acquisition'
 
 export const Route = createFileRoute('/dashboard/metricas')({
   validateSearch: (search: Record<string, unknown>): GeneralSearch => {
@@ -39,7 +40,7 @@ function RouteComponent() {
       </section>
 
       <div className="h-fit grid grid-cols-1 md:grid-cols-2 gap-6">
-        <ChartLineLabel identifier='chart1'  title="Tasa de Adquisición" />
+        <ChartLineAcquisition />
         <ChartLineLabel identifier='chart2'  title="Tasa de Deserción" />
       </div>
       

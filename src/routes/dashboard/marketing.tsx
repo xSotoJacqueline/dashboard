@@ -47,13 +47,13 @@ function RouteComponent() {
           </ScrollArea>
 
            <TabsContent  className="w-full h-full" value="traffic">
-              <TrafficTab queryString={queryString} labelTimePeriod={labelTimePeriod} />
+              <TrafficTab />
             </TabsContent>
             <TabsContent className="w-full h-full" value="campaigns">
-              <CampaignTab queryString={queryString} labelTimePeriod={labelTimePeriod} />
+              <CampaignTab />
             </TabsContent>
             <TabsContent className="w-full h-full" value="players">
-              <PlayersTab queryString={queryString} labelTimePeriod={labelTimePeriod}/>
+              <PlayersTab />
             </TabsContent>
         </Tabs>
     </div>

@@ -35,7 +35,7 @@ export function TicketsTable({title, description, Icon, identifier}: {title: str
   const { state } = useSidebar();
 
   return (
-    <GeneralCard classNameContainer="overflow-visible" className=" min-h-fit" cardContentClassName="h-fit" identifier={identifier} title={title} description={description} Icon={Icon}>
+    <GeneralCard hasFilter={false} classNameContainer="overflow-visible" className=" min-h-fit" cardContentClassName="h-fit" identifier={identifier} title={title} description={description} Icon={Icon}>
        <div className="w-full h-fit ">
               <Table>
                 <TableHeader className=" ">

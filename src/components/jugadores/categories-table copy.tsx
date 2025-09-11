@@ -125,6 +125,7 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
 
   return (
     <GeneralCard 
+      hasFilter={true}
       cardContentClassName="h-full" 
       classNameContainer="h-full" 
       isLoading={totalPlayersGroupedByCasino.isFetching} 

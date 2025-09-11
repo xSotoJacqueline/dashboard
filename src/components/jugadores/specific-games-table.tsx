@@ -30,13 +30,10 @@ type GameTableData = {
 
 export function SpecificGamesTable() {
   const { state } = useSidebar();
-  const { labelTimePeriod, queryString } = useContextQuery();
+  const { queryString } = useContextQuery();
   const gamesData = useQuery(getTotalBetsGroupedByGameAndCasino({queryString}));
 
   // Transformar los datos de la API al formato de la tabla
-
-
-
   const columns: ColumnDef<GameTableData>[] = [
     {
       accessorKey: "game",
@@ -143,7 +140,7 @@ export function SpecificGamesTable() {
   }
 
   return (
-        <GeneralCard labelTimePeriod={labelTimePeriod} classNameContainer="overflow-hidden" className=" min-h-fit" cardContentClassName="h-full" identifier={""} title={""}>
+        <GeneralCard hasFilter={true} classNameContainer="overflow-hidden" className=" min-h-fit" cardContentClassName="h-full" identifier={""} title={""}>
     
           <div className="w-full h-full overflow-x-auto">
           <Table>

@@ -16,6 +16,7 @@ import { Button } from "./ui/button"
 import { useIsActiveStore } from "@/lib/active-full-container";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useContextQuery } from "@/contexts/query-context";
 
 type ChartLineLabelProps = {
   className?: string;
@@ -26,11 +27,13 @@ type ChartLineLabelProps = {
   identifier?: string;
   fullScreenButton?: boolean;
   cardContentClassName?: string;
-  labelTimePeriod?: string;
+  hasFilter: boolean;
 }
 
-export function FullSizeCard({ labelTimePeriod, title, description, Icon, children, identifier, className, cardContentClassName, fullScreenButton = true }: ChartLineLabelProps) {
+export function FullSizeCard({ hasFilter, title, description, Icon, children, identifier, className, cardContentClassName, fullScreenButton = true }: ChartLineLabelProps) {
   const [activeGame, setActiveGame] = useState<string | null>(null);
+  const { labelTimePeriod } = useContextQuery();
+  
   const { setIsActive } = useIsActiveStore();
 
   const ref = useRef<HTMLDivElement>(null)
@@ -97,7 +100,7 @@ export function FullSizeCard({ labelTimePeriod, title, description, Icon, childr
                           {description}
                         </CardDescription>}
                         <span className="text-sm text-muted-foreground h-fit self-start line-clamp-1">
-                          {labelTimePeriod ? labelTimePeriod : "Últimos 28 días"}
+                          {(labelTimePeriod && hasFilter) ? labelTimePeriod : "No aplica filtro"}
                         </span>
                       </motion.div>
 
@@ -138,7 +141,7 @@ export function FullSizeCard({ labelTimePeriod, title, description, Icon, childr
                     {description}
                   </CardDescription>}
                   <span className="text-sm text-muted-foreground h-fit self-start line-clamp-1">
-                    {labelTimePeriod ? labelTimePeriod : "Últimos 28 días"}
+                    {(labelTimePeriod && hasFilter) ? labelTimePeriod : "No aplica filtro"}
                   </span>
                 </motion.div>
 

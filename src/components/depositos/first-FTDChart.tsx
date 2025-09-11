@@ -10,8 +10,9 @@ import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { useContextQuery } from "@/contexts/query-context";
 
-export function FirstFTDChart({queryString}: {queryString?: string}) {
-    const { labelTimePeriod } = useContextQuery();
+export function FirstFTDChart() {
+    const { queryString } = useContextQuery();
+    const hasFilters = true;
     const { data: ftdMount, error, isPending, isFetching, refetch } = useQuery(
         FTDQuantityByDayQueryOptions({queryString}),
     );
@@ -22,7 +23,7 @@ export function FirstFTDChart({queryString}: {queryString?: string}) {
 
     if (error) {
         return (    
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -30,7 +31,7 @@ export function FirstFTDChart({queryString}: {queryString?: string}) {
 
     if (!ftdMount || ftdMount.length === 0) {
         return (    
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -44,7 +45,7 @@ export function FirstFTDChart({queryString}: {queryString?: string}) {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="FTD’s diarios" description="(Primeros depósitos)">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

@@ -52,8 +52,23 @@ export function topLoosers({queryString = queryStringDefault, pageParam}: {query
   });
 }
 export type FavoriteGame = {
-  game: string;
-  count: number;
+        game: string; 
+        count: number;
+        sessions: {
+          realMoneyBets: number;
+          realMoneyWins: number;
+          wins: number;
+          numberOfBets: number;
+          casino: string;
+          betDate: Date | null;
+        }[];
+        totalRealMoneyBets: number;
+        totalRealMoneyWins: number;
+        totalWins: number;
+        totalNumberOfBets: number;
+        averageRealMoneyBets: number;
+        averageRealMoneyWins: number;
+        casinos: string[]
 }
 
 export type FavoriteCasino = {

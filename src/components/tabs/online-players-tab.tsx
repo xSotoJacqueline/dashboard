@@ -53,7 +53,7 @@ const playersData: TableItem[] = [
 export default function OnlinePlayersTab() {
   
   return (
-    <GeneralCard classNameContainer="overflow-visible" title="Jugadores activos" Icon={UsersRoundIcon}>
+    <GeneralCard hasFilter={false} classNameContainer="overflow-visible" title="Jugadores activos" Icon={UsersRoundIcon}>
       <div className="w-full h-full min-h-fit ">
         <Table>
           <TableHeader className=" ">

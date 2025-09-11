@@ -40,7 +40,7 @@ export function EarningsProgressCard({ title, description, Icon}: Props) {
   const totalAllVisits = trafficSources.reduce((sum, src) => sum + src.totalVisits, 0);
 
   return (
-    <GeneralCard classNameContainer="overflow-visible" className='h-full' Icon={Icon} title={title} description={description}>
+    <GeneralCard hasFilter={false} classNameContainer="overflow-visible" className='h-full' Icon={Icon} title={title} description={description}>
       <div className='h-full w-full flex flex-col gap-4'>
         {trafficSources.map((source) => {
           const impactPercentage = (source.totalVisits / totalAllVisits) * 100;

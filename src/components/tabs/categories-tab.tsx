@@ -15,6 +15,7 @@ import { getTotalPlayersGroupedByCasino } from "@/queryOptions/queryOptions-juga
 import { LoaderCircleIcon } from "lucide-react";
 import { GeneralErrorContent } from "../general-error-content";
 import { GeneralEmptyContent } from "../general-empty-content";
+import { useContextQuery } from "@/contexts/query-context";
 
 const MotionNumberFlow = motion.create(NumberFlow)
 type CategoryTableItem = {
@@ -25,8 +26,9 @@ type CategoryTableItem = {
   percentageOfTotalPlayers: number;
 }
 
-export default function CategoriesTab({queryString, pageParam, labelTimePeriod}: {queryString?: string, pageParam?: number, labelTimePeriod?: string}) {
+export default function CategoriesTab({pageParam}: {pageParam?: number}) {
   const canAnimate = useCanAnimate()
+  const { queryString, labelTimePeriod } = useContextQuery();
 
   const totalPlayersGroupedByCasino = useQuery(getTotalPlayersGroupedByCasino({queryString, pageParam}));
 
@@ -211,7 +213,7 @@ export default function CategoriesTab({queryString, pageParam, labelTimePeriod}:
 
       </div>
       <div className='h-full max-h-[300px] min-h-fit w-full pt-2'>
-        <CategoriesTable pageParam={pageParam} queryString={queryString}/>
+        <CategoriesTable pageParam={pageParam}/>
       </div>
 
     </div>

@@ -25,6 +25,18 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { DataTableFilterList } from "../data-table-filter-list";
 import { useSearch } from "@tanstack/react-router";
 import { useContextQuery } from "@/contexts/query-context";
+import { useState } from "react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer"
+import { Button } from "../ui/button";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 type HybridPlayerTableItem = {
   userId: string;
@@ -34,15 +46,22 @@ type HybridPlayerTableItem = {
   real_money_bets: number;
 }
 
-export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
+export function HybridUsersDetailsTable({pageParam}: {pageParam?: number}) {
   const { state, isMobile } = useSidebar();
-  const { labelTimePeriod } = useContextQuery();
+  const { queryString } = useContextQuery();
   const search = useSearch({ from: '/dashboard/jugadores' });
   const FilterStructure = search.filters || [];
   const joinOperator = search.joinOperator || "and";
   const applyFilters = search.applyFilters || false;
   const hybridUsersDetails = useQuery(getHybridPlayersDetails({queryString, pageParam, filters: applyFilters ? FilterStructure : undefined, joinOperator: joinOperator}));
 
+  const [selectedGame, setSelectedGame] = useState<FavoriteGame & {userName: string} | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleGameClick = (game: FavoriteGame, userName: string) => {
+    setSelectedGame({ ...game, userName });
+    setIsDialogOpen(true);
+  };
   const tableData: HybridPlayerTableItem[] = hybridUsersDetails.data ? 
     Object.entries(hybridUsersDetails.data.data).map(([userId, playerData]) => ({
       userId,
@@ -67,22 +86,23 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
       },
       enableColumnFilter: true,
     },
-    {
+ {
       accessorKey: "game_type",
       header: "Juego",
       cell: ({ row }) => {
         const favoriteGames = row.getValue("game_type") as FavoriteGame[];
+        const userName = row.getValue("user_name") as string;
+
         return (
           <div className="flex items-center justify-center w-full">
             <div className="flex items-center justify-center gap-1 flex-wrap min-w-[200px]">
               { 
-
                 favoriteGames.length > (isMobile ? 1 : 2) ? (
                   <>
                     {favoriteGames.slice(0, isMobile ? 1 : 2).map((game, index) => (
                       <Badge 
                         key={`${game.game}-${index}`} 
-                        className="w-fit " 
+                        className="w-fit cursor-pointer hover:opacity-80 transition-opacity"
                         variant={
                           game.game === "SLOT_GAME" ? "default" : 
                           game.game === "POKER" ? "outline" : 
@@ -90,6 +110,7 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
                           game.game === "ROULETTE" ? "destructive" :
                           "secondary"
                         }
+                        onClick={() => handleGameClick(game, userName)}
                       >
                         {game.game} ({game.count})
                       </Badge>
@@ -108,16 +129,17 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
                   >
                     <div className="flex flex-wrap gap-1 max-w-xs">
                       {favoriteGames.slice(isMobile ? 1 : 2).map((game, index) => (
-                        <Badge
-                          key={`popover-${game.game}-${index}`}
-                          className="w-fit text-xs"
+                        <Badge 
+                          key={`${game.game}-${index}`} 
+                          className="w-fit cursor-pointer hover:opacity-80 transition-opacity"
                           variant={
-                            game.game === "SLOT_GAME" ? "default" :
-                            game.game === "POKER" ? "outline" :
+                            game.game === "SLOT_GAME" ? "default" : 
+                            game.game === "POKER" ? "outline" : 
                             game.game === "BLACKJACK" ? "secondary" :
                             game.game === "ROULETTE" ? "destructive" :
                             "secondary"
                           }
+                        onClick={() => handleGameClick(game, userName)}
                         >
                           {game.game} ({game.count})
                         </Badge>
@@ -125,14 +147,12 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
                     </div>
                   </PopoverContent>
                 </Popover>
-
-  
                   </>
                 ) : (
                   favoriteGames.map((game, index) => (
                     <Badge 
                       key={`${game.game}-${index}`} 
-                      className="w-fit " 
+                      className="w-fit cursor-pointer hover:opacity-80 transition-opacity"
                       variant={
                         game.game === "SLOT_GAME" ? "default" : 
                         game.game === "POKER" ? "outline" : 
@@ -140,6 +160,7 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
                         game.game === "ROULETTE" ? "destructive" :
                         "secondary"
                       }
+                        onClick={() => handleGameClick(game, userName)}
                     >
                       {game.game} ({game.count})
                     </Badge>
@@ -227,8 +248,10 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
   }
 
   return (
-    <GeneralCard labelTimePeriod={labelTimePeriod} cardContentClassName="h-full" className="" classNameContainer="min-h-[595px]" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
-        
+
+    <>
+    
+    <GeneralCard hasFilter={true} cardContentClassName="h-full" className="" classNameContainer="min-h-[595px]" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
         <div className="w-full h-full flex flex-col justify-between gap-2">
           <DataTableFilterList 
               loading={false}
@@ -314,5 +337,82 @@ export function HybridUsersDetailsTable({queryString, pageParam}: {queryString?:
 
         </div>
     </GeneralCard>
+  {/* Game Sessions Dialog */}
+      <Drawer open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DrawerContent  className="z-9999 h-[90vh] !max-h-screen w-full">
+            <DrawerHeader>
+              <DrawerTitle>
+                {selectedGame?.userName}
+              </DrawerTitle>
+              <DrawerDescription className="mb-2">
+                Sesiones de {selectedGame?.game} ({selectedGame?.count} sesiones)
+              </DrawerDescription>
+            </DrawerHeader>
+              {selectedGame && (
+                <section className="flex px-6 flex-col h-full items-center justify-start w-full gap-0">
+                  <div className="grid grid-cols-1 flex-1 items-center w-full justify-center sm:grid-cols-2 gap-4 mb-6 p-4 bg-muted rounded-lg">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Total Dinero Real Apostado</p>
+                        <p className="text-lg font-semibold">{selectedGame.totalRealMoneyBets.toLocaleString()}</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Total Dinero Real Ganado</p>
+                        <p className="text-lg font-semibold">{selectedGame.totalRealMoneyWins.toLocaleString()}</p>
+                      </div>
+                  </div>
+                  <ScrollArea className="h-[45vh] w-full">
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Fecha</TableHead>
+                            <TableHead>Casino</TableHead>
+                            {/* <TableHead className="text-right">Apuestas</TableHead> */}
+                            <TableHead className="text-right">Dinero Real Apostado</TableHead>
+                            <TableHead className="text-right">Dinero Real Ganado</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {selectedGame.sessions.map((session, index) => (
+                            <TableRow key={index}>
+                              <TableCell>
+                                {session.betDate
+                                  ?
+                                  new Date(session.betDate).toLocaleDateString('es-ES', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                  })
+                                  : ""}
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant={session.casino === "Casino" ? "default" : "outline"}>
+                                  {session.casino}
+                                </Badge>
+                              </TableCell>
+                              {/* <TableCell className="text-right">{session.numberOfBets.toLocaleString()}</TableCell> */}
+                              <TableCell className="text-right">{session.realMoneyBets.toLocaleString()}</TableCell>
+                              <TableCell className="text-right">{session.realMoneyWins.toLocaleString()}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                    <ScrollBar orientation="horizontal" />
+
+                  </ScrollArea>
+                </section>
+
+              )}
+
+            <DrawerFooter>
+              <DrawerClose className="w-full">
+                <Button variant="default" className="w-full">Cerrar</Button>
+              </DrawerClose>
+            </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+        </>
+
   )
 }

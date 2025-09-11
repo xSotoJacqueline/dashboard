@@ -15,7 +15,7 @@ export default function CampaignsCard() {
   const campaignQueries = useQuery(getCampaigns());
   return (
 
-    <GeneralCard labelTimePeriod={"No aplica filtros"} classNameContainer="" className=" min-h-fit h-fit" cardContentClassName="h-fit" identifier={"Rendimiento de campañas"} title={"Rendimiento de campañas"} description={"Resultados detallados de tus campañas activas"} >
+    <GeneralCard hasFilter={false} classNameContainer="" className=" min-h-fit h-fit" cardContentClassName="h-fit" identifier={"Rendimiento de campañas"} title={"Rendimiento de campañas"} description={"Resultados detallados de tus campañas activas"} >
           {campaignQueries.isLoading ? (
             <CardLoading className="h-[500px] animate-pulse" children={ <div />} />
           ) : campaignQueries.isError ? (

@@ -60,7 +60,7 @@ type ChartLineLabelProps = {
 
 export function BarChartPerDayMarketing({ title, identifier }: ChartLineLabelProps) {
   return (
-            <FullSizeCard identifier={identifier} cardContentClassName="min-h-[120px] col-span-1 w-full h-full" title={title} description="Visitantes únicos en los últimos 28 días">
+            <FullSizeCard hasFilter={false} identifier={identifier} cardContentClassName="min-h-[120px] col-span-1 w-full h-full" title={title} description="Visitantes únicos en los últimos 28 días">
                 <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                     <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                       <BarChart 

@@ -17,11 +17,9 @@ export type TrafficSource = {
 }
 type ChartLineLabelProps = {
   className?: string;
-  queryString?: string, 
-  labelTimePeriod?: string
 }
 export function TrafficSources({ className }: ChartLineLabelProps) {
-    const { labelTimePeriod, queryString } = useContextQuery();
+    const { queryString } = useContextQuery();
 
   const trafficSources = useQuery(
       getTrafficSourcesAndEvents({queryString}),
@@ -34,7 +32,7 @@ export function TrafficSources({ className }: ChartLineLabelProps) {
 
       if (!trafficSources.data || trafficSources.data.length === 0) {
           return (
-            <GeneralCard labelTimePeriod={labelTimePeriod} isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+            <GeneralCard hasFilter={true} isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
               <GeneralEmptyContent />
             </GeneralCard>      
         )
@@ -42,14 +40,14 @@ export function TrafficSources({ className }: ChartLineLabelProps) {
   
       if (trafficSources.error) {
           return (    
-          <GeneralCard labelTimePeriod={labelTimePeriod}  identifier="chart2" title="Fuentes de tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+          <GeneralCard hasFilter={true}  identifier="chart2" title="Fuentes de tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
               <GeneralErrorContent />
           </GeneralCard>
           )
       }
 
   return (
-    <GeneralCard labelTimePeriod={labelTimePeriod} isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
+    <GeneralCard hasFilter={true} isLoading={trafficSources.isPending} identifier="chart2" title="Fuentes de tráfico" classNameContainer="col-span-1 md:col-span-2 min-h-fit" description="De dónde vienen tus visitantes" className={cn("w-full h-fit md:h-full md:pb-0 border-0 col-span-1", className)}>
         <div className="flex flex-col justify-betweenh-full">
             {trafficSources.data?.map((source, index) => {
               return (

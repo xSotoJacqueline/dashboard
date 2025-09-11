@@ -34,7 +34,7 @@ type ChartLineLabelProps = {
 export function ChartLineLabel({ title, identifier }: ChartLineLabelProps) {
 
   return (
-        <FullSizeCard identifier={identifier} title={title} description="Número total de bonos utilizados por cliente">
+        <FullSizeCard hasFilter={false} identifier={identifier} title={title} description="Número total de bonos utilizados por cliente">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                   <LineChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>

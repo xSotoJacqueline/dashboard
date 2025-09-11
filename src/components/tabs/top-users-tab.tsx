@@ -18,13 +18,12 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 import { useDataTable } from "@/lib/use-data-table"
-import { useContextQuery } from '@/contexts/query-context';
+import { useContextQuery } from "@/contexts/query-context";
 
 // import { Pagination } from "../pagination";
 
-export default function TopUsersTab({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
-  const { labelTimePeriod } = useContextQuery();
-
+export default function TopUsersTab({pageParam}: {pageParam?: number}) {
+  const { queryString } = useContextQuery();
   const losersData = useQuery(topLoosers({queryString, pageParam}));
   
   const columns: ColumnDef<TopLoosersData>[] = [
@@ -85,7 +84,7 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
   }
 
   return (
-    <GeneralCard labelTimePeriod={labelTimePeriod} isLoading={losersData.isFetching} identifier="chart1" title="Top perdedores" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard hasFilter={true} isLoading={losersData.isFetching} identifier="chart1" title="Top perdedores" description="Jugadores con menos ganancias" Icon={ChartColumnDecreasingIcon}>
       <div className="w-full h-full">
         <Table>
           <TableHeader className=" ">
@@ -133,10 +132,6 @@ export default function TopUsersTab({queryString, pageParam}: {queryString?: str
         {table.getRowModel().rows?.length < 1 && (
           <GeneralEmptyContent className="max-h-[90%]" />
         )}
-        {/* <Pagination
-          table={table}
-          loading={losersData.isFetching}
-        /> */}
       </div>
     </GeneralCard>
   )

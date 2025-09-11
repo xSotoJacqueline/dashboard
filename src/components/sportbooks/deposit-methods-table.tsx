@@ -35,7 +35,7 @@ export function DepositMethodsTable() {
   const { state } = useSidebar();
 
   return (
-    <GeneralCard identifier="chart1" title="Métodos de depósito" description="Distribución de métodos de pago" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard hasFilter={false} identifier="chart1" title="Métodos de depósito" description="Distribución de métodos de pago" Icon={ChartColumnDecreasingIcon}>
        <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">

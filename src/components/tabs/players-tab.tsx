@@ -4,9 +4,10 @@ import { getAverageTimeOnPage, getConversionRate, getRetentionRate } from '@/que
 import { useQueries } from '@tanstack/react-query'
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { BarChartRegistersPerDayMarketing } from '../marketing/barChart-registers-perday'
+import { useContextQuery } from '@/contexts/query-context';
 
-
-export default function PlayersTab({queryString,labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
+export default function PlayersTab() {
+    const { queryString, labelTimePeriod } = useContextQuery();
     const [averageTimeOnPage, conversionRate, retentionRate] = useQueries({
       queries: [getAverageTimeOnPage({queryString}), getConversionRate(), getRetentionRate({queryString})],
     });
@@ -14,8 +15,8 @@ export default function PlayersTab({queryString,labelTimePeriod}: {queryString?:
   return (
     <div className="w-full h-full flex flex-col gap-6">
     <div className='h-fit md:h-[65cqh] w-full grid grid-cols-1 md:grid-cols-2 gap-6'>
-      <BarChartPerDayMarketing queryString={queryString} labelTimePeriod={labelTimePeriod} />
-      <BarChartRegistersPerDayMarketing queryString={queryString} />
+      <BarChartPerDayMarketing />
+      <BarChartRegistersPerDayMarketing />
     </div>
     <div className='h-full min-h-fit w-full grid grid-cols-2 md:grid-cols-6 gap-6'>
       <TopCard

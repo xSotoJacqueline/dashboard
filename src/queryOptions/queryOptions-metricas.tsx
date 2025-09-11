@@ -61,6 +61,30 @@ export function getAverageIncome() {
   });
 }
 
+type DailyAcquisition = {
+  date: string;
+  registrations: number;
+  acquisitionRate: number;
+  isImputed: boolean;
+}
+
+export function getDailyAcquisition({queryString = queryStringDefault}: {queryString?: string}) {
+  return queryOptions({
+    queryKey: ['dailyAcquisition', queryString],
+    queryFn: async () : Promise<DailyAcquisition[]> => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_BASE_URL}/metricas/daily-acquisition${queryString}`,{headers: { 'x-api-key': xApiKey }});
+      if (!res.ok) {
+        throw new Error('Failed to fetch daily acquisition');
+      }
+      const data = await res.json();
+      return data;
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
 //adquisición de usuarios
 export function getAcquisitionRate({queryString = queryStringDefault}: {queryString?: string}) {
   return queryOptions({

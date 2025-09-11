@@ -13,7 +13,7 @@ export function BonusPerClientChart() {
       getCountAllUsersByBonus()
     );
 
-    const labelTimePeriod = "No aplica filtros";
+    const hasFilters = false;
 
     if (allUsersByBonus.isPending || allUsersByBonus.isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
@@ -21,7 +21,7 @@ export function BonusPerClientChart() {
 
     if (allUsersByBonus.error) {
         return (    
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
             <GeneralErrorContent refetch={allUsersByBonus.refetch} />
         </FullSizeCard>
         )
@@ -29,7 +29,7 @@ export function BonusPerClientChart() {
 
     if (!allUsersByBonus.data || allUsersByBonus.data.length === 0) {
         return (    
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -43,7 +43,7 @@ export function BonusPerClientChart() {
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="Bonos por cliente" description="Número total de bonos utilizados por cliente">
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

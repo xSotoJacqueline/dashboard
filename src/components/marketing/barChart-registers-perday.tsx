@@ -10,11 +10,12 @@ import { es } from "date-fns/locale";
 import { getRegisteredUsersByDay } from "@/queryOptions/queryOptions-marketing";
 import { useContextQuery } from "@/contexts/query-context";
 
-export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: string}) {
-    const { labelTimePeriod } = useContextQuery();
+export function BarChartRegistersPerDayMarketing() {
+    const { queryString } = useContextQuery();
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
         getRegisteredUsersByDay({queryString}),
     );
+    const hasFilters = true
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
 
@@ -22,7 +23,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
 
     if (error) {
         return (    
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -30,7 +31,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
 
     if (!trafficData || trafficData.length === 0) {
         return (    
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -44,7 +45,7 @@ export function BarChartRegistersPerDayMarketing({queryString}: {queryString?: s
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard labelTimePeriod={labelTimePeriod} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
+        <FullSizeCard hasFilter={hasFilters} identifier="chart2" cardContentClassName="min-h-[120px]" title="Registros por días" description={`Nuevos usuarios registrados`}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

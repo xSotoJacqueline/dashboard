@@ -4,8 +4,10 @@ import { UsersRoundIcon, UserRoundPlus, MedalIcon, GiftIcon } from "lucide-react
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { useMemo } from "react";
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
+import { useContextQuery } from "@/contexts/query-context";
 
-export default function DespistosTopCards({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
+export default function DespistosTopCards() {
+  const { queryString, labelTimePeriod } = useContextQuery();
   const [firstTimeDepositAverage,totalTransactionsByType, depositsWithdrawalQuantity, totalAmountFTD] = useQueries({
     queries: [totalFTDQueryOptions({queryString}), totalTransactionsByTypeQueryOptions({queryString}), depositsWithdrawalQuantityQueryOptions({queryString}), totalAmountFTDQueryOptions({queryString})],
   });  

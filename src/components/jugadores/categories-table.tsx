@@ -21,6 +21,7 @@ import { useDataTable } from "@/lib/use-data-table"
 import { Pagination } from "../pagination";
 import { ChartColumnDecreasingIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { useContextQuery } from "@/contexts/query-context";
 
 type CategoryTableItem = {
   playerId: string;
@@ -29,12 +30,11 @@ type CategoryTableItem = {
   category: 'Casino' | 'Sport';
 }
 
-export function CategoriesTable({queryString, pageParam}: {queryString?: string, pageParam?: number}) {
+export function CategoriesTable({pageParam}: {pageParam?: number}) {
+  const { queryString } = useContextQuery();
   const { state } = useSidebar();
-
   const totalPlayersGroupedByCasino = useQuery(getTotalPlayersGroupedByCasino({queryString, pageParam}));
 
-  // Combinar los datos de ambas categorías en una sola tabla
   const tableData: CategoryTableItem[] = totalPlayersGroupedByCasino.data ? [
     ...totalPlayersGroupedByCasino.data.data.Casino.paginatedPlayers.map(player => ({
       ...player,
@@ -110,6 +110,7 @@ export function CategoriesTable({queryString, pageParam}: {queryString?: string,
 
   return (
     <GeneralCard 
+      hasFilter={true}
       cardContentClassName="h-full" 
       classNameContainer="min-h-[595px]" 
       isLoading={totalPlayersGroupedByCasino.isFetching} 

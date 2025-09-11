@@ -35,7 +35,7 @@ export function WithDrawMethodsTable() {
   const { state } = useSidebar();
 
   return (
-    <GeneralCard identifier="chart2" title="Métodos de retiro" description="Jugadores con mayores perdidas" Icon={ChartColumnDecreasingIcon}>
+    <GeneralCard hasFilter={false} identifier="chart2" title="Métodos de retiro" description="Jugadores con mayores perdidas" Icon={ChartColumnDecreasingIcon}>
        <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">

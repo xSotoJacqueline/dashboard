@@ -76,16 +76,16 @@ function RouteComponent() {
           </ScrollArea>
 
           <TabsContent  className="w-full h-full" value="top-users">
-            <TopUsersTab queryString={queryString} pageParam={page} />
+            <TopUsersTab pageParam={page} />
           </TabsContent>
           <TabsContent className="w-full h-full" value="specific-games">
             <SpecificGamesTab />
           </TabsContent>
           <TabsContent className="w-full h-full" value="categories">
-            <CategoriesTab  queryString={queryString} pageParam={page} labelTimePeriod={labelTimePeriod}/>
+            <CategoriesTab  pageParam={page}/>
           </TabsContent>
           <TabsContent className="w-full h-full" value="hybrid-players">
-            <HybridUsersTab queryString={queryString} pageParam={page} />
+            <HybridUsersTab  />
           </TabsContent>
         </Tabs>
     </div>

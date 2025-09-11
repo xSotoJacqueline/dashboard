@@ -59,7 +59,7 @@ type ChartLineLabelProps = {
 export function BarChartMarketing({ title }: ChartLineLabelProps) {
   return (
 
-    <FullSizeCard identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px] w-full h-full" title={title} description="Visitantes únicos en los últimos 28 días">
+    <FullSizeCard hasFilter={false} identifier="chart1" className="col-span-1 md:col-span-4" cardContentClassName="min-h-[120px] w-full h-full" title={title} description="Visitantes únicos en los últimos 28 días">
         <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
             <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
               <BarChart

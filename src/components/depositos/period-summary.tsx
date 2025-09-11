@@ -13,19 +13,19 @@ export type Source = {
   value: number;
 }
 
-export function PeriodSummaryCard({queryString}: {queryString?: string}) {
-  const { labelTimePeriod } = useContextQuery();
+export function PeriodSummaryCard() {
+  const { queryString } = useContextQuery();
 
   const [{data: averageAmountDeposits, error: averageAmountDepositsError, isPending: isPendingAverage, isFetching: isFetchingAverage}, {data: proportionalDepositFTD, error: proportionalDepositFTDError, refetch: refetchProportional, isPending: isPendingProportional, isFetching: isFetchingProportional}, {data: globalAverageDeposit, error: globalAverageDepositError, isPending: isPendingGlobalAverage, isFetching: isFetchingGlobalAverage, refetch: refetchGlobalAverage}] = useQueries({
     queries: [ averageAmountDepositsQueryOptions({queryString}), proportionalDepositFTDQueryOptions({queryString}), globalAverageDepositQueryOptions({queryString})],
   });
 
-    if (isPendingProportional || isPendingAverage || isFetchingProportional || isFetchingAverage || isPendingGlobalAverage || isFetchingGlobalAverage) {
-        return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[120px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
-    }
+  if (isPendingProportional || isPendingAverage || isFetchingProportional || isFetchingAverage || isPendingGlobalAverage || isFetchingGlobalAverage) {
+    return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[120px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
+  }
 
   return (
-    <GeneralCard labelTimePeriod={labelTimePeriod} classNameContainer="overflow-visible" className='h-full' title={"Resumen del período"}>
+    <GeneralCard hasFilter={true} classNameContainer="overflow-visible" className='h-full' title={"Resumen del período"}>
       <div className='h-full w-full flex flex-col justify-center items-center '>
 
         <div className='w-full xl:max-w-4/6 h-fit flex md:flex-row flex-col justify-between gap-6 items-center'>

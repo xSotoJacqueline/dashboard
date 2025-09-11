@@ -8,12 +8,16 @@ import { GeneralErrorContent } from "../general-error-content";
 import { format, parseISO, parse } from "date-fns";
 import { es } from "date-fns/locale";
 import { getActiveUsersByDay } from "@/queryOptions/queryOptions-marketing";
+import { useContextQuery } from "@/contexts/query-context";
 
-export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {queryString?: string, labelTimePeriod?: string}) {
-
+export function BarChartPerDayMarketing() {
+    const { queryString } = useContextQuery();
     const { data: trafficData, error, isPending, isFetching, refetch } = useQuery(
         getActiveUsersByDay({queryString}),
     );
+    
+    const hasFilters = false;
+
     if (isPending || isFetching) {
         return <CardLoading className="w-full h-full animate-pulse" title={true} children={<div className='min-h-[125px] h-full bg-foreground/10 rounded-md animate-pulse' />} />
 
@@ -21,7 +25,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
 
     if (error) {
         return (    
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" labelTimePeriod={labelTimePeriod}>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" hasFilter={hasFilters}>
             <GeneralErrorContent refetch={refetch} />
         </FullSizeCard>
         )
@@ -29,7 +33,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
 
     if (!trafficData || trafficData.length === 0) {
         return (    
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" labelTimePeriod={labelTimePeriod}>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" hasFilter={hasFilters}>
             <GeneralEmptyContent />
         </FullSizeCard>
         )
@@ -43,7 +47,7 @@ export function BarChartPerDayMarketing({queryString, labelTimePeriod}: {querySt
     } satisfies ChartConfig
 
     return (
-        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" labelTimePeriod={labelTimePeriod}>
+        <FullSizeCard identifier="chart1" cardContentClassName="min-h-[120px]" title="Jugadores activos diarios" hasFilter={hasFilters}>
             <div style={{containerType: "size"}} className="w-full h-full min-h-[120px]">
                 <ChartContainer config={chartConfig} className={`h-[100cqh] min-h-[120px] !aspect-auto`}>
                     <BarChart

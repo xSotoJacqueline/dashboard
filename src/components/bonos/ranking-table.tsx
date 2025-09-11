@@ -17,7 +17,7 @@ import { GeneralEmptyContent } from "../general-empty-content";
 
 export function RankingBonosTable() {
   const { state } = useSidebar();
-  const labelTimePeriod = "No aplica filtros";
+  const hasFilters = false;
   const allUsersByBonus = useQuery(
     getCountAllUsersByBonus()
   );
@@ -29,7 +29,7 @@ export function RankingBonosTable() {
 
       if (allUsersByBonus.error) {
           return (
-          <GeneralCard labelTimePeriod={labelTimePeriod} identifier="chart1" cardContentClassName="min-h-[120px]" title="Ranking de redenciones por bono" description="Número de redenciones por bono
+          <GeneralCard hasFilter={hasFilters} identifier="chart1" cardContentClassName="min-h-[120px]" title="Ranking de redenciones por bono" description="Número de redenciones por bono
   ">
               <GeneralErrorContent refetch={allUsersByBonus.refetch} />
           </GeneralCard>
@@ -38,7 +38,7 @@ export function RankingBonosTable() {
   
       if (!allUsersByBonus.data || allUsersByBonus.data.length === 0) {
           return (
-          <GeneralCard labelTimePeriod={labelTimePeriod} identifier="chart1" cardContentClassName="min-h-[120px]" title="Ranking de redenciones por bono" description="Número de redenciones por bono">
+          <GeneralCard hasFilter={hasFilters} identifier="chart1" cardContentClassName="min-h-[120px]" title="Ranking de redenciones por bono" description="Número de redenciones por bono">
               <GeneralEmptyContent />
           </GeneralCard>
           )
@@ -46,7 +46,7 @@ export function RankingBonosTable() {
 
   return (
 
-    <GeneralCard labelTimePeriod={labelTimePeriod} identifier="chart1" title="Ranking de redenciones por bono" description="Número de redenciones por bono" Icon={MedalIcon} isLoading={allUsersByBonus.isPending} cardContentClassName="max-h-[400px] overflow-y-auto">
+    <GeneralCard hasFilter={hasFilters} identifier="chart1" title="Ranking de redenciones por bono" description="Número de redenciones por bono" Icon={MedalIcon} isLoading={allUsersByBonus.isPending} cardContentClassName="max-h-[400px] overflow-y-auto">
            <div className="w-full h-full">
               <Table>
                 <TableHeader className=" ">
