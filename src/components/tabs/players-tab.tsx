@@ -5,12 +5,27 @@ import { useQueries } from '@tanstack/react-query'
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue } from "../ui/general-top-card";
 import { BarChartRegistersPerDayMarketing } from '../marketing/barChart-registers-perday'
 import { useContextQuery } from '@/contexts/query-context';
+import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
+import { useMemo } from 'react';
 
 export default function PlayersTab() {
     const { queryString } = useContextQuery();
     const [averageTimeOnPage, conversionRate, retentionRate] = useQueries({
       queries: [getAverageTimeOnPage({queryString}), getConversionRate(), getRetentionRate({queryString})],
     });
+
+    const comparisonQueryString = createComparisonQueryString(queryString);
+
+    const [retentionRateComparison] = useQueries({
+      queries: [
+        getRetentionRate({queryString: comparisonQueryString}),
+      ],
+    });
+
+    const retentionRatePercentage = useMemo(() => calculateGrowthPercentage({
+      current: retentionRate.data || 0,
+      previous: retentionRateComparison.data || 0
+    }), [retentionRate.data, retentionRateComparison.data]);
 
   return (
     <div className="w-full h-full flex flex-col gap-6">
@@ -27,7 +42,7 @@ export default function PlayersTab() {
         refetch={retentionRate.refetch}
         index={21}
         valueFormat="currency"
-        containerClassName='w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0'
+        containerClassName='w-full h-full border-0 gap-0 col-span-3 sm:col-span-3 lg:col-span-2 space-y-0'
         className="flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
@@ -37,7 +52,7 @@ export default function PlayersTab() {
           <TopCardValue className='text-4xl md:text-5xl' valueFormat="percent" value={retentionRate.data ? retentionRate.data : 0}   />
           {/* <Progress value={70} className='' /> */}
         </TopCardContent>
-        <TopCardFooter hasFilter={true}  showPercentage={false}  />
+        <TopCardFooter hasFilter={true}  showPercentage={true} percentageValue={retentionRatePercentage} />
 
       </TopCard>
 
@@ -49,7 +64,7 @@ export default function PlayersTab() {
         refetch={averageTimeOnPage.refetch}
         index={22}
         valueFormat="currency"
-        containerClassName='w-full h-full border-0 gap-0 col-span-2 md:col-span-3 lg:col-span-2 space-y-0'
+        containerClassName='w-full h-full border-0 gap-0 col-span-3 sm:col-span-3 lg:col-span-2 space-y-0'
         className="flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">
@@ -59,7 +74,7 @@ export default function PlayersTab() {
           <TopCardValue className='text-4xl md:text-5xl' suffix="m" valueFormat="decimal" value={averageTimeOnPage.data?.minutes ? averageTimeOnPage.data.minutes : 0}   />
           <TopCardValue className='text-4xl md:text-5xl' suffix="s" valueFormat="decimal" value={averageTimeOnPage.data?.seconds ? averageTimeOnPage.data.seconds : 0}   />
         </TopCardContent>
-        <TopCardFooter hasFilter={true} percentageValue={32}  showPercentage={true}  />
+        <TopCardFooter hasFilter={true} showPercentage={true}  />
       </TopCard>
 
 
@@ -71,7 +86,7 @@ export default function PlayersTab() {
         refetch={conversionRate.refetch}
         index={23}
         valueFormat="percent"
-        containerClassName='w-full h-full border-0 gap-0 col-span-2 md:col-span-6 lg:col-span-2 space-y-0'
+        containerClassName='w-full h-full border-0 gap-0 col-span-3 md:col-span-6 lg:col-span-2 space-y-0'
         className="flex flex-col justify-between font-normal gap-3"
       >
         <TopCardHeader className="flex ">

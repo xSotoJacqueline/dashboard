@@ -31,7 +31,8 @@ export default function MarketingTopCards() {
       current: totalRegistrationsInfo.data || 0,
       previous: totalRegistrationsInfoComparison.data || 0
     }), [totalRegistrationsInfo.data, totalRegistrationsInfoComparison.data]);
-
+    console.log("uniqueUsersPercentage", uniqueUsersPercentage)
+    console.log("totalRegistrationsPercentage", totalRegistrationsPercentage)
   return (
     <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
       <TopCard
@@ -85,7 +86,7 @@ export default function MarketingTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={uniqueUsersInfo.data ? uniqueUsersInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={uniqueUsersPercentage} hasFilter={true} showPercentage={false}   />
+        <TopCardFooter percentageValue={uniqueUsersPercentage} hasFilter={true} showPercentage={true}   />
       </TopCard>
 
       <TopCard
@@ -104,7 +105,7 @@ export default function MarketingTopCards() {
         <TopCardContent className='gap-4'>
           <TopCardValue valueFormat="decimal" value={totalRegistrationsInfo.data ? totalRegistrationsInfo.data : 0}   />
         </TopCardContent>
-        <TopCardFooter percentageValue={totalRegistrationsPercentage} hasFilter={true} showPercentage={false}   />
+        <TopCardFooter percentageValue={totalRegistrationsPercentage} hasFilter={true} showPercentage={true}   />
       </TopCard>
     </div>
   );

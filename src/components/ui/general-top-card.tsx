@@ -186,7 +186,7 @@ function TopCardFooter({ className, percentageValue, label, hasFilter, showPerce
         <span className="text-sm text-muted-foreground line-clamp-1">No aplica filtro</span>
       ) : null}
 
-      {(showPercentage && !isError && percentageValue) ? (
+      {(showPercentage && !isError) ? (
       <MotionConfig
         transition={{
         layout: canAnimate ? { duration: 0.9, bounce: 0, type: 'spring' } : { duration: 0 }
@@ -194,7 +194,7 @@ function TopCardFooter({ className, percentageValue, label, hasFilter, showPerce
       >
         <motion.span
         className={cn(
-          percentageValue >= 0 ? 'bg-green-foliatti' : 'bg-red-500',
+          percentageValue && percentageValue > 0 ? 'bg-green-foliatti' : 'bg-red-500',
           'inline-flex gap-1 items-center px-[0.3em] text-lg text-white transition-colors duration-300'
         )}
         layout
@@ -208,11 +208,11 @@ function TopCardFooter({ className, percentageValue, label, hasFilter, showPerce
           transition={{
           rotate: canAnimate ? { type: 'spring', duration: 0.5, bounce: 0 } : { duration: 0 }
           }}
-          animate={{ rotate: percentageValue >= 0 ? 0 : -180 }}
+          animate={{ rotate: percentageValue && percentageValue >= 0 ? 0 : -180 }}
           initial={false}
         />
         <MotionNumberFlow
-          value={percentageValue === 0 ? 0 : percentageValue / 100}
+          value={percentageValue === 0 || !percentageValue ? 0 : percentageValue / 100}
           className="font-medium text-sm"
           format={{ style: 'percent', maximumFractionDigits: 2, signDisplay: 'always' }}
           style={{ 
