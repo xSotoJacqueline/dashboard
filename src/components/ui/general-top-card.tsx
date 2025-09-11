@@ -169,7 +169,6 @@ function TopCardFooter({ className, percentageValue, label, hasFilter, showPerce
   const canAnimate = useCanAnimate()
   const { labelTimePeriod } = useContextQuery();
   const { isError } = React.useContext(TopCardContext)
-  console.log("hasFilter", hasFilter);
   return (  
     <div
       data-slot="card-footer"

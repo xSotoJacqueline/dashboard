@@ -46,14 +46,15 @@ type HybridPlayerTableItem = {
   real_money_bets: number;
 }
 
-export function HybridUsersDetailsTable({pageParam}: {pageParam?: number}) {
+export function HybridUsersDetailsTable() {
   const { state, isMobile } = useSidebar();
   const { queryString } = useContextQuery();
   const search = useSearch({ from: '/dashboard/jugadores' });
+  const page = search.page || 1;
   const FilterStructure = search.filters || [];
   const joinOperator = search.joinOperator || "and";
   const applyFilters = search.applyFilters || false;
-  const hybridUsersDetails = useQuery(getHybridPlayersDetails({queryString, pageParam, filters: applyFilters ? FilterStructure : undefined, joinOperator: joinOperator}));
+  const hybridUsersDetails = useQuery(getHybridPlayersDetails({queryString, pageParam: page, filters: applyFilters ? FilterStructure : undefined, joinOperator: joinOperator}));
 
   const [selectedGame, setSelectedGame] = useState<FavoriteGame & {userName: string} | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
