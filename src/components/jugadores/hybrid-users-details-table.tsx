@@ -253,96 +253,107 @@ export function HybridUsersDetailsTable() {
   }
 
   return (
-
     <>
-    
-    <GeneralCard hasFilter={true} cardContentClassName="h-full min-h-fit" className="" classNameContainer="sm:min-h-[595px] min-h-[700px] h-fit" isLoading={hybridUsersDetails.isFetching} identifier="chart3" title="Detalles de usuarios híbridos" Icon={ChartColumnDecreasingIcon}>
-        <div className="w-full h-full flex flex-col justify-between gap-2">
+      <GeneralCard 
+        hasFilter={true}
+        cardContentClassName="h-full min-h-fit"
+        className=""
+        classNameContainer="sm:min-h-[595px] min-h-[700px] h-fit"
+        isLoading={hybridUsersDetails.isFetching}
+        identifier="chart3"
+        title="Detalles de usuarios híbridos"
+        Icon={ChartColumnDecreasingIcon}
+        headerButtonChildren={
           <DataTableFilterList 
-              loading={false}
-              table={table}
-              shallow={shallow}
-              debounceMs={debounceMs}
-              throttleMs={throttleMs}
-              align="start"
-          />
-          {hybridUsersDetails.isError ? <GeneralErrorContent /> : 
-            <div className="flex flex-col h-full justify-between min-h-fit ">
-              <div className="overflow-x-auto">
-                <Table className="h-full min-h-[400px]" >
-                  <TableHeader className=" ">
-                    <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-base" : "text-xs lg:text-base"}`}>
-                      {table.getHeaderGroups().map((headerGroup) =>
-                        headerGroup.headers.map((header) => (
-                          <TableHead 
-                            key={header.id}
-                            className={`h-fit px-0 ${
-                              header.column.id === 'userId' ? 'text-left' : 
-                              header.column.id === 'playerData' && header.column.columnDef.header === 'Categoría favorita' ? 'text-right' : 
-                              'text-center'
-                            }`}
-                          >
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
-                          </TableHead>
-                        ))
-                      )}
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody isLoading={hybridUsersDetails.isFetching} className="border-0 h-full ">
-                    <TableRow className="border-0 text-primary h-2" />
-
-                    {table.getRowModel().rows?.length ? (
-                      table.getRowModel().rows.map((row) => (
-                        <TableRow
-                          className="border-0 text-primary"
-                          key={row.id}
-                        >
-                          {row.getVisibleCells().map((cell) => (
-                            <TableCell 
-                              className={`${
-                                cell.column.id === 'userId' ? 'text-start px-0' : 
-                                cell.column.columnDef.header === 'Categoría favorita' ? 'text-right px-0' : cell.column.columnDef.header === 'Juego' ? 'text-center px-0 flex items-center justify-center w-full' : 'text-center px-0'
-                              }`} 
-                              key={cell.id}
-                            >
-                              {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext()
-                                )}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))
-                    ) : (
-                      <TableRow className="h-[400px]">
-                        <TableCell
-                        colSpan={columns.length}
-                        className="h-full min-h-[400px] text-center align-middle p-0"
-                        >
-                        <div className="flex items-center justify-center h-full w-full min-h-[400px]">
-                          <GeneralEmptyContent className="h-full min-h-[380px]" />
-                        </div>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-              <Pagination
+                loading={false}
                 table={table}
-                loading={hybridUsersDetails.isFetching}
-              />
-            </div>
-          }
+                shallow={shallow}
+                debounceMs={debounceMs}
+                throttleMs={throttleMs}
+                align="start"
+            />
+        }
+        
+      >
+          <div className="w-full h-full flex flex-col justify-between gap-2">
+            
+            {hybridUsersDetails.isError ? <GeneralErrorContent /> : 
+              <div className="flex flex-col h-full justify-between min-h-fit ">
+                <div className="overflow-x-auto">
+                  <Table className="h-full min-h-[400px]" >
+                    <TableHeader className=" ">
+                      <TableRow className={`text-xs !border-b-2 border-foreground !p-0 h-fit ${state === "collapsed" ? "md:text-base" : "text-xs lg:text-base"}`}>
+                        {table.getHeaderGroups().map((headerGroup) =>
+                          headerGroup.headers.map((header) => (
+                            <TableHead 
+                              key={header.id}
+                              className={`h-fit px-0 ${
+                                header.column.id === 'userId' ? 'text-left' : 
+                                header.column.id === 'playerData' && header.column.columnDef.header === 'Categoría favorita' ? 'text-right' : 
+                                'text-center'
+                              }`}
+                            >
+                              {header.isPlaceholder
+                                ? null
+                                : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                  )}
+                            </TableHead>
+                          ))
+                        )}
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody isLoading={hybridUsersDetails.isFetching} className="border-0 h-full ">
+                      <TableRow className="border-0 text-primary h-2" />
 
-        </div>
-    </GeneralCard>
-  {/* Game Sessions Dialog */}
+                      {table.getRowModel().rows?.length ? (
+                        table.getRowModel().rows.map((row) => (
+                          <TableRow
+                            className="border-0 text-primary"
+                            key={row.id}
+                          >
+                            {row.getVisibleCells().map((cell) => (
+                              <TableCell 
+                                className={`${
+                                  cell.column.id === 'userId' ? 'text-start px-0' : 
+                                  cell.column.columnDef.header === 'Categoría favorita' ? 'text-right px-0' : cell.column.columnDef.header === 'Juego' ? 'text-center px-0 flex items-center justify-center w-full' : 'text-center px-0'
+                                }`} 
+                                key={cell.id}
+                              >
+                                {flexRender(
+                                    cell.column.columnDef.cell,
+                                    cell.getContext()
+                                  )}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow className="h-[400px]">
+                          <TableCell
+                          colSpan={columns.length}
+                          className="h-full min-h-[400px] text-center align-middle p-0"
+                          >
+                          <div className="flex items-center justify-center h-full w-full min-h-[400px]">
+                            <GeneralEmptyContent className="h-full min-h-[380px]" />
+                          </div>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+                <Pagination
+                  table={table}
+                  loading={hybridUsersDetails.isFetching}
+                />
+              </div>
+            }
+
+          </div>
+      </GeneralCard>
+      {/* Game Sessions Dialog */}
       <Drawer open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DrawerContent  className="z-9999 h-[100dvh] sm:h-[90dvh] !max-h-screen w-full">
             <DrawerHeader>
@@ -417,7 +428,7 @@ export function HybridUsersDetailsTable() {
             </DrawerFooter>
         </DrawerContent>
       </Drawer>
-        </>
+  </>
 
   )
 }

@@ -85,7 +85,7 @@ export function DataTableFilterList<TData>({
   loading,
   throttleMs = THROTTLE_MS,
   shallow = true,
-  ...props
+  // ...props
 }: DataTableFilterListProps<TData>) {
   const id = React.useId();
   const labelId = React.useId();
@@ -209,7 +209,7 @@ export function DataTableFilterList<TData>({
 
   return (
     <Sortable value={localFilters} onValueChange={setLocalFilters} getItemValue={(item) => item.filterId}>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover modal={true} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
@@ -218,10 +218,10 @@ export function DataTableFilterList<TData>({
             onKeyDown={onTriggerKeyDown}
           >
             <ListFilter className="size-4" />
-            Filtros
+            {/* Filtros */}
             {localFilters.length > 0 && (
               <Badge
-                variant="secondary"
+                variant={filters.length > 0 ? "default" : "outline"}
                 className="h-[18.24px] rounded-[3.2px] px-[5.12px] font-mono text-[10.4px] font-normal"
               >
                 {localFilters.length}
@@ -233,8 +233,7 @@ export function DataTableFilterList<TData>({
           align='end'
           aria-describedby={descriptionId}
           aria-labelledby={labelId}
-          className="dark:bg-backgroundDark flex w-full max-w-[95vw] mr-3 overflow-hidden origin-[var(--radix-popover-content-transform-origin)] flex-col gap-3.5 p-4 sm:min-w-[380px]"
-          {...props}
+          className="dark:bg-backgroundDark flex w-full ml-3 max-w-[88vw] sm:min-w-[380px] overflow-hidden origin-[var(--radix-popover-content-transform-origin)] flex-col gap-3.5 p-4 "
         >
           <div className="flex flex-col gap-1">
             <h4 id={labelId} className="font-medium leading-none">
@@ -251,7 +250,7 @@ export function DataTableFilterList<TData>({
           </div>
           {localFilters.length > 0 ? (
             <SortableContent asChild>
-              <div role="list" className="flex max-h-[300px] flex-col gap-2 overflow-y-auto p-1">
+              <div role="list" className="flex max-h-[300px] flex-col gap-2 overflow-y-auto">
                 {localFilters.map((filter, index) => (
                   <DataTableFilterItem<TData>
                     key={filter.filterId}
@@ -390,9 +389,12 @@ function DataTableFilterItem<TData>({
       >
         <div className="min-w-[72px] text-center">
           {index === 0 ? (
-            <span className="text-muted-foreground text-sm">
-              Donde
-            </span>
+            <div className='rounded-sm border py-1 border-muted-foreground/30 w-full h-full min-w-[72px]'>
+              <span className="text-muted-foreground text-sm ">
+                Dónde
+              </span>
+            </div>
+        
           ) : index === 1 ? (
             <Select
               value={joinOperator}
@@ -418,7 +420,7 @@ function DataTableFilterItem<TData>({
               </SelectContent>
             </Select>
           ) : (
-            <span className="text-muted-foreground text-sm">{joinOperator}</span>
+            <span className="text-muted-foreground text-sm">{joinOperator === "and"}</span>
           )}
         </div>
         <Popover open={showFieldSelector} onOpenChange={setShowFieldSelector}>

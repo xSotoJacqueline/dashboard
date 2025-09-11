@@ -25,9 +25,10 @@ type ChartLineLabelProps = {
   cardContentClassName?: string;
   isLoading?: boolean;
   hasFilter: boolean;
+  headerButtonChildren?: React.ReactNode;
 }
 
-export function GeneralCard({ hasFilter, title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
+export function GeneralCard({ headerButtonChildren, hasFilter, title, description, Icon, children, className, cardContentClassName, classNameContainer, isLoading }: ChartLineLabelProps) {
   const { labelTimePeriod } = useContextQuery();
   return (
     <motion.div className={cn("w-full h-full overflow-hidden", classNameContainer)}>
@@ -40,7 +41,8 @@ export function GeneralCard({ hasFilter, title, description, Icon, children, cla
                   >
                     {Icon && (isLoading ? <LoaderCircleIcon className="w-5 h-5 text-primary animate-spin"/> : <Icon className="w-5 h-5 text-primary"/>)}
                     <CardTitle className="text-xl font-bold">{title}</CardTitle>
-                  </motion.h2>  
+                  </motion.h2>
+                  {headerButtonChildren && headerButtonChildren} 
               </motion.div>
 
               <motion.div className="flex flex-col w-full xl:flex-row justify-between xl:items-center" layoutId={`description-${title}`}>
