@@ -181,7 +181,7 @@ export default function CategoriesTab({pageParam}: {pageParam?: number}) {
                 {totalPlayersGroupedByCasino.isError ? <GeneralErrorContent className="min-h-0" title={false} /> : (
                   <div className="flex flex-col text-base w-full">
                     <span>Jugadores</span>
-                    <Progress value={(casinoData.percentageOfTotalPlayers ?? 0) } className='' />
+                    <Progress value={(sportData.percentageOfTotalPlayers ?? 0) } className='' />
                   </div>
                 )}
               </div>
