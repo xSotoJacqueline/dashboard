@@ -3,14 +3,14 @@ import { UserRoundXIcon, UsersRoundIcon, UserPlusIcon, DollarSign } from "lucide
 import { TopCard, TopCardContent, TopCardFooter, TopCardHeader, TopCardTitle, TopCardValue, TopCardDescription } from "../ui/general-top-card";
 import { useMemo } from "react";
 import { calculateGrowthPercentage, createComparisonQueryString } from "@/lib/utils";
-import { getAcquisitionRate, getAverageIncome, getDropoutRate, getCustomerLifetimeValue, getRetentionRate } from "@/queryOptions/queryOptions-metricas";
+import { getAcquisitionRate, getAverageIncome, getCustomerLifetimeValue, getRetentionRate, getDailyDropoutRate } from "@/queryOptions/queryOptions-metricas";
 import { useContextQuery } from "@/contexts/query-context";
 
 export default function MetricsTopCards() {
 
   const { queryString } = useContextQuery();
   const [acquisitionRate, averageIncome, dropoutRate, customerLifetimeValue, retentionRate] = useQueries({
-    queries: [getAcquisitionRate({queryString}), getAverageIncome(), getDropoutRate({queryString}), getCustomerLifetimeValue(), getRetentionRate({queryString})],
+    queries: [getAcquisitionRate({queryString}), getAverageIncome(), getDailyDropoutRate({queryString}), getCustomerLifetimeValue(), getRetentionRate({queryString})],
   });
   
   const comparisonQueryString = createComparisonQueryString(queryString);
@@ -18,7 +18,7 @@ export default function MetricsTopCards() {
   const [acquisitionRateComparison, dropoutRateComparison, retentionRateComparison] = useQueries({
     queries: [
       getAcquisitionRate({queryString: comparisonQueryString}),
-      getDropoutRate({queryString: comparisonQueryString}),
+      getDailyDropoutRate({queryString: comparisonQueryString}),
       getRetentionRate({queryString: comparisonQueryString}),
     ],
   });
@@ -29,8 +29,8 @@ export default function MetricsTopCards() {
   }), [acquisitionRate.data, acquisitionRateComparison.data]);
 
   const dropoutRatePercentage = useMemo(() => calculateGrowthPercentage({
-    current: dropoutRate.data || 0,
-    previous: dropoutRateComparison.data || 0
+    current: dropoutRate.data?.summary.averageDropoutRate || 0,
+    previous: dropoutRateComparison.data?.summary.averageDropoutRate || 0
    }), [dropoutRate.data, dropoutRateComparison.data]);
 
   const retentionRatePercentage = useMemo(() => calculateGrowthPercentage({
@@ -95,7 +95,7 @@ export default function MetricsTopCards() {
           <TopCardDescription>Tasa de deserción</TopCardDescription>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue  valueFormat="percent" value={dropoutRate.data ? dropoutRate.data : 0}   />
+          <TopCardValue  valueFormat="percent" value={dropoutRate.data?.summary.averageDropoutRate ? dropoutRate.data?.summary.averageDropoutRate : 0}   />
         </TopCardContent>
         <TopCardFooter percentageValue={dropoutRatePercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>

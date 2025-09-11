@@ -95,13 +95,13 @@ export function ChartLineDropoutRate() {
                                 <span id={name.toString()} className="relative pl-2 flex flex-col gap-1">
                                 <div  className="absolute inset-0 left-0 w-1 rounded-full bg-primary-foliatti" />
                                 {date && <span className="font-semibold">{format(parseISO(date), 'd MMM yyyy', {locale: es})}</span>}
-                                {value.toLocaleString()}<br />
+                                {value.toLocaleString()}%<br />
                                 </span>
                             )
                         }}
                     />
                     <Line
-                    dataKey="dropoutUsers"
+                    dataKey="dropoutRate"
                     type="natural"
                     stroke="var(--color-lunes)"
                     strokeWidth={2}
