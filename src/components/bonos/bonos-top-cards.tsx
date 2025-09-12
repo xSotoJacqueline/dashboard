@@ -94,7 +94,7 @@ export default function BonosTopCards() {
           <TopCardTitle className="">Convertido a dinero</TopCardTitle>
         </TopCardHeader>
         <TopCardContent className='gap-4'>
-          <TopCardValue  valueFormat="currency" value={totalConvertedAmountComparison.data ? totalConvertedAmountComparison.data : 0}   />
+          <TopCardValue  valueFormat="currency" value={totalConvertedAmount.data ? totalConvertedAmount.data : 0}   />
         </TopCardContent>
         <TopCardFooter percentageValue={totalConvertedAmountPercentage} hasFilter={true} showPercentage={true}  />
       </TopCard>
